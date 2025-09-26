@@ -95,7 +95,7 @@
       }
 
       .main-header::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -110,7 +110,8 @@
       .hero-section {
         position: relative;
         height: 400px;
-        background-image: url("skogsmullecolor.png");
+        background-color: #f0f8f0;
+        background-image: url("./skogsmullecolor.png");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -122,7 +123,7 @@
       }
 
       .hero-section::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -232,7 +233,7 @@
       }
 
       .welcome-section::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -986,7 +987,8 @@
       <section class="welcome-section">
         <h2 class="section-title">Välkommen till Skogsmulles magiska värld!</h2>
         <p class="welcome-description">
-          Här kan du upptäcka underbara äventyr, läsa sagor för dina barn och utforska en värld full av fantasi och äventyr.
+          Här kan du upptäcka underbara äventyr, läsa sagor för dina barn och
+          utforska en värld full av fantasi och äventyr.
         </p>
         <div class="audience-buttons">
           <button class="audience-btn parent-btn" onclick="scrollToStories()">
@@ -1461,7 +1463,7 @@
         const savedUser = localStorage.getItem("skogsmulle_user");
         if (savedUser) {
           currentUser = JSON.parse(savedUser);
-          if (currentUser.email === "tomasroosguerra@gmail.com") {
+          if (currentUser.email === "tomas.roosguerra@gmail.com" || currentUser.email === "tomasroosguerra@gmail.com") {
             isAdmin = true;
             showAuthorTools();
             updateDiscreteLogin(true);
@@ -1477,15 +1479,15 @@
       }
 
       function updateDiscreteLogin(loggedIn) {
-        const loginElement = document.getElementById('discreteLogin');
-        const loginText = document.getElementById('loginText');
-        
+        const loginElement = document.getElementById("discreteLogin");
+        const loginText = document.getElementById("loginText");
+
         if (loggedIn) {
-          loginElement.classList.add('logged-in');
-          loginText.textContent = 'Logout';
+          loginElement.classList.add("logged-in");
+          loginText.textContent = "Logout";
         } else {
-          loginElement.classList.remove('logged-in');
-          loginText.textContent = 'Login';
+          loginElement.classList.remove("logged-in");
+          loginText.textContent = "Login";
         }
       }
 
@@ -1508,17 +1510,21 @@
       }
 
       function signInWithGoogle() {
-        const email = prompt("Ange din Gmail-adress för att logga in som författare:");
+        const email = prompt(
+          "Ange din Gmail-adress för att logga in som författare:"
+        );
         if (email && email.includes("@gmail.com")) {
           currentUser = { email: email };
           localStorage.setItem("skogsmulle_user", JSON.stringify(currentUser));
 
-          if (email === "tomasroosguerra@gmail.com") {
+          if (email === "tomas.roosguerra@gmail.com" || email === "tomasroosguerra@gmail.com") {
             isAdmin = true;
             showAuthorTools();
             updateDiscreteLogin(true);
             showAdminControls();
-            alert("Välkommen! Du har loggat in som författare och kan nu skapa och redigera berättelser.");
+            alert(
+              "Välkommen! Du har loggat in som författare och kan nu skapa och redigera berättelser."
+            );
           } else {
             alert("Du har inte författarrättigheter för denna sida.");
             signOut();
