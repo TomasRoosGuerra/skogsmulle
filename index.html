@@ -31,6 +31,41 @@
       content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn."
     />
     <link rel="canonical" href="https://skogsmulle.netlify.app" />
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+      import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, orderBy, query, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+      
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", // Replace with your API key
+        authDomain: "skogsmulle-blog.firebaseapp.com", // Replace with your project domain
+        projectId: "skogsmulle-blog", // Replace with your project ID
+        storageBucket: "skogsmulle-blog.appspot.com", // Replace with your storage bucket
+        messagingSenderId: "123456789012", // Replace with your sender ID
+        appId: "1:123456789012:web:abcdefghijklmnop" // Replace with your app ID
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      // Make Firebase functions globally available
+      window.firebaseApp = app;
+      window.firebaseDb = db;
+      window.firebaseCollection = collection;
+      window.firebaseAddDoc = addDoc;
+      window.firebaseGetDocs = getDocs;
+      window.firebaseDoc = doc;
+      window.firebaseUpdateDoc = updateDoc;
+      window.firebaseDeleteDoc = deleteDoc;
+      window.firebaseOnSnapshot = onSnapshot;
+      window.firebaseOrderBy = orderBy;
+      window.firebaseQuery = query;
+      window.firebaseServerTimestamp = serverTimestamp;
+    </script>
+    
     <style>
       /* Base styles */
       * {
@@ -1202,7 +1237,7 @@
           </div>
         </div>
       </div>
-    </header>
+      </header>
 
     <!-- World-Class Navigation -->
     <nav class="main-navigation">
@@ -1214,7 +1249,7 @@
           <li><a href="#aktiviteter">Aktiviteter</a></li>
           <li><a href="#om-skogsmulle">Om Skogsmulle</a></li>
         </ul>
-      </div>
+            </div>
     </nav>
 
     <div class="container">
@@ -1232,7 +1267,7 @@
           <button class="audience-btn child-btn" onclick="scrollToAdventures()">
             🧚‍♀️ För barn
           </button>
-        </div>
+            </div>
       </section>
 
       <main id="main-content" role="main">
@@ -1417,67 +1452,139 @@
         document.getElementById("playAdventure").textContent = "▶";
       });
 
-      // Post management functions
-      function savePostsToStorage() {
+      // Firebase Post Management Functions
+      async function savePostToFirebase(post) {
         try {
-          localStorage.setItem("skogsmulle_posts", JSON.stringify(allPosts));
-          console.log("Posts saved to storage:", allPosts);
+          if (!window.firebaseDb) {
+            console.error("Firebase not initialized");
+            return null;
+          }
+
+          const postsRef = window.firebaseCollection(window.firebaseDb, 'posts');
+          const docRef = await window.firebaseAddDoc(postsRef, {
+            ...post,
+            createdAt: window.firebaseServerTimestamp(),
+            updatedAt: window.firebaseServerTimestamp()
+          });
+          
+          console.log("Post saved to Firebase with ID:", docRef.id);
+          return docRef.id;
         } catch (error) {
-          console.error("Error saving posts:", error);
+          console.error("Error saving post to Firebase:", error);
+          throw error;
         }
       }
 
-      function loadPostsFromStorage() {
+      async function loadPostsFromFirebase() {
         try {
-          const savedPosts = localStorage.getItem("skogsmulle_posts");
-          if (savedPosts) {
-            allPosts = JSON.parse(savedPosts);
-            console.log("Posts loaded from storage:", allPosts);
-          } else {
-            // Add default sample posts for new visitors
-            allPosts = [
-              {
-                title: "Mulle möter en ekorre",
-                content: `<p>En vacker morgon när Mulle gick genom skogen hörde han ett konstigt ljud. Det lät som någon som knaprade på nötter...</p>
-                <p>Han tittade upp och såg en liten ekorre som satt högt upp i en tall. Ekorren tittade ner på Mulle med sina stora, nyfikna ögon.</p>
-                <p>"Hej där!" ropade Mulle vänligt. "Vad gör du så högt upp i trädet?"</p>
-                <p>Ekorren hoppade ner från gren till gren tills den kom till en låg gren precis ovanför Mulle. "Jag samlar nötter för vintern," svarade ekorren. "Det är viktigt att vara förberedd!"</p>
-                <p>Mulle log. "Det låter klokt! Kan jag hjälpa dig på något sätt?"</p>
-                <p>Så började Mulle och ekorren samarbeta. Mulle letade efter nötter på marken medan ekorren fortsatte samla från trädet. Tillsammans arbetade de hela dagen.</p>
-                <p>När solen började gå ner hade de samlat en stor hög med nötter. Ekorren var så tacksam att den bjöd Mulle på en nöt som tack.</p>
-                <p>"Tack så mycket för hjälpen!" sa ekorren. "Nu kommer jag att ha tillräckligt med mat för hela vintern."</p>
-                <p>Mulle kände sig glad över att ha kunnat hjälpa sin nya vän. "Det var så lite så! Kommer du ihåg var jag bor? Du är alltid välkommen att hälsa på."</p>
-                <p>Ekorren log och nickade. "Absolut! Jag kommer att besöka dig när vintern är över. Tack för en underbar dag!"</p>
-                <p>Och så hoppade ekorren tillbaka upp i trädet medan Mulle vinkade adjö. Det var början på en vacker vänskap mellan Mulle och den lilla ekorren.</p>`,
-                date: "15 Maj, 2023",
-                timestamp: 1684166400000
-              },
-              {
-                title: "Skogsmulles äventyr i skogen",
-                content: `<p>Mulle älskade att utforska skogen. Varje dag gick han ut för att upptäcka nya platser och träffa nya vänner.</p>
-                <p>En dag hittade han en gammal, övergiven koja djupt inne i skogen. Den såg mystisk ut med sina mörka fönster och knarrande dörr.</p>
-                <p>Mulle var både nyfiken och lite rädd. Skulle han gå in och kolla vad som fanns därinne?</p>
-                <p>Efter att ha tänkt en stund bestämde han sig för att vara modig. Han öppnade dörren försiktigt och kikade in.</p>
-                <p>Inne i kojan fanns gamla möbler, en spis och en säng. Det såg ut som att någon hade bott där för länge sedan.</p>
-                <p>Plötsligt hörde Mulle ett ljud bakom sig. Han vände sig om och såg en gammal man med skägg som log vänligt mot honom.</p>
-                <p>"Hej, lille vän," sa mannen. "Jag ser att du har upptäckt min gamla koja. Jag brukade bo här när jag var yngre."</p>
-                <p>Mulle blev lugnad av mannens vänliga röst. "Varför bor du inte här längre?" frågade han.</p>
-                <p>Mannen satte sig på en stubbe utanför kojan. "Jag blev för gammal för att bo så långt ut i skogen. Nu bor jag närmare byn där jag kan få hjälp om jag behöver det."</p>
-                <p>Mulle och mannen pratade länge om skogen, djuren och alla underbara saker som fanns där. Mannen berättade gamla historier om skogen som Mulle aldrig hade hört förut.</p>
-                <p>När det började bli mörkt sa mannen: "Du borde gå hem nu, Mulle. Det blir snart mörkt i skogen."</p>
-                <p>Mulle tackade mannen för alla underbara historier och lovade att komma tillbaka och hälsa på honom snart.</p>
-                <p>På vägen hem tänkte Mulle på allt han hade lärt sig om skogen. Det fanns så många hemligheter att upptäcka!</p>`,
-                date: "10 Maj, 2023",
-                timestamp: 1683763200000
-              }
-            ];
-            console.log("No saved posts found, using default sample posts");
+          if (!window.firebaseDb) {
+            console.error("Firebase not initialized");
+            allPosts = [];
+            renderAllPosts();
+            updateRecentStories();
+            return;
           }
+
+          const postsRef = window.firebaseCollection(window.firebaseDb, 'posts');
+          const q = window.firebaseQuery(postsRef, window.firebaseOrderBy('createdAt', 'desc'));
+          const querySnapshot = await window.firebaseGetDocs(q);
+          
+          allPosts = [];
+          querySnapshot.forEach((doc) => {
+            const postData = doc.data();
+            allPosts.push({
+              id: doc.id,
+              title: postData.title,
+              content: postData.content,
+              date: postData.date,
+              timestamp: postData.createdAt?.toMillis() || Date.now(),
+              createdAt: postData.createdAt,
+              updatedAt: postData.updatedAt
+            });
+          });
+          
+          console.log("Posts loaded from Firebase:", allPosts.length, "posts");
           renderAllPosts();
           updateRecentStories();
         } catch (error) {
-          console.error("Error loading posts:", error);
+          console.error("Error loading posts from Firebase:", error);
           allPosts = [];
+          renderAllPosts();
+          updateRecentStories();
+        }
+      }
+
+      async function updatePostInFirebase(postId, updatedPost) {
+        try {
+          if (!window.firebaseDb) {
+            console.error("Firebase not initialized");
+            return;
+          }
+
+          const postRef = window.firebaseDoc(window.firebaseDb, 'posts', postId);
+          await window.firebaseUpdateDoc(postRef, {
+            ...updatedPost,
+            updatedAt: window.firebaseServerTimestamp()
+          });
+          
+          console.log("Post updated in Firebase:", postId);
+        } catch (error) {
+          console.error("Error updating post in Firebase:", error);
+          throw error;
+        }
+      }
+
+      async function deletePostFromFirebase(postId) {
+        try {
+          if (!window.firebaseDb) {
+            console.error("Firebase not initialized");
+            return;
+          }
+
+          const postRef = window.firebaseDoc(window.firebaseDb, 'posts', postId);
+          await window.firebaseDeleteDoc(postRef);
+          
+          console.log("Post deleted from Firebase:", postId);
+        } catch (error) {
+          console.error("Error deleting post from Firebase:", error);
+          throw error;
+        }
+      }
+
+      // Real-time listener for posts
+      function setupRealtimeListener() {
+        try {
+          if (!window.firebaseDb) {
+            console.error("Firebase not initialized");
+            return;
+          }
+
+          const postsRef = window.firebaseCollection(window.firebaseDb, 'posts');
+          const q = window.firebaseQuery(postsRef, window.firebaseOrderBy('createdAt', 'desc'));
+          
+          window.firebaseOnSnapshot(q, (querySnapshot) => {
+            allPosts = [];
+            querySnapshot.forEach((doc) => {
+              const postData = doc.data();
+              allPosts.push({
+                id: doc.id,
+                title: postData.title,
+                content: postData.content,
+                date: postData.date,
+                timestamp: postData.createdAt?.toMillis() || Date.now(),
+                createdAt: postData.createdAt,
+                updatedAt: postData.updatedAt
+              });
+            });
+            
+            console.log("Real-time update: Posts loaded from Firebase:", allPosts.length, "posts");
+            renderAllPosts();
+            updateRecentStories();
+          }, (error) => {
+            console.error("Error in real-time listener:", error);
+          });
+        } catch (error) {
+          console.error("Error setting up real-time listener:", error);
         }
       }
 
@@ -1574,7 +1681,7 @@
       // Blog post functionality
       document
         .getElementById("newPostForm")
-        .addEventListener("submit", function (e) {
+        .addEventListener("submit", async function (e) {
           e.preventDefault();
 
           const title = document.getElementById("postTitle").value.trim();
@@ -1613,38 +1720,38 @@
             timestamp: Date.now(),
           };
 
-          // Add to beginning of array (newest first)
-          allPosts.unshift(newPost);
+          try {
+            // Save to Firebase
+            const postId = await savePostToFirebase(newPost);
+            
+            if (postId) {
+              // Clear the form
+              this.reset();
 
-          // Save immediately
-          savePostsToStorage();
+              // Show success message
+              alert("Berättelsen har publicerats!");
 
-          // Re-render posts
-          renderAllPosts();
-          updateRecentStories();
-
-          // Clear the form
-          this.reset();
-
-          // Show success message
-          alert("Berättelsen har publicerats!");
-
-          // Scroll to the new post
-          setTimeout(() => {
-            scrollToPost(0);
-          }, 100);
+              // Scroll to the new post (it will appear automatically via real-time listener)
+              setTimeout(() => {
+                scrollToPost(0);
+              }, 100);
+            }
+          } catch (error) {
+            console.error("Error publishing post:", error);
+            alert("Ett fel uppstod när berättelsen skulle publiceras. Försök igen.");
+          }
         });
 
       // Post action functions
       function sharePost(index) {
         const post = allPosts[index];
-        if (navigator.share) {
-          navigator.share({
+              if (navigator.share) {
+                navigator.share({
             title: post.title,
-            text: "Läs den här underbara berättelsen från Skogsmulle!",
-            url: window.location.href,
-          });
-        } else {
+                  text: "Läs den här underbara berättelsen från Skogsmulle!",
+                  url: window.location.href,
+                });
+              } else {
           alert(`Dela berättelsen "${post.title}" med dina vänner!`);
         }
       }
@@ -1661,7 +1768,7 @@
         button.onclick = null; // Disable further clicks
       }
 
-      function editPost(index) {
+      async function editPost(index) {
         const post = allPosts[index];
         const newTitle = prompt("Redigera titel:", post.title);
 
@@ -1686,33 +1793,37 @@
           return;
         }
 
-        // Update the post
-        allPosts[index] = {
-          ...post,
-          title: newTitle.trim(),
-          content: `<p>${newContent.trim().replace(/\n/g, "</p><p>")}</p>`,
-        };
+        try {
+          // Update the post in Firebase
+          const updatedPost = {
+            title: newTitle.trim(),
+            content: `<p>${newContent.trim().replace(/\n/g, "</p><p>")}</p>`,
+            date: post.date,
+            timestamp: post.timestamp
+          };
 
-        // Save and re-render
-        savePostsToStorage();
-        renderAllPosts();
-        updateRecentStories();
-
-        alert("Berättelsen har uppdaterats!");
+          await updatePostInFirebase(post.id, updatedPost);
+          alert("Berättelsen har uppdaterats!");
+        } catch (error) {
+          console.error("Error updating post:", error);
+          alert("Ett fel uppstod när berättelsen skulle uppdateras. Försök igen.");
+        }
       }
 
-      function deletePost(index) {
+      async function deletePost(index) {
         const post = allPosts[index];
         if (
           confirm(
             `Är du säker på att du vill ta bort berättelsen "${post.title}"?`
           )
         ) {
-          allPosts.splice(index, 1);
-          savePostsToStorage();
-          renderAllPosts();
-          updateRecentStories();
-          alert("Berättelsen har tagits bort!");
+          try {
+            await deletePostFromFirebase(post.id);
+            alert("Berättelsen har tagits bort!");
+          } catch (error) {
+            console.error("Error deleting post:", error);
+            alert("Ett fel uppstod när berättelsen skulle tas bort. Försök igen.");
+          }
         }
       }
 
@@ -1766,21 +1877,21 @@
                   content.includes("äventyr") ||
                   content.includes("utforska") ||
                   content.includes("resa");
-                break;
+              break;
               case "friendship":
                 showPost =
                   content.includes("vän") ||
                   content.includes("tillsammans") ||
                   content.includes("hjälp");
-                break;
+              break;
               case "nature":
                 showPost =
                   content.includes("skog") ||
                   content.includes("träd") ||
                   content.includes("blomma") ||
                   content.includes("djur");
-                break;
-            }
+              break;
+          }
 
             post.style.display = showPost ? "block" : "none";
           }
@@ -1961,7 +2072,19 @@
       document.addEventListener("DOMContentLoaded", function () {
         console.log("Initializing Skogsmulle application...");
         initAuth();
-        loadPostsFromStorage();
+        
+        // Wait for Firebase to initialize, then load posts
+        setTimeout(() => {
+          if (window.firebaseDb) {
+            console.log("Firebase initialized, setting up real-time listener");
+            setupRealtimeListener();
+          } else {
+            console.log("Firebase not available, falling back to empty state");
+            allPosts = [];
+            renderAllPosts();
+            updateRecentStories();
+          }
+        }, 1000);
       });
     </script>
   </body>
