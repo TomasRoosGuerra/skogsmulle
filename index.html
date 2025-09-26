@@ -20,10 +20,21 @@
       body {
         background-color: #f5f4e8;
         color: #3d4a2d;
-        background-image: 
-          radial-gradient(circle at 20% 80%, rgba(144, 180, 120, 0.08) 0%, transparent 50%),
-          radial-gradient(circle at 80% 20%, rgba(120, 150, 180, 0.06) 0%, transparent 50%),
-          radial-gradient(circle at 40% 40%, rgba(160, 200, 140, 0.05) 0%, transparent 50%),
+        background-image: radial-gradient(
+            circle at 20% 80%,
+            rgba(144, 180, 120, 0.08) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(120, 150, 180, 0.06) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 40%,
+            rgba(160, 200, 140, 0.05) 0%,
+            transparent 50%
+          ),
           url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="watercolor"><feTurbulence baseFrequency="0.02" numOctaves="3" result="noise"/><feColorMatrix values="0 0 0 0 0.8 0 0 0 0 0.9 0 0 0 0 0.7 0 0 0 0.1 0"/></filter></defs><rect width="100" height="100" fill="%23f5f4e8" filter="url(%23watercolor)"/></svg>');
         background-size: 200px 200px, 300px 300px, 250px 250px, 150px 150px;
         line-height: 1.6;
@@ -205,7 +216,7 @@
       }
 
       .blog-post::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -506,7 +517,7 @@
       }
 
       .sidebar-widget::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -622,7 +633,11 @@
       }
 
       .audience-btn {
-        background: linear-gradient(135deg, rgba(144, 180, 120, 0.8), rgba(120, 150, 180, 0.7));
+        background: linear-gradient(
+          135deg,
+          rgba(144, 180, 120, 0.8),
+          rgba(120, 150, 180, 0.7)
+        );
         color: #2d3a2d;
         border: 1px solid rgba(144, 180, 120, 0.4);
         border-radius: 12px;
@@ -639,15 +654,27 @@
       .audience-btn:hover {
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        background: linear-gradient(135deg, rgba(144, 180, 120, 0.9), rgba(120, 150, 180, 0.8));
+        background: linear-gradient(
+          135deg,
+          rgba(144, 180, 120, 0.9),
+          rgba(120, 150, 180, 0.8)
+        );
       }
 
       .parent-btn {
-        background: linear-gradient(135deg, rgba(160, 200, 140, 0.8), rgba(120, 150, 180, 0.7));
+        background: linear-gradient(
+          135deg,
+          rgba(160, 200, 140, 0.8),
+          rgba(120, 150, 180, 0.7)
+        );
       }
 
       .child-btn {
-        background: linear-gradient(135deg, rgba(180, 160, 140, 0.8), rgba(160, 200, 140, 0.7));
+        background: linear-gradient(
+          135deg,
+          rgba(180, 160, 140, 0.8),
+          rgba(160, 200, 140, 0.7)
+        );
       }
 
       /* Story Search and Categories */
@@ -894,36 +921,45 @@
         </section>
 
         <aside class="sidebar">
-        <!-- Author Login Section -->
-        <div class="sidebar-widget auth-section" id="authSection">
-          <h3 class="widget-title">✍️ Författarverktyg</h3>
-          <div id="authContainer">
-            <div id="loginSection">
-              <p class="author-info">
-                <strong>För författaren:</strong><br>
-                Logga in med din Gmail för att skapa och redigera berättelser.
-              </p>
-              <button class="login-button" onclick="signInWithGoogle()">
-                🔐 Logga in som författare
-              </button>
-              <p class="login-note">
-                <small>Endast författaren kan logga in och redigera innehåll</small>
-              </p>
-            </div>
-            <div id="userSection" style="display: none">
-              <div class="user-info">
-                <p>✅ Inloggad som författare: <span id="userEmail"></span></p>
+          <!-- Author Login Section -->
+          <div class="sidebar-widget auth-section" id="authSection">
+            <h3 class="widget-title">✍️ Författarverktyg</h3>
+            <div id="authContainer">
+              <div id="loginSection">
+                <p class="author-info">
+                  <strong>För författaren:</strong><br />
+                  Logga in med din Gmail för att skapa och redigera berättelser.
+                </p>
+                <button class="login-button" onclick="signInWithGoogle()">
+                  🔐 Logga in som författare
+                </button>
+                <p class="login-note">
+                  <small
+                    >Endast författaren kan logga in och redigera
+                    innehåll</small
+                  >
+                </p>
               </div>
-              <button class="login-button" onclick="signOut()">
-                🚪 Logga ut
-              </button>
-              <div class="admin-controls" id="adminControls">
-                <p><strong>🎨 Författarverktyg aktiverade!</strong></p>
-                <p><small>Du kan nu skapa, redigera och ta bort berättelser</small></p>
+              <div id="userSection" style="display: none">
+                <div class="user-info">
+                  <p>
+                    ✅ Inloggad som författare: <span id="userEmail"></span>
+                  </p>
+                </div>
+                <button class="login-button" onclick="signOut()">
+                  🚪 Logga ut
+                </button>
+                <div class="admin-controls" id="adminControls">
+                  <p><strong>🎨 Författarverktyg aktiverade!</strong></p>
+                  <p>
+                    <small
+                      >Du kan nu skapa, redigera och ta bort berättelser</small
+                    >
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
           <!-- Story Creation Form (Author Only) -->
           <div class="sidebar-widget" id="storyForm" style="display: none">
