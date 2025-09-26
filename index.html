@@ -8,16 +8,28 @@
       name="description"
       content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn. Perfekt för föräldrar som vill läsa sagor för sina barn."
     />
-    <meta name="keywords" content="barnböcker, sagor, Skogsmulle, barn, föräldrar, läsning, äventyr, svenska sagor" />
+    <meta
+      name="keywords"
+      content="barnböcker, sagor, Skogsmulle, barn, föräldrar, läsning, äventyr, svenska sagor"
+    />
     <meta name="author" content="Tomas Roos Guerra" />
     <meta name="robots" content="index, follow" />
     <meta property="og:title" content="Skogsmulle - Magiska äventyr för barn" />
-    <meta property="og:description" content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn." />
+    <meta
+      property="og:description"
+      content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn."
+    />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://skogsmulle.netlify.app" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Skogsmulle - Magiska äventyr för barn" />
-    <meta name="twitter:description" content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn." />
+    <meta
+      name="twitter:title"
+      content="Skogsmulle - Magiska äventyr för barn"
+    />
+    <meta
+      name="twitter:description"
+      content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn."
+    />
     <link rel="canonical" href="https://skogsmulle.netlify.app" />
     <style>
       /* Base styles */
@@ -921,11 +933,11 @@
         .container {
           padding: 15px;
         }
-        
+
         .nav-links {
           gap: 20px;
         }
-        
+
         .nav-links a {
           font-size: 0.9rem;
           padding: 6px 12px;
@@ -1133,9 +1145,17 @@
   <body>
     <!-- Skip Navigation for Screen Readers -->
     <a href="#main-content" class="skip-link">Hoppa till huvudinnehåll</a>
-    
+
     <!-- Discrete Login Button -->
-    <div class="discrete-login" id="discreteLogin" onclick="toggleLoginModal()" role="button" tabindex="0" aria-label="Logga in som författare" onkeydown="if(event.key==='Enter') toggleLoginModal()">
+    <div
+      class="discrete-login"
+      id="discreteLogin"
+      onclick="toggleLoginModal()"
+      role="button"
+      tabindex="0"
+      aria-label="Logga in som författare"
+      onkeydown="if(event.key==='Enter') toggleLoginModal()"
+    >
       <span id="loginText">Login</span>
     </div>
 
@@ -1182,7 +1202,7 @@
           </div>
         </div>
       </div>
-      </header>
+    </header>
 
     <!-- World-Class Navigation -->
     <nav class="main-navigation">
@@ -1194,7 +1214,7 @@
           <li><a href="#aktiviteter">Aktiviteter</a></li>
           <li><a href="#om-skogsmulle">Om Skogsmulle</a></li>
         </ul>
-            </div>
+      </div>
     </nav>
 
     <div class="container">
@@ -1212,7 +1232,7 @@
           <button class="audience-btn child-btn" onclick="scrollToAdventures()">
             🧚‍♀️ För barn
           </button>
-            </div>
+        </div>
       </section>
 
       <main id="main-content" role="main">
@@ -1414,8 +1434,44 @@
             allPosts = JSON.parse(savedPosts);
             console.log("Posts loaded from storage:", allPosts);
           } else {
-            allPosts = [];
-            console.log("No saved posts found, starting with empty array");
+            // Add default sample posts for new visitors
+            allPosts = [
+              {
+                title: "Mulle möter en ekorre",
+                content: `<p>En vacker morgon när Mulle gick genom skogen hörde han ett konstigt ljud. Det lät som någon som knaprade på nötter...</p>
+                <p>Han tittade upp och såg en liten ekorre som satt högt upp i en tall. Ekorren tittade ner på Mulle med sina stora, nyfikna ögon.</p>
+                <p>"Hej där!" ropade Mulle vänligt. "Vad gör du så högt upp i trädet?"</p>
+                <p>Ekorren hoppade ner från gren till gren tills den kom till en låg gren precis ovanför Mulle. "Jag samlar nötter för vintern," svarade ekorren. "Det är viktigt att vara förberedd!"</p>
+                <p>Mulle log. "Det låter klokt! Kan jag hjälpa dig på något sätt?"</p>
+                <p>Så började Mulle och ekorren samarbeta. Mulle letade efter nötter på marken medan ekorren fortsatte samla från trädet. Tillsammans arbetade de hela dagen.</p>
+                <p>När solen började gå ner hade de samlat en stor hög med nötter. Ekorren var så tacksam att den bjöd Mulle på en nöt som tack.</p>
+                <p>"Tack så mycket för hjälpen!" sa ekorren. "Nu kommer jag att ha tillräckligt med mat för hela vintern."</p>
+                <p>Mulle kände sig glad över att ha kunnat hjälpa sin nya vän. "Det var så lite så! Kommer du ihåg var jag bor? Du är alltid välkommen att hälsa på."</p>
+                <p>Ekorren log och nickade. "Absolut! Jag kommer att besöka dig när vintern är över. Tack för en underbar dag!"</p>
+                <p>Och så hoppade ekorren tillbaka upp i trädet medan Mulle vinkade adjö. Det var början på en vacker vänskap mellan Mulle och den lilla ekorren.</p>`,
+                date: "15 Maj, 2023",
+                timestamp: 1684166400000
+              },
+              {
+                title: "Skogsmulles äventyr i skogen",
+                content: `<p>Mulle älskade att utforska skogen. Varje dag gick han ut för att upptäcka nya platser och träffa nya vänner.</p>
+                <p>En dag hittade han en gammal, övergiven koja djupt inne i skogen. Den såg mystisk ut med sina mörka fönster och knarrande dörr.</p>
+                <p>Mulle var både nyfiken och lite rädd. Skulle han gå in och kolla vad som fanns därinne?</p>
+                <p>Efter att ha tänkt en stund bestämde han sig för att vara modig. Han öppnade dörren försiktigt och kikade in.</p>
+                <p>Inne i kojan fanns gamla möbler, en spis och en säng. Det såg ut som att någon hade bott där för länge sedan.</p>
+                <p>Plötsligt hörde Mulle ett ljud bakom sig. Han vände sig om och såg en gammal man med skägg som log vänligt mot honom.</p>
+                <p>"Hej, lille vän," sa mannen. "Jag ser att du har upptäckt min gamla koja. Jag brukade bo här när jag var yngre."</p>
+                <p>Mulle blev lugnad av mannens vänliga röst. "Varför bor du inte här längre?" frågade han.</p>
+                <p>Mannen satte sig på en stubbe utanför kojan. "Jag blev för gammal för att bo så långt ut i skogen. Nu bor jag närmare byn där jag kan få hjälp om jag behöver det."</p>
+                <p>Mulle och mannen pratade länge om skogen, djuren och alla underbara saker som fanns där. Mannen berättade gamla historier om skogen som Mulle aldrig hade hört förut.</p>
+                <p>När det började bli mörkt sa mannen: "Du borde gå hem nu, Mulle. Det blir snart mörkt i skogen."</p>
+                <p>Mulle tackade mannen för alla underbara historier och lovade att komma tillbaka och hälsa på honom snart.</p>
+                <p>På vägen hem tänkte Mulle på allt han hade lärt sig om skogen. Det fanns så många hemligheter att upptäcka!</p>`,
+                date: "10 Maj, 2023",
+                timestamp: 1683763200000
+              }
+            ];
+            console.log("No saved posts found, using default sample posts");
           }
           renderAllPosts();
           updateRecentStories();
@@ -1529,26 +1585,26 @@
             return;
           }
 
-            const today = new Date();
-            const dateString =
-              today.getDate() +
-              " " +
-              [
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "Maj",
-                "Jun",
-                "Jul",
-                "Aug",
-                "Sep",
-                "Okt",
-                "Nov",
-                "Dec",
-              ][today.getMonth()] +
-              ", " +
-              today.getFullYear();
+          const today = new Date();
+          const dateString =
+            today.getDate() +
+            " " +
+            [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "Maj",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Okt",
+              "Nov",
+              "Dec",
+            ][today.getMonth()] +
+            ", " +
+            today.getFullYear();
 
           const newPost = {
             title: title,
@@ -1571,7 +1627,7 @@
           this.reset();
 
           // Show success message
-            alert("Berättelsen har publicerats!");
+          alert("Berättelsen har publicerats!");
 
           // Scroll to the new post
           setTimeout(() => {
@@ -1582,13 +1638,13 @@
       // Post action functions
       function sharePost(index) {
         const post = allPosts[index];
-              if (navigator.share) {
-                navigator.share({
+        if (navigator.share) {
+          navigator.share({
             title: post.title,
-                  text: "Läs den här underbara berättelsen från Skogsmulle!",
-                  url: window.location.href,
-                });
-              } else {
+            text: "Läs den här underbara berättelsen från Skogsmulle!",
+            url: window.location.href,
+          });
+        } else {
           alert(`Dela berättelsen "${post.title}" med dina vänner!`);
         }
       }
@@ -1710,21 +1766,21 @@
                   content.includes("äventyr") ||
                   content.includes("utforska") ||
                   content.includes("resa");
-              break;
+                break;
               case "friendship":
                 showPost =
                   content.includes("vän") ||
                   content.includes("tillsammans") ||
                   content.includes("hjälp");
-              break;
+                break;
               case "nature":
                 showPost =
                   content.includes("skog") ||
                   content.includes("träd") ||
                   content.includes("blomma") ||
                   content.includes("djur");
-              break;
-          }
+                break;
+            }
 
             post.style.display = showPost ? "block" : "none";
           }
