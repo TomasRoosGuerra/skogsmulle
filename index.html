@@ -48,55 +48,222 @@
         padding: 20px;
       }
 
-      /* Header styles */
-      header {
-        background: linear-gradient(
-          135deg,
-          rgba(144, 180, 120, 0.15),
-          rgba(120, 150, 180, 0.12),
-          rgba(160, 200, 140, 0.08)
-        );
-        border-radius: 15px;
-        padding: 25px;
-        margin-bottom: 25px;
-        border: 2px solid rgba(144, 180, 120, 0.3);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        position: relative;
-        overflow: hidden;
-        backdrop-filter: blur(3px);
+      /* Discrete Login Button */
+      .discrete-login {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(144, 180, 120, 0.3);
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        color: #4a5d3a;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        font-family: "Georgia", "Times New Roman", serif;
       }
 
-      .header-background {
+      .discrete-login:hover {
+        background: rgba(255, 255, 255, 1);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .discrete-login.logged-in {
+        background: rgba(144, 180, 120, 0.2);
+        border-color: rgba(144, 180, 120, 0.5);
+      }
+
+      /* World-Class Header Design */
+      .main-header {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.95),
+          rgba(248, 248, 240, 0.9)
+        );
+        border-radius: 0 0 20px 20px;
+        padding: 0;
+        margin-bottom: 0;
+        border: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .main-header::before {
+        content: '';
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="paper"><feTurbulence baseFrequency="0.01" numOctaves="2" result="noise"/><feColorMatrix values="0 0 0 0 0.9 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.05 0"/></filter></defs><rect width="100" height="100" fill="white" filter="url(%23paper)"/></svg>');
+        opacity: 0.3;
+        z-index: 0;
+      }
+
+      /* Hero Section with Character Image */
+      .hero-section {
+        position: relative;
+        height: 400px;
         background-image: url("skogsmullecolor.png");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        opacity: 0.6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0 0 20px 20px;
+        overflow: hidden;
+      }
+
+      .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.1),
+          rgba(144, 180, 120, 0.1)
+        );
+        z-index: 1;
+      }
+
+      .hero-content {
+        text-align: center;
+        position: relative;
+        z-index: 2;
+        max-width: 600px;
+        padding: 0 20px;
+      }
+
+      .main-logo {
+        font-size: 3.5rem;
+        font-weight: bold;
+        color: #2d3a2d;
+        text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+        margin-bottom: 15px;
+        font-family: "Georgia", "Times New Roman", serif;
+        font-style: italic;
+        animation: gentleGlow 4s ease-in-out infinite alternate;
+      }
+
+      .hero-subtitle {
+        font-size: 1.3rem;
+        color: #3d4a2d;
+        margin-bottom: 25px;
+        font-style: italic;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+      }
+
+      /* World-Class Navigation */
+      .main-navigation {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(144, 180, 120, 0.2);
+        padding: 15px 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .nav-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 30px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .nav-links a {
+        color: #4a5d3a;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1rem;
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-family: "Georgia", "Times New Roman", serif;
+        position: relative;
+      }
+
+      .nav-links a:hover {
+        background: rgba(144, 180, 120, 0.1);
+        transform: translateY(-1px);
+      }
+
+      .nav-links a.active {
+        background: rgba(144, 180, 120, 0.2);
+        color: #2d3a2d;
+      }
+
+      /* Welcome Section */
+      .welcome-section {
+        text-align: center;
+        padding: 40px 20px;
+        margin: 30px 0;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.9),
+          rgba(248, 248, 240, 0.8)
+        );
+        border-radius: 15px;
+        border: 1px solid rgba(144, 180, 120, 0.2);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .welcome-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="paper"><feTurbulence baseFrequency="0.01" numOctaves="2" result="noise"/><feColorMatrix values="0 0 0 0 0.9 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.05 0"/></filter></defs><rect width="100" height="100" fill="white" filter="url(%23paper)"/></svg>');
+        opacity: 0.2;
         z-index: 0;
       }
 
-      .header-content {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
+      .section-title {
+        font-size: 2rem;
+        color: #4a5d3a;
+        margin-bottom: 15px;
+        font-family: "Georgia", "Times New Roman", serif;
+        font-style: italic;
         position: relative;
         z-index: 1;
       }
 
-      .logo {
-        font-size: 2.8rem;
-        font-weight: bold;
-        color: #4a5d3a;
-        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-        margin-bottom: 12px;
-        font-family: "Georgia", "Times New Roman", serif;
+      .welcome-description {
+        font-size: 1.1rem;
+        color: #3d4a2d;
+        margin-bottom: 25px;
+        line-height: 1.6;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
         font-style: italic;
+        position: relative;
+        z-index: 1;
       }
 
       .audio-player {
@@ -780,50 +947,56 @@
     </style>
   </head>
   <body>
-    <div class="container">
-      <header>
-        <div class="header-background"></div>
-        <div class="header-content">
-          <div class="logo">Skogsmulle</div>
+    <!-- Discrete Login Button -->
+    <div class="discrete-login" id="discreteLogin" onclick="toggleLoginModal()">
+      <span id="loginText">Login</span>
+    </div>
+
+    <!-- Main Header with Hero Section -->
+    <header class="main-header">
+      <div class="hero-section">
+        <div class="hero-content">
+          <h1 class="main-logo">Skogsmulle</h1>
+          <p class="hero-subtitle">Magiska äventyr för barn och föräldrar</p>
           <div class="audio-player">
-            <button id="playTheme">▶</button>
+            <button id="playTheme">🎵</button>
             <span class="audio-title">Skogsmulle låt</span>
-            <button id="playAdventure">▶</button>
+            <button id="playAdventure">🎶</button>
             <span class="audio-title">Äventyr låt</span>
           </div>
         </div>
-        <nav>
-          <ul>
-            <li><a href="#hem">Hem</a></li>
-            <li><a href="#berattelser">Berättelser</a></li>
-            <li><a href="#karaktarer">Karaktärer</a></li>
-            <li><a href="#aktiviteter">Aktiviteter</a></li>
-            <li><a href="#om-skogsmulle">Om Skogsmulle</a></li>
-          </ul>
-        </nav>
+      </div>
+    </header>
 
-        <!-- Magical Welcome Section -->
-        <div class="welcome-section">
-          <h1 class="magical-title">
-            Välkommen till Skogsmulles magiska värld!
-          </h1>
-          <p class="welcome-text">
-            Här kan du upptäcka underbara äventyr, läsa sagor för dina barn och
-            utforska en värld full av fantasi och äventyr.
-          </p>
-          <div class="audience-buttons">
-            <button class="audience-btn parent-btn" onclick="scrollToStories()">
-              👨‍👩‍👧‍👦 För föräldrar
-            </button>
-            <button
-              class="audience-btn child-btn"
-              onclick="scrollToAdventures()"
-            >
-              🧚‍♀️ För barn
-            </button>
-          </div>
+    <!-- World-Class Navigation -->
+    <nav class="main-navigation">
+      <div class="nav-container">
+        <ul class="nav-links">
+          <li><a href="#hem" class="active">Hem</a></li>
+          <li><a href="#berattelser">Berättelser</a></li>
+          <li><a href="#karaktarer">Karaktärer</a></li>
+          <li><a href="#aktiviteter">Aktiviteter</a></li>
+          <li><a href="#om-skogsmulle">Om Skogsmulle</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <!-- Welcome Section -->
+      <section class="welcome-section">
+        <h2 class="section-title">Välkommen till Skogsmulles magiska värld!</h2>
+        <p class="welcome-description">
+          Här kan du upptäcka underbara äventyr, läsa sagor för dina barn och utforska en värld full av fantasi och äventyr.
+        </p>
+        <div class="audience-buttons">
+          <button class="audience-btn parent-btn" onclick="scrollToStories()">
+            👨‍👩‍👧‍👦 För föräldrar
+          </button>
+          <button class="audience-btn child-btn" onclick="scrollToAdventures()">
+            🧚‍♀️ För barn
+          </button>
         </div>
-      </header>
+      </section>
 
       <main>
         <section class="blog-section">
@@ -921,51 +1094,10 @@
         </section>
 
         <aside class="sidebar">
-          <!-- Author Login Section -->
-          <div class="sidebar-widget auth-section" id="authSection">
-            <h3 class="widget-title">✍️ Författarverktyg</h3>
-            <div id="authContainer">
-              <div id="loginSection">
-                <p class="author-info">
-                  <strong>För författaren:</strong><br />
-                  Logga in med din Gmail för att skapa och redigera berättelser.
-                </p>
-                <button class="login-button" onclick="signInWithGoogle()">
-                  🔐 Logga in som författare
-                </button>
-                <p class="login-note">
-                  <small
-                    >Endast författaren kan logga in och redigera
-                    innehåll</small
-                  >
-                </p>
-              </div>
-              <div id="userSection" style="display: none">
-                <div class="user-info">
-                  <p>
-                    ✅ Inloggad som författare: <span id="userEmail"></span>
-                  </p>
-                </div>
-                <button class="login-button" onclick="signOut()">
-                  🚪 Logga ut
-                </button>
-                <div class="admin-controls" id="adminControls">
-                  <p><strong>🎨 Författarverktyg aktiverade!</strong></p>
-                  <p>
-                    <small
-                      >Du kan nu skapa, redigera och ta bort berättelser</small
-                    >
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <!-- Story Creation Form (Author Only) -->
           <div class="sidebar-widget" id="storyForm" style="display: none">
-            <h3 class="widget-title">Skapa ny berättelse</h3>
+            <h3 class="widget-title">✍️ Skapa ny berättelse</h3>
             <form class="new-post-form" id="newPostForm">
-              <h4 class="form-title">Skriv en ny berättelse</h4>
               <div class="form-group">
                 <label for="postTitle">Titel:</label>
                 <input
@@ -1324,7 +1456,7 @@
       let isAdmin = false;
       let currentUser = null;
 
-      // Enhanced authentication system
+      // Enhanced authentication system with discrete login
       function initAuth() {
         const savedUser = localStorage.getItem("skogsmulle_user");
         if (savedUser) {
@@ -1332,15 +1464,36 @@
           if (currentUser.email === "tomasroosguerra@gmail.com") {
             isAdmin = true;
             showAuthorTools();
-            showUserSection();
+            updateDiscreteLogin(true);
             showAdminControls();
           } else {
             hideAuthorTools();
-            showLoginSection();
+            updateDiscreteLogin(false);
           }
         } else {
           hideAuthorTools();
-          showLoginSection();
+          updateDiscreteLogin(false);
+        }
+      }
+
+      function updateDiscreteLogin(loggedIn) {
+        const loginElement = document.getElementById('discreteLogin');
+        const loginText = document.getElementById('loginText');
+        
+        if (loggedIn) {
+          loginElement.classList.add('logged-in');
+          loginText.textContent = 'Logout';
+        } else {
+          loginElement.classList.remove('logged-in');
+          loginText.textContent = 'Login';
+        }
+      }
+
+      function toggleLoginModal() {
+        if (isAdmin) {
+          signOut();
+        } else {
+          signInWithGoogle();
         }
       }
 
@@ -1355,18 +1508,19 @@
       }
 
       function signInWithGoogle() {
-        const email = prompt("Ange din Gmail-adress för att logga in:");
+        const email = prompt("Ange din Gmail-adress för att logga in som författare:");
         if (email && email.includes("@gmail.com")) {
           currentUser = { email: email };
           localStorage.setItem("skogsmulle_user", JSON.stringify(currentUser));
 
           if (email === "tomasroosguerra@gmail.com") {
             isAdmin = true;
-            showUserSection();
+            showAuthorTools();
+            updateDiscreteLogin(true);
             showAdminControls();
-            alert("Välkommen! Du har admin-rättigheter.");
+            alert("Välkommen! Du har loggat in som författare och kan nu skapa och redigera berättelser.");
           } else {
-            alert("Du har inte admin-rättigheter för denna sida.");
+            alert("Du har inte författarrättigheter för denna sida.");
             signOut();
           }
         }
@@ -1377,8 +1531,9 @@
         isAdmin = false;
         localStorage.removeItem("skogsmulle_user");
         hideAuthorTools();
-        showLoginSection();
+        updateDiscreteLogin(false);
         hideAdminControls();
+        alert("Du har loggat ut som författare.");
       }
 
       // New functionality for audience-specific features
