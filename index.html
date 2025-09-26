@@ -92,7 +92,11 @@
       }
 
       .login-modal-content {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 248, 240, 0.9));
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.95),
+          rgba(248, 248, 240, 0.9)
+        );
         margin: 15% auto;
         padding: 30px;
         border-radius: 15px;
@@ -150,7 +154,11 @@
       }
 
       .login-btn.primary {
-        background: linear-gradient(135deg, rgba(144, 180, 120, 0.8), rgba(120, 150, 180, 0.7));
+        background: linear-gradient(
+          135deg,
+          rgba(144, 180, 120, 0.8),
+          rgba(120, 150, 180, 0.7)
+        );
         color: #2d3a2d;
       }
 
@@ -1057,14 +1065,25 @@
       <div class="login-modal-content">
         <span class="close-modal" onclick="closeLoginModal()">&times;</span>
         <h2>🔐 Författarverktyg</h2>
-        <p style="text-align: center; color: #666; margin-bottom: 20px;">
+        <p style="text-align: center; color: #666; margin-bottom: 20px">
           Logga in för att skapa och redigera berättelser
         </p>
         <form class="login-form" id="loginForm">
-          <input type="email" id="loginEmail" placeholder="Din Gmail-adress" required>
+          <input
+            type="email"
+            id="loginEmail"
+            placeholder="Din Gmail-adress"
+            required
+          />
           <div class="login-buttons">
             <button type="submit" class="login-btn primary">Logga in</button>
-            <button type="button" class="login-btn secondary" onclick="closeLoginModal()">Avbryt</button>
+            <button
+              type="button"
+              class="login-btn secondary"
+              onclick="closeLoginModal()"
+            >
+              Avbryt
+            </button>
           </div>
         </form>
       </div>
@@ -1210,6 +1229,9 @@
               </button>
             </div>
           </article>
+
+          <!-- Dynamic Posts Container -->
+          <div id="dynamic-posts-container"></div>
         </section>
 
         <aside class="sidebar">
@@ -1397,7 +1419,6 @@
         document.getElementById("playAdventure").textContent = "▶";
       });
 
-
       // Blog post functionality
       document
         .getElementById("newPostForm")
@@ -1450,8 +1471,15 @@
                     </div>
                 `;
 
-            // Add to the top of the blog section
-            document.querySelector(".blog-section").prepend(newPost);
+            // Add to the dynamic posts container
+            let dynamicContainer = document.getElementById("dynamic-posts-container");
+            if (!dynamicContainer) {
+              // Create container for dynamic posts if it doesn't exist
+              dynamicContainer = document.createElement("div");
+              dynamicContainer.id = "dynamic-posts-container";
+              document.querySelector(".blog-section").appendChild(dynamicContainer);
+            }
+            dynamicContainer.prepend(newPost);
 
             // Clear the form
             document.getElementById("newPostForm").reset();
@@ -1546,24 +1574,26 @@
         if (isAdmin) {
           signOut();
         } else {
-          document.getElementById('loginModal').style.display = 'block';
+          document.getElementById("loginModal").style.display = "block";
         }
       }
 
       function closeLoginModal() {
-        document.getElementById('loginModal').style.display = 'none';
+        document.getElementById("loginModal").style.display = "none";
       }
 
       // Login form submission
-      document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value;
-        signInWithGoogle(email);
-      });
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const email = document.getElementById("loginEmail").value;
+          signInWithGoogle(email);
+        });
 
       // Close modal when clicking outside
-      window.addEventListener('click', function(e) {
-        const modal = document.getElementById('loginModal');
+      window.addEventListener("click", function (e) {
+        const modal = document.getElementById("loginModal");
         if (e.target === modal) {
           closeLoginModal();
         }
@@ -1794,12 +1824,16 @@
 
       function savePostsToStorage() {
         const posts = [];
-        document.querySelectorAll(".blog-post").forEach((post) => {
-          const title = post.querySelector(".post-title").textContent;
-          const date = post.querySelector(".post-date").textContent;
-          const content = post.querySelector(".post-content").innerHTML;
-          posts.push({ title, date, content });
-        });
+        // Only save posts from the dynamic container
+        const dynamicContainer = document.getElementById("dynamic-posts-container");
+        if (dynamicContainer) {
+          dynamicContainer.querySelectorAll(".blog-post").forEach((post) => {
+            const title = post.querySelector(".post-title").textContent;
+            const date = post.querySelector(".post-date").textContent;
+            const content = post.querySelector(".post-content").innerHTML;
+            posts.push({ title, date, content });
+          });
+        }
         localStorage.setItem("skogsmulle_posts", JSON.stringify(posts));
       }
 
@@ -1809,10 +1843,18 @@
           const posts = JSON.parse(savedPosts);
           const blogSection = document.querySelector(".blog-section");
 
-          // Clear existing posts
-          blogSection.innerHTML = "";
+          // Find or create the dynamic posts container
+          let dynamicContainer = document.getElementById("dynamic-posts-container");
+          if (!dynamicContainer) {
+            dynamicContainer = document.createElement("div");
+            dynamicContainer.id = "dynamic-posts-container";
+            blogSection.appendChild(dynamicContainer);
+          }
 
-          // Add saved posts
+          // Clear only dynamic posts
+          dynamicContainer.innerHTML = "";
+
+          // Add saved posts to dynamic container
           posts.forEach((postData) => {
             const post = document.createElement("article");
             post.className = "blog-post";
@@ -1825,14 +1867,11 @@
                 ${postData.content}
               </div>
               <div class="post-actions">
-                <button class="post-button">Dela</button>
-                <button class="post-button">Gilla</button>
-                <button class="post-button">Spara</button>
                 <button class="post-button edit admin-only" onclick="editPost(this)" style="display: none;">Redigera</button>
                 <button class="post-button delete admin-only" onclick="deletePost(this)" style="display: none;">Ta bort</button>
               </div>
             `;
-            blogSection.appendChild(post);
+            dynamicContainer.appendChild(post);
           });
 
           // Show admin controls if logged in
