@@ -78,6 +78,105 @@
         border-color: rgba(144, 180, 120, 0.5);
       }
 
+      /* Login Modal */
+      .login-modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+      }
+
+      .login-modal-content {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 248, 240, 0.9));
+        margin: 15% auto;
+        padding: 30px;
+        border-radius: 15px;
+        width: 400px;
+        max-width: 90%;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(144, 180, 120, 0.3);
+        position: relative;
+      }
+
+      .login-modal h2 {
+        color: #4a5d3a;
+        text-align: center;
+        margin-bottom: 20px;
+        font-family: "Georgia", "Times New Roman", serif;
+        font-style: italic;
+      }
+
+      .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .login-form input {
+        padding: 12px;
+        border: 1px solid rgba(144, 180, 120, 0.3);
+        border-radius: 8px;
+        font-size: 1rem;
+        background: rgba(255, 255, 255, 0.8);
+        font-family: "Georgia", "Times New Roman", serif;
+      }
+
+      .login-form input:focus {
+        outline: none;
+        border-color: rgba(144, 180, 120, 0.6);
+        box-shadow: 0 0 0 2px rgba(144, 180, 120, 0.2);
+      }
+
+      .login-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 10px;
+      }
+
+      .login-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-family: "Georgia", "Times New Roman", serif;
+        transition: all 0.3s ease;
+      }
+
+      .login-btn.primary {
+        background: linear-gradient(135deg, rgba(144, 180, 120, 0.8), rgba(120, 150, 180, 0.7));
+        color: #2d3a2d;
+      }
+
+      .login-btn.secondary {
+        background: rgba(200, 200, 200, 0.8);
+        color: #555;
+      }
+
+      .login-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #666;
+      }
+
+      .close-modal:hover {
+        color: #333;
+      }
+
       /* World-Class Header Design */
       .main-header {
         background: linear-gradient(
@@ -111,7 +210,7 @@
         position: relative;
         height: 400px;
         background-color: #f0f8f0;
-        background-image: url("./skogsmullecolor.png");
+        background-image: url("skogsmullecolor.png");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -953,6 +1052,24 @@
       <span id="loginText">Login</span>
     </div>
 
+    <!-- Login Modal -->
+    <div id="loginModal" class="login-modal">
+      <div class="login-modal-content">
+        <span class="close-modal" onclick="closeLoginModal()">&times;</span>
+        <h2>🔐 Författarverktyg</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 20px;">
+          Logga in för att skapa och redigera berättelser
+        </p>
+        <form class="login-form" id="loginForm">
+          <input type="email" id="loginEmail" placeholder="Din Gmail-adress" required>
+          <div class="login-buttons">
+            <button type="submit" class="login-btn primary">Logga in</button>
+            <button type="button" class="login-btn secondary" onclick="closeLoginModal()">Avbryt</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <!-- Main Header with Hero Section -->
     <header class="main-header">
       <div class="hero-section">
@@ -978,9 +1095,9 @@
           <li><a href="#karaktarer">Karaktärer</a></li>
           <li><a href="#aktiviteter">Aktiviteter</a></li>
           <li><a href="#om-skogsmulle">Om Skogsmulle</a></li>
-        </ul>
+          </ul>
       </div>
-    </nav>
+        </nav>
 
     <div class="container">
       <!-- Welcome Section -->
@@ -1280,6 +1397,7 @@
         document.getElementById("playAdventure").textContent = "▶";
       });
 
+
       // Blog post functionality
       document
         .getElementById("newPostForm")
@@ -1327,80 +1445,10 @@
                         <button class="post-button">Dela</button>
                         <button class="post-button">Gilla</button>
                         <button class="post-button">Spara</button>
-                    </div>
-                `;
-
-            // Add to the top of the blog section
-            document.querySelector(".blog-section").prepend(newPost);
-
-            // Clear the form
-            document.getElementById("newPostForm").reset();
-
-            // Add to recent stories list
-            const recentList = document.querySelector(".sidebar-widget ul");
-            const newListItem = document.createElement("li");
-            const newLink = document.createElement("a");
-            newLink.href = "#";
-            newLink.textContent = title;
-            newListItem.appendChild(newLink);
-            recentList.prepend(newListItem);
-
-            // Show success message (could be enhanced with a proper notification)
-            alert("Berättelsen har publicerats!");
-          }
-        });
-
-      // Blog post functionality
-      document
-        .getElementById("newPostForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-
-          const title = document.getElementById("postTitle").value;
-          const content = document.getElementById("postContent").value;
-
-          if (title && content) {
-            // Create new blog post
-            const newPost = document.createElement("article");
-            newPost.className = "blog-post";
-
-            const today = new Date();
-            const dateString =
-              today.getDate() +
-              " " +
-              [
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "Maj",
-                "Jun",
-                "Jul",
-                "Aug",
-                "Sep",
-                "Okt",
-                "Nov",
-                "Dec",
-              ][today.getMonth()] +
-              ", " +
-              today.getFullYear();
-
-            newPost.innerHTML = `
-            <div class="post-header">
-              <h2 class="post-title">${title}</h2>
-              <span class="post-date">${dateString}</span>
-            </div>
-            <div class="post-content">
-              <p>${content.replace(/\n/g, "</p><p>")}</p>
-            </div>
-            <div class="post-actions">
-              <button class="post-button">Dela</button>
-              <button class="post-button">Gilla</button>
-              <button class="post-button">Spara</button>
               <button class="post-button edit admin-only" onclick="editPost(this)" style="display: none;">Redigera</button>
               <button class="post-button delete admin-only" onclick="deletePost(this)" style="display: none;">Ta bort</button>
-            </div>
-          `;
+                    </div>
+                `;
 
             // Add to the top of the blog section
             document.querySelector(".blog-section").prepend(newPost);
@@ -1463,7 +1511,10 @@
         const savedUser = localStorage.getItem("skogsmulle_user");
         if (savedUser) {
           currentUser = JSON.parse(savedUser);
-          if (currentUser.email === "tomas.roosguerra@gmail.com" || currentUser.email === "tomasroosguerra@gmail.com") {
+          if (
+            currentUser.email === "tomas.roosguerra@gmail.com" ||
+            currentUser.email === "tomasroosguerra@gmail.com"
+          ) {
             isAdmin = true;
             showAuthorTools();
             updateDiscreteLogin(true);
@@ -1495,9 +1546,28 @@
         if (isAdmin) {
           signOut();
         } else {
-          signInWithGoogle();
+          document.getElementById('loginModal').style.display = 'block';
         }
       }
+
+      function closeLoginModal() {
+        document.getElementById('loginModal').style.display = 'none';
+      }
+
+      // Login form submission
+      document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        signInWithGoogle(email);
+      });
+
+      // Close modal when clicking outside
+      window.addEventListener('click', function(e) {
+        const modal = document.getElementById('loginModal');
+        if (e.target === modal) {
+          closeLoginModal();
+        }
+      });
 
       function showAuthorTools() {
         document.getElementById("storyForm").style.display = "block";
@@ -1509,19 +1579,20 @@
         // Auth section stays visible but shows login form
       }
 
-      function signInWithGoogle() {
-        const email = prompt(
-          "Ange din Gmail-adress för att logga in som författare:"
-        );
+      function signInWithGoogle(email) {
         if (email && email.includes("@gmail.com")) {
           currentUser = { email: email };
           localStorage.setItem("skogsmulle_user", JSON.stringify(currentUser));
 
-          if (email === "tomas.roosguerra@gmail.com" || email === "tomasroosguerra@gmail.com") {
+          if (
+            email === "tomas.roosguerra@gmail.com" ||
+            email === "tomasroosguerra@gmail.com"
+          ) {
             isAdmin = true;
             showAuthorTools();
             updateDiscreteLogin(true);
             showAdminControls();
+            closeLoginModal();
             alert(
               "Välkommen! Du har loggat in som författare och kan nu skapa och redigera berättelser."
             );
@@ -1529,6 +1600,8 @@
             alert("Du har inte författarrättigheter för denna sida.");
             signOut();
           }
+        } else {
+          alert("Vänligen ange en giltig Gmail-adress.");
         }
       }
 
@@ -1678,14 +1751,12 @@
       }
 
       function showAdminControls() {
-        document.getElementById("adminControls").classList.add("show");
         document.querySelectorAll(".admin-only").forEach((el) => {
           el.style.display = "inline-block";
         });
       }
 
       function hideAdminControls() {
-        document.getElementById("adminControls").classList.remove("show");
         document.querySelectorAll(".admin-only").forEach((el) => {
           el.style.display = "none";
         });
