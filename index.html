@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Skogsmulle - Barnboksblogg</title>
+    <title>Skogsmulle - Magiska äventyr för barn</title>
+    <meta name="description" content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn. Perfekt för föräldrar som vill läsa sagor för sina barn.">
     <style>
       /* Base styles */
       * {
@@ -70,11 +71,11 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-image: url("skogsmulle och gänget.png");
+        background-image: url("skogsmullecolor.png");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        opacity: 0.3;
+        opacity: 0.8;
         z-index: 0;
       }
 
@@ -521,6 +522,159 @@
         transform: translateX(5px);
       }
 
+      /* Magical Welcome Section */
+      .welcome-section {
+        text-align: center;
+        padding: 30px 20px;
+        position: relative;
+        z-index: 1;
+        margin-top: 20px;
+      }
+
+      .magical-title {
+        font-size: 2.5rem;
+        color: #2d5016;
+        text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+        margin-bottom: 20px;
+        font-family: "Comic Sans MS", cursive, sans-serif;
+        animation: magicalGlow 3s ease-in-out infinite alternate;
+      }
+
+      @keyframes magicalGlow {
+        from { text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8), 0 0 10px rgba(144, 238, 144, 0.5); }
+        to { text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8), 0 0 20px rgba(144, 238, 144, 0.8); }
+      }
+
+      .welcome-text {
+        font-size: 1.2rem;
+        color: #2d4a2d;
+        margin-bottom: 30px;
+        line-height: 1.6;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .audience-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .audience-btn {
+        background: linear-gradient(135deg, #90ee90, #87ceeb);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        padding: 15px 30px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      }
+
+      .audience-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        animation: magicalBounce 0.6s ease-in-out;
+      }
+
+      @keyframes magicalBounce {
+        0%, 100% { transform: translateY(-3px) scale(1.05); }
+        50% { transform: translateY(-8px) scale(1.1); }
+      }
+
+      .parent-btn {
+        background: linear-gradient(135deg, #98fb98, #87ceeb);
+      }
+
+      .child-btn {
+        background: linear-gradient(135deg, #ffb6c1, #98fb98);
+      }
+
+      /* Story Search and Categories */
+      .story-search {
+        margin-bottom: 15px;
+      }
+
+      .story-search input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 15px;
+        border: 2px solid rgba(144, 238, 144, 0.3);
+        background: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
+      }
+
+      .story-categories {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-bottom: 15px;
+      }
+
+      .category-btn {
+        background: rgba(144, 238, 144, 0.3);
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .category-btn:hover,
+      .category-btn.active {
+        background: rgba(144, 238, 144, 0.6);
+        transform: scale(1.05);
+      }
+
+      /* Character Grid */
+      .character-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .character-card {
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 15px;
+        padding: 10px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid rgba(144, 238, 144, 0.3);
+      }
+
+      .character-card:hover {
+        background: rgba(144, 238, 144, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .character-icon {
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+      }
+
+      .character-card span {
+        font-size: 0.8rem;
+        color: #2d5016;
+        font-weight: bold;
+      }
+
+      /* Parent Tips */
+      .parent-tips p {
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+        color: #2d4a2d;
+        line-height: 1.4;
+      }
+
       /* Responsive adjustments */
       @media (max-width: 768px) {
         .header-content {
@@ -558,13 +712,23 @@
         </div>
         <nav>
           <ul>
-            <li><a href="#">Hem</a></li>
-            <li><a href="#">Berättelser</a></li>
-            <li><a href="#">Karaktärer</a></li>
-            <li><a href="#">Aktiviteter</a></li>
-            <li><a href="#">Om oss</a></li>
+            <li><a href="#hem">Hem</a></li>
+            <li><a href="#berattelser">Berättelser</a></li>
+            <li><a href="#karaktarer">Karaktärer</a></li>
+            <li><a href="#aktiviteter">Aktiviteter</a></li>
+            <li><a href="#om-skogsmulle">Om Skogsmulle</a></li>
           </ul>
         </nav>
+        
+        <!-- Magical Welcome Section -->
+        <div class="welcome-section">
+          <h1 class="magical-title">Välkommen till Skogsmulles magiska värld!</h1>
+          <p class="welcome-text">Här kan du upptäcka underbara äventyr, läsa sagor för dina barn och utforska en värld full av fantasi och äventyr.</p>
+          <div class="audience-buttons">
+            <button class="audience-btn parent-btn" onclick="scrollToStories()">👨‍👩‍👧‍👦 För föräldrar</button>
+            <button class="audience-btn child-btn" onclick="scrollToAdventures()">🧚‍♀️ För barn</button>
+          </div>
+        </div>
       </header>
 
       <main>
@@ -663,11 +827,12 @@
         </section>
 
         <aside class="sidebar">
-          <div class="sidebar-widget auth-section">
-            <h3 class="widget-title">Administration</h3>
+          <!-- Author Login Section (Hidden by default) -->
+          <div class="sidebar-widget auth-section" id="authSection" style="display: none;">
+            <h3 class="widget-title">Författarverktyg</h3>
             <div id="authContainer">
               <div id="loginSection">
-                <p>Logga in för att redigera innehåll</p>
+                <p>Logga in som författare för att skapa och redigera berättelser</p>
                 <button class="login-button" onclick="signInWithGoogle()">
                   Logga in med Google
                 </button>
@@ -680,46 +845,86 @@
                   Logga ut
                 </button>
                 <div class="admin-controls" id="adminControls">
-                  <p><strong>Admin-funktioner aktiverade!</strong></p>
+                  <p><strong>Författarverktyg aktiverade!</strong></p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="sidebar-widget">
-            <h3 class="widget-title">Ny berättelse</h3>
+          <!-- Story Creation Form (Author Only) -->
+          <div class="sidebar-widget" id="storyForm" style="display: none;">
+            <h3 class="widget-title">Skapa ny berättelse</h3>
             <form class="new-post-form" id="newPostForm">
               <h4 class="form-title">Skriv en ny berättelse</h4>
               <div class="form-group">
                 <label for="postTitle">Titel:</label>
-                <input type="text" id="postTitle" required />
+                <input type="text" id="postTitle" required placeholder="T.ex. Mulle möter en ekorre" />
               </div>
               <div class="form-group">
                 <label for="postContent">Berättelse:</label>
-                <textarea id="postContent" rows="5" required></textarea>
+                <textarea id="postContent" rows="5" required placeholder="Skriv din berättelse här..."></textarea>
               </div>
-              <button type="submit" class="submit-button">Publicera</button>
+              <button type="submit" class="submit-button">Publicera berättelse</button>
             </form>
           </div>
 
+          <!-- Story Browser for Parents -->
           <div class="sidebar-widget">
-            <h3 class="widget-title">Senaste berättelserna</h3>
-            <ul>
-              <li><a href="#">Mulle möter en ekorre</a></li>
-              <li><a href="#">Regndagens lek</a></li>
-              <li><a href="#">Blomsterfesten</a></li>
-              <li><a href="#">Mysteriet med försvunna bären</a></li>
+            <h3 class="widget-title">📚 Hitta berättelser</h3>
+            <div class="story-search">
+              <input type="text" id="storySearch" placeholder="Sök efter berättelser..." onkeyup="searchStories()">
+            </div>
+            <div class="story-categories">
+              <button class="category-btn" onclick="filterStories('all')">Alla</button>
+              <button class="category-btn" onclick="filterStories('adventure')">Äventyr</button>
+              <button class="category-btn" onclick="filterStories('friendship')">Vänskap</button>
+              <button class="category-btn" onclick="filterStories('nature')">Natur</button>
+            </div>
+          </div>
+
+          <!-- Recent Stories -->
+          <div class="sidebar-widget">
+            <h3 class="widget-title">🌟 Senaste berättelserna</h3>
+            <ul id="recentStories">
+              <li><a href="#" onclick="scrollToStory('ekorre')">Mulle möter en ekorre</a></li>
+              <li><a href="#" onclick="scrollToStory('regn')">Regndagens lek</a></li>
+              <li><a href="#" onclick="scrollToStory('blomster')">Blomsterfesten</a></li>
+              <li><a href="#" onclick="scrollToStory('bär')">Mysteriet med försvunna bären</a></li>
             </ul>
           </div>
 
+          <!-- Characters -->
           <div class="sidebar-widget">
-            <h3 class="widget-title">Karaktärer</h3>
-            <ul>
-              <li><a href="#">Skogsmulle</a></li>
-              <li><a href="#">Lilla Myran</a></li>
-              <li><a href="#">Stora Björnen</a></li>
-              <li><a href="#">Visa Ugglan</a></li>
-            </ul>
+            <h3 class="widget-title">🎭 Karaktärer</h3>
+            <div class="character-grid">
+              <div class="character-card" onclick="showCharacterInfo('skogsmulle')">
+                <div class="character-icon">🌲</div>
+                <span>Skogsmulle</span>
+              </div>
+              <div class="character-card" onclick="showCharacterInfo('myran')">
+                <div class="character-icon">🐜</div>
+                <span>Lilla Myran</span>
+              </div>
+              <div class="character-card" onclick="showCharacterInfo('bjornen')">
+                <div class="character-icon">🐻</div>
+                <span>Stora Björnen</span>
+              </div>
+              <div class="character-card" onclick="showCharacterInfo('ugglan')">
+                <div class="character-icon">🦉</div>
+                <span>Visa Ugglan</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reading Tips for Parents -->
+          <div class="sidebar-widget">
+            <h3 class="widget-title">👨‍👩‍👧‍👦 Tips för föräldrar</h3>
+            <div class="parent-tips">
+              <p>💡 Läs högt för dina barn för att skapa en magisk upplevelse</p>
+              <p>🎭 Använd olika röster för varje karaktär</p>
+              <p>❓ Ställ frågor under läsningen för att engagera barnen</p>
+              <p>🌟 Låt barnen välja vilken berättelse de vill höra</p>
+            </div>
           </div>
         </aside>
       </main>
@@ -903,22 +1108,22 @@
             </div>
           `;
 
-             // Add to the top of the blog section
-             document.querySelector(".blog-section").prepend(newPost);
+            // Add to the top of the blog section
+            document.querySelector(".blog-section").prepend(newPost);
 
-             // Clear the form
-             document.getElementById("newPostForm").reset();
+            // Clear the form
+            document.getElementById("newPostForm").reset();
 
-             // Save to storage immediately
-             savePostsToStorage();
+            // Save to storage immediately
+            savePostsToStorage();
 
-             // Show admin controls if logged in
-             if (isAdmin) {
-               showAdminControls();
-             }
+            // Show admin controls if logged in
+            if (isAdmin) {
+              showAdminControls();
+            }
 
-             // Show success message
-             alert("Berättelsen har publicerats!");
+            // Show success message
+            alert("Berättelsen har publicerats!");
           }
         });
 
@@ -959,21 +1164,34 @@
       let isAdmin = false;
       let currentUser = null;
 
-      // Simple authentication (in production, use proper OAuth)
+      // Enhanced authentication system
       function initAuth() {
         const savedUser = localStorage.getItem("skogsmulle_user");
         if (savedUser) {
           currentUser = JSON.parse(savedUser);
           if (currentUser.email === "tomasroosguerra@gmail.com") {
             isAdmin = true;
+            showAuthorTools();
             showUserSection();
             showAdminControls();
           } else {
+            hideAuthorTools();
             showLoginSection();
           }
         } else {
+          hideAuthorTools();
           showLoginSection();
         }
+      }
+
+      function showAuthorTools() {
+        document.getElementById('authSection').style.display = 'block';
+        document.getElementById('storyForm').style.display = 'block';
+      }
+
+      function hideAuthorTools() {
+        document.getElementById('authSection').style.display = 'none';
+        document.getElementById('storyForm').style.display = 'none';
       }
 
       function signInWithGoogle() {
@@ -998,8 +1216,106 @@
         currentUser = null;
         isAdmin = false;
         localStorage.removeItem("skogsmulle_user");
+        hideAuthorTools();
         showLoginSection();
         hideAdminControls();
+      }
+
+      // New functionality for audience-specific features
+      function scrollToStories() {
+        document.querySelector('.blog-section').scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+
+      function scrollToAdventures() {
+        document.querySelector('.blog-section').scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+
+      function searchStories() {
+        const searchTerm = document.getElementById('storySearch').value.toLowerCase();
+        const stories = document.querySelectorAll('.blog-post');
+        
+        stories.forEach(story => {
+          const title = story.querySelector('.post-title').textContent.toLowerCase();
+          const content = story.querySelector('.post-content').textContent.toLowerCase();
+          
+          if (title.includes(searchTerm) || content.includes(searchTerm)) {
+            story.style.display = 'block';
+          } else {
+            story.style.display = 'none';
+          }
+        });
+      }
+
+      function filterStories(category) {
+        // Remove active class from all buttons
+        document.querySelectorAll('.category-btn').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        
+        // Add active class to clicked button
+        event.target.classList.add('active');
+        
+        const stories = document.querySelectorAll('.blog-post');
+        
+        stories.forEach(story => {
+          if (category === 'all') {
+            story.style.display = 'block';
+          } else {
+            // Simple category filtering based on content
+            const content = story.querySelector('.post-content').textContent.toLowerCase();
+            let showStory = false;
+            
+            switch(category) {
+              case 'adventure':
+                showStory = content.includes('äventyr') || content.includes('utforska') || content.includes('resa');
+                break;
+              case 'friendship':
+                showStory = content.includes('vän') || content.includes('tillsammans') || content.includes('hjälp');
+                break;
+              case 'nature':
+                showStory = content.includes('skog') || content.includes('träd') || content.includes('blomma') || content.includes('djur');
+                break;
+            }
+            
+            story.style.display = showStory ? 'block' : 'none';
+          }
+        });
+      }
+
+      function scrollToStory(storyId) {
+        // Find story by ID or title
+        const stories = document.querySelectorAll('.blog-post');
+        stories.forEach(story => {
+          const title = story.querySelector('.post-title').textContent.toLowerCase();
+          if (title.includes(storyId)) {
+            story.scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'center'
+            });
+            // Add highlight effect
+            story.style.animation = 'magicalGlow 2s ease-in-out';
+            setTimeout(() => {
+              story.style.animation = '';
+            }, 2000);
+          }
+        });
+      }
+
+      function showCharacterInfo(character) {
+        const characterInfo = {
+          'skogsmulle': 'Skogsmulle är huvudkaraktären som bor i skogen och älskar äventyr!',
+          'myran': 'Lilla Myran är Skogsmulles bästa vän och hjälper alltid till.',
+          'bjornen': 'Stora Björnen är vänlig och vis, och gillar att dela sina kunskaper.',
+          'ugglan': 'Visa Ugglan är den klokaste i skogen och ger råd när det behövs.'
+        };
+        
+        alert(characterInfo[character] || 'Denna karaktär är en del av Skogsmulles magiska värld!');
       }
 
       function showUserSection() {
