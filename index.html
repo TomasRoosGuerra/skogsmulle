@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Skogsmulle - Magiska äventyr för barn</title>
-    <meta name="description" content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn. Perfekt för föräldrar som vill läsa sagor för sina barn.">
+    <meta
+      name="description"
+      content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn. Perfekt för föräldrar som vill läsa sagor för sina barn."
+    />
     <style>
       /* Base styles */
       * {
@@ -15,30 +18,17 @@
       }
 
       body {
-        background-color: #f0f8f0;
-        color: #2d4a2d;
-        background-image: radial-gradient(
-            circle at 20% 80%,
-            rgba(144, 238, 144, 0.15) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 80% 20%,
-            rgba(135, 206, 235, 0.2) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 40% 40%,
-            rgba(152, 251, 152, 0.1) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 60% 60%,
-            rgba(173, 216, 230, 0.1) 0%,
-            transparent 50%
-          );
+        background-color: #f5f4e8;
+        color: #3d4a2d;
+        background-image: 
+          radial-gradient(circle at 20% 80%, rgba(144, 180, 120, 0.08) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(120, 150, 180, 0.06) 0%, transparent 50%),
+          radial-gradient(circle at 40% 40%, rgba(160, 200, 140, 0.05) 0%, transparent 50%),
+          url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="watercolor"><feTurbulence baseFrequency="0.02" numOctaves="3" result="noise"/><feColorMatrix values="0 0 0 0 0.8 0 0 0 0 0.9 0 0 0 0 0.7 0 0 0 0.1 0"/></filter></defs><rect width="100" height="100" fill="%23f5f4e8" filter="url(%23watercolor)"/></svg>');
+        background-size: 200px 200px, 300px 300px, 250px 250px, 150px 150px;
         line-height: 1.6;
         min-height: 100vh;
+        font-family: "Georgia", "Times New Roman", serif;
       }
 
       .container {
@@ -51,18 +41,18 @@
       header {
         background: linear-gradient(
           135deg,
-          rgba(144, 238, 144, 0.4),
-          rgba(135, 206, 235, 0.4),
-          rgba(152, 251, 152, 0.3)
+          rgba(144, 180, 120, 0.15),
+          rgba(120, 150, 180, 0.12),
+          rgba(160, 200, 140, 0.08)
         );
-        border-radius: 25px;
-        padding: 30px;
-        margin-bottom: 30px;
-        border: 3px solid rgba(144, 238, 144, 0.6);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 25px;
+        border: 2px solid rgba(144, 180, 120, 0.3);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         position: relative;
         overflow: hidden;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(3px);
       }
 
       .header-background {
@@ -75,7 +65,7 @@
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        opacity: 0.8;
+        opacity: 0.6;
         z-index: 0;
       }
 
@@ -89,12 +79,13 @@
       }
 
       .logo {
-        font-size: 3rem;
+        font-size: 2.8rem;
         font-weight: bold;
-        color: #2d5016;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        margin-bottom: 15px;
-        font-family: "Comic Sans MS", cursive, sans-serif;
+        color: #4a5d3a;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+        margin-bottom: 12px;
+        font-family: "Georgia", "Times New Roman", serif;
+        font-style: italic;
       }
 
       .audio-player {
@@ -199,48 +190,69 @@
       .blog-post {
         background: linear-gradient(
           135deg,
-          rgba(255, 255, 255, 0.8),
-          rgba(144, 238, 144, 0.2)
+          rgba(255, 255, 255, 0.9),
+          rgba(248, 248, 240, 0.8)
         );
-        border-radius: 25px;
-        padding: 25px;
-        margin-bottom: 25px;
-        border: 2px solid rgba(144, 238, 144, 0.3);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(5px);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(144, 180, 120, 0.2);
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        backdrop-filter: blur(2px);
         transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .blog-post::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="paper"><feTurbulence baseFrequency="0.01" numOctaves="2" result="noise"/><feColorMatrix values="0 0 0 0 0.9 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.05 0"/></filter></defs><rect width="100" height="100" fill="white" filter="url(%23paper)"/></svg>');
+        opacity: 0.3;
+        z-index: 0;
       }
 
       .blog-post:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
       }
 
       .post-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
-        border-bottom: 2px dashed rgba(144, 238, 144, 0.5);
-        padding-bottom: 15px;
+        margin-bottom: 15px;
+        border-bottom: 1px dashed rgba(144, 180, 120, 0.3);
+        padding-bottom: 10px;
+        position: relative;
+        z-index: 1;
       }
 
       .post-title {
-        color: #2d5016;
-        font-size: 1.6rem;
+        color: #4a5d3a;
+        font-size: 1.4rem;
         font-weight: bold;
+        font-family: "Georgia", "Times New Roman", serif;
+        font-style: italic;
       }
 
       .post-date {
-        color: #4a6741;
+        color: #6a7a5a;
         font-style: italic;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
       }
 
       .post-content {
-        margin-bottom: 20px;
-        color: #2d4a2d;
-        line-height: 1.8;
+        margin-bottom: 15px;
+        color: #3d4a2d;
+        line-height: 1.7;
+        position: relative;
+        z-index: 1;
+        font-size: 1rem;
       }
 
       .post-actions {
@@ -480,24 +492,63 @@
       .sidebar-widget {
         background: linear-gradient(
           135deg,
-          rgba(255, 255, 255, 0.8),
-          rgba(144, 238, 144, 0.2)
+          rgba(255, 255, 255, 0.9),
+          rgba(248, 248, 240, 0.8)
         );
-        border-radius: 25px;
-        padding: 25px;
-        margin-bottom: 25px;
-        border: 2px solid rgba(144, 238, 144, 0.3);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(5px);
+        border-radius: 12px;
+        padding: 18px;
+        margin-bottom: 18px;
+        border: 1px solid rgba(144, 180, 120, 0.2);
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        backdrop-filter: blur(2px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .sidebar-widget::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="paper"><feTurbulence baseFrequency="0.01" numOctaves="2" result="noise"/><feColorMatrix values="0 0 0 0 0.9 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.05 0"/></filter></defs><rect width="100" height="100" fill="white" filter="url(%23paper)"/></svg>');
+        opacity: 0.2;
+        z-index: 0;
       }
 
       .widget-title {
-        color: #2d5016;
-        border-bottom: 2px dashed rgba(144, 238, 144, 0.5);
-        padding-bottom: 10px;
-        margin-bottom: 15px;
-        font-size: 1.2rem;
+        color: #4a5d3a;
+        border-bottom: 1px dashed rgba(144, 180, 120, 0.3);
+        padding-bottom: 8px;
+        margin-bottom: 12px;
+        font-size: 1.1rem;
         font-weight: bold;
+        font-family: "Georgia", "Times New Roman", serif;
+        font-style: italic;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Author info styling */
+      .author-info {
+        background: rgba(144, 180, 120, 0.1);
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        border-left: 3px solid rgba(144, 180, 120, 0.4);
+        font-size: 0.9rem;
+        line-height: 1.4;
+        position: relative;
+        z-index: 1;
+      }
+
+      .login-note {
+        margin-top: 8px;
+        color: #6a7a5a;
+        font-style: italic;
+        position: relative;
+        z-index: 1;
       }
 
       .sidebar-widget ul {
@@ -532,67 +583,71 @@
       }
 
       .magical-title {
-        font-size: 2.5rem;
-        color: #2d5016;
-        text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
-        margin-bottom: 20px;
-        font-family: "Comic Sans MS", cursive, sans-serif;
-        animation: magicalGlow 3s ease-in-out infinite alternate;
+        font-size: 2.2rem;
+        color: #4a5d3a;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.9);
+        margin-bottom: 18px;
+        font-family: "Georgia", "Times New Roman", serif;
+        font-style: italic;
+        animation: gentleGlow 4s ease-in-out infinite alternate;
       }
 
-      @keyframes magicalGlow {
-        from { text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8), 0 0 10px rgba(144, 238, 144, 0.5); }
-        to { text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8), 0 0 20px rgba(144, 238, 144, 0.8); }
+      @keyframes gentleGlow {
+        from {
+          text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.9),
+            0 0 8px rgba(144, 180, 120, 0.3);
+        }
+        to {
+          text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.9),
+            0 0 12px rgba(144, 180, 120, 0.5);
+        }
       }
 
       .welcome-text {
-        font-size: 1.2rem;
-        color: #2d4a2d;
-        margin-bottom: 30px;
+        font-size: 1.1rem;
+        color: #3d4a2d;
+        margin-bottom: 25px;
         line-height: 1.6;
         max-width: 600px;
         margin-left: auto;
         margin-right: auto;
+        font-style: italic;
       }
 
       .audience-buttons {
         display: flex;
-        gap: 20px;
+        gap: 15px;
         justify-content: center;
         flex-wrap: wrap;
       }
 
       .audience-btn {
-        background: linear-gradient(135deg, #90ee90, #87ceeb);
-        color: white;
-        border: none;
-        border-radius: 25px;
-        padding: 15px 30px;
-        font-size: 1.1rem;
-        font-weight: bold;
+        background: linear-gradient(135deg, rgba(144, 180, 120, 0.8), rgba(120, 150, 180, 0.7));
+        color: #2d3a2d;
+        border: 1px solid rgba(144, 180, 120, 0.4);
+        border-radius: 12px;
+        padding: 12px 24px;
+        font-size: 1rem;
+        font-weight: normal;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        text-shadow: none;
+        font-family: "Georgia", "Times New Roman", serif;
       }
 
       .audience-btn:hover {
-        transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        animation: magicalBounce 0.6s ease-in-out;
-      }
-
-      @keyframes magicalBounce {
-        0%, 100% { transform: translateY(-3px) scale(1.05); }
-        50% { transform: translateY(-8px) scale(1.1); }
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(135deg, rgba(144, 180, 120, 0.9), rgba(120, 150, 180, 0.8));
       }
 
       .parent-btn {
-        background: linear-gradient(135deg, #98fb98, #87ceeb);
+        background: linear-gradient(135deg, rgba(160, 200, 140, 0.8), rgba(120, 150, 180, 0.7));
       }
 
       .child-btn {
-        background: linear-gradient(135deg, #ffb6c1, #98fb98);
+        background: linear-gradient(135deg, rgba(180, 160, 140, 0.8), rgba(160, 200, 140, 0.7));
       }
 
       /* Story Search and Categories */
@@ -719,14 +774,26 @@
             <li><a href="#om-skogsmulle">Om Skogsmulle</a></li>
           </ul>
         </nav>
-        
+
         <!-- Magical Welcome Section -->
         <div class="welcome-section">
-          <h1 class="magical-title">Välkommen till Skogsmulles magiska värld!</h1>
-          <p class="welcome-text">Här kan du upptäcka underbara äventyr, läsa sagor för dina barn och utforska en värld full av fantasi och äventyr.</p>
+          <h1 class="magical-title">
+            Välkommen till Skogsmulles magiska värld!
+          </h1>
+          <p class="welcome-text">
+            Här kan du upptäcka underbara äventyr, läsa sagor för dina barn och
+            utforska en värld full av fantasi och äventyr.
+          </p>
           <div class="audience-buttons">
-            <button class="audience-btn parent-btn" onclick="scrollToStories()">👨‍👩‍👧‍👦 För föräldrar</button>
-            <button class="audience-btn child-btn" onclick="scrollToAdventures()">🧚‍♀️ För barn</button>
+            <button class="audience-btn parent-btn" onclick="scrollToStories()">
+              👨‍👩‍👧‍👦 För föräldrar
+            </button>
+            <button
+              class="audience-btn child-btn"
+              onclick="scrollToAdventures()"
+            >
+              🧚‍♀️ För barn
+            </button>
           </div>
         </div>
       </header>
@@ -827,44 +894,63 @@
         </section>
 
         <aside class="sidebar">
-          <!-- Author Login Section (Hidden by default) -->
-          <div class="sidebar-widget auth-section" id="authSection" style="display: none;">
-            <h3 class="widget-title">Författarverktyg</h3>
-            <div id="authContainer">
-              <div id="loginSection">
-                <p>Logga in som författare för att skapa och redigera berättelser</p>
-                <button class="login-button" onclick="signInWithGoogle()">
-                  Logga in med Google
-                </button>
+        <!-- Author Login Section -->
+        <div class="sidebar-widget auth-section" id="authSection">
+          <h3 class="widget-title">✍️ Författarverktyg</h3>
+          <div id="authContainer">
+            <div id="loginSection">
+              <p class="author-info">
+                <strong>För författaren:</strong><br>
+                Logga in med din Gmail för att skapa och redigera berättelser.
+              </p>
+              <button class="login-button" onclick="signInWithGoogle()">
+                🔐 Logga in som författare
+              </button>
+              <p class="login-note">
+                <small>Endast författaren kan logga in och redigera innehåll</small>
+              </p>
+            </div>
+            <div id="userSection" style="display: none">
+              <div class="user-info">
+                <p>✅ Inloggad som författare: <span id="userEmail"></span></p>
               </div>
-              <div id="userSection" style="display: none">
-                <div class="user-info">
-                  <p>Inloggad som: <span id="userEmail"></span></p>
-                </div>
-                <button class="login-button" onclick="signOut()">
-                  Logga ut
-                </button>
-                <div class="admin-controls" id="adminControls">
-                  <p><strong>Författarverktyg aktiverade!</strong></p>
-                </div>
+              <button class="login-button" onclick="signOut()">
+                🚪 Logga ut
+              </button>
+              <div class="admin-controls" id="adminControls">
+                <p><strong>🎨 Författarverktyg aktiverade!</strong></p>
+                <p><small>Du kan nu skapa, redigera och ta bort berättelser</small></p>
               </div>
             </div>
           </div>
+        </div>
 
           <!-- Story Creation Form (Author Only) -->
-          <div class="sidebar-widget" id="storyForm" style="display: none;">
+          <div class="sidebar-widget" id="storyForm" style="display: none">
             <h3 class="widget-title">Skapa ny berättelse</h3>
             <form class="new-post-form" id="newPostForm">
               <h4 class="form-title">Skriv en ny berättelse</h4>
               <div class="form-group">
                 <label for="postTitle">Titel:</label>
-                <input type="text" id="postTitle" required placeholder="T.ex. Mulle möter en ekorre" />
+                <input
+                  type="text"
+                  id="postTitle"
+                  required
+                  placeholder="T.ex. Mulle möter en ekorre"
+                />
               </div>
               <div class="form-group">
                 <label for="postContent">Berättelse:</label>
-                <textarea id="postContent" rows="5" required placeholder="Skriv din berättelse här..."></textarea>
+                <textarea
+                  id="postContent"
+                  rows="5"
+                  required
+                  placeholder="Skriv din berättelse här..."
+                ></textarea>
               </div>
-              <button type="submit" class="submit-button">Publicera berättelse</button>
+              <button type="submit" class="submit-button">
+                Publicera berättelse
+              </button>
             </form>
           </div>
 
@@ -872,13 +958,29 @@
           <div class="sidebar-widget">
             <h3 class="widget-title">📚 Hitta berättelser</h3>
             <div class="story-search">
-              <input type="text" id="storySearch" placeholder="Sök efter berättelser..." onkeyup="searchStories()">
+              <input
+                type="text"
+                id="storySearch"
+                placeholder="Sök efter berättelser..."
+                onkeyup="searchStories()"
+              />
             </div>
             <div class="story-categories">
-              <button class="category-btn" onclick="filterStories('all')">Alla</button>
-              <button class="category-btn" onclick="filterStories('adventure')">Äventyr</button>
-              <button class="category-btn" onclick="filterStories('friendship')">Vänskap</button>
-              <button class="category-btn" onclick="filterStories('nature')">Natur</button>
+              <button class="category-btn" onclick="filterStories('all')">
+                Alla
+              </button>
+              <button class="category-btn" onclick="filterStories('adventure')">
+                Äventyr
+              </button>
+              <button
+                class="category-btn"
+                onclick="filterStories('friendship')"
+              >
+                Vänskap
+              </button>
+              <button class="category-btn" onclick="filterStories('nature')">
+                Natur
+              </button>
             </div>
           </div>
 
@@ -886,10 +988,24 @@
           <div class="sidebar-widget">
             <h3 class="widget-title">🌟 Senaste berättelserna</h3>
             <ul id="recentStories">
-              <li><a href="#" onclick="scrollToStory('ekorre')">Mulle möter en ekorre</a></li>
-              <li><a href="#" onclick="scrollToStory('regn')">Regndagens lek</a></li>
-              <li><a href="#" onclick="scrollToStory('blomster')">Blomsterfesten</a></li>
-              <li><a href="#" onclick="scrollToStory('bär')">Mysteriet med försvunna bären</a></li>
+              <li>
+                <a href="#" onclick="scrollToStory('ekorre')"
+                  >Mulle möter en ekorre</a
+                >
+              </li>
+              <li>
+                <a href="#" onclick="scrollToStory('regn')">Regndagens lek</a>
+              </li>
+              <li>
+                <a href="#" onclick="scrollToStory('blomster')"
+                  >Blomsterfesten</a
+                >
+              </li>
+              <li>
+                <a href="#" onclick="scrollToStory('bär')"
+                  >Mysteriet med försvunna bären</a
+                >
+              </li>
             </ul>
           </div>
 
@@ -897,21 +1013,27 @@
           <div class="sidebar-widget">
             <h3 class="widget-title">🎭 Karaktärer</h3>
             <div class="character-grid">
-              <div class="character-card" onclick="showCharacterInfo('skogsmulle')">
+              <div
+                class="character-card"
+                onclick="showCharacterInfo('skogsmulle')"
+              >
                 <div class="character-icon">🌲</div>
                 <span>Skogsmulle</span>
               </div>
               <div class="character-card" onclick="showCharacterInfo('myran')">
-                <div class="character-icon">🐜</div>
-                <span>Lilla Myran</span>
+                <div class="character-icon">🦡</div>
+                <span>Morris</span>
               </div>
-              <div class="character-card" onclick="showCharacterInfo('bjornen')">
-                <div class="character-icon">🐻</div>
-                <span>Stora Björnen</span>
+              <div
+                class="character-card"
+                onclick="showCharacterInfo('bjornen')"
+              >
+                <div class="character-icon">🦔</div>
+                <span>Evert</span>
               </div>
               <div class="character-card" onclick="showCharacterInfo('ugglan')">
-                <div class="character-icon">🦉</div>
-                <span>Visa Ugglan</span>
+                <div class="character-icon">🦊</div>
+                <span>Ron</span>
               </div>
             </div>
           </div>
@@ -920,7 +1042,9 @@
           <div class="sidebar-widget">
             <h3 class="widget-title">👨‍👩‍👧‍👦 Tips för föräldrar</h3>
             <div class="parent-tips">
-              <p>💡 Läs högt för dina barn för att skapa en magisk upplevelse</p>
+              <p>
+                💡 Läs högt för dina barn för att skapa en magisk upplevelse
+              </p>
               <p>🎭 Använd olika röster för varje karaktär</p>
               <p>❓ Ställ frågor under läsningen för att engagera barnen</p>
               <p>🌟 Låt barnen välja vilken berättelse de vill höra</p>
@@ -1185,13 +1309,13 @@
       }
 
       function showAuthorTools() {
-        document.getElementById('authSection').style.display = 'block';
-        document.getElementById('storyForm').style.display = 'block';
+        document.getElementById("storyForm").style.display = "block";
+        // Auth section is always visible now
       }
 
       function hideAuthorTools() {
-        document.getElementById('authSection').style.display = 'none';
-        document.getElementById('storyForm').style.display = 'none';
+        document.getElementById("storyForm").style.display = "none";
+        // Auth section stays visible but shows login form
       }
 
       function signInWithGoogle() {
@@ -1223,85 +1347,105 @@
 
       // New functionality for audience-specific features
       function scrollToStories() {
-        document.querySelector('.blog-section').scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
+        document.querySelector(".blog-section").scrollIntoView({
+          behavior: "smooth",
+          block: "start",
         });
       }
 
       function scrollToAdventures() {
-        document.querySelector('.blog-section').scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
+        document.querySelector(".blog-section").scrollIntoView({
+          behavior: "smooth",
+          block: "start",
         });
       }
 
       function searchStories() {
-        const searchTerm = document.getElementById('storySearch').value.toLowerCase();
-        const stories = document.querySelectorAll('.blog-post');
-        
-        stories.forEach(story => {
-          const title = story.querySelector('.post-title').textContent.toLowerCase();
-          const content = story.querySelector('.post-content').textContent.toLowerCase();
-          
+        const searchTerm = document
+          .getElementById("storySearch")
+          .value.toLowerCase();
+        const stories = document.querySelectorAll(".blog-post");
+
+        stories.forEach((story) => {
+          const title = story
+            .querySelector(".post-title")
+            .textContent.toLowerCase();
+          const content = story
+            .querySelector(".post-content")
+            .textContent.toLowerCase();
+
           if (title.includes(searchTerm) || content.includes(searchTerm)) {
-            story.style.display = 'block';
+            story.style.display = "block";
           } else {
-            story.style.display = 'none';
+            story.style.display = "none";
           }
         });
       }
 
       function filterStories(category) {
         // Remove active class from all buttons
-        document.querySelectorAll('.category-btn').forEach(btn => {
-          btn.classList.remove('active');
+        document.querySelectorAll(".category-btn").forEach((btn) => {
+          btn.classList.remove("active");
         });
-        
+
         // Add active class to clicked button
-        event.target.classList.add('active');
-        
-        const stories = document.querySelectorAll('.blog-post');
-        
-        stories.forEach(story => {
-          if (category === 'all') {
-            story.style.display = 'block';
+        event.target.classList.add("active");
+
+        const stories = document.querySelectorAll(".blog-post");
+
+        stories.forEach((story) => {
+          if (category === "all") {
+            story.style.display = "block";
           } else {
             // Simple category filtering based on content
-            const content = story.querySelector('.post-content').textContent.toLowerCase();
+            const content = story
+              .querySelector(".post-content")
+              .textContent.toLowerCase();
             let showStory = false;
-            
-            switch(category) {
-              case 'adventure':
-                showStory = content.includes('äventyr') || content.includes('utforska') || content.includes('resa');
+
+            switch (category) {
+              case "adventure":
+                showStory =
+                  content.includes("äventyr") ||
+                  content.includes("utforska") ||
+                  content.includes("resa");
                 break;
-              case 'friendship':
-                showStory = content.includes('vän') || content.includes('tillsammans') || content.includes('hjälp');
+              case "friendship":
+                showStory =
+                  content.includes("vän") ||
+                  content.includes("tillsammans") ||
+                  content.includes("hjälp");
                 break;
-              case 'nature':
-                showStory = content.includes('skog') || content.includes('träd') || content.includes('blomma') || content.includes('djur');
+              case "nature":
+                showStory =
+                  content.includes("skog") ||
+                  content.includes("träd") ||
+                  content.includes("blomma") ||
+                  content.includes("djur");
                 break;
             }
-            
-            story.style.display = showStory ? 'block' : 'none';
+
+            story.style.display = showStory ? "block" : "none";
           }
         });
       }
 
       function scrollToStory(storyId) {
         // Find story by ID or title
-        const stories = document.querySelectorAll('.blog-post');
-        stories.forEach(story => {
-          const title = story.querySelector('.post-title').textContent.toLowerCase();
+        const stories = document.querySelectorAll(".blog-post");
+        stories.forEach((story) => {
+          const title = story
+            .querySelector(".post-title")
+            .textContent.toLowerCase();
           if (title.includes(storyId)) {
-            story.scrollIntoView({ 
-              behavior: 'smooth',
-              block: 'center'
+            story.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
             });
             // Add highlight effect
-            story.style.animation = 'magicalGlow 2s ease-in-out';
+            story.style.animation = "magicalGlow 2s ease-in-out";
             setTimeout(() => {
-              story.style.animation = '';
+              story.style.animation = "";
             }, 2000);
           }
         });
@@ -1309,13 +1453,20 @@
 
       function showCharacterInfo(character) {
         const characterInfo = {
-          'skogsmulle': 'Skogsmulle är huvudkaraktären som bor i skogen och älskar äventyr!',
-          'myran': 'Lilla Myran är Skogsmulles bästa vän och hjälper alltid till.',
-          'bjornen': 'Stora Björnen är vänlig och vis, och gillar att dela sina kunskaper.',
-          'ugglan': 'Visa Ugglan är den klokaste i skogen och ger råd när det behövs.'
+          skogsmulle:
+            "Skogsmulle är huvudkaraktären som bor i skogen och älskar äventyr! Han har en vacker grön hatt och är alltid redo för nya upptäckter.",
+          myran:
+            "Morris är en nyfiken vessla med en grön hatt och scarf. Han älskar att utforska skogens hemligheter.",
+          bjornen:
+            "Evert är en vänlig igelkott med en röd tomtehatt. Han är klok och hjälper gärna sina vänner.",
+          ugglan:
+            "Ron är en rävig räv med en grå hatt. Han är snabb och listig, perfekt för äventyr i skogen.",
         };
-        
-        alert(characterInfo[character] || 'Denna karaktär är en del av Skogsmulles magiska värld!');
+
+        alert(
+          characterInfo[character] ||
+            "Denna karaktär är en del av Skogsmulles magiska värld!"
+        );
       }
 
       function showUserSection() {
