@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skogsmulle - Barnboksblogg</title>
+    <style>
+      /* Base styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #FDF8F2;
+        color: #4A4A4A;
+        background-image: 
+          radial-gradient(circle at 20% 80%, rgba(255, 182, 193, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(173, 216, 230, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 40%, rgba(255, 255, 224, 0.1) 0%, transparent 50%);
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      /* Header styles */
+      header {
+        background: linear-gradient(135deg, rgba(255, 182, 193, 0.3), rgba(173, 216, 230, 0.3), rgba(255, 255, 224, 0.3));
+        border-radius: 25px;
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 3px solid rgba(255, 182, 193, 0.5);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+      }
+
+      .header-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('skogsmulle och gänget.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.3;
+        z-index: 0;
+      }
+
+      .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 1;
+      }
+
+      .logo {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #6B5B95;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+        font-family: "Comic Sans MS", cursive, sans-serif;
+      }
+
+      .audio-player {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 182, 193, 0.3));
+        border-radius: 20px;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        border: 2px solid rgba(255, 182, 193, 0.5);
+        margin-bottom: 15px;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .audio-player button {
+        background: linear-gradient(135deg, #FFB6C1, #87CEEB);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        cursor: pointer;
+        font-size: 1.3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .audio-player button:hover {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .audio-title {
+        color: #6B5B95;
+        font-weight: bold;
+        font-size: 1.1rem;
+      }
+
+      /* Navigation */
+      nav {
+        background: linear-gradient(135deg, rgba(255, 182, 193, 0.4), rgba(173, 216, 230, 0.4));
+        border-radius: 20px;
+        padding: 15px;
+        margin: 15px 0;
+        backdrop-filter: blur(5px);
+        border: 2px solid rgba(255, 182, 193, 0.3);
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        justify-content: space-around;
+        flex-wrap: wrap;
+      }
+
+      nav a {
+        color: #6B5B95;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 10px 15px;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      nav a:hover {
+        background: rgba(255, 182, 193, 0.6);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Main content */
+      main {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .blog-section {
+        flex: 3;
+        min-width: 300px;
+      }
+
+      .sidebar {
+        flex: 1;
+        min-width: 250px;
+      }
+
+      /* Blog post styles */
+      .blog-post {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 182, 193, 0.2));
+        border-radius: 25px;
+        padding: 25px;
+        margin-bottom: 25px;
+        border: 2px solid rgba(255, 182, 193, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+      }
+
+      .blog-post:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+      }
+
+      .post-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        border-bottom: 2px dashed rgba(255, 182, 193, 0.5);
+        padding-bottom: 15px;
+      }
+
+      .post-title {
+        color: #6B5B95;
+        font-size: 1.6rem;
+        font-weight: bold;
+      }
+
+      .post-date {
+        color: #8B7D9A;
+        font-style: italic;
+        font-size: 0.9rem;
+      }
+
+      .post-content {
+        margin-bottom: 20px;
+        color: #4A4A4A;
+        line-height: 1.8;
+      }
+
+      .post-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .post-button {
+        background: linear-gradient(135deg, #FFB6C1, #87CEEB);
+        color: white;
+        border: none;
+        border-radius: 15px;
+        padding: 8px 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: bold;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .post-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .post-button.edit {
+        background: linear-gradient(135deg, #98FB98, #87CEEB);
+      }
+
+      .post-button.delete {
+        background: linear-gradient(135deg, #FFB6C1, #FFA07A);
+      }
+
+      /* Sidebar styles */
+      .sidebar-widget {
+        background: linear-gradient(to bottom, #5a8c3a, #3a6620);
+        border-radius: 15px;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 3px solid #8a6d3b;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .widget-title {
+        color: #f9f1a5;
+        border-bottom: 2px dashed #f9f1a5;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+      }
+
+      /* Form styles */
+      .new-post-form {
+        background: linear-gradient(to bottom, #5a8c3a, #3a6620);
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 3px solid #8a6d3b;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .form-title {
+        color: #f9f1a5;
+        margin-bottom: 15px;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #f9f1a5;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        border-radius: 5px;
+        border: 2px solid #8a6d3b;
+        background-color: #f0f7da;
+      }
+
+      .submit-button {
+        background-color: #8a6d3b;
+        color: #f9f1a5;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.3s;
+      }
+
+      .submit-button:hover {
+        background-color: #f9f1a5;
+        color: #8a6d3b;
+      }
+
+      /* Form styles */
+      .new-post-form {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 182, 193, 0.2));
+        border-radius: 25px;
+        padding: 25px;
+        margin-bottom: 25px;
+        border: 2px solid rgba(255, 182, 193, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+      }
+
+      .form-title {
+        color: #6B5B95;
+        margin-bottom: 20px;
+        font-size: 1.3rem;
+        font-weight: bold;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #6B5B95;
+        font-weight: bold;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border-radius: 15px;
+        border: 2px solid rgba(255, 182, 193, 0.3);
+        background: rgba(255, 255, 255, 0.8);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #FFB6C1;
+        box-shadow: 0 0 15px rgba(255, 182, 193, 0.3);
+      }
+
+      .submit-button {
+        background: linear-gradient(135deg, #FFB6C1, #87CEEB);
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 12px 25px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .submit-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 30px;
+        border-top: 3px dashed rgba(255, 182, 193, 0.5);
+        color: #6B5B95;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 182, 193, 0.1));
+        border-radius: 25px 25px 0 0;
+      }
+
+      /* Authentication styles */
+      .auth-section {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 182, 193, 0.2));
+        border-radius: 25px;
+        padding: 25px;
+        margin-bottom: 25px;
+        border: 2px solid rgba(255, 182, 193, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        text-align: center;
+      }
+
+      .login-button {
+        background: linear-gradient(135deg, #FFB6C1, #87CEEB);
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 12px 25px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        margin: 10px;
+      }
+
+      .login-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      .user-info {
+        color: #6B5B95;
+        margin-bottom: 15px;
+      }
+
+      .admin-controls {
+        display: none;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 2px dashed rgba(255, 182, 193, 0.5);
+      }
+
+      .admin-controls.show {
+        display: block;
+      }
+
+      /* Sidebar styles */
+      .sidebar-widget {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 182, 193, 0.2));
+        border-radius: 25px;
+        padding: 25px;
+        margin-bottom: 25px;
+        border: 2px solid rgba(255, 182, 193, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+      }
+
+      .widget-title {
+        color: #6B5B95;
+        border-bottom: 2px dashed rgba(255, 182, 193, 0.5);
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+
+      .sidebar-widget ul {
+        list-style: none;
+      }
+
+      .sidebar-widget li {
+        margin-bottom: 8px;
+      }
+
+      .sidebar-widget a {
+        color: #6B5B95;
+        text-decoration: none;
+        padding: 5px 10px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        display: block;
+      }
+
+      .sidebar-widget a:hover {
+        background: rgba(255, 182, 193, 0.3);
+        transform: translateX(5px);
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .header-content {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .audio-player {
+          align-self: stretch;
+        }
+
+        nav ul {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        nav li {
+          margin: 5px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="header-background"></div>
+        <div class="header-content">
+          <div class="logo">Skogsmulle</div>
+          <div class="audio-player">
+            <button id="playTheme">▶</button>
+            <span class="audio-title">Skogsmulle låt</span>
+            <button id="playAdventure">▶</button>
+            <span class="audio-title">Äventyr låt</span>
+          </div>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="#">Hem</a></li>
+            <li><a href="#">Berättelser</a></li>
+            <li><a href="#">Karaktärer</a></li>
+            <li><a href="#">Aktiviteter</a></li>
+            <li><a href="#">Om oss</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <main>
+        <section class="blog-section">
+          <article class="blog-post">
+            <div class="post-header">
+              <h2 class="post-title">Mulle möter en ekorre</h2>
+              <span class="post-date">15 Maj, 2023</span>
+            </div>
+            <div class="post-content">
+              <p>
+                Idag var Mulle ute och gick i skogen. Solen sken och fåglarna
+                sjöng. Plötsligt hörde Mulle ett litet prasslande ljud från en
+                gran.
+              </p>
+              <p>
+                Han tittade upp och såg en liten ekorre som hoppade från gren
+                till gren. Ekorren hade en stor, fluffig svans och var väldigt
+                rörlig.
+              </p>
+              <p>"Hej, lilla ekorre!" ropade Mulle. "Vad gör du?"</p>
+              <p>
+                Ekorren stannade och tittade ner på Mulle. "Jag samlar nötter
+                inför vintern," svarade den. "Vill du hjälpa mig?"
+              </p>
+              <p>
+                Mulle log och nickade. Tillsammans samlade de nötter hela
+                eftermiddagen. Det var ett riktigt äventyr!
+              </p>
+            </div>
+            <div class="post-actions">
+              <button class="post-button">Dela</button>
+              <button class="post-button">Gilla</button>
+              <button class="post-button">Spara</button>
+              <button class="post-button edit admin-only" onclick="editPost(this)" style="display: none;">Redigera</button>
+              <button class="post-button delete admin-only" onclick="deletePost(this)" style="display: none;">Ta bort</button>
+            </div>
+          </article>
+
+          <article class="blog-post">
+            <div class="post-header">
+              <h2 class="post-title">Regndagens lek</h2>
+              <span class="post-date">12 Maj, 2023</span>
+            </div>
+            <div class="post-content">
+              <p>
+                Idag regnade det ute i skogen. Mulle satt i sin stuga och
+                tittade ut genom fönstret. Dropparna trummade mot taket.
+              </p>
+              <p>
+                Plötsligt kom Mulle på en idé. Han tog på sig sin gula regnrock
+                och gula galoscher och gick ut.
+              </p>
+              <p>
+                Regnet kändes svalt och skönt mot kinderna. Mulle började hoppa
+                i pölarna. Plask, plask, plask!
+              </p>
+              <p>
+                Snart kom hans vänner - Lilla Myran och Stora Björnen - och de
+                lekte tillsammans i regnet. Ibland kan en regnig dag vara den
+                bästa dagen!
+              </p>
+            </div>
+            <div class="post-actions">
+              <button class="post-button">Dela</button>
+              <button class="post-button">Gilla</button>
+              <button class="post-button">Spara</button>
+              <button class="post-button edit admin-only" onclick="editPost(this)" style="display: none;">Redigera</button>
+              <button class="post-button delete admin-only" onclick="deletePost(this)" style="display: none;">Ta bort</button>
+            </div>
+          </article>
+        </section>
+
+        <aside class="sidebar">
+          <div class="sidebar-widget auth-section">
+            <h3 class="widget-title">Administration</h3>
+            <div id="authContainer">
+              <div id="loginSection">
+                <p>Logga in för att redigera innehåll</p>
+                <button class="login-button" onclick="signInWithGoogle()">Logga in med Google</button>
+              </div>
+              <div id="userSection" style="display: none;">
+                <div class="user-info">
+                  <p>Inloggad som: <span id="userEmail"></span></p>
+                </div>
+                <button class="login-button" onclick="signOut()">Logga ut</button>
+                <div class="admin-controls" id="adminControls">
+                  <p><strong>Admin-funktioner aktiverade!</strong></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sidebar-widget">
+            <h3 class="widget-title">Ny berättelse</h3>
+            <form class="new-post-form" id="newPostForm">
+              <h4 class="form-title">Skriv en ny berättelse</h4>
+              <div class="form-group">
+                <label for="postTitle">Titel:</label>
+                <input type="text" id="postTitle" required />
+              </div>
+              <div class="form-group">
+                <label for="postContent">Berättelse:</label>
+                <textarea id="postContent" rows="5" required></textarea>
+              </div>
+              <button type="submit" class="submit-button">Publicera</button>
+            </form>
+          </div>
+
+          <div class="sidebar-widget">
+            <h3 class="widget-title">Senaste berättelserna</h3>
+            <ul>
+              <li><a href="#">Mulle möter en ekorre</a></li>
+              <li><a href="#">Regndagens lek</a></li>
+              <li><a href="#">Blomsterfesten</a></li>
+              <li><a href="#">Mysteriet med försvunna bären</a></li>
+            </ul>
+          </div>
+
+          <div class="sidebar-widget">
+            <h3 class="widget-title">Karaktärer</h3>
+            <ul>
+              <li><a href="#">Skogsmulle</a></li>
+              <li><a href="#">Lilla Myran</a></li>
+              <li><a href="#">Stora Björnen</a></li>
+              <li><a href="#">Visa Ugglan</a></li>
+            </ul>
+          </div>
+        </aside>
+      </main>
+
+      <footer>
+        <p>© 2023 Skogsmulle - Alla äventyr är våra egna</p>
+      </footer>
+    </div>
+
+    <script>
+      // Audio functionality
+      const themeAudio = new Audio();
+      themeAudio.src = "Skogsmulle.mp3";
+
+      const adventureAudio = new Audio();
+      adventureAudio.src = "telegram_audio.mp3";
+
+      document
+        .getElementById("playTheme")
+        .addEventListener("click", function () {
+          if (themeAudio.paused) {
+            themeAudio.play();
+            this.textContent = "❚❚";
+          } else {
+            themeAudio.pause();
+            this.textContent = "▶";
+          }
+        });
+
+      document
+        .getElementById("playAdventure")
+        .addEventListener("click", function () {
+          if (adventureAudio.paused) {
+            adventureAudio.play();
+            this.textContent = "❚❚";
+          } else {
+            adventureAudio.pause();
+            this.textContent = "▶";
+          }
+        });
+
+      // Stop both audios when one starts playing
+      themeAudio.addEventListener("play", function () {
+        adventureAudio.pause();
+        document.getElementById("playAdventure").textContent = "▶";
+      });
+
+      adventureAudio.addEventListener("play", function () {
+        themeAudio.pause();
+        document.getElementById("playTheme").textContent = "▶";
+      });
+
+      // Reset button text when audio ends
+      themeAudio.addEventListener("ended", function () {
+        document.getElementById("playTheme").textContent = "▶";
+      });
+
+      adventureAudio.addEventListener("ended", function () {
+        document.getElementById("playAdventure").textContent = "▶";
+      });
+
+      // Blog post functionality
+      document
+        .getElementById("newPostForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const title = document.getElementById("postTitle").value;
+          const content = document.getElementById("postContent").value;
+
+          if (title && content) {
+            // Create new blog post
+            const newPost = document.createElement("article");
+            newPost.className = "blog-post";
+
+            const today = new Date();
+            const dateString =
+              today.getDate() +
+              " " +
+              [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "Maj",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Okt",
+                "Nov",
+                "Dec",
+              ][today.getMonth()] +
+              ", " +
+              today.getFullYear();
+
+            newPost.innerHTML = `
+                    <div class="post-header">
+                        <h2 class="post-title">${title}</h2>
+                        <span class="post-date">${dateString}</span>
+                    </div>
+                    <div class="post-content">
+                        <p>${content.replace(/\n/g, "</p><p>")}</p>
+                    </div>
+                    <div class="post-actions">
+                        <button class="post-button">Dela</button>
+                        <button class="post-button">Gilla</button>
+                        <button class="post-button">Spara</button>
+                    </div>
+                `;
+
+            // Add to the top of the blog section
+            document.querySelector(".blog-section").prepend(newPost);
+
+            // Clear the form
+            document.getElementById("newPostForm").reset();
+
+            // Add to recent stories list
+            const recentList = document.querySelector(".sidebar-widget ul");
+            const newListItem = document.createElement("li");
+            const newLink = document.createElement("a");
+            newLink.href = "#";
+            newLink.textContent = title;
+            newListItem.appendChild(newLink);
+            recentList.prepend(newListItem);
+
+            // Show success message (could be enhanced with a proper notification)
+            alert("Berättelsen har publicerats!");
+          }
+        });
+
+      // Blog post functionality
+      document.getElementById("newPostForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const title = document.getElementById("postTitle").value;
+        const content = document.getElementById("postContent").value;
+
+        if (title && content) {
+          // Create new blog post
+          const newPost = document.createElement("article");
+          newPost.className = "blog-post";
+
+          const today = new Date();
+          const dateString =
+            today.getDate() +
+            " " +
+            [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "Maj",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Okt",
+              "Nov",
+              "Dec",
+            ][today.getMonth()] +
+            ", " +
+            today.getFullYear();
+
+          newPost.innerHTML = `
+            <div class="post-header">
+              <h2 class="post-title">${title}</h2>
+              <span class="post-date">${dateString}</span>
+            </div>
+            <div class="post-content">
+              <p>${content.replace(/\n/g, "</p><p>")}</p>
+            </div>
+            <div class="post-actions">
+              <button class="post-button">Dela</button>
+              <button class="post-button">Gilla</button>
+              <button class="post-button">Spara</button>
+              <button class="post-button edit admin-only" onclick="editPost(this)" style="display: none;">Redigera</button>
+              <button class="post-button delete admin-only" onclick="deletePost(this)" style="display: none;">Ta bort</button>
+            </div>
+          `;
+
+          // Add to the top of the blog section
+          document.querySelector(".blog-section").prepend(newPost);
+
+          // Clear the form
+          document.getElementById("newPostForm").reset();
+
+          // Save to storage
+          savePostsToStorage();
+
+          // Show admin controls if logged in
+          if (isAdmin) {
+            showAdminControls();
+          }
+
+          // Show success message
+          alert("Berättelsen har publicerats!");
+        }
+      });
+
+      // Add functionality to post action buttons
+      document.addEventListener("click", function (e) {
+        if (e.target.classList.contains("post-button")) {
+          const action = e.target.textContent;
+          const post = e.target.closest(".blog-post");
+          const title = post.querySelector(".post-title").textContent;
+
+          switch (action) {
+            case "Dela":
+              if (navigator.share) {
+                navigator.share({
+                  title: title,
+                  text: "Läs den här underbara berättelsen från Skogsmulle!",
+                  url: window.location.href,
+                });
+              } else {
+                alert(`Dela berättelsen "${title}" med dina vänner!`);
+              }
+              break;
+            case "Gilla":
+              e.target.textContent = "Gillad!";
+              e.target.style.background = "linear-gradient(135deg, #98FB98, #87CEEB)";
+              break;
+            case "Spara":
+              e.target.textContent = "Sparad!";
+              e.target.style.background = "linear-gradient(135deg, #98FB98, #87CEEB)";
+              break;
+          }
+        }
+      });
+
+      // Authentication and CRUD functionality
+      let isAdmin = false;
+      let currentUser = null;
+
+      // Simple authentication (in production, use proper OAuth)
+      function initAuth() {
+        const savedUser = localStorage.getItem('skogsmulle_user');
+        if (savedUser) {
+          currentUser = JSON.parse(savedUser);
+          if (currentUser.email === 'tomasroosguerra@gmail.com') {
+            isAdmin = true;
+            showUserSection();
+            showAdminControls();
+          }
+        }
+      }
+
+      function signInWithGoogle() {
+        const email = prompt('Ange din Gmail-adress för att logga in:');
+        if (email && email.includes('@gmail.com')) {
+          currentUser = { email: email };
+          localStorage.setItem('skogsmulle_user', JSON.stringify(currentUser));
+          
+          if (email === 'tomasroosguerra@gmail.com') {
+            isAdmin = true;
+            showUserSection();
+            showAdminControls();
+            alert('Välkommen! Du har admin-rättigheter.');
+          } else {
+            alert('Du har inte admin-rättigheter för denna sida.');
+            signOut();
+          }
+        }
+      }
+
+      function signOut() {
+        currentUser = null;
+        isAdmin = false;
+        localStorage.removeItem('skogsmulle_user');
+        showLoginSection();
+        hideAdminControls();
+      }
+
+      function showUserSection() {
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('userSection').style.display = 'block';
+        document.getElementById('userEmail').textContent = currentUser.email;
+      }
+
+      function showLoginSection() {
+        document.getElementById('loginSection').style.display = 'block';
+        document.getElementById('userSection').style.display = 'none';
+      }
+
+      function showAdminControls() {
+        document.getElementById('adminControls').classList.add('show');
+        document.querySelectorAll('.admin-only').forEach(el => {
+          el.style.display = 'inline-block';
+        });
+      }
+
+      function hideAdminControls() {
+        document.getElementById('adminControls').classList.remove('show');
+        document.querySelectorAll('.admin-only').forEach(el => {
+          el.style.display = 'none';
+        });
+      }
+
+      function editPost(button) {
+        const post = button.closest('.blog-post');
+        const title = post.querySelector('.post-title').textContent;
+        const content = post.querySelector('.post-content').textContent.replace(/\n/g, ' ').trim();
+        
+        const newTitle = prompt('Redigera titel:', title);
+        const newContent = prompt('Redigera innehåll:', content);
+        
+        if (newTitle && newContent) {
+          post.querySelector('.post-title').textContent = newTitle;
+          post.querySelector('.post-content').innerHTML = `<p>${newContent.replace(/\n/g, '</p><p>')}</p>`;
+          savePostsToStorage();
+          alert('Berättelsen har uppdaterats!');
+        }
+      }
+
+      function deletePost(button) {
+        if (confirm('Är du säker på att du vill ta bort denna berättelse?')) {
+          const post = button.closest('.blog-post');
+          post.remove();
+          savePostsToStorage();
+          alert('Berättelsen har tagits bort!');
+        }
+      }
+
+      function savePostsToStorage() {
+        const posts = [];
+        document.querySelectorAll('.blog-post').forEach(post => {
+          const title = post.querySelector('.post-title').textContent;
+          const date = post.querySelector('.post-date').textContent;
+          const content = post.querySelector('.post-content').innerHTML;
+          posts.push({ title, date, content });
+        });
+        localStorage.setItem('skogsmulle_posts', JSON.stringify(posts));
+      }
+
+      function loadPostsFromStorage() {
+        const savedPosts = localStorage.getItem('skogsmulle_posts');
+        if (savedPosts) {
+          const posts = JSON.parse(savedPosts);
+          const blogSection = document.querySelector('.blog-section');
+          
+          // Clear existing posts
+          blogSection.innerHTML = '';
+          
+          // Add saved posts
+          posts.forEach(postData => {
+            const post = document.createElement('article');
+            post.className = 'blog-post';
+            post.innerHTML = `
+              <div class="post-header">
+                <h2 class="post-title">${postData.title}</h2>
+                <span class="post-date">${postData.date}</span>
+              </div>
+              <div class="post-content">
+                ${postData.content}
+              </div>
+              <div class="post-actions">
+                <button class="post-button">Dela</button>
+                <button class="post-button">Gilla</button>
+                <button class="post-button">Spara</button>
+                <button class="post-button edit admin-only" onclick="editPost(this)" style="display: none;">Redigera</button>
+                <button class="post-button delete admin-only" onclick="deletePost(this)" style="display: none;">Ta bort</button>
+              </div>
+            `;
+            blogSection.appendChild(post);
+          });
+          
+          // Show admin controls if logged in
+          if (isAdmin) {
+            showAdminControls();
+          }
+        }
+      }
+
+      // Initialize the application
+      document.addEventListener('DOMContentLoaded', function() {
+        initAuth();
+        loadPostsFromStorage();
+      });
+    </script>
+  </body>
+</html>
