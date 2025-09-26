@@ -14,12 +14,28 @@
       }
 
       body {
-        background-color: #FDF8F2;
-        color: #4A4A4A;
-        background-image: 
-          radial-gradient(circle at 20% 80%, rgba(255, 182, 193, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 20%, rgba(173, 216, 230, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 40% 40%, rgba(255, 255, 224, 0.1) 0%, transparent 50%);
+        background-color: #f0f8f0;
+        color: #2d4a2d;
+        background-image: radial-gradient(
+            circle at 20% 80%,
+            rgba(144, 238, 144, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(135, 206, 235, 0.2) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 40%,
+            rgba(152, 251, 152, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 60% 60%,
+            rgba(173, 216, 230, 0.1) 0%,
+            transparent 50%
+          );
         line-height: 1.6;
         min-height: 100vh;
       }
@@ -32,11 +48,16 @@
 
       /* Header styles */
       header {
-        background: linear-gradient(135deg, rgba(255, 182, 193, 0.3), rgba(173, 216, 230, 0.3), rgba(255, 255, 224, 0.3));
+        background: linear-gradient(
+          135deg,
+          rgba(144, 238, 144, 0.4),
+          rgba(135, 206, 235, 0.4),
+          rgba(152, 251, 152, 0.3)
+        );
         border-radius: 25px;
         padding: 30px;
         margin-bottom: 30px;
-        border: 3px solid rgba(255, 182, 193, 0.5);
+        border: 3px solid rgba(144, 238, 144, 0.6);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         position: relative;
         overflow: hidden;
@@ -49,7 +70,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-image: url('skogsmulle och gänget.png');
+        background-image: url("skogsmulle och gänget.png");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -69,27 +90,31 @@
       .logo {
         font-size: 3rem;
         font-weight: bold;
-        color: #6B5B95;
+        color: #2d5016;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         margin-bottom: 15px;
         font-family: "Comic Sans MS", cursive, sans-serif;
       }
 
       .audio-player {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 182, 193, 0.3));
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.8),
+          rgba(144, 238, 144, 0.3)
+        );
         border-radius: 20px;
         padding: 15px;
         display: flex;
         align-items: center;
         gap: 15px;
-        border: 2px solid rgba(255, 182, 193, 0.5);
+        border: 2px solid rgba(144, 238, 144, 0.5);
         margin-bottom: 15px;
         backdrop-filter: blur(5px);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       }
 
       .audio-player button {
-        background: linear-gradient(135deg, #FFB6C1, #87CEEB);
+        background: linear-gradient(135deg, #90ee90, #87ceeb);
         color: white;
         border: none;
         border-radius: 50%;
@@ -110,19 +135,23 @@
       }
 
       .audio-title {
-        color: #6B5B95;
+        color: #2d5016;
         font-weight: bold;
         font-size: 1.1rem;
       }
 
       /* Navigation */
       nav {
-        background: linear-gradient(135deg, rgba(255, 182, 193, 0.4), rgba(173, 216, 230, 0.4));
+        background: linear-gradient(
+          135deg,
+          rgba(144, 238, 144, 0.5),
+          rgba(135, 206, 235, 0.4)
+        );
         border-radius: 20px;
         padding: 15px;
         margin: 15px 0;
         backdrop-filter: blur(5px);
-        border: 2px solid rgba(255, 182, 193, 0.3);
+        border: 2px solid rgba(144, 238, 144, 0.4);
       }
 
       nav ul {
@@ -133,7 +162,7 @@
       }
 
       nav a {
-        color: #6B5B95;
+        color: #2d5016;
         text-decoration: none;
         font-weight: bold;
         padding: 10px 15px;
@@ -143,7 +172,7 @@
       }
 
       nav a:hover {
-        background: rgba(255, 182, 193, 0.6);
+        background: rgba(144, 238, 144, 0.6);
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       }
@@ -167,11 +196,15 @@
 
       /* Blog post styles */
       .blog-post {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 182, 193, 0.2));
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.8),
+          rgba(144, 238, 144, 0.2)
+        );
         border-radius: 25px;
         padding: 25px;
         margin-bottom: 25px;
-        border: 2px solid rgba(255, 182, 193, 0.3);
+        border: 2px solid rgba(144, 238, 144, 0.3);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(5px);
         transition: all 0.3s ease;
@@ -187,25 +220,25 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 20px;
-        border-bottom: 2px dashed rgba(255, 182, 193, 0.5);
+        border-bottom: 2px dashed rgba(144, 238, 144, 0.5);
         padding-bottom: 15px;
       }
 
       .post-title {
-        color: #6B5B95;
+        color: #2d5016;
         font-size: 1.6rem;
         font-weight: bold;
       }
 
       .post-date {
-        color: #8B7D9A;
+        color: #4a6741;
         font-style: italic;
         font-size: 0.9rem;
       }
 
       .post-content {
         margin-bottom: 20px;
-        color: #4A4A4A;
+        color: #2d4a2d;
         line-height: 1.8;
       }
 
@@ -216,7 +249,7 @@
       }
 
       .post-button {
-        background: linear-gradient(135deg, #FFB6C1, #87CEEB);
+        background: linear-gradient(135deg, #90ee90, #87ceeb);
         color: white;
         border: none;
         border-radius: 15px;
@@ -233,11 +266,11 @@
       }
 
       .post-button.edit {
-        background: linear-gradient(135deg, #98FB98, #87CEEB);
+        background: linear-gradient(135deg, #98fb98, #87ceeb);
       }
 
       .post-button.delete {
-        background: linear-gradient(135deg, #FFB6C1, #FFA07A);
+        background: linear-gradient(135deg, #ffb6c1, #ffa07a);
       }
 
       /* Sidebar styles */
@@ -309,17 +342,21 @@
 
       /* Form styles */
       .new-post-form {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 182, 193, 0.2));
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.8),
+          rgba(144, 238, 144, 0.2)
+        );
         border-radius: 25px;
         padding: 25px;
         margin-bottom: 25px;
-        border: 2px solid rgba(255, 182, 193, 0.3);
+        border: 2px solid rgba(144, 238, 144, 0.3);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(5px);
       }
 
       .form-title {
-        color: #6B5B95;
+        color: #2d5016;
         margin-bottom: 20px;
         font-size: 1.3rem;
         font-weight: bold;
@@ -332,7 +369,7 @@
       .form-group label {
         display: block;
         margin-bottom: 8px;
-        color: #6B5B95;
+        color: #2d5016;
         font-weight: bold;
       }
 
@@ -341,7 +378,7 @@
         width: 100%;
         padding: 12px;
         border-radius: 15px;
-        border: 2px solid rgba(255, 182, 193, 0.3);
+        border: 2px solid rgba(144, 238, 144, 0.3);
         background: rgba(255, 255, 255, 0.8);
         font-size: 1rem;
         transition: all 0.3s ease;
@@ -350,12 +387,12 @@
       .form-group input:focus,
       .form-group textarea:focus {
         outline: none;
-        border-color: #FFB6C1;
-        box-shadow: 0 0 15px rgba(255, 182, 193, 0.3);
+        border-color: #90ee90;
+        box-shadow: 0 0 15px rgba(144, 238, 144, 0.3);
       }
 
       .submit-button {
-        background: linear-gradient(135deg, #FFB6C1, #87CEEB);
+        background: linear-gradient(135deg, #90ee90, #87ceeb);
         color: white;
         border: none;
         border-radius: 20px;
@@ -377,26 +414,34 @@
         text-align: center;
         margin-top: 40px;
         padding: 30px;
-        border-top: 3px dashed rgba(255, 182, 193, 0.5);
-        color: #6B5B95;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 182, 193, 0.1));
+        border-top: 3px dashed rgba(144, 238, 144, 0.5);
+        color: #2d5016;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.5),
+          rgba(144, 238, 144, 0.1)
+        );
         border-radius: 25px 25px 0 0;
       }
 
       /* Authentication styles */
       .auth-section {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 182, 193, 0.2));
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.8),
+          rgba(144, 238, 144, 0.2)
+        );
         border-radius: 25px;
         padding: 25px;
         margin-bottom: 25px;
-        border: 2px solid rgba(255, 182, 193, 0.3);
+        border: 2px solid rgba(144, 238, 144, 0.3);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(5px);
         text-align: center;
       }
 
       .login-button {
-        background: linear-gradient(135deg, #FFB6C1, #87CEEB);
+        background: linear-gradient(135deg, #90ee90, #87ceeb);
         color: white;
         border: none;
         border-radius: 20px;
@@ -415,7 +460,7 @@
       }
 
       .user-info {
-        color: #6B5B95;
+        color: #2d5016;
         margin-bottom: 15px;
       }
 
@@ -423,7 +468,7 @@
         display: none;
         margin-top: 20px;
         padding-top: 20px;
-        border-top: 2px dashed rgba(255, 182, 193, 0.5);
+        border-top: 2px dashed rgba(144, 238, 144, 0.5);
       }
 
       .admin-controls.show {
@@ -432,18 +477,22 @@
 
       /* Sidebar styles */
       .sidebar-widget {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 182, 193, 0.2));
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.8),
+          rgba(144, 238, 144, 0.2)
+        );
         border-radius: 25px;
         padding: 25px;
         margin-bottom: 25px;
-        border: 2px solid rgba(255, 182, 193, 0.3);
+        border: 2px solid rgba(144, 238, 144, 0.3);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(5px);
       }
 
       .widget-title {
-        color: #6B5B95;
-        border-bottom: 2px dashed rgba(255, 182, 193, 0.5);
+        color: #2d5016;
+        border-bottom: 2px dashed rgba(144, 238, 144, 0.5);
         padding-bottom: 10px;
         margin-bottom: 15px;
         font-size: 1.2rem;
@@ -459,7 +508,7 @@
       }
 
       .sidebar-widget a {
-        color: #6B5B95;
+        color: #2d5016;
         text-decoration: none;
         padding: 5px 10px;
         border-radius: 10px;
@@ -468,7 +517,7 @@
       }
 
       .sidebar-widget a:hover {
-        background: rgba(255, 182, 193, 0.3);
+        background: rgba(144, 238, 144, 0.3);
         transform: translateX(5px);
       }
 
@@ -550,8 +599,20 @@
               <button class="post-button">Dela</button>
               <button class="post-button">Gilla</button>
               <button class="post-button">Spara</button>
-              <button class="post-button edit admin-only" onclick="editPost(this)" style="display: none;">Redigera</button>
-              <button class="post-button delete admin-only" onclick="deletePost(this)" style="display: none;">Ta bort</button>
+              <button
+                class="post-button edit admin-only"
+                onclick="editPost(this)"
+                style="display: none"
+              >
+                Redigera
+              </button>
+              <button
+                class="post-button delete admin-only"
+                onclick="deletePost(this)"
+                style="display: none"
+              >
+                Ta bort
+              </button>
             </div>
           </article>
 
@@ -583,8 +644,20 @@
               <button class="post-button">Dela</button>
               <button class="post-button">Gilla</button>
               <button class="post-button">Spara</button>
-              <button class="post-button edit admin-only" onclick="editPost(this)" style="display: none;">Redigera</button>
-              <button class="post-button delete admin-only" onclick="deletePost(this)" style="display: none;">Ta bort</button>
+              <button
+                class="post-button edit admin-only"
+                onclick="editPost(this)"
+                style="display: none"
+              >
+                Redigera
+              </button>
+              <button
+                class="post-button delete admin-only"
+                onclick="deletePost(this)"
+                style="display: none"
+              >
+                Ta bort
+              </button>
             </div>
           </article>
         </section>
@@ -595,13 +668,17 @@
             <div id="authContainer">
               <div id="loginSection">
                 <p>Logga in för att redigera innehåll</p>
-                <button class="login-button" onclick="signInWithGoogle()">Logga in med Google</button>
+                <button class="login-button" onclick="signInWithGoogle()">
+                  Logga in med Google
+                </button>
               </div>
-              <div id="userSection" style="display: none;">
+              <div id="userSection" style="display: none">
                 <div class="user-info">
                   <p>Inloggad som: <span id="userEmail"></span></p>
                 </div>
-                <button class="login-button" onclick="signOut()">Logga ut</button>
+                <button class="login-button" onclick="signOut()">
+                  Logga ut
+                </button>
                 <div class="admin-controls" id="adminControls">
                   <p><strong>Admin-funktioner aktiverade!</strong></p>
                 </div>
@@ -775,39 +852,41 @@
         });
 
       // Blog post functionality
-      document.getElementById("newPostForm").addEventListener("submit", function (e) {
-        e.preventDefault();
+      document
+        .getElementById("newPostForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
 
-        const title = document.getElementById("postTitle").value;
-        const content = document.getElementById("postContent").value;
+          const title = document.getElementById("postTitle").value;
+          const content = document.getElementById("postContent").value;
 
-        if (title && content) {
-          // Create new blog post
-          const newPost = document.createElement("article");
-          newPost.className = "blog-post";
+          if (title && content) {
+            // Create new blog post
+            const newPost = document.createElement("article");
+            newPost.className = "blog-post";
 
-          const today = new Date();
-          const dateString =
-            today.getDate() +
-            " " +
-            [
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "Maj",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Okt",
-              "Nov",
-              "Dec",
-            ][today.getMonth()] +
-            ", " +
-            today.getFullYear();
+            const today = new Date();
+            const dateString =
+              today.getDate() +
+              " " +
+              [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "Maj",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Okt",
+                "Nov",
+                "Dec",
+              ][today.getMonth()] +
+              ", " +
+              today.getFullYear();
 
-          newPost.innerHTML = `
+            newPost.innerHTML = `
             <div class="post-header">
               <h2 class="post-title">${title}</h2>
               <span class="post-date">${dateString}</span>
@@ -824,24 +903,24 @@
             </div>
           `;
 
-          // Add to the top of the blog section
-          document.querySelector(".blog-section").prepend(newPost);
+             // Add to the top of the blog section
+             document.querySelector(".blog-section").prepend(newPost);
 
-          // Clear the form
-          document.getElementById("newPostForm").reset();
+             // Clear the form
+             document.getElementById("newPostForm").reset();
 
-          // Save to storage
-          savePostsToStorage();
+             // Save to storage immediately
+             savePostsToStorage();
 
-          // Show admin controls if logged in
-          if (isAdmin) {
-            showAdminControls();
+             // Show admin controls if logged in
+             if (isAdmin) {
+               showAdminControls();
+             }
+
+             // Show success message
+             alert("Berättelsen har publicerats!");
           }
-
-          // Show success message
-          alert("Berättelsen har publicerats!");
-        }
-      });
+        });
 
       // Add functionality to post action buttons
       document.addEventListener("click", function (e) {
@@ -864,11 +943,13 @@
               break;
             case "Gilla":
               e.target.textContent = "Gillad!";
-              e.target.style.background = "linear-gradient(135deg, #98FB98, #87CEEB)";
+              e.target.style.background =
+                "linear-gradient(135deg, #98FB98, #87CEEB)";
               break;
             case "Spara":
               e.target.textContent = "Sparad!";
-              e.target.style.background = "linear-gradient(135deg, #98FB98, #87CEEB)";
+              e.target.style.background =
+                "linear-gradient(135deg, #98FB98, #87CEEB)";
               break;
           }
         }
@@ -880,30 +961,34 @@
 
       // Simple authentication (in production, use proper OAuth)
       function initAuth() {
-        const savedUser = localStorage.getItem('skogsmulle_user');
+        const savedUser = localStorage.getItem("skogsmulle_user");
         if (savedUser) {
           currentUser = JSON.parse(savedUser);
-          if (currentUser.email === 'tomasroosguerra@gmail.com') {
+          if (currentUser.email === "tomasroosguerra@gmail.com") {
             isAdmin = true;
             showUserSection();
             showAdminControls();
+          } else {
+            showLoginSection();
           }
+        } else {
+          showLoginSection();
         }
       }
 
       function signInWithGoogle() {
-        const email = prompt('Ange din Gmail-adress för att logga in:');
-        if (email && email.includes('@gmail.com')) {
+        const email = prompt("Ange din Gmail-adress för att logga in:");
+        if (email && email.includes("@gmail.com")) {
           currentUser = { email: email };
-          localStorage.setItem('skogsmulle_user', JSON.stringify(currentUser));
-          
-          if (email === 'tomasroosguerra@gmail.com') {
+          localStorage.setItem("skogsmulle_user", JSON.stringify(currentUser));
+
+          if (email === "tomasroosguerra@gmail.com") {
             isAdmin = true;
             showUserSection();
             showAdminControls();
-            alert('Välkommen! Du har admin-rättigheter.');
+            alert("Välkommen! Du har admin-rättigheter.");
           } else {
-            alert('Du har inte admin-rättigheter för denna sida.');
+            alert("Du har inte admin-rättigheter för denna sida.");
             signOut();
           }
         }
@@ -912,85 +997,90 @@
       function signOut() {
         currentUser = null;
         isAdmin = false;
-        localStorage.removeItem('skogsmulle_user');
+        localStorage.removeItem("skogsmulle_user");
         showLoginSection();
         hideAdminControls();
       }
 
       function showUserSection() {
-        document.getElementById('loginSection').style.display = 'none';
-        document.getElementById('userSection').style.display = 'block';
-        document.getElementById('userEmail').textContent = currentUser.email;
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("userSection").style.display = "block";
+        document.getElementById("userEmail").textContent = currentUser.email;
       }
 
       function showLoginSection() {
-        document.getElementById('loginSection').style.display = 'block';
-        document.getElementById('userSection').style.display = 'none';
+        document.getElementById("loginSection").style.display = "block";
+        document.getElementById("userSection").style.display = "none";
       }
 
       function showAdminControls() {
-        document.getElementById('adminControls').classList.add('show');
-        document.querySelectorAll('.admin-only').forEach(el => {
-          el.style.display = 'inline-block';
+        document.getElementById("adminControls").classList.add("show");
+        document.querySelectorAll(".admin-only").forEach((el) => {
+          el.style.display = "inline-block";
         });
       }
 
       function hideAdminControls() {
-        document.getElementById('adminControls').classList.remove('show');
-        document.querySelectorAll('.admin-only').forEach(el => {
-          el.style.display = 'none';
+        document.getElementById("adminControls").classList.remove("show");
+        document.querySelectorAll(".admin-only").forEach((el) => {
+          el.style.display = "none";
         });
       }
 
       function editPost(button) {
-        const post = button.closest('.blog-post');
-        const title = post.querySelector('.post-title').textContent;
-        const content = post.querySelector('.post-content').textContent.replace(/\n/g, ' ').trim();
-        
-        const newTitle = prompt('Redigera titel:', title);
-        const newContent = prompt('Redigera innehåll:', content);
-        
+        const post = button.closest(".blog-post");
+        const title = post.querySelector(".post-title").textContent;
+        const content = post
+          .querySelector(".post-content")
+          .textContent.replace(/\n/g, " ")
+          .trim();
+
+        const newTitle = prompt("Redigera titel:", title);
+        const newContent = prompt("Redigera innehåll:", content);
+
         if (newTitle && newContent) {
-          post.querySelector('.post-title').textContent = newTitle;
-          post.querySelector('.post-content').innerHTML = `<p>${newContent.replace(/\n/g, '</p><p>')}</p>`;
+          post.querySelector(".post-title").textContent = newTitle;
+          post.querySelector(
+            ".post-content"
+          ).innerHTML = `<p>${newContent.replace(/\n/g, "</p><p>")}</p>`;
           savePostsToStorage();
-          alert('Berättelsen har uppdaterats!');
+          alert("Berättelsen har uppdaterats!");
         }
       }
 
       function deletePost(button) {
-        if (confirm('Är du säker på att du vill ta bort denna berättelse?')) {
-          const post = button.closest('.blog-post');
+        if (confirm("Är du säker på att du vill ta bort denna berättelse?")) {
+          const post = button.closest(".blog-post");
           post.remove();
           savePostsToStorage();
-          alert('Berättelsen har tagits bort!');
+          alert("Berättelsen har tagits bort!");
         }
       }
 
       function savePostsToStorage() {
         const posts = [];
-        document.querySelectorAll('.blog-post').forEach(post => {
-          const title = post.querySelector('.post-title').textContent;
-          const date = post.querySelector('.post-date').textContent;
-          const content = post.querySelector('.post-content').innerHTML;
+        document.querySelectorAll(".blog-post").forEach((post) => {
+          const title = post.querySelector(".post-title").textContent;
+          const date = post.querySelector(".post-date").textContent;
+          const content = post.querySelector(".post-content").innerHTML;
           posts.push({ title, date, content });
         });
-        localStorage.setItem('skogsmulle_posts', JSON.stringify(posts));
+        localStorage.setItem("skogsmulle_posts", JSON.stringify(posts));
       }
 
       function loadPostsFromStorage() {
-        const savedPosts = localStorage.getItem('skogsmulle_posts');
+        const savedPosts = localStorage.getItem("skogsmulle_posts");
         if (savedPosts) {
           const posts = JSON.parse(savedPosts);
-          const blogSection = document.querySelector('.blog-section');
-          
+          const blogSection = document.querySelector(".blog-section");
+
           // Clear existing posts
-          blogSection.innerHTML = '';
-          
+          blogSection.innerHTML = "";
+
           // Add saved posts
-          posts.forEach(postData => {
-            const post = document.createElement('article');
-            post.className = 'blog-post';
+          posts.forEach((postData) => {
+            const post = document.createElement("article");
+            post.className = "blog-post";
             post.innerHTML = `
               <div class="post-header">
                 <h2 class="post-title">${postData.title}</h2>
@@ -1009,7 +1099,7 @@
             `;
             blogSection.appendChild(post);
           });
-          
+
           // Show admin controls if logged in
           if (isAdmin) {
             showAdminControls();
@@ -1018,7 +1108,7 @@
       }
 
       // Initialize the application
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener("DOMContentLoaded", function () {
         initAuth();
         loadPostsFromStorage();
       });
