@@ -31,20 +31,33 @@
       content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn."
     />
     <link rel="canonical" href="https://skogsmulle.netlify.app" />
-    
+
     <!-- Firebase SDK -->
     <script type="module">
-      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-      import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, orderBy, query, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-      
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+        getDocs,
+        doc,
+        updateDoc,
+        deleteDoc,
+        onSnapshot,
+        orderBy,
+        query,
+        serverTimestamp,
+      } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
       // Firebase configuration
       const firebaseConfig = {
-        apiKey: "AIzaSyBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", // Replace with your API key
-        authDomain: "skogsmulle-blog.firebaseapp.com", // Replace with your project domain
-        projectId: "skogsmulle-blog", // Replace with your project ID
-        storageBucket: "skogsmulle-blog.appspot.com", // Replace with your storage bucket
-        messagingSenderId: "123456789012", // Replace with your sender ID
-        appId: "1:123456789012:web:abcdefghijklmnop" // Replace with your app ID
+        apiKey: "AIzaSyAl4FKCAqrt_Vkw0jRddSnR1gn4BGby-rA",
+        authDomain: "skogsmulle-c601d.firebaseapp.com",
+        projectId: "skogsmulle-c601d",
+        storageBucket: "skogsmulle-c601d.firebasestorage.app",
+        messagingSenderId: "878822846379",
+        appId: "1:878822846379:web:b545d30bab52d19a5facee",
+        measurementId: "G-SV2RJXDS5S"
       };
 
       // Initialize Firebase
@@ -65,7 +78,7 @@
       window.firebaseQuery = query;
       window.firebaseServerTimestamp = serverTimestamp;
     </script>
-    
+
     <style>
       /* Base styles */
       * {
@@ -1237,7 +1250,7 @@
           </div>
         </div>
       </div>
-      </header>
+    </header>
 
     <!-- World-Class Navigation -->
     <nav class="main-navigation">
@@ -1249,7 +1262,7 @@
           <li><a href="#aktiviteter">Aktiviteter</a></li>
           <li><a href="#om-skogsmulle">Om Skogsmulle</a></li>
         </ul>
-            </div>
+      </div>
     </nav>
 
     <div class="container">
@@ -1267,7 +1280,7 @@
           <button class="audience-btn child-btn" onclick="scrollToAdventures()">
             🧚‍♀️ För barn
           </button>
-            </div>
+        </div>
       </section>
 
       <main id="main-content" role="main">
@@ -1460,13 +1473,16 @@
             return null;
           }
 
-          const postsRef = window.firebaseCollection(window.firebaseDb, 'posts');
+          const postsRef = window.firebaseCollection(
+            window.firebaseDb,
+            "posts"
+          );
           const docRef = await window.firebaseAddDoc(postsRef, {
             ...post,
             createdAt: window.firebaseServerTimestamp(),
-            updatedAt: window.firebaseServerTimestamp()
+            updatedAt: window.firebaseServerTimestamp(),
           });
-          
+
           console.log("Post saved to Firebase with ID:", docRef.id);
           return docRef.id;
         } catch (error) {
@@ -1485,10 +1501,16 @@
             return;
           }
 
-          const postsRef = window.firebaseCollection(window.firebaseDb, 'posts');
-          const q = window.firebaseQuery(postsRef, window.firebaseOrderBy('createdAt', 'desc'));
+          const postsRef = window.firebaseCollection(
+            window.firebaseDb,
+            "posts"
+          );
+          const q = window.firebaseQuery(
+            postsRef,
+            window.firebaseOrderBy("createdAt", "desc")
+          );
           const querySnapshot = await window.firebaseGetDocs(q);
-          
+
           allPosts = [];
           querySnapshot.forEach((doc) => {
             const postData = doc.data();
@@ -1499,10 +1521,10 @@
               date: postData.date,
               timestamp: postData.createdAt?.toMillis() || Date.now(),
               createdAt: postData.createdAt,
-              updatedAt: postData.updatedAt
+              updatedAt: postData.updatedAt,
             });
           });
-          
+
           console.log("Posts loaded from Firebase:", allPosts.length, "posts");
           renderAllPosts();
           updateRecentStories();
@@ -1521,12 +1543,16 @@
             return;
           }
 
-          const postRef = window.firebaseDoc(window.firebaseDb, 'posts', postId);
+          const postRef = window.firebaseDoc(
+            window.firebaseDb,
+            "posts",
+            postId
+          );
           await window.firebaseUpdateDoc(postRef, {
             ...updatedPost,
-            updatedAt: window.firebaseServerTimestamp()
+            updatedAt: window.firebaseServerTimestamp(),
           });
-          
+
           console.log("Post updated in Firebase:", postId);
         } catch (error) {
           console.error("Error updating post in Firebase:", error);
@@ -1541,9 +1567,13 @@
             return;
           }
 
-          const postRef = window.firebaseDoc(window.firebaseDb, 'posts', postId);
+          const postRef = window.firebaseDoc(
+            window.firebaseDb,
+            "posts",
+            postId
+          );
           await window.firebaseDeleteDoc(postRef);
-          
+
           console.log("Post deleted from Firebase:", postId);
         } catch (error) {
           console.error("Error deleting post from Firebase:", error);
@@ -1559,30 +1589,44 @@
             return;
           }
 
-          const postsRef = window.firebaseCollection(window.firebaseDb, 'posts');
-          const q = window.firebaseQuery(postsRef, window.firebaseOrderBy('createdAt', 'desc'));
-          
-          window.firebaseOnSnapshot(q, (querySnapshot) => {
-            allPosts = [];
-            querySnapshot.forEach((doc) => {
-              const postData = doc.data();
-              allPosts.push({
-                id: doc.id,
-                title: postData.title,
-                content: postData.content,
-                date: postData.date,
-                timestamp: postData.createdAt?.toMillis() || Date.now(),
-                createdAt: postData.createdAt,
-                updatedAt: postData.updatedAt
+          const postsRef = window.firebaseCollection(
+            window.firebaseDb,
+            "posts"
+          );
+          const q = window.firebaseQuery(
+            postsRef,
+            window.firebaseOrderBy("createdAt", "desc")
+          );
+
+          window.firebaseOnSnapshot(
+            q,
+            (querySnapshot) => {
+              allPosts = [];
+              querySnapshot.forEach((doc) => {
+                const postData = doc.data();
+                allPosts.push({
+                  id: doc.id,
+                  title: postData.title,
+                  content: postData.content,
+                  date: postData.date,
+                  timestamp: postData.createdAt?.toMillis() || Date.now(),
+                  createdAt: postData.createdAt,
+                  updatedAt: postData.updatedAt,
+                });
               });
-            });
-            
-            console.log("Real-time update: Posts loaded from Firebase:", allPosts.length, "posts");
-            renderAllPosts();
-            updateRecentStories();
-          }, (error) => {
-            console.error("Error in real-time listener:", error);
-          });
+
+              console.log(
+                "Real-time update: Posts loaded from Firebase:",
+                allPosts.length,
+                "posts"
+              );
+              renderAllPosts();
+              updateRecentStories();
+            },
+            (error) => {
+              console.error("Error in real-time listener:", error);
+            }
+          );
         } catch (error) {
           console.error("Error setting up real-time listener:", error);
         }
@@ -1723,7 +1767,7 @@
           try {
             // Save to Firebase
             const postId = await savePostToFirebase(newPost);
-            
+
             if (postId) {
               // Clear the form
               this.reset();
@@ -1738,20 +1782,22 @@
             }
           } catch (error) {
             console.error("Error publishing post:", error);
-            alert("Ett fel uppstod när berättelsen skulle publiceras. Försök igen.");
+            alert(
+              "Ett fel uppstod när berättelsen skulle publiceras. Försök igen."
+            );
           }
         });
 
       // Post action functions
       function sharePost(index) {
         const post = allPosts[index];
-              if (navigator.share) {
-                navigator.share({
+        if (navigator.share) {
+          navigator.share({
             title: post.title,
-                  text: "Läs den här underbara berättelsen från Skogsmulle!",
-                  url: window.location.href,
-                });
-              } else {
+            text: "Läs den här underbara berättelsen från Skogsmulle!",
+            url: window.location.href,
+          });
+        } else {
           alert(`Dela berättelsen "${post.title}" med dina vänner!`);
         }
       }
@@ -1799,14 +1845,16 @@
             title: newTitle.trim(),
             content: `<p>${newContent.trim().replace(/\n/g, "</p><p>")}</p>`,
             date: post.date,
-            timestamp: post.timestamp
+            timestamp: post.timestamp,
           };
 
           await updatePostInFirebase(post.id, updatedPost);
           alert("Berättelsen har uppdaterats!");
         } catch (error) {
           console.error("Error updating post:", error);
-          alert("Ett fel uppstod när berättelsen skulle uppdateras. Försök igen.");
+          alert(
+            "Ett fel uppstod när berättelsen skulle uppdateras. Försök igen."
+          );
         }
       }
 
@@ -1822,7 +1870,9 @@
             alert("Berättelsen har tagits bort!");
           } catch (error) {
             console.error("Error deleting post:", error);
-            alert("Ett fel uppstod när berättelsen skulle tas bort. Försök igen.");
+            alert(
+              "Ett fel uppstod när berättelsen skulle tas bort. Försök igen."
+            );
           }
         }
       }
@@ -1877,21 +1927,21 @@
                   content.includes("äventyr") ||
                   content.includes("utforska") ||
                   content.includes("resa");
-              break;
+                break;
               case "friendship":
                 showPost =
                   content.includes("vän") ||
                   content.includes("tillsammans") ||
                   content.includes("hjälp");
-              break;
+                break;
               case "nature":
                 showPost =
                   content.includes("skog") ||
                   content.includes("träd") ||
                   content.includes("blomma") ||
                   content.includes("djur");
-              break;
-          }
+                break;
+            }
 
             post.style.display = showPost ? "block" : "none";
           }
@@ -2072,7 +2122,7 @@
       document.addEventListener("DOMContentLoaded", function () {
         console.log("Initializing Skogsmulle application...");
         initAuth();
-        
+
         // Wait for Firebase to initialize, then load posts
         setTimeout(() => {
           if (window.firebaseDb) {

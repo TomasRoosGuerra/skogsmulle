@@ -4,7 +4,7 @@
 
 1. Go to [Firebase Console](https://console.firebase.google.com/)
 2. Click "Create a project"
-3. Name your project: `skogsmulle-blog`
+3. Name your project: `skogsmulle`
 4. Enable Google Analytics (optional)
 5. Click "Create project"
 
@@ -21,21 +21,22 @@
 1. Go to Project Settings (gear icon)
 2. Scroll down to "Your apps"
 3. Click "Web" icon (`</>`)
-4. Register your app with nickname: `skogsmulle-web`
+4. Register your app with nickname: `skogsmulle`
 5. Copy the Firebase configuration object
 
-## Step 4: Update Your Website
+## Step 4: Update Your Website ✅ COMPLETED
 
-Replace the placeholder configuration in `index.html` with your actual Firebase config:
+Your Firebase configuration has been updated in `index.html` with your actual config:
 
 ```javascript
 const firebaseConfig = {
-  apiKey: "your-actual-api-key",
-  authDomain: "skogsmulle-blog.firebaseapp.com",
-  projectId: "skogsmulle-blog",
-  storageBucket: "skogsmulle-blog.appspot.com",
-  messagingSenderId: "your-sender-id",
-  appId: "your-app-id"
+  apiKey: "AIzaSyAl4FKCAqrt_Vkw0jRddSnR1gn4BGby-rA",
+  authDomain: "skogsmulle-c601d.firebaseapp.com",
+  projectId: "skogsmulle-c601d",
+  storageBucket: "skogsmulle-c601d.firebasestorage.app",
+  messagingSenderId: "878822846379",
+  appId: "1:878822846379:web:b545d30bab52d19a5facee",
+  measurementId: "G-SV2RJXDS5S"
 };
 ```
 
@@ -81,6 +82,7 @@ service cloud.firestore {
 ## Troubleshooting
 
 If posts don't appear:
+
 1. Check browser console for errors
 2. Verify Firebase config is correct
 3. Check Firestore security rules
@@ -89,6 +91,7 @@ If posts don't appear:
 ## Next Steps
 
 Once Firebase is working:
+
 1. Add user authentication
 2. Enable comments
 3. Add analytics
