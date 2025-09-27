@@ -79,14 +79,14 @@
 
     <style>
       :root {
-        --p: #2d5016;
-        --s: #1a3d0a;
-        --a: #4a6b2a;
-        --bg: #f8f5e8;
-        --txt: #2d3a1a;
-        --w: #fff;
-        --lg: #e8f5e8;
-        --br: #8bb88b;
+        --p: #92c5a3;
+        --s: #ffffff;
+        --a: #b8d5c1;
+        --bg: rgba(9, 44, 36, 0.85);
+        --txt: #ffffff;
+        --w: rgba(255, 255, 255, 0.95);
+        --lg: rgba(146, 197, 163, 0.15);
+        --br: rgba(146, 197, 163, 0.4);
         --r: 8px;
         --f: "Comic Sans MS", "Trebuchet MS", cursive;
         --fu: "Comic Sans MS", "Trebuchet MS", cursive;
@@ -102,10 +102,12 @@
       }
 
       body {
-        background: var(--bg);
+        background: var(--bg) url("polygon-scatter-haikei.svg") center/cover
+          no-repeat fixed;
         color: var(--txt);
         line-height: 1.6;
         font-family: var(--f);
+        min-height: 100vh;
       }
 
       .skip-link {
@@ -201,7 +203,6 @@
         font-family: var(--f);
       }
 
-
       .login-modal {
         position: fixed;
         top: 0;
@@ -219,7 +220,7 @@
         background: var(--w);
         padding: 30px;
         border-radius: var(--r);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        border: 3px solid var(--br);
         max-width: 400px;
         width: 90%;
       }
@@ -244,16 +245,36 @@
       .form-group input {
         width: 100%;
         padding: 10px;
-        border: 1px solid var(--br);
-        border-radius: 6px;
+        border: 2px solid var(--br);
+        border-radius: var(--r);
         font-size: 1rem;
+        background: var(--w);
+        color: var(--txt);
         transition: border-color 0.3s ease;
       }
 
       .form-group input:focus {
         outline: none;
         border-color: var(--p);
-        box-shadow: 0 0 0 2px rgba(74, 93, 58, 0.2);
+      }
+
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid var(--br);
+        border-radius: var(--r);
+        font-size: 1rem;
+        background: var(--w);
+        color: var(--txt);
+        transition: border-color 0.3s ease;
+        font-family: var(--f);
+      }
+
+      .form-group textarea:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: var(--p);
       }
 
       .modal-buttons {
@@ -264,31 +285,38 @@
       }
 
       .btn {
-        background: linear-gradient(
-          135deg,
-          rgba(144, 238, 144, 0.8),
-          rgba(135, 206, 235, 0.8)
-        );
+        background: var(--lg);
         color: var(--s);
-        border: 1px solid var(--br);
-        border-radius: 6px;
+        border: 2px solid var(--br);
+        border-radius: var(--r);
         padding: 10px 20px;
         cursor: pointer;
         transition: all 0.3s ease;
         font-family: var(--f);
+        font-weight: bold;
       }
 
       .btn:hover {
+        background: var(--w);
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
 
       .btn-secondary {
-        background: linear-gradient(
-          135deg,
-          rgba(135, 206, 235, 0.8),
-          rgba(144, 238, 144, 0.8)
-        );
+        background: var(--lg);
+        color: var(--s);
+        border: 2px solid var(--br);
+        border-radius: var(--r);
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-family: var(--f);
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+
+      .btn-secondary:hover {
+        background: var(--w);
+        transform: translateY(-1px);
       }
 
       .main-navigation {
@@ -394,8 +422,6 @@
         position: relative;
       }
 
-
-
       .post-header {
         margin-bottom: 15px;
         border-bottom: 1px dashed var(--br);
@@ -477,7 +503,6 @@
         position: relative;
       }
 
-
       .widget-title {
         color: var(--p);
         border-bottom: 1px dashed var(--br);
@@ -489,7 +514,7 @@
       }
 
       .new-post-form {
-        display: none;
+        display: block;
       }
 
       .form-title {
@@ -516,7 +541,6 @@
       .form-group select:focus {
         outline: none;
         border-color: var(--p);
-        box-shadow: 0 0 0 2px rgba(74, 93, 58, 0.2);
       }
 
       .form-group select {
@@ -559,11 +583,12 @@
       .rich-editor {
         min-height: 200px;
         padding: 15px;
-        border: 1px solid var(--br);
-        border-radius: 6px;
+        border: 2px solid var(--br);
+        border-radius: var(--r);
         font-size: 1rem;
         line-height: 1.6;
         background: var(--w);
+        color: var(--txt);
         font-family: var(--f);
         outline: none;
         transition: border-color 0.3s ease;
@@ -571,12 +596,11 @@
 
       .rich-editor:focus {
         border-color: var(--p);
-        box-shadow: 0 0 0 2px rgba(74, 93, 58, 0.2);
       }
 
       .rich-editor:empty:before {
         content: attr(data-placeholder);
-        color: var(--a);
+        color: rgba(255, 255, 255, 0.6);
         font-style: italic;
       }
 
@@ -747,25 +771,22 @@
       }
 
       .submit-button {
-        background: linear-gradient(
-          135deg,
-          rgba(144, 238, 144, 0.9),
-          rgba(135, 206, 235, 0.7)
-        );
-        color: var(--s);
-        border: 1px solid var(--br);
-        border-radius: 6px;
+        background: var(--p);
+        color: var(--w);
+        border: 2px solid var(--br);
+        border-radius: var(--r);
         padding: 12px 24px;
         cursor: pointer;
         transition: all 0.3s ease;
         font-size: 1rem;
         font-family: var(--f);
+        font-weight: bold;
         width: 100%;
       }
 
       .submit-button:hover {
+        background: var(--s);
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
 
       .character-grid {
@@ -789,27 +810,19 @@
         height: 60px;
         border-radius: 50%;
         margin: 0 auto 8px;
-        background: linear-gradient(
-          135deg,
-          rgba(144, 238, 144, 0.8),
-          rgba(135, 206, 235, 0.8)
-        );
+        background: var(--lg);
+        border: 2px solid var(--br);
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 1.5rem;
-        border: 2px solid var(--br);
       }
 
       .author-info {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 215, 0, 0.1),
-          rgba(255, 165, 0, 0.1)
-        );
+        background: var(--lg);
         padding: 15px;
         border-radius: var(--r);
-        border: 1px solid rgba(255, 215, 0, 0.3);
+        border: 2px solid var(--br);
         margin-bottom: 15px;
       }
 
@@ -827,9 +840,9 @@
         padding: 30px;
         text-align: center;
         border: 2px solid var(--br);
-        }
+      }
 
-        .audio-player {
+      .audio-player {
         background: var(--lg);
         border-radius: var(--r);
         padding: 15px;
@@ -853,7 +866,6 @@
       .audio-player button:hover {
         background: var(--lg);
       }
-
 
       @media (max-width: 1024px) {
         .content {
@@ -923,7 +935,7 @@
       aria-label="Logga in som författare"
       onkeydown="if(event.key==='Enter') toggleLoginModal()"
     >
-      🔑 Logga in
+      Logga in
     </button>
 
     <div id="loginModal" class="login-modal">
@@ -943,9 +955,9 @@
             >
               Avbryt
             </button>
-        </div>
+          </div>
         </form>
-            </div>
+      </div>
     </div>
 
     <header class="main-header">
@@ -958,9 +970,9 @@
             Här möter du Skogsmulle och alla hans vänner i underbara äventyr som
             får både stora och små att drömma sig bort till skogens djupaste
             vrår.
-              </p>
-            </div>
-            </div>
+          </p>
+        </div>
+      </div>
     </header>
 
     <nav class="main-navigation">
@@ -976,13 +988,13 @@
             placeholder="Sök berättelser..."
             onkeyup="searchStories()"
           />
-            </div>
+        </div>
         <div class="text-size-controls">
           <button onclick="changeTextSize(-1)" title="Mindre text">A-</button>
           <button onclick="changeTextSize(0)" title="Normal text">A</button>
           <button onclick="changeTextSize(1)" title="Större text">A+</button>
-            </div>
-            </div>
+        </div>
+      </div>
     </nav>
 
     <main id="main-content" role="main">
@@ -1002,26 +1014,28 @@
         </section>
 
         <aside class="sidebar">
-           <div class="sidebar-widget author-widget">
-             <div class="author-widget-header" onclick="toggleAuthorTools()">
-               <h3 class="widget-title">Författarverktyg</h3>
-               <span class="toggle-icon" id="toggleIcon">+</span>
-             </div>
-             <div class="author-content" id="authorContent">
-               <div class="author-info">
-                 <p><strong>Inloggad som författare:</strong></p>
-                 <div id="userInfo" style="display: none">
-                   <p id="userEmail"></p>
-                 </div>
-                 <div id="loginSection">
-                   <p class="login-note">
-                     Logga in för att skapa och redigera berättelser.
-                   </p>
-                 </div>
-               </div>
-               <button class="expand-btn" onclick="openAuthorModal()">Skriv ny berättelse</button>
-             </div>
-           </div>
+          <div class="sidebar-widget author-widget">
+            <div class="author-widget-header" onclick="toggleAuthorTools()">
+              <h3 class="widget-title">Författarverktyg</h3>
+              <span class="toggle-icon" id="toggleIcon">+</span>
+            </div>
+            <div class="author-content" id="authorContent">
+              <div class="author-info">
+                <p><strong>Inloggad som författare:</strong></p>
+                <div id="userInfo" style="display: none">
+                  <p id="userEmail"></p>
+                </div>
+                <div id="loginSection">
+                  <p class="login-note">
+                    Logga in för att skapa och redigera berättelser.
+                  </p>
+                </div>
+              </div>
+              <button class="expand-btn" onclick="openAuthorModal()">
+                Skriv ny berättelse
+              </button>
+            </div>
+          </div>
 
           <div class="sidebar-widget">
             <h3 class="widget-title">Filtrera berättelser</h3>
@@ -1095,7 +1109,7 @@
           </div>
         </aside>
       </div>
-      </main>
+    </main>
 
     <div class="audio-player">
       <button
@@ -1103,14 +1117,14 @@
         onclick="toggleThemeAudio()"
         aria-label="Spela temalåt"
       >
-Spela temalåt
+        Spela temalåt
       </button>
       <button
         id="playAdventure"
         onclick="toggleAdventureAudio()"
         aria-label="Spela äventyrslåt"
       >
-Spela äventyrslåt
+        Spela äventyrslåt
       </button>
     </div>
 
@@ -1119,7 +1133,9 @@ Spela äventyrslåt
       <div class="modal-content">
         <div class="modal-header">
           <h3>Skriv ny berättelse</h3>
-          <button class="close-btn" onclick="closeAuthorModal()">&times;</button>
+          <button class="close-btn" onclick="closeAuthorModal()">
+            &times;
+          </button>
         </div>
         <div class="modal-body">
           <form id="newPostForm" class="new-post-form">
@@ -1151,16 +1167,53 @@ Spela äventyrslåt
             <div class="form-group">
               <label for="postContent">Berättelse:</label>
               <div class="editor-toolbar">
-                <button type="button" onclick="formatText('bold')" title="Fet text">B</button>
-                <button type="button" onclick="formatText('italic')" title="Kursiv text">I</button>
-                <button type="button" onclick="formatText('underline')" title="Understruken text">U</button>
-                <button type="button" onclick="insertImage()" title="Lägg till bild">Bild</button>
+                <button
+                  type="button"
+                  onclick="formatText('bold')"
+                  title="Fet text"
+                >
+                  B
+                </button>
+                <button
+                  type="button"
+                  onclick="formatText('italic')"
+                  title="Kursiv text"
+                >
+                  I
+                </button>
+                <button
+                  type="button"
+                  onclick="formatText('underline')"
+                  title="Understruken text"
+                >
+                  U
+                </button>
+                <button
+                  type="button"
+                  onclick="insertImage()"
+                  title="Lägg till bild"
+                >
+                  Bild
+                </button>
               </div>
-              <div id="postContent" class="rich-editor" contenteditable="true" data-placeholder="Skriv din berättelse här..."></div>
+              <div
+                id="postContent"
+                class="rich-editor"
+                contenteditable="true"
+                data-placeholder="Skriv din berättelse här..."
+              ></div>
             </div>
             <div class="form-actions">
-              <button type="button" class="btn btn-secondary" onclick="saveDraft()">Spara utkast</button>
-              <button type="submit" class="submit-button">Publicera berättelse</button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="saveDraft()"
+              >
+                Spara utkast
+              </button>
+              <button type="submit" class="submit-button">
+                Publicera berättelse
+              </button>
             </div>
           </form>
         </div>
@@ -1295,24 +1348,20 @@ Spela äventyrslåt
                     <span class="post-date">${p.date}</span>
                     ${
                       p.category
-                        ? `<span class="post-category">🏷️ ${p.category}</span>`
+                        ? `<span class="post-category">${p.category}</span>`
                         : ""
                     }
-                    ${
-                      p.age
-                        ? `<span class="post-age">👶 ${p.age} år</span>`
-                        : ""
-                    }
+                    ${p.age ? `<span class="post-age">${p.age} år</span>` : ""}
                   </div>
                 </div>
                 <div class="post-content">${p.content}</div>
                 <div class="post-actions">
                   ${
                     isAdmin
-                      ? `<button class="post-button" onclick="editPost(${i})">✏️ Redigera</button><button class="post-button" onclick="deletePost(${i})">🗑️ Ta bort</button>`
+                      ? `<button class="post-button" onclick="editPost(${i})">Redigera</button><button class="post-button" onclick="deletePost(${i})">Ta bort</button>`
                       : ""
                   }
-                  <button class="post-button" onclick="markAsRead(${i})">✅ Läs</button>
+                  <button class="post-button" onclick="markAsRead(${i})">Läs</button>
                 </div>
               </article>`
           )
@@ -1411,7 +1460,6 @@ Spela äventyrslåt
           document.execCommand("insertImage", false, url);
         }
       }
-
 
       // Draft system
       function saveDraft() {
@@ -1565,12 +1613,8 @@ Spela äventyrslåt
 
       function updateDiscreteLogin(l) {
         const b = document.querySelector(".discrete-login");
-        b.textContent = l
-          ? "👤 " + currentUser.email.split("@")[0]
-          : "🔑 Logga in";
-        b.style.background = l
-          ? "linear-gradient(135deg,rgba(255,215,0,0.8),rgba(255,165,0,0.7))"
-          : "linear-gradient(135deg,rgba(144,238,144,0.9),rgba(135,206,235,0.7))";
+        b.textContent = l ? currentUser.email.split("@")[0] : "Logga in";
+        b.style.background = l ? "var(--p)" : "var(--lg)";
       }
 
       function toggleLoginModal() {
@@ -1599,7 +1643,7 @@ Spela äventyrslåt
       function toggleAuthorTools() {
         const content = document.getElementById("authorContent");
         const icon = document.getElementById("toggleIcon");
-        
+
         if (content.classList.contains("expanded")) {
           content.classList.remove("expanded");
           icon.textContent = "+";
@@ -1693,26 +1737,26 @@ Spela äventyrslåt
             return;
           }
 
-            const today = new Date();
+          const today = new Date();
           const ds =
-              today.getDate() +
-              " " +
-              [
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "Maj",
-                "Jun",
-                "Jul",
-                "Aug",
-                "Sep",
-                "Okt",
-                "Nov",
-                "Dec",
-              ][today.getMonth()] +
-              ", " +
-              today.getFullYear();
+            today.getDate() +
+            " " +
+            [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "Maj",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Okt",
+              "Nov",
+              "Dec",
+            ][today.getMonth()] +
+            ", " +
+            today.getFullYear();
 
           const np = {
             title: t,
@@ -1729,7 +1773,7 @@ Spela äventyrslåt
               this.reset();
               document.getElementById("postContent").innerHTML = "";
               localStorage.removeItem("skogsmulle_draft");
-            alert("Berättelsen har publicerats!");
+              alert("Berättelsen har publicerats!");
               setTimeout(() => scrollToPost(0), 100);
             }
           } catch (e) {
@@ -1772,7 +1816,7 @@ Spela äventyrslåt
         if (themeAudio.paused) {
           themeAudio.play();
           b.textContent = "Pausa";
-              } else {
+        } else {
           themeAudio.pause();
           b.textContent = "🎵 Spela temalåt";
         }
