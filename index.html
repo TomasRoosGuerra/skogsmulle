@@ -79,14 +79,19 @@
 
     <style>
       :root {
-        --p: #4a6b2a; /* Primary color (forest green) */
-        --s: #2d5016; /* Secondary color (darker green) */
-        --a: #6b8e3a; /* Accent color (medium green) */
-        --bg: rgba(144, 180, 120, 0.9); /* Muted green background, slightly transparent */
-        --txt: #2d3a1a; /* Dark green text for light background */
+        --p: #8B4513; /* Primary color (warm brown from hedgehog) */
+        --s: #A0522D; /* Secondary color (saddle brown) */
+        --a: #DC143C; /* Accent color (red from hedgehog's hat) */
+        --bg: rgba(
+          255,
+          248,
+          220,
+          0.95
+        ); /* Warm cream background from watercolor */
+        --txt: #2F4F2F; /* Dark green text for readability */
         --w: rgba(255, 255, 255, 0.95); /* Near-white for elements */
-        --lg: rgba(255, 255, 255, 0.8); /* Light background for cards */
-        --br: rgba(74, 107, 42, 0.6); /* Border color, forest green */
+        --lg: rgba(255, 248, 220, 0.8); /* Light cream background for cards */
+        --br: rgba(139, 69, 19, 0.6); /* Border color, warm brown */
         --r: 8px;
         --f: "Comic Sans MS", "Trebuchet MS", cursive;
         --fu: "Comic Sans MS", "Trebuchet MS", cursive;
@@ -146,7 +151,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: url("skogsmullecolor.png") center/cover;
+        background: url("igelkotten.png") center/cover;
         opacity: 0.6;
         z-index: 1;
       }
@@ -599,7 +604,7 @@
 
       .rich-editor:empty:before {
         content: attr(data-placeholder);
-        color: rgba(45, 58, 26, 0.6);
+        color: rgba(47, 79, 47, 0.6);
         font-style: italic;
       }
 
