@@ -1,2141 +1,402 @@
 <!DOCTYPE html>
 <html lang="sv">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Skogsmulle - Magiska äventyr för barn</title>
-    <meta
-      name="description"
-      content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn. Perfekt för föräldrar som vill läsa sagor för sina barn."
-    />
-    <meta
-      name="keywords"
-      content="barnböcker, sagor, Skogsmulle, barn, föräldrar, läsning, äventyr, svenska sagor"
-    />
-    <meta name="author" content="Tomas Roos Guerra" />
-    <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="Skogsmulle - Magiska äventyr för barn" />
-    <meta
-      property="og:description"
-      content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://skogsmulle.netlify.app" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Skogsmulle - Magiska äventyr för barn"
-    />
-    <meta
-      name="twitter:description"
-      content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn."
-    />
-    <link rel="canonical" href="https://skogsmulle.netlify.app" />
-
-    <!-- Firebase SDK -->
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-      import {
-        getFirestore,
-        collection,
-        addDoc,
-        getDocs,
-        doc,
-        updateDoc,
-        deleteDoc,
-        onSnapshot,
-        orderBy,
-        query,
-        serverTimestamp,
-      } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
-
-      // Firebase configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyAl4FKCAqrt_Vkw0jRddSnR1gn4BGby-rA",
-        authDomain: "skogsmulle-c601d.firebaseapp.com",
-        projectId: "skogsmulle-c601d",
-        storageBucket: "skogsmulle-c601d.firebasestorage.app",
-        messagingSenderId: "878822846379",
-        appId: "1:878822846379:web:b545d30bab52d19a5facee",
-        measurementId: "G-SV2RJXDS5S"
-      };
-
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-
-      // Make Firebase functions globally available
-      window.firebaseApp = app;
-      window.firebaseDb = db;
-      window.firebaseCollection = collection;
-      window.firebaseAddDoc = addDoc;
-      window.firebaseGetDocs = getDocs;
-      window.firebaseDoc = doc;
-      window.firebaseUpdateDoc = updateDoc;
-      window.firebaseDeleteDoc = deleteDoc;
-      window.firebaseOnSnapshot = onSnapshot;
-      window.firebaseOrderBy = orderBy;
-      window.firebaseQuery = query;
-      window.firebaseServerTimestamp = serverTimestamp;
-    </script>
-
-    <style>
-      /* Base styles */
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      }
-
-      body {
-        background-color: #f5f4e8;
-        color: #3d4a2d;
-        background-image: radial-gradient(
-            circle at 20% 80%,
-            rgba(144, 180, 120, 0.08) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 80% 20%,
-            rgba(120, 150, 180, 0.06) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 40% 40%,
-            rgba(160, 200, 140, 0.05) 0%,
-            transparent 50%
-          ),
-          url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="watercolor"><feTurbulence baseFrequency="0.02" numOctaves="3" result="noise"/><feColorMatrix values="0 0 0 0 0.8 0 0 0 0 0.9 0 0 0 0 0.7 0 0 0 0.1 0"/></filter></defs><rect width="100" height="100" fill="%23f5f4e8" filter="url(%23watercolor)"/></svg>');
-        background-size: 200px 200px, 300px 300px, 250px 250px, 150px 150px;
-        line-height: 1.6;
-        min-height: 100vh;
-        font-family: "Georgia", "Times New Roman", serif;
-      }
-
-      .container {
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 20px;
-      }
-
-      /* Skip Link for Accessibility */
-      .skip-link {
-        position: absolute;
-        top: -40px;
-        left: 6px;
-        background: #000;
-        color: #fff;
-        padding: 8px;
-        text-decoration: none;
-        z-index: 1000;
-        border-radius: 4px;
-      }
-
-      .skip-link:focus {
-        top: 6px;
-      }
-
-      /* Discrete Login Button */
-      .discrete-login {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1000;
-        background: rgba(255, 255, 255, 0.9);
-        border: 1px solid rgba(144, 180, 120, 0.3);
-        border-radius: 8px;
-        padding: 8px 12px;
-        font-size: 0.85rem;
-        color: #4a5d3a;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(5px);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        font-family: "Georgia", "Times New Roman", serif;
-      }
-
-      .discrete-login:hover {
-        background: rgba(255, 255, 255, 1);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      }
-
-      .discrete-login.logged-in {
-        background: rgba(144, 180, 120, 0.2);
-        border-color: rgba(144, 180, 120, 0.5);
-      }
-
-      /* Login Modal */
-      .login-modal {
-        display: none;
-        position: fixed;
-        z-index: 2000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(5px);
-      }
-
-      .login-modal-content {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.95),
-          rgba(248, 248, 240, 0.9)
-        );
-        margin: 15% auto;
-        padding: 30px;
-        border-radius: 15px;
-        width: 400px;
-        max-width: 90%;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        border: 1px solid rgba(144, 180, 120, 0.3);
-        position: relative;
-      }
-
-      .login-modal h2 {
-        color: #4a5d3a;
-        text-align: center;
-        margin-bottom: 20px;
-        font-family: "Georgia", "Times New Roman", serif;
-        font-style: italic;
-      }
-
-      .login-form {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .login-form input {
-        padding: 12px;
-        border: 1px solid rgba(144, 180, 120, 0.3);
-        border-radius: 8px;
-        font-size: 1rem;
-        background: rgba(255, 255, 255, 0.8);
-        font-family: "Georgia", "Times New Roman", serif;
-      }
-
-      .login-form input:focus {
-        outline: none;
-        border-color: rgba(144, 180, 120, 0.6);
-        box-shadow: 0 0 0 2px rgba(144, 180, 120, 0.2);
-      }
-
-      .login-buttons {
-        display: flex;
-        gap: 10px;
-        justify-content: center;
-        margin-top: 10px;
-      }
-
-      .login-btn {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 1rem;
-        font-family: "Georgia", "Times New Roman", serif;
-        transition: all 0.3s ease;
-      }
-
-      .login-btn.primary {
-        background: linear-gradient(
-          135deg,
-          rgba(144, 180, 120, 0.8),
-          rgba(120, 150, 180, 0.7)
-        );
-        color: #2d3a2d;
-      }
-
-      .login-btn.secondary {
-        background: rgba(200, 200, 200, 0.8);
-        color: #555;
-      }
-
-      .login-btn:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      }
-
-      .close-modal {
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        font-size: 24px;
-        cursor: pointer;
-        color: #666;
-      }
-
-      .close-modal:hover {
-        color: #333;
-      }
-
-      /* World-Class Header Design */
-      .main-header {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.95),
-          rgba(248, 248, 240, 0.9)
-        );
-        border-radius: 0 0 20px 20px;
-        padding: 0;
-        margin-bottom: 0;
-        border: none;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .main-header::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="paper"><feTurbulence baseFrequency="0.01" numOctaves="2" result="noise"/><feColorMatrix values="0 0 0 0 0.9 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.05 0"/></filter></defs><rect width="100" height="100" fill="white" filter="url(%23paper)"/></svg>');
-        opacity: 0.3;
-        z-index: 0;
-      }
-
-      /* Hero Section with Character Image */
-      .hero-section {
-        position: relative;
-        height: 400px;
-        background-color: #f0f8f0;
-        background-image: url("skogsmullecolor.png");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 0 0 20px 20px;
-        overflow: hidden;
-      }
-
-      .hero-section::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.1),
-          rgba(144, 180, 120, 0.1)
-        );
-        z-index: 1;
-      }
-
-      .hero-content {
-        text-align: center;
-        position: relative;
-        z-index: 2;
-        max-width: 600px;
-        padding: 0 20px;
-      }
-
-      .main-logo {
-        font-size: 3.5rem;
-        font-weight: bold;
-        color: #2d3a2d;
-        text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
-        margin-bottom: 15px;
-        font-family: "Georgia", "Times New Roman", serif;
-        font-style: italic;
-        animation: gentleGlow 4s ease-in-out infinite alternate;
-      }
-
-      .hero-subtitle {
-        font-size: 1.3rem;
-        color: #3d4a2d;
-        margin-bottom: 25px;
-        font-style: italic;
-        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-      }
-
-      /* World-Class Navigation */
-      .main-navigation {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-top: 1px solid rgba(144, 180, 120, 0.2);
-        padding: 15px 0;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      }
-
-      .nav-container {
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 0 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .nav-links {
-        display: flex;
-        list-style: none;
-        gap: 30px;
-        margin: 0;
-        padding: 0;
-      }
-
-      .nav-links a {
-        color: #4a5d3a;
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 1rem;
-        padding: 8px 16px;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        font-family: "Georgia", "Times New Roman", serif;
-        position: relative;
-      }
-
-      .nav-links a:hover {
-        background: rgba(144, 180, 120, 0.1);
-        transform: translateY(-1px);
-      }
-
-      .nav-links a.active {
-        background: rgba(144, 180, 120, 0.2);
-        color: #2d3a2d;
-      }
-
-      /* Welcome Section */
-      .welcome-section {
-        text-align: center;
-        padding: 40px 20px;
-        margin: 30px 0;
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.9),
-          rgba(248, 248, 240, 0.8)
-        );
-        border-radius: 15px;
-        border: 1px solid rgba(144, 180, 120, 0.2);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .welcome-section::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="paper"><feTurbulence baseFrequency="0.01" numOctaves="2" result="noise"/><feColorMatrix values="0 0 0 0 0.9 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.05 0"/></filter></defs><rect width="100" height="100" fill="white" filter="url(%23paper)"/></svg>');
-        opacity: 0.2;
-        z-index: 0;
-      }
-
-      .section-title {
-        font-size: 2rem;
-        color: #4a5d3a;
-        margin-bottom: 15px;
-        font-family: "Georgia", "Times New Roman", serif;
-        font-style: italic;
-        position: relative;
-        z-index: 1;
-      }
-
-      .welcome-description {
-        font-size: 1.1rem;
-        color: #3d4a2d;
-        margin-bottom: 25px;
-        line-height: 1.6;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-        font-style: italic;
-        position: relative;
-        z-index: 1;
-      }
-
-      .audio-player {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.8),
-          rgba(144, 238, 144, 0.3)
-        );
-        border-radius: 20px;
-        padding: 15px;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        border: 2px solid rgba(144, 238, 144, 0.5);
-        margin-bottom: 15px;
-        backdrop-filter: blur(5px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .audio-player button {
-        background: linear-gradient(135deg, #90ee90, #87ceeb);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 45px;
-        height: 45px;
-        cursor: pointer;
-        font-size: 1.3rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-      }
-
-      .audio-player button:hover {
-        transform: scale(1.1) rotate(5deg);
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-      }
-
-      .audio-title {
-        color: #2d5016;
-        font-weight: bold;
-        font-size: 1.1rem;
-      }
-
-      /* Main content */
-      main {
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
-      }
-
-      .blog-section {
-        flex: 3;
-        min-width: 300px;
-      }
-
-      .sidebar {
-        flex: 1;
-        min-width: 250px;
-      }
-
-      /* Blog post styles */
-      .blog-post {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.9),
-          rgba(248, 248, 240, 0.8)
-        );
-        border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 20px;
-        border: 1px solid rgba(144, 180, 120, 0.2);
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
-        backdrop-filter: blur(2px);
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .blog-post::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="paper"><feTurbulence baseFrequency="0.01" numOctaves="2" result="noise"/><feColorMatrix values="0 0 0 0 0.9 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.05 0"/></filter></defs><rect width="100" height="100" fill="white" filter="url(%23paper)"/></svg>');
-        opacity: 0.3;
-        z-index: 0;
-      }
-
-      .blog-post:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-      }
-
-      .post-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-        border-bottom: 1px dashed rgba(144, 180, 120, 0.3);
-        padding-bottom: 10px;
-        position: relative;
-        z-index: 1;
-      }
-
-      .post-title {
-        color: #4a5d3a;
-        font-size: 1.4rem;
-        font-weight: bold;
-        font-family: "Georgia", "Times New Roman", serif;
-        font-style: italic;
-      }
-
-      .post-date {
-        color: #6a7a5a;
-        font-style: italic;
-        font-size: 0.85rem;
-      }
-
-      .post-content {
-        margin-bottom: 15px;
-        color: #3d4a2d;
-        line-height: 1.7;
-        position: relative;
-        z-index: 1;
-        font-size: 1rem;
-      }
-
-      .post-actions {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        position: relative;
-        z-index: 1;
-      }
-
-      .post-button {
-        background: linear-gradient(135deg, #90ee90, #87ceeb);
-        color: white;
-        border: none;
-        border-radius: 15px;
-        padding: 8px 15px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-weight: bold;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-      }
-
-      .post-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      }
-
-      .post-button.edit {
-        background: linear-gradient(135deg, #98fb98, #87ceeb);
-      }
-
-      .post-button.delete {
-        background: linear-gradient(135deg, #ffb6c1, #ffa07a);
-      }
-
-      /* No posts message */
-      .no-posts {
-        text-align: center;
-        padding: 40px 20px;
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.9),
-          rgba(248, 248, 240, 0.8)
-        );
-        border-radius: 12px;
-        border: 1px solid rgba(144, 180, 120, 0.2);
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
-        color: #6a7a5a;
-        font-style: italic;
-        font-size: 1.1rem;
-      }
-
-      /* Sidebar styles */
-      .sidebar-widget {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.9),
-          rgba(248, 248, 240, 0.8)
-        );
-        border-radius: 12px;
-        padding: 18px;
-        margin-bottom: 18px;
-        border: 1px solid rgba(144, 180, 120, 0.2);
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
-        backdrop-filter: blur(2px);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .sidebar-widget::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="paper"><feTurbulence baseFrequency="0.01" numOctaves="2" result="noise"/><feColorMatrix values="0 0 0 0 0.9 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.05 0"/></filter></defs><rect width="100" height="100" fill="white" filter="url(%23paper)"/></svg>');
-        opacity: 0.2;
-        z-index: 0;
-      }
-
-      .widget-title {
-        color: #4a5d3a;
-        border-bottom: 1px dashed rgba(144, 180, 120, 0.3);
-        padding-bottom: 8px;
-        margin-bottom: 12px;
-        font-size: 1.1rem;
-        font-weight: bold;
-        font-family: "Georgia", "Times New Roman", serif;
-        font-style: italic;
-        position: relative;
-        z-index: 1;
-      }
-
-      /* Form styles */
-      .new-post-form {
-        background: transparent;
-        border: none;
-        padding: 0;
-        margin: 0;
-        box-shadow: none;
-      }
-
-      .form-title {
-        color: #2d5016;
-        margin-bottom: 20px;
-        font-size: 1.3rem;
-        font-weight: bold;
-        position: relative;
-        z-index: 1;
-      }
-
-      .form-group {
-        margin-bottom: 20px;
-        position: relative;
-        z-index: 1;
-      }
-
-      .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        color: #2d5016;
-        font-weight: bold;
-      }
-
-      .form-group input,
-      .form-group textarea {
-        width: 100%;
-        padding: 12px;
-        border-radius: 15px;
-        border: 2px solid rgba(144, 238, 144, 0.3);
-        background: rgba(255, 255, 255, 0.8);
-        font-size: 1rem;
-        transition: all 0.3s ease;
-      }
-
-      .form-group input:focus,
-      .form-group textarea:focus {
-        outline: none;
-        border-color: #90ee90;
-        box-shadow: 0 0 15px rgba(144, 238, 144, 0.3);
-      }
-
-      .submit-button {
-        background: linear-gradient(135deg, #90ee90, #87ceeb);
-        color: white;
-        border: none;
-        border-radius: 20px;
-        padding: 12px 25px;
-        cursor: pointer;
-        font-size: 1rem;
-        font-weight: bold;
-        transition: all 0.3s ease;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        position: relative;
-        z-index: 1;
-      }
-
-      .submit-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      }
-
-      /* Footer */
-      footer {
-        text-align: center;
-        margin-top: 40px;
-        padding: 30px;
-        border-top: 3px dashed rgba(144, 238, 144, 0.5);
-        color: #2d5016;
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.5),
-          rgba(144, 238, 144, 0.1)
-        );
-        border-radius: 25px 25px 0 0;
-      }
-
-      /* Magical Welcome Section */
-      .welcome-section {
-        text-align: center;
-        padding: 30px 20px;
-        position: relative;
-        z-index: 1;
-        margin-top: 20px;
-      }
-
-      .magical-title {
-        font-size: 2.2rem;
-        color: #4a5d3a;
-        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.9);
-        margin-bottom: 18px;
-        font-family: "Georgia", "Times New Roman", serif;
-        font-style: italic;
-        animation: gentleGlow 4s ease-in-out infinite alternate;
-      }
-
-      @keyframes gentleGlow {
-        from {
-          text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.9),
-            0 0 8px rgba(144, 180, 120, 0.3);
-        }
-        to {
-          text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.9),
-            0 0 12px rgba(144, 180, 120, 0.5);
-        }
-      }
-
-      .welcome-text {
-        font-size: 1.1rem;
-        color: #3d4a2d;
-        margin-bottom: 25px;
-        line-height: 1.6;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-        font-style: italic;
-      }
-
-      .audience-buttons {
-        display: flex;
-        gap: 15px;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-
-      .audience-btn {
-        background: linear-gradient(
-          135deg,
-          rgba(144, 180, 120, 0.8),
-          rgba(120, 150, 180, 0.7)
-        );
-        color: #2d3a2d;
-        border: 1px solid rgba(144, 180, 120, 0.4);
-        border-radius: 12px;
-        padding: 12px 24px;
-        font-size: 1rem;
-        font-weight: normal;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        text-shadow: none;
-        font-family: "Georgia", "Times New Roman", serif;
-      }
-
-      .audience-btn:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        background: linear-gradient(
-          135deg,
-          rgba(144, 180, 120, 0.9),
-          rgba(120, 150, 180, 0.8)
-        );
-      }
-
-      .parent-btn {
-        background: linear-gradient(
-          135deg,
-          rgba(160, 200, 140, 0.8),
-          rgba(120, 150, 180, 0.7)
-        );
-      }
-
-      .child-btn {
-        background: linear-gradient(
-          135deg,
-          rgba(180, 160, 140, 0.8),
-          rgba(160, 200, 140, 0.7)
-        );
-      }
-
-      /* Story Search and Categories */
-      .story-search {
-        margin-bottom: 15px;
-        position: relative;
-        z-index: 1;
-      }
-
-      .story-search input {
-        width: 100%;
-        padding: 10px;
-        border-radius: 15px;
-        border: 2px solid rgba(144, 238, 144, 0.3);
-        background: rgba(255, 255, 255, 0.8);
-        font-size: 0.9rem;
-      }
-
-      .story-categories {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px;
-        margin-bottom: 15px;
-        position: relative;
-        z-index: 1;
-      }
-
-      .category-btn {
-        background: rgba(144, 238, 144, 0.3);
-        border: none;
-        border-radius: 10px;
-        padding: 5px 10px;
-        font-size: 0.8rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .category-btn:hover,
-      .category-btn.active {
-        background: rgba(144, 238, 144, 0.6);
-        transform: scale(1.05);
-      }
-
-      /* Character Grid */
-      .character-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        margin-top: 10px;
-        position: relative;
-        z-index: 1;
-      }
-
-      .character-card {
-        background: rgba(255, 255, 255, 0.5);
-        border-radius: 15px;
-        padding: 10px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: 2px solid rgba(144, 238, 144, 0.3);
-      }
-
-      .character-card:hover {
-        background: rgba(144, 238, 144, 0.3);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .character-icon {
-        font-size: 1.5rem;
-        margin-bottom: 5px;
-      }
-
-      .character-card span {
-        font-size: 0.8rem;
-        color: #2d5016;
-        font-weight: bold;
-      }
-
-      /* Parent Tips */
-      .parent-tips {
-        position: relative;
-        z-index: 1;
-      }
-
-      .parent-tips p {
-        margin-bottom: 10px;
-        font-size: 0.9rem;
-        color: #2d4a2d;
-        line-height: 1.4;
-      }
-
-      .sidebar-widget ul {
-        list-style: none;
-        position: relative;
-        z-index: 1;
-      }
-
-      .sidebar-widget li {
-        margin-bottom: 8px;
-      }
-
-      .sidebar-widget a {
-        color: #2d5016;
-        text-decoration: none;
-        padding: 5px 10px;
-        border-radius: 10px;
-        transition: all 0.3s ease;
-        display: block;
-      }
-
-      .sidebar-widget a:hover {
-        background: rgba(144, 238, 144, 0.3);
-        transform: translateX(5px);
-      }
-
-      /* Enhanced Responsive Design */
-      @media (max-width: 1024px) {
-        .container {
-          padding: 15px;
-        }
-
-        .nav-links {
-          gap: 20px;
-        }
-
-        .nav-links a {
-          font-size: 0.9rem;
-          padding: 6px 12px;
-        }
-      }
-
-      @media (max-width: 768px) {
-        .container {
-          padding: 10px;
-        }
-
-        .discrete-login {
-          top: 10px;
-          right: 10px;
-          padding: 6px 10px;
-          font-size: 0.8rem;
-        }
-
-        .hero-section {
-          height: 300px;
-        }
-
-        .main-logo {
-          font-size: 2.5rem;
-        }
-
-        .hero-subtitle {
-          font-size: 1.1rem;
-        }
-
-        .main-navigation {
-          padding: 10px 0;
-        }
-
-        .nav-container {
-          flex-direction: column;
-          gap: 10px;
-        }
-
-        .nav-links {
-          flex-wrap: wrap;
-          gap: 15px;
-          justify-content: center;
-        }
-
-        .nav-links a {
-          font-size: 0.85rem;
-          padding: 5px 10px;
-        }
-
-        .welcome-section {
-          padding: 25px 15px;
-          margin: 20px 0;
-        }
-
-        .section-title {
-          font-size: 1.6rem;
-        }
-
-        .welcome-description {
-          font-size: 1rem;
-        }
-
-        .audience-buttons {
-          flex-direction: column;
-          gap: 10px;
-        }
-
-        .audience-btn {
-          padding: 10px 20px;
-          font-size: 0.9rem;
-        }
-
-        main {
-          flex-direction: column;
-        }
-
-        .blog-section {
-          flex: none;
-          margin-bottom: 20px;
-        }
-
-        .sidebar {
-          flex: none;
-          width: 100%;
-        }
-
-        .sidebar-widget {
-          padding: 15px;
-          margin-bottom: 15px;
-        }
-
-        .blog-post {
-          padding: 15px;
-          margin-bottom: 15px;
-        }
-
-        .post-title {
-          font-size: 1.2rem;
-        }
-
-        .post-content {
-          font-size: 0.95rem;
-          line-height: 1.6;
-        }
-
-        .post-actions {
-          flex-wrap: wrap;
-          gap: 8px;
-        }
-
-        .post-button {
-          padding: 8px 12px;
-          font-size: 0.85rem;
-        }
-
-        .login-modal-content {
-          width: 95%;
-          margin: 10% auto;
-          padding: 20px;
-        }
-
-        .login-form input {
-          padding: 10px;
-          font-size: 0.9rem;
-        }
-
-        .login-btn {
-          padding: 8px 16px;
-          font-size: 0.9rem;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .container {
-          padding: 5px;
-        }
-
-        .hero-section {
-          height: 250px;
-        }
-
-        .main-logo {
-          font-size: 2rem;
-        }
-
-        .hero-subtitle {
-          font-size: 1rem;
-        }
-
-        .nav-links {
-          gap: 10px;
-        }
-
-        .nav-links a {
-          font-size: 0.8rem;
-          padding: 4px 8px;
-        }
-
-        .welcome-section {
-          padding: 20px 10px;
-        }
-
-        .section-title {
-          font-size: 1.4rem;
-        }
-
-        .blog-post {
-          padding: 12px;
-        }
-
-        .post-title {
-          font-size: 1.1rem;
-        }
-
-        .post-content {
-          font-size: 0.9rem;
-        }
-
-        .post-button {
-          padding: 6px 10px;
-          font-size: 0.8rem;
-        }
-
-        .sidebar-widget {
-          padding: 12px;
-        }
-
-        .widget-title {
-          font-size: 1rem;
-        }
-
-        .form-group input,
-        .form-group textarea {
-          font-size: 0.9rem;
-        }
-
-        .submit-button {
-          padding: 10px 15px;
-          font-size: 0.9rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Skip Navigation for Screen Readers -->
-    <a href="#main-content" class="skip-link">Hoppa till huvudinnehåll</a>
-
-    <!-- Discrete Login Button -->
-    <div
-      class="discrete-login"
-      id="discreteLogin"
-      onclick="toggleLoginModal()"
-      role="button"
-      tabindex="0"
-      aria-label="Logga in som författare"
-      onkeydown="if(event.key==='Enter') toggleLoginModal()"
-    >
-      <span id="loginText">Login</span>
-    </div>
-
-    <!-- Login Modal -->
-    <div id="loginModal" class="login-modal">
-      <div class="login-modal-content">
-        <span class="close-modal" onclick="closeLoginModal()">&times;</span>
-        <h2>📝 Författarverktyg</h2>
-        <p style="text-align: center; color: #666; margin-bottom: 20px">
-          Logga in för att skapa och redigera berättelser
-        </p>
-        <form class="login-form" id="loginForm">
-          <input
-            type="email"
-            id="loginEmail"
-            placeholder="Din Gmail-adress"
-            required
-          />
-          <div class="login-buttons">
-            <button type="submit" class="login-btn primary">Logga in</button>
-            <button
-              type="button"
-              class="login-btn secondary"
-              onclick="closeLoginModal()"
-            >
-              Avbryt
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Main Header with Hero Section -->
-    <header class="main-header">
-      <div class="hero-section">
-        <div class="hero-content">
-          <h1 class="main-logo">Skogsmulle</h1>
-          <p class="hero-subtitle">Magiska äventyr för barn och föräldrar</p>
-          <div class="audio-player">
-            <button id="playTheme">🎵</button>
-            <span class="audio-title">Skogsmulle låt</span>
-            <button id="playAdventure">🎶</button>
-            <span class="audio-title">Äventyr låt</span>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- World-Class Navigation -->
-    <nav class="main-navigation">
-      <div class="nav-container">
-        <ul class="nav-links">
-          <li><a href="#hem" class="active">Hem</a></li>
-          <li><a href="#berattelser">Berättelser</a></li>
-          <li><a href="#karaktarer">Karaktärer</a></li>
-          <li><a href="#aktiviteter">Aktiviteter</a></li>
-          <li><a href="#om-skogsmulle">Om Skogsmulle</a></li>
-        </ul>
-      </div>
-    </nav>
-
-    <div class="container">
-      <!-- Welcome Section -->
-      <section class="welcome-section">
-        <h2 class="section-title">Välkommen till Skogsmulles magiska värld!</h2>
-        <p class="welcome-description">
-          Här kan du upptäcka underbara äventyr, läsa sagor för dina barn och
-          utforska en värld full av fantasi och äventyr.
-        </p>
-        <div class="audience-buttons">
-          <button class="audience-btn parent-btn" onclick="scrollToStories()">
-            👨‍👩‍👧‍👦 För föräldrar
-          </button>
-          <button class="audience-btn child-btn" onclick="scrollToAdventures()">
-            🧚‍♀️ För barn
-          </button>
-        </div>
-      </section>
-
-      <main id="main-content" role="main">
-        <section class="blog-section" aria-label="Berättelser">
-          <!-- Posts will be dynamically inserted here -->
-          <div id="posts-container"></div>
-        </section>
-
-        <aside class="sidebar">
-          <!-- Story Creation Form (Author Only) -->
-          <div class="sidebar-widget" id="storyForm" style="display: none">
-            <h3 class="widget-title">✏️ Skapa ny berättelse</h3>
-            <form class="new-post-form" id="newPostForm">
-              <div class="form-group">
-                <label for="postTitle">Titel:</label>
-                <input
-                  type="text"
-                  id="postTitle"
-                  required
-                  placeholder="T.ex. Mulle möter en ekorre"
-                />
-              </div>
-              <div class="form-group">
-                <label for="postContent">Berättelse:</label>
-                <textarea
-                  id="postContent"
-                  rows="5"
-                  required
-                  placeholder="Skriv din berättelse här..."
-                ></textarea>
-              </div>
-              <button type="submit" class="submit-button">
-                Publicera berättelse
-              </button>
-            </form>
-          </div>
-
-          <!-- Story Browser for Parents -->
-          <div class="sidebar-widget">
-            <h3 class="widget-title">📚 Hitta berättelser</h3>
-            <div class="story-search">
-              <input
-                type="text"
-                id="storySearch"
-                placeholder="Sök efter berättelser..."
-                onkeyup="searchStories()"
-              />
-            </div>
-            <div class="story-categories">
-              <button
-                class="category-btn active"
-                onclick="filterStories('all')"
-              >
-                Alla
-              </button>
-              <button class="category-btn" onclick="filterStories('adventure')">
-                Äventyr
-              </button>
-              <button
-                class="category-btn"
-                onclick="filterStories('friendship')"
-              >
-                Vänskap
-              </button>
-              <button class="category-btn" onclick="filterStories('nature')">
-                Natur
-              </button>
-            </div>
-          </div>
-
-          <!-- Recent Stories -->
-          <div class="sidebar-widget">
-            <h3 class="widget-title">🌟 Senaste berättelserna</h3>
-            <ul id="recentStories">
-              <!-- Will be populated dynamically -->
-            </ul>
-          </div>
-
-          <!-- Characters -->
-          <div class="sidebar-widget">
-            <h3 class="widget-title">🎭 Karaktärer</h3>
-            <div class="character-grid">
-              <div
-                class="character-card"
-                onclick="showCharacterInfo('skogsmulle')"
-              >
-                <div class="character-icon">🌲</div>
-                <span>Skogsmulle</span>
-              </div>
-              <div class="character-card" onclick="showCharacterInfo('myran')">
-                <div class="character-icon">🦡</div>
-                <span>Morris</span>
-              </div>
-              <div
-                class="character-card"
-                onclick="showCharacterInfo('bjornen')"
-              >
-                <div class="character-icon">🦔</div>
-                <span>Evert</span>
-              </div>
-              <div class="character-card" onclick="showCharacterInfo('ugglan')">
-                <div class="character-icon">🦊</div>
-                <span>Ron</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Reading Tips for Parents -->
-          <div class="sidebar-widget">
-            <h3 class="widget-title">👨‍👩‍👧‍👦 Tips för föräldrar</h3>
-            <div class="parent-tips">
-              <p>
-                💡 Läs högt för dina barn för att skapa en magisk upplevelse
-              </p>
-              <p>🎭 Använd olika röster för varje karaktär</p>
-              <p>❓ Ställ frågor under läsningen för att engagera barnen</p>
-              <p>🌟 Låt barnen välja vilken berättelse de vill höra</p>
-            </div>
-          </div>
-        </aside>
-      </main>
-
-      <footer>
-        <p>© 2023 Skogsmulle - Alla äventyr är våra egna</p>
-      </footer>
-    </div>
-
-    <script>
-      // Global variables
-      let isAdmin = false;
-      let currentUser = null;
-      let allPosts = [];
-
-      // Audio functionality
-      const themeAudio = new Audio();
-      themeAudio.src = "Skogsmulle.mp3";
-
-      const adventureAudio = new Audio();
-      adventureAudio.src = "telegram_audio.mp3";
-
-      document
-        .getElementById("playTheme")
-        .addEventListener("click", function () {
-          if (themeAudio.paused) {
-            themeAudio.play();
-            this.textContent = "⏸⏸";
-          } else {
-            themeAudio.pause();
-            this.textContent = "▶";
-          }
-        });
-
-      document
-        .getElementById("playAdventure")
-        .addEventListener("click", function () {
-          if (adventureAudio.paused) {
-            adventureAudio.play();
-            this.textContent = "⏸⏸";
-          } else {
-            adventureAudio.pause();
-            this.textContent = "▶";
-          }
-        });
-
-      // Stop both audios when one starts playing
-      themeAudio.addEventListener("play", function () {
-        adventureAudio.pause();
-        document.getElementById("playAdventure").textContent = "▶";
-      });
-
-      adventureAudio.addEventListener("play", function () {
-        themeAudio.pause();
-        document.getElementById("playTheme").textContent = "▶";
-      });
-
-      // Reset button text when audio ends
-      themeAudio.addEventListener("ended", function () {
-        document.getElementById("playTheme").textContent = "▶";
-      });
-
-      adventureAudio.addEventListener("ended", function () {
-        document.getElementById("playAdventure").textContent = "▶";
-      });
-
-      // Firebase Post Management Functions
-      async function savePostToFirebase(post) {
-        try {
-          if (!window.firebaseDb) {
-            console.error("Firebase not initialized");
-            return null;
-          }
-
-          const postsRef = window.firebaseCollection(
-            window.firebaseDb,
-            "posts"
-          );
-          const docRef = await window.firebaseAddDoc(postsRef, {
-            ...post,
-            createdAt: window.firebaseServerTimestamp(),
-            updatedAt: window.firebaseServerTimestamp(),
-          });
-
-          console.log("Post saved to Firebase with ID:", docRef.id);
-          return docRef.id;
-        } catch (error) {
-          console.error("Error saving post to Firebase:", error);
-          throw error;
-        }
-      }
-
-      async function loadPostsFromFirebase() {
-        try {
-          if (!window.firebaseDb) {
-            console.error("Firebase not initialized");
-            allPosts = [];
-            renderAllPosts();
-            updateRecentStories();
-            return;
-          }
-
-          const postsRef = window.firebaseCollection(
-            window.firebaseDb,
-            "posts"
-          );
-          const q = window.firebaseQuery(
-            postsRef,
-            window.firebaseOrderBy("createdAt", "desc")
-          );
-          const querySnapshot = await window.firebaseGetDocs(q);
-
-          allPosts = [];
-          querySnapshot.forEach((doc) => {
-            const postData = doc.data();
-            allPosts.push({
-              id: doc.id,
-              title: postData.title,
-              content: postData.content,
-              date: postData.date,
-              timestamp: postData.createdAt?.toMillis() || Date.now(),
-              createdAt: postData.createdAt,
-              updatedAt: postData.updatedAt,
-            });
-          });
-
-          console.log("Posts loaded from Firebase:", allPosts.length, "posts");
-          renderAllPosts();
-          updateRecentStories();
-        } catch (error) {
-          console.error("Error loading posts from Firebase:", error);
-          allPosts = [];
-          renderAllPosts();
-          updateRecentStories();
-        }
-      }
-
-      async function updatePostInFirebase(postId, updatedPost) {
-        try {
-          if (!window.firebaseDb) {
-            console.error("Firebase not initialized");
-            return;
-          }
-
-          const postRef = window.firebaseDoc(
-            window.firebaseDb,
-            "posts",
-            postId
-          );
-          await window.firebaseUpdateDoc(postRef, {
-            ...updatedPost,
-            updatedAt: window.firebaseServerTimestamp(),
-          });
-
-          console.log("Post updated in Firebase:", postId);
-        } catch (error) {
-          console.error("Error updating post in Firebase:", error);
-          throw error;
-        }
-      }
-
-      async function deletePostFromFirebase(postId) {
-        try {
-          if (!window.firebaseDb) {
-            console.error("Firebase not initialized");
-            return;
-          }
-
-          const postRef = window.firebaseDoc(
-            window.firebaseDb,
-            "posts",
-            postId
-          );
-          await window.firebaseDeleteDoc(postRef);
-
-          console.log("Post deleted from Firebase:", postId);
-        } catch (error) {
-          console.error("Error deleting post from Firebase:", error);
-          throw error;
-        }
-      }
-
-      // Real-time listener for posts
-      function setupRealtimeListener() {
-        try {
-          if (!window.firebaseDb) {
-            console.error("Firebase not initialized");
-            return;
-          }
-
-          const postsRef = window.firebaseCollection(
-            window.firebaseDb,
-            "posts"
-          );
-          const q = window.firebaseQuery(
-            postsRef,
-            window.firebaseOrderBy("createdAt", "desc")
-          );
-
-          window.firebaseOnSnapshot(
-            q,
-            (querySnapshot) => {
-              allPosts = [];
-              querySnapshot.forEach((doc) => {
-                const postData = doc.data();
-                allPosts.push({
-                  id: doc.id,
-                  title: postData.title,
-                  content: postData.content,
-                  date: postData.date,
-                  timestamp: postData.createdAt?.toMillis() || Date.now(),
-                  createdAt: postData.createdAt,
-                  updatedAt: postData.updatedAt,
-                });
-              });
-
-              console.log(
-                "Real-time update: Posts loaded from Firebase:",
-                allPosts.length,
-                "posts"
-              );
-              renderAllPosts();
-              updateRecentStories();
-            },
-            (error) => {
-              console.error("Error in real-time listener:", error);
-            }
-          );
-        } catch (error) {
-          console.error("Error setting up real-time listener:", error);
-        }
-      }
-
-      function renderAllPosts() {
-        const postsContainer = document.getElementById("posts-container");
-
-        if (allPosts.length === 0) {
-          postsContainer.innerHTML = `
-            <div class="no-posts">
-              <h3>Inga berättelser än</h3>
-              <p>Bli den första att skapa en magisk berättelse för barnen!</p>
-              ${
-                !isAdmin
-                  ? "<p>Logga in som författare för att skapa berättelser.</p>"
-                  : ""
-              }
-            </div>
-          `;
-          return;
-        }
-
-        postsContainer.innerHTML = "";
-
-        allPosts.forEach((post, index) => {
-          const postElement = document.createElement("article");
-          postElement.className = "blog-post";
-          postElement.dataset.postIndex = index;
-
-          postElement.innerHTML = `
-            <div class="post-header">
-              <h2 class="post-title">${post.title}</h2>
-              <span class="post-date">${post.date}</span>
-            </div>
-            <div class="post-content">
-              ${post.content}
-            </div>
-            <div class="post-actions">
-              <button class="post-button" onclick="sharePost(${index})">Dela</button>
-              <button class="post-button" onclick="likePost(${index}, this)">Gilla</button>
-              <button class="post-button" onclick="savePost(${index}, this)">Spara</button>
-              ${
-                isAdmin
-                  ? `
-                <button class="post-button edit" onclick="editPost(${index})">Redigera</button>
-                <button class="post-button delete" onclick="deletePost(${index})">Ta bort</button>
-              `
-                  : ""
-              }
-            </div>
-          `;
-
-          postsContainer.appendChild(postElement);
-        });
-      }
-
-      function updateRecentStories() {
-        const recentStoriesContainer = document.getElementById("recentStories");
-
-        if (allPosts.length === 0) {
-          recentStoriesContainer.innerHTML =
-            '<li style="color: #666; font-style: italic;">Inga berättelser än</li>';
-          return;
-        }
-
-        const recentPosts = allPosts.slice(-4).reverse(); // Get last 4 posts, reverse to show newest first
-        recentStoriesContainer.innerHTML = "";
-
-        recentPosts.forEach((post, index) => {
-          const li = document.createElement("li");
-          li.innerHTML = `<a href="#" onclick="scrollToPost(${
-            allPosts.length - 1 - index
-          })">${post.title}</a>`;
-          recentStoriesContainer.appendChild(li);
-        });
-      }
-
-      function scrollToPost(index) {
-        const postElement = document.querySelector(
-          `[data-post-index="${index}"]`
-        );
-        if (postElement) {
-          postElement.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-          });
-          // Add highlight effect
-          postElement.style.animation = "magicalGlow 2s ease-in-out";
-          setTimeout(() => {
-            postElement.style.animation = "";
-          }, 2000);
-        }
-      }
-
-      // Blog post functionality
-      document
-        .getElementById("newPostForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault();
-
-          const title = document.getElementById("postTitle").value.trim();
-          const content = document.getElementById("postContent").value.trim();
-
-          if (!title || !content) {
-            alert("Vänligen fyll i både titel och berättelse.");
-            return;
-          }
-
-          const today = new Date();
-          const dateString =
-            today.getDate() +
-            " " +
-            [
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "Maj",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Okt",
-              "Nov",
-              "Dec",
-            ][today.getMonth()] +
-            ", " +
-            today.getFullYear();
-
-          const newPost = {
-            title: title,
-            content: `<p>${content.replace(/\n/g, "</p><p>")}</p>`,
-            date: dateString,
-            timestamp: Date.now(),
-          };
-
-          try {
-            // Save to Firebase
-            const postId = await savePostToFirebase(newPost);
-
-            if (postId) {
-              // Clear the form
-              this.reset();
-
-              // Show success message
-              alert("Berättelsen har publicerats!");
-
-              // Scroll to the new post (it will appear automatically via real-time listener)
-              setTimeout(() => {
-                scrollToPost(0);
-              }, 100);
-            }
-          } catch (error) {
-            console.error("Error publishing post:", error);
-            alert(
-              "Ett fel uppstod när berättelsen skulle publiceras. Försök igen."
-            );
-          }
-        });
-
-      // Post action functions
-      function sharePost(index) {
-        const post = allPosts[index];
-        if (navigator.share) {
-          navigator.share({
-            title: post.title,
-            text: "Läs den här underbara berättelsen från Skogsmulle!",
-            url: window.location.href,
-          });
-        } else {
-          alert(`Dela berättelsen "${post.title}" med dina vänner!`);
-        }
-      }
-
-      function likePost(index, button) {
-        button.textContent = "Gillad!";
-        button.style.background = "linear-gradient(135deg, #98FB98, #87CEEB)";
-        button.onclick = null; // Disable further clicks
-      }
-
-      function savePost(index, button) {
-        button.textContent = "Sparad!";
-        button.style.background = "linear-gradient(135deg, #98FB98, #87CEEB)";
-        button.onclick = null; // Disable further clicks
-      }
-
-      async function editPost(index) {
-        const post = allPosts[index];
-        const newTitle = prompt("Redigera titel:", post.title);
-
-        if (newTitle === null) return; // User cancelled
-
-        if (!newTitle.trim()) {
-          alert("Titel kan inte vara tom.");
-          return;
-        }
-
-        // Get plain text content for editing
-        const tempDiv = document.createElement("div");
-        tempDiv.innerHTML = post.content;
-        const plainContent = tempDiv.textContent || tempDiv.innerText || "";
-
-        const newContent = prompt("Redigera innehåll:", plainContent);
-
-        if (newContent === null) return; // User cancelled
-
-        if (!newContent.trim()) {
-          alert("Innehåll kan inte vara tomt.");
-          return;
-        }
-
-        try {
-          // Update the post in Firebase
-          const updatedPost = {
-            title: newTitle.trim(),
-            content: `<p>${newContent.trim().replace(/\n/g, "</p><p>")}</p>`,
-            date: post.date,
-            timestamp: post.timestamp,
-          };
-
-          await updatePostInFirebase(post.id, updatedPost);
-          alert("Berättelsen har uppdaterats!");
-        } catch (error) {
-          console.error("Error updating post:", error);
-          alert(
-            "Ett fel uppstod när berättelsen skulle uppdateras. Försök igen."
-          );
-        }
-      }
-
-      async function deletePost(index) {
-        const post = allPosts[index];
-        if (
-          confirm(
-            `Är du säker på att du vill ta bort berättelsen "${post.title}"?`
-          )
-        ) {
-          try {
-            await deletePostFromFirebase(post.id);
-            alert("Berättelsen har tagits bort!");
-          } catch (error) {
-            console.error("Error deleting post:", error);
-            alert(
-              "Ett fel uppstod när berättelsen skulle tas bort. Försök igen."
-            );
-          }
-        }
-      }
-
-      // Search and filter functions
-      function searchStories() {
-        const searchTerm = document
-          .getElementById("storySearch")
-          .value.toLowerCase();
-        const posts = document.querySelectorAll(".blog-post");
-
-        posts.forEach((post) => {
-          const title = post
-            .querySelector(".post-title")
-            .textContent.toLowerCase();
-          const content = post
-            .querySelector(".post-content")
-            .textContent.toLowerCase();
-
-          if (title.includes(searchTerm) || content.includes(searchTerm)) {
-            post.style.display = "block";
-          } else {
-            post.style.display = "none";
-          }
-        });
-      }
-
-      function filterStories(category) {
-        // Remove active class from all buttons
-        document.querySelectorAll(".category-btn").forEach((btn) => {
-          btn.classList.remove("active");
-        });
-
-        // Add active class to clicked button
-        event.target.classList.add("active");
-
-        const posts = document.querySelectorAll(".blog-post");
-
-        posts.forEach((post) => {
-          if (category === "all") {
-            post.style.display = "block";
-          } else {
-            // Simple category filtering based on content
-            const content = post
-              .querySelector(".post-content")
-              .textContent.toLowerCase();
-            let showPost = false;
-
-            switch (category) {
-              case "adventure":
-                showPost =
-                  content.includes("äventyr") ||
-                  content.includes("utforska") ||
-                  content.includes("resa");
-                break;
-              case "friendship":
-                showPost =
-                  content.includes("vän") ||
-                  content.includes("tillsammans") ||
-                  content.includes("hjälp");
-                break;
-              case "nature":
-                showPost =
-                  content.includes("skog") ||
-                  content.includes("träd") ||
-                  content.includes("blomma") ||
-                  content.includes("djur");
-                break;
-            }
-
-            post.style.display = showPost ? "block" : "none";
-          }
-        });
-      }
-
-      // Authentication functions
-      function initAuth() {
-        try {
-          const savedUser = localStorage.getItem("skogsmulle_user");
-          if (savedUser) {
-            currentUser = JSON.parse(savedUser);
-            if (
-              currentUser.email === "tomas.roosguerra@gmail.com" ||
-              currentUser.email === "tomasroosguerra@gmail.com"
-            ) {
-              isAdmin = true;
-              showAuthorTools();
-              updateDiscreteLogin(true);
-            } else {
-              hideAuthorTools();
-              updateDiscreteLogin(false);
-            }
-          } else {
-            hideAuthorTools();
-            updateDiscreteLogin(false);
-          }
-        } catch (error) {
-          console.error("Error initializing auth:", error);
-          isAdmin = false;
-          currentUser = null;
-          hideAuthorTools();
-          updateDiscreteLogin(false);
-        }
-      }
-
-      function updateDiscreteLogin(loggedIn) {
-        const loginElement = document.getElementById("discreteLogin");
-        const loginText = document.getElementById("loginText");
-
-        if (loggedIn) {
-          loginElement.classList.add("logged-in");
-          loginText.textContent = "Logout";
-        } else {
-          loginElement.classList.remove("logged-in");
-          loginText.textContent = "Login";
-        }
-      }
-
-      function toggleLoginModal() {
-        if (isAdmin) {
-          signOut();
-        } else {
-          document.getElementById("loginModal").style.display = "block";
-        }
-      }
-
-      function closeLoginModal() {
-        document.getElementById("loginModal").style.display = "none";
-      }
-
-      // Login form submission
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          const email = document.getElementById("loginEmail").value.trim();
-          signInWithGoogle(email);
-        });
-
-      // Close modal when clicking outside
-      window.addEventListener("click", function (e) {
-        const modal = document.getElementById("loginModal");
-        if (e.target === modal) {
-          closeLoginModal();
-        }
-      });
-
-      function showAuthorTools() {
-        document.getElementById("storyForm").style.display = "block";
-        renderAllPosts(); // Re-render to show admin buttons
-      }
-
-      function hideAuthorTools() {
-        document.getElementById("storyForm").style.display = "none";
-        renderAllPosts(); // Re-render to hide admin buttons
-      }
-
-      function signInWithGoogle(email) {
-        if (!email || !email.includes("@gmail.com")) {
-          alert("Vänligen ange en giltig Gmail-adress.");
-          return;
-        }
-
-        currentUser = { email: email };
-
-        try {
-          localStorage.setItem("skogsmulle_user", JSON.stringify(currentUser));
-        } catch (error) {
-          console.error("Error saving user:", error);
-        }
-
-        if (
-          email === "tomas.roosguerra@gmail.com" ||
-          email === "tomasroosguerra@gmail.com"
-        ) {
-          isAdmin = true;
-          showAuthorTools();
-          updateDiscreteLogin(true);
-          closeLoginModal();
-          alert(
-            "Välkommen! Du har loggat in som författare och kan nu skapa och redigera berättelser."
-          );
-        } else {
-          alert("Du har inte författarrättigheter för denna sida.");
-          signOut();
-        }
-      }
-
-      function signOut() {
-        currentUser = null;
-        isAdmin = false;
-        try {
-          localStorage.removeItem("skogsmulle_user");
-        } catch (error) {
-          console.error("Error removing user:", error);
-        }
-        hideAuthorTools();
-        updateDiscreteLogin(false);
-        alert("Du har loggat ut som författare.");
-      }
-
-      // Utility functions
-      function scrollToStories() {
-        document.querySelector(".blog-section").scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
-
-      function scrollToAdventures() {
-        document.querySelector(".blog-section").scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
-
-      function showCharacterInfo(character) {
-        const characterInfo = {
-          skogsmulle:
-            "Skogsmulle är huvudkaraktären som bor i skogen och älskar äventyr! Han har en vacker grön hatt och är alltid redo för nya upptäckter.",
-          myran:
-            "Morris är en nyfiken vessla med en grön hatt och scarf. Han älskar att utforska skogens hemligheter.",
-          bjornen:
-            "Evert är en vänlig igelkott med en röd tomtehatt. Han är klok och hjälper gärna sina vänner.",
-          ugglan:
-            "Ron är en rävig räv med en grå hatt. Han är snabb och listig, perfekt för äventyr i skogen.",
-        };
-
-        alert(
-          characterInfo[character] ||
-            "Denna karaktär är en del av Skogsmulles magiska värld!"
-        );
-      }
-
-      // Add magical glow animation
-      const style = document.createElement("style");
-      style.textContent = `
-        @keyframes magicalGlow {
-          0% { box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06); }
-          50% { box-shadow: 0 6px 20px rgba(144, 180, 120, 0.3); }
-          100% { box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06); }
-        }
-      `;
-      document.head.appendChild(style);
-
-      // Initialize the application
-      document.addEventListener("DOMContentLoaded", function () {
-        console.log("Initializing Skogsmulle application...");
-        initAuth();
-
-        // Wait for Firebase to initialize, then load posts
-        setTimeout(() => {
-          if (window.firebaseDb) {
-            console.log("Firebase initialized, setting up real-time listener");
-            setupRealtimeListener();
-          } else {
-            console.log("Firebase not available, falling back to empty state");
-            allPosts = [];
-            renderAllPosts();
-            updateRecentStories();
-          }
-        }, 1000);
-      });
-    </script>
-  </body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Skogsmulle - Magiska äventyr för barn</title>
+<meta name="description" content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn. Perfekt för föräldrar som vill läsa sagor för sina barn.">
+<meta name="keywords" content="barnböcker,sagor,Skogsmulle,barn,föräldrar,läsning,äventyr,svenska sagor">
+<meta name="author" content="Tomas Roos Guerra">
+<meta name="robots" content="index,follow">
+<meta property="og:title" content="Skogsmulle - Magiska äventyr för barn">
+<meta property="og:description" content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://skogsmulle.netlify.app">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Skogsmulle - Magiska äventyr för barn">
+<meta name="twitter:description" content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn.">
+<link rel="canonical" href="https://skogsmulle.netlify.app">
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import{getFirestore,collection,addDoc,getDocs,doc,updateDoc,deleteDoc,onSnapshot,orderBy,query,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+const firebaseConfig={apiKey:"AIzaSyAl4FKCAqrt_Vkw0jRddSnR1gn4BGby-rA",authDomain:"skogsmulle-c601d.firebaseapp.com",projectId:"skogsmulle-c601d",storageBucket:"skogsmulle-c601d.firebasestorage.app",messagingSenderId:"878822846379",appId:"1:878822846379:web:b545d30bab52d19a5facee",measurementId:"G-SV2RJXDS5S"};
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+
+Object.assign(window,{
+  firebaseApp:app,firebaseDb:db,firebaseCollection:collection,firebaseAddDoc:addDoc,firebaseGetDocs:getDocs,firebaseDoc:doc,firebaseUpdateDoc:updateDoc,firebaseDeleteDoc:deleteDoc,firebaseOnSnapshot:onSnapshot,firebaseOrderBy:orderBy,firebaseQuery:query,firebaseServerTimestamp:serverTimestamp
+});
+</script>
+
+<style>
+:root{
+--p:#4a5d3a;--s:#2d3a2d;--a:#6a7a5a;--bg:#f5f4e8;--txt:#3d4a2d;--w:#fff;--lg:#f0f8f0;--br:rgba(144,180,120,0.2);--sh:0 3px 12px rgba(0,0,0,0.06);--r:12px;--f:"Georgia","Times New Roman",serif;--fu:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;font-family:var(--fu)}
+
+body{background:var(--bg) radial-gradient(circle at 20% 80%,rgba(144,180,120,0.08) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(120,150,180,0.06) 0%,transparent 50%),radial-gradient(circle at 40% 40%,rgba(160,200,140,0.05) 0%,transparent 50%),url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="watercolor"><feTurbulence baseFrequency="0.02" numOctaves="3" result="noise"/><feColorMatrix values="0 0 0 0 0.8 0 0 0 0 0.9 0 0 0 0 0.7 0 0 0 0.1 0"/></filter></defs><rect width="100" height="100" fill="%23f5f4e8" filter="url(%23watercolor)"/></svg>');background-size:200px 200px,300px 300px,250px 250px,150px 150px;color:var(--txt);line-height:1.6;font-family:var(--f)}
+
+.skip-link{position:absolute;top:-40px;left:6px;background:var(--p);color:var(--w);padding:8px;text-decoration:none;z-index:1000;border-radius:4px}
+.skip-link:focus{top:6px}
+
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+.main-header{position:relative;background:linear-gradient(135deg,rgba(144,238,144,0.4),rgba(135,206,235,0.4),rgba(152,251,152,0.3));backdrop-filter:blur(10px);border-radius:15px;margin:20px;padding:40px 20px;overflow:hidden;border:1px solid var(--br);box-shadow:var(--sh)}
+
+.header-background{position:absolute;top:0;left:0;right:0;bottom:0;background:url("skogsmullecolor.png") center/cover;opacity:0.6;z-index:1}
+
+.hero-section{position:relative;z-index:2;text-align:center;color:var(--txt)}
+
+.logo{font-size:2.8rem;color:var(--p);margin-bottom:20px;text-shadow:1px 1px 2px rgba(255,255,255,0.8);font-family:var(--f);font-style:italic}
+
+.welcome-section{margin-bottom:30px}
+
+.magical-title{font-size:2.2rem;color:var(--p);margin-bottom:15px;text-shadow:1px 1px 2px rgba(255,255,255,0.9);font-family:var(--f);font-style:italic;animation:gentleGlow 3s ease-in-out infinite alternate}
+
+.welcome-text{font-size:1.1rem;color:var(--txt);margin-bottom:20px;font-style:italic;max-width:600px;margin-left:auto;margin-right:auto}
+
+.audience-buttons{display:flex;justify-content:center;gap:15px;flex-wrap:wrap;margin-top:20px}
+
+.audience-btn{background:linear-gradient(135deg,rgba(144,238,144,0.8),rgba(135,206,235,0.8));color:var(--s);border:1px solid var(--br);border-radius:var(--r);padding:12px 24px;font-size:1rem;font-weight:normal;cursor:pointer;transition:all 0.3s ease;box-shadow:var(--sh);text-shadow:none;font-family:var(--f);text-decoration:none;display:inline-block}
+
+.audience-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+
+.parent-btn{background:linear-gradient(135deg,rgba(144,238,144,0.9),rgba(135,206,235,0.7))}
+
+.child-btn{background:linear-gradient(135deg,rgba(135,206,235,0.9),rgba(144,238,144,0.7))}
+
+.discrete-login{position:fixed;top:20px;right:20px;background:linear-gradient(135deg,rgba(144,238,144,0.9),rgba(135,206,235,0.7));color:var(--s);border:1px solid var(--br);border-radius:var(--r);padding:8px 16px;font-size:0.9rem;cursor:pointer;transition:all 0.3s ease;box-shadow:var(--sh);z-index:1000;font-family:var(--f)}
+
+.discrete-login:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+
+.login-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:2000}
+
+.modal-content{background:var(--w);padding:30px;border-radius:var(--r);box-shadow:0 10px 30px rgba(0,0,0,0.3);max-width:400px;width:90%}
+
+.modal-content h2{margin-bottom:20px;color:var(--p);font-family:var(--f)}
+
+.form-group{margin-bottom:15px}
+
+.form-group label{display:block;margin-bottom:5px;color:var(--s);font-weight:bold}
+
+.form-group input{width:100%;padding:10px;border:1px solid var(--br);border-radius:6px;font-size:1rem;transition:border-color 0.3s ease}
+
+.form-group input:focus{outline:none;border-color:var(--p);box-shadow:0 0 0 2px rgba(74,93,58,0.2)}
+
+.modal-buttons{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+
+.btn{background:linear-gradient(135deg,rgba(144,238,144,0.8),rgba(135,206,235,0.8));color:var(--s);border:1px solid var(--br);border-radius:6px;padding:10px 20px;cursor:pointer;transition:all 0.3s ease;font-family:var(--f)}
+
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+
+.btn-secondary{background:linear-gradient(135deg,rgba(135,206,235,0.8),rgba(144,238,144,0.8))}
+
+.main-navigation{background:linear-gradient(135deg,rgba(144,238,144,0.9),rgba(135,206,235,0.8));backdrop-filter:blur(10px);border-radius:var(--r);margin:20px;padding:15px 20px;position:sticky;top:20px;z-index:100;border:1px solid var(--br);box-shadow:var(--sh)}
+
+.nav-links{list-style:none;display:flex;justify-content:center;gap:30px;flex-wrap:wrap}
+
+.nav-links a{color:var(--s);text-decoration:none;font-weight:bold;padding:8px 16px;border-radius:6px;transition:all 0.3s ease;font-family:var(--f)}
+
+.nav-links a:hover{background:rgba(255,255,255,0.2);transform:translateY(-1px)}
+
+.content{display:grid;grid-template-columns:1fr 300px;gap:30px;margin:30px 20px}
+
+.blog-section{background:rgba(255,255,255,0.7);backdrop-filter:blur(5px);border-radius:var(--r);padding:30px;border:1px solid var(--br);box-shadow:var(--sh)}
+
+.blog-post{background:linear-gradient(135deg,rgba(255,255,255,0.9),rgba(240,248,240,0.8));border-radius:var(--r);padding:20px;margin-bottom:20px;border:1px solid var(--br);box-shadow:var(--sh);backdrop-filter:blur(2px);transition:all 0.3s ease;position:relative}
+
+.blog-post::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="paper"><feTurbulence baseFrequency="0.04" numOctaves="2" result="noise"/><feColorMatrix values="0 0 0 0 0.9 0 0 0 0 0.95 0 0 0 0 0.85 0 0 0 0.3 0"/></filter></defs><rect width="100" height="100" fill="white" filter="url(%23paper)"/></svg>') repeat;opacity:0.1;pointer-events:none;border-radius:var(--r)}
+
+.blog-post:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.1)}
+
+.post-header{margin-bottom:15px;border-bottom:1px dashed var(--br);padding-bottom:10px}
+
+.post-title{font-size:1.4rem;color:var(--p);margin-bottom:8px;font-family:var(--f);font-style:italic}
+
+.post-date{color:var(--a);font-size:0.85rem}
+
+.post-content{margin-bottom:15px;color:var(--txt);line-height:1.7;font-size:1rem}
+
+.post-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+.post-button{background:linear-gradient(135deg,rgba(144,238,144,0.8),rgba(135,206,235,0.8));color:var(--s);border:1px solid var(--br);border-radius:6px;padding:8px 16px;cursor:pointer;transition:all 0.3s ease;font-size:0.9rem;font-family:var(--f)}
+
+.post-button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+
+.sidebar{background:rgba(255,255,255,0.7);backdrop-filter:blur(5px);border-radius:var(--r);padding:20px;border:1px solid var(--br);box-shadow:var(--sh);height:fit-content}
+
+.sidebar-widget{background:linear-gradient(135deg,rgba(255,255,255,0.9),rgba(240,248,240,0.8));border-radius:var(--r);padding:18px;margin-bottom:18px;border:1px solid var(--br);box-shadow:var(--sh);backdrop-filter:blur(2px);position:relative}
+
+.sidebar-widget::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="paper"><feTurbulence baseFrequency="0.04" numOctaves="2" result="noise"/><feColorMatrix values="0 0 0 0 0.9 0 0 0 0 0.95 0 0 0 0 0.85 0 0 0 0.3 0"/></filter></defs><rect width="100" height="100" fill="white" filter="url(%23paper)"/></svg>') repeat;opacity:0.1;pointer-events:none;border-radius:var(--r)}
+
+.widget-title{color:var(--p);border-bottom:1px dashed var(--br);padding-bottom:8px;margin-bottom:12px;font-size:1.1rem;font-family:var(--f);font-style:italic}
+
+.new-post-form{display:none}
+
+.form-title{color:var(--p);margin-bottom:20px;font-size:1.3rem;font-family:var(--f);font-style:italic}
+
+.form-group textarea{width:100%;padding:10px;border:1px solid var(--br);border-radius:6px;font-size:1rem;resize:vertical;min-height:120px;transition:border-color 0.3s ease;font-family:var(--f)}
+
+.form-group textarea:focus{outline:none;border-color:var(--p);box-shadow:0 0 0 2px rgba(74,93,58,0.2)}
+
+.submit-button{background:linear-gradient(135deg,rgba(144,238,144,0.9),rgba(135,206,235,0.7));color:var(--s);border:1px solid var(--br);border-radius:6px;padding:12px 24px;cursor:pointer;transition:all 0.3s ease;font-size:1rem;font-family:var(--f);width:100%}
+
+.submit-button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+
+.story-search{width:100%;padding:8px;border:1px solid var(--br);border-radius:6px;margin-bottom:10px;font-family:var(--f)}
+
+.story-categories{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:15px}
+
+.category-btn{background:linear-gradient(135deg,rgba(144,238,144,0.7),rgba(135,206,235,0.7));color:var(--s);border:1px solid var(--br);border-radius:6px;padding:6px 12px;cursor:pointer;transition:all 0.3s ease;font-size:0.8rem;font-family:var(--f)}
+
+.category-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+
+.character-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:10px}
+
+.character-card{text-align:center;cursor:pointer;transition:transform 0.3s ease}
+
+.character-card:hover{transform:scale(1.05)}
+
+.character-icon{width:60px;height:60px;border-radius:50%;margin:0 auto 8px;background:linear-gradient(135deg,rgba(144,238,144,0.8),rgba(135,206,235,0.8));display:flex;align-items:center;justify-content:center;font-size:1.5rem;border:2px solid var(--br)}
+
+.parent-tips{background:var(--lg);padding:15px;border-radius:var(--r);border:1px solid var(--br)}
+
+.parent-tips h4{color:var(--p);margin-bottom:10px;font-family:var(--f)}
+
+.parent-tips ul{list-style:none;padding-left:0}
+
+.parent-tips li{margin-bottom:8px;padding-left:20px;position:relative;color:var(--txt)}
+
+.parent-tips li::before{content:"🌿";position:absolute;left:0}
+
+.author-info{background:linear-gradient(135deg,rgba(255,215,0,0.1),rgba(255,165,0,0.1));padding:15px;border-radius:var(--r);border:1px solid rgba(255,215,0,0.3);margin-bottom:15px}
+
+.login-note{font-size:0.9rem;color:var(--a);font-style:italic;margin-top:10px}
+
+.footer{background:linear-gradient(135deg,rgba(144,238,144,0.4),rgba(135,206,235,0.4));backdrop-filter:blur(10px);border-radius:var(--r);margin:40px 20px 20px;padding:30px;text-align:center;border:1px solid var(--br);box-shadow:var(--sh)}
+
+.audio-player{background:linear-gradient(135deg,rgba(144,238,144,0.8),rgba(135,206,235,0.8));border-radius:var(--r);padding:15px;margin:20px;text-align:center;border:1px solid var(--br);box-shadow:var(--sh)}
+
+.audio-player button{background:linear-gradient(135deg,rgba(255,255,255,0.9),rgba(240,248,240,0.8));color:var(--s);border:1px solid var(--br);border-radius:6px;padding:10px 20px;margin:5px;cursor:pointer;transition:all 0.3s ease;font-family:var(--f)}
+
+.audio-player button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+
+@keyframes gentleGlow{0%{text-shadow:1px 1px 2px rgba(255,255,255,0.9)}100%{text-shadow:1px 1px 8px rgba(74,93,58,0.3),1px 1px 2px rgba(255,255,255,0.9)}}
+
+@media (max-width:1024px){.content{grid-template-columns:1fr;gap:20px}.sidebar{order:-1}}
+
+@media (max-width:768px){.container{padding:0 15px}.main-header,.main-navigation,.content{margin:15px}.hero-section{padding:20px}.logo{font-size:2.2rem}.magical-title{font-size:1.8rem}.audience-buttons{gap:10px}.nav-links{gap:15px}.blog-section,.sidebar{padding:20px}}
+
+@media (max-width:480px){.logo{font-size:1.8rem}.magical-title{font-size:1.5rem}.audience-btn{padding:10px 20px;font-size:0.9rem}.post-actions{justify-content:center}.character-grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+
+<body>
+<a href="#main-content" class="skip-link">Hoppa till huvudinnehåll</a>
+
+<button class="discrete-login" onclick="toggleLoginModal()" role="button" tabindex="0" aria-label="Logga in som författare" onkeydown="if(event.key==='Enter') toggleLoginModal()">🔑 Logga in</button>
+
+<div id="loginModal" class="login-modal">
+<div class="modal-content">
+<h2>Författarlogin</h2>
+<form id="loginForm">
+<div class="form-group">
+<label for="emailInput">Email:</label>
+<input type="email" id="emailInput" required>
+</div>
+<div class="modal-buttons">
+<button type="submit" class="btn">Logga in</button>
+<button type="button" class="btn btn-secondary" onclick="closeLoginModal()">Avbryt</button>
+</div>
+</form>
+</div>
+</div>
+
+<header class="main-header">
+<div class="header-background"></div>
+<div class="hero-section">
+<h1 class="logo">🌲 Skogsmulle</h1>
+<div class="welcome-section">
+<h2 class="magical-title">Välkommen till en magisk värld!</h2>
+<p class="welcome-text">Här möter du Skogsmulle och alla hans vänner i underbara äventyr som får både stora och små att drömma sig bort till skogens djupaste vrår.</p>
+<div class="audience-buttons">
+<button class="audience-btn parent-btn" onclick="scrollToStories()">👨‍👩‍👧‍👦 För föräldrar</button>
+<button class="audience-btn child-btn" onclick="scrollToAdventures()">🧚‍♀️ För barn</button>
+</div>
+</div>
+</div>
+</header>
+
+<nav class="main-navigation">
+<ul class="nav-links">
+<li><a href="#hem">🏠 Hem</a></li>
+<li><a href="#berattelser">📚 Berättelser</a></li>
+<li><a href="#karaktarer">🎭 Karaktärer</a></li>
+<li><a href="#om-skogsmulle">ℹ️ Om Skogsmulle</a></li>
+</ul>
+</nav>
+
+<main id="main-content" role="main">
+<div class="content">
+<section class="blog-section" aria-label="Berättelser">
+<h2 style="color:var(--p);margin-bottom:20px;font-family:var(--f);font-style:italic">📖 Berättelser</h2>
+<div id="posts-container"></div>
+</section>
+
+<aside class="sidebar">
+<div class="sidebar-widget">
+<h3 class="widget-title">🔐 Författarverktyg</h3>
+<div class="author-info">
+<p><strong>Inloggad som författare:</strong></p>
+<div id="userInfo" style="display:none">
+<p id="userEmail"></p>
+</div>
+<div id="loginSection">
+<p class="login-note">Logga in för att skapa och redigera berättelser.</p>
+</div>
+</div>
+<form id="newPostForm" class="new-post-form">
+<h3 class="form-title">Skapa ny berättelse</h3>
+<div class="form-group">
+<label for="postTitle">Titel:</label>
+<input type="text" id="postTitle" required>
+</div>
+<div class="form-group">
+<label for="postContent">Berättelse:</label>
+<textarea id="postContent" required></textarea>
+</div>
+<button type="submit" class="submit-button">Publicera berättelse</button>
+</form>
+</div>
+
+<div class="sidebar-widget">
+<h3 class="widget-title">📚 Hitta berättelser</h3>
+<input type="text" id="storySearch" class="story-search" placeholder="Sök efter berättelser..." aria-label="Sök berättelser" onkeyup="searchStories()">
+<div class="story-categories">
+<button class="category-btn" onclick="filterStories('all')" aria-label="Filtrera berättelser efter kategori">Alla</button>
+<button class="category-btn" onclick="filterStories('adventure')">Äventyr</button>
+<button class="category-btn" onclick="filterStories('friendship')">Vänskap</button>
+<button class="category-btn" onclick="filterStories('nature')">Natur</button>
+</div>
+</div>
+
+<div class="sidebar-widget">
+<h3 class="widget-title">🌟 Senaste berättelserna</h3>
+<div id="recentStories"></div>
+</div>
+
+<div class="sidebar-widget">
+<h3 class="widget-title">🎭 Karaktärer</h3>
+<div class="character-grid">
+<div class="character-card" onclick="showCharacterInfo('skogsmulle')">
+<div class="character-icon">🌲</div>
+<div>Skogsmulle</div>
+</div>
+<div class="character-card" onclick="showCharacterInfo('morris')">
+<div class="character-icon">🦡</div>
+<div>Morris</div>
+</div>
+<div class="character-card" onclick="showCharacterInfo('evert')">
+<div class="character-icon">🦔</div>
+<div>Evert</div>
+</div>
+<div class="character-card" onclick="showCharacterInfo('ron')">
+<div class="character-icon">🦊</div>
+<div>Ron</div>
+</div>
+</div>
+</div>
+
+<div class="sidebar-widget">
+<h3 class="widget-title">👨‍👩‍👧‍👦 Tips för föräldrar</h3>
+<div class="parent-tips">
+<h4>Läsningstips</h4>
+<ul>
+<li>Läs högt varje dag</li>
+<li>Ställ frågor om berättelsen</li>
+<li>Låt barnet berätta om bilderna</li>
+<li>Skapa egna äventyr tillsammans</li>
+</ul>
+</div>
+</div>
+</aside>
+</div>
+</main>
+
+<div class="audio-player">
+<button id="playTheme" onclick="toggleThemeAudio()" aria-label="Spela temalåt">🎵 Spela temalåt</button>
+<button id="playAdventure" onclick="toggleAdventureAudio()" aria-label="Spela äventyrslåt">🎶 Spela äventyrslåt</button>
+</div>
+
+<footer class="footer">
+<p>&copy; 2024 Skogsmulle. Alla berättelser är skapade med kärlek för barn och föräldrar.</p>
+</footer>
+
+<script>
+let allPosts=[],isAdmin=false,currentUser=null,themeAudio=new Audio("Skogsmulle.mp3"),adventureAudio=new Audio("telegram_audio.mp3");
+
+const C={save:async p=>{if(!window.firebaseDb)throw new Error("Firebase not initialized");const r=window.firebaseCollection(window.firebaseDb,"posts");const d=await window.firebaseAddDoc(r,{...p,createdAt:window.firebaseServerTimestamp(),updatedAt:window.firebaseServerTimestamp()});console.log("Post saved:",d.id);return d.id},load:async()=>{if(!window.firebaseDb){allPosts=[];renderAllPosts();updateRecentStories();return}const r=window.firebaseCollection(window.firebaseDb,"posts");const q=window.firebaseQuery(r,window.firebaseOrderBy("createdAt","desc"));const s=await window.firebaseGetDocs(q);allPosts=[];s.forEach(d=>{const p=d.data();allPosts.push({id:d.id,title:p.title,content:p.content,date:p.date,timestamp:p.createdAt?.toMillis()||Date.now(),createdAt:p.createdAt,updatedAt:p.updatedAt})});console.log("Posts loaded:",allPosts.length);renderAllPosts();updateRecentStories()},update:async(id,p)=>window.firebaseUpdateDoc(window.firebaseDoc(window.firebaseDb,"posts",id),{...p,updatedAt:window.firebaseServerTimestamp()}),delete:async id=>window.firebaseDeleteDoc(window.firebaseDoc(window.firebaseDb,"posts",id))};
+
+function setupRealtimeListener(){try{if(!window.firebaseDb){console.error("Firebase not initialized");return}const r=window.firebaseCollection(window.firebaseDb,"posts");const q=window.firebaseQuery(r,window.firebaseOrderBy("createdAt","desc"));window.firebaseOnSnapshot(q,s=>{allPosts=[];s.forEach(d=>{const p=d.data();allPosts.push({id:d.id,title:p.title,content:p.content,date:p.date,timestamp:p.createdAt?.toMillis()||Date.now(),createdAt:p.createdAt,updatedAt:p.updatedAt})});console.log("Real-time update:",allPosts.length,"posts");renderAllPosts();updateRecentStories()},e=>console.error("Real-time listener error:",e))}catch(e){console.error("Setup error:",e)}}
+
+function renderAllPosts(){const c=document.getElementById("posts-container");if(allPosts.length===0){c.innerHTML='<p style="text-align:center;color:var(--a);font-style:italic;padding:40px">Inga berättelser ännu. Skapa den första!</p>';return}c.innerHTML=allPosts.map((p,i)=>`<article class="blog-post"><div class="post-header"><h3 class="post-title">${p.title}</h3><div class="post-date">${p.date}</div></div><div class="post-content">${p.content}</div><div class="post-actions">${isAdmin?`<button class="post-button" onclick="editPost(${i})">✏️ Redigera</button><button class="post-button" onclick="deletePost(${i})">🗑️ Ta bort</button>`:''}<button class="post-button" onclick="sharePost(${i})">📤 Dela</button><button class="post-button" onclick="likePost(${i},this)">❤️ Gillar</button><button class="post-button" onclick="savePost(${i},this)">💾 Spara</button></div></article>`).join('')}
+
+function updateRecentStories(){const c=document.getElementById("recentStories");if(allPosts.length===0){c.innerHTML='<p style="color:var(--a);font-style:italic">Inga berättelser ännu.</p>';return}const r=allPosts.slice(0,5);c.innerHTML=r.map(p=>`<div style="margin-bottom:10px;padding:8px;background:var(--lg);border-radius:6px;border:1px solid var(--br);cursor:pointer" onclick="scrollToStory('${p.id}')"><strong style="color:var(--p);font-size:0.9rem">${p.title}</strong><br><small style="color:var(--a)">${p.date}</small></div>`).join('')}
+
+function scrollToPost(i){const p=document.querySelectorAll('.blog-post')[i];if(p)p.scrollIntoView({behavior:'smooth',block:'start'})}
+
+function sharePost(i){const p=allPosts[i];if(navigator.share){navigator.share({title:p.title,text:"Läs den här underbara berättelsen från Skogsmulle!",url:window.location.href})}else{alert(`Dela berättelsen "${p.title}" med dina vänner!`)}}function likePost(i,b){b.textContent="❤️ Gillad!";b.style.background="linear-gradient(135deg, #98FB98, #87CEEB)";b.onclick=null}function savePost(i,b){b.textContent="Sparad!";b.style.background="linear-gradient(135deg, #98FB98, #87CEEB)";b.onclick=null}
+
+async function editPost(i){const p=allPosts[i];const t=prompt("Redigera titel:",p.title);if(t===null)return;if(!t.trim()){alert("Titel kan inte vara tom.");return}const d=document.createElement("div");d.innerHTML=p.content;const c=prompt("Redigera innehåll:",d.textContent||d.innerText||"");if(c===null)return;if(!c.trim()){alert("Innehåll kan inte vara tomt.");return}try{await C.update(p.id,{title:t.trim(),content:`<p>${c.trim().replace(/\n/g,"</p><p>")}</p>`,date:p.date,timestamp:p.timestamp});alert("Berättelsen har uppdaterats!")}catch(e){console.error("Update error:",e);alert("Ett fel uppstod när berättelsen skulle uppdateras. Försök igen.")}}
+
+async function deletePost(i){const p=allPosts[i];if(confirm(`Är du säker på att du vill ta bort berättelsen "${p.title}"?`)){try{await C.delete(p.id);alert("Berättelsen har tagits bort!")}catch(e){console.error("Delete error:",e);alert("Ett fel uppstod när berättelsen skulle tas bort. Försök igen.")}}}
+
+function searchStories(){const t=document.getElementById("storySearch").value.toLowerCase();document.querySelectorAll('.blog-post').forEach(p=>{const title=p.querySelector('.post-title').textContent.toLowerCase();const content=p.querySelector('.post-content').textContent.toLowerCase();p.style.display=title.includes(t)||content.includes(t)?'block':'none'})}
+
+function filterStories(c){if(c==='all'){document.querySelectorAll('.blog-post').forEach(p=>p.style.display='block');return}const m={adventure:['äventyr','resa','utforska'],friendship:['vän','tillsammans','hjälp'],nature:['skog','träd','blomma','djur']};document.querySelectorAll('.blog-post').forEach(p=>{const content=p.querySelector('.post-content').textContent.toLowerCase();let show=false;if(m[c]){show=m[c].some(word=>content.includes(word))}p.style.display=show?'block':'none'})}
+
+function scrollToStory(id){const p=document.querySelector(`[data-id="${id}"]`);if(p)p.scrollIntoView({behavior:'smooth',block:'start'})}
+
+function initAuth(){const saved=localStorage.getItem("skogsmulle_user");if(saved){const user=JSON.parse(saved);if(user.email==='tomas.roosguerra@gmail.com'||user.email==='tomasroosguerra@gmail.com'){isAdmin=true;currentUser=user;showAuthorTools()}else{showLoginSection()}}else{showLoginSection()}}
+
+function updateDiscreteLogin(l){const b=document.querySelector('.discrete-login');b.textContent=l?'👤 '+currentUser.email.split('@')[0]:'🔑 Logga in';b.style.background=l?'linear-gradient(135deg,rgba(255,215,0,0.8),rgba(255,165,0,0.7))':'linear-gradient(135deg,rgba(144,238,144,0.9),rgba(135,206,235,0.7))'}
+
+function toggleLoginModal(){document.getElementById('loginModal').style.display='flex'}
+
+function closeLoginModal(){document.getElementById('loginModal').style.display='none'}
+
+function showAuthorTools(){document.getElementById('newPostForm').style.display='block';document.getElementById('userInfo').style.display='block';document.getElementById('loginSection').style.display='none';document.getElementById('userEmail').textContent=currentUser.email;updateDiscreteLogin(true)}
+
+function hideAuthorTools(){document.getElementById('newPostForm').style.display='none';document.getElementById('userInfo').style.display='none';document.getElementById('loginSection').style.display='block';updateDiscreteLogin(false)}
+
+function signInWithGoogle(e){const email=e.toLowerCase().trim();if(email==='tomas.roosguerra@gmail.com'||email==='tomasroosguerra@gmail.com'){isAdmin=true;currentUser={email:email,name:email.split('@')[0]};localStorage.setItem("skogsmulle_user",JSON.stringify(currentUser));showAuthorTools();closeLoginModal();alert("Välkommen tillbaka, författare!")}else{isAdmin=false;currentUser=null;alert("Endast författaren kan logga in här.")}}
+
+function signOut(){isAdmin=false;currentUser=null;localStorage.removeItem("skogsmulle_user");hideAuthorTools();alert("Du har loggats ut.")}
+
+function scrollToStories(){document.querySelector('.blog-section').scrollIntoView({behavior:'smooth',block:'start'})}
+
+function scrollToAdventures(){document.querySelector('.blog-section').scrollIntoView({behavior:'smooth',block:'start'})}
+
+function showCharacterInfo(c){const info={skogsmulle:{name:"Skogsmulle",description:"En nyfiken och modig liten skogsman som älskar att utforska naturen och träffa nya vänner."},morris:{name:"Morris",description:"En klok och snäll grävling som alltid vet vad man ska göra när man är i skogen."},evert:{name:"Evert",description:"En gladlynt och hjälpsam igelkott som älskar att samla bär och hjälpa sina vänner."},ron:{name:"Ron",description:"En slug och vänlig räv som kan hitta vägen genom de mest komplicerade skogspassagerna."}};const char=info[c];if(char){alert(`${char.name}\n\n${char.description}`)}}
+
+document.getElementById("newPostForm").addEventListener("submit",async function(e){e.preventDefault();const t=document.getElementById("postTitle").value.trim();const c=document.getElementById("postContent").value.trim();if(!t||!c){alert("Vänligen fyll i både titel och berättelse.");return}const today=new Date();const ds=today.getDate()+" "+["Jan","Feb","Mar","Apr","Maj","Jun","Jul","Aug","Sep","Okt","Nov","Dec"][today.getMonth()]+", "+today.getFullYear();const np={title:t,content:`<p>${c.replace(/\n/g,"</p><p>")}</p>`,date:ds,timestamp:Date.now()};try{const pid=await C.save(np);if(pid){this.reset();alert("Berättelsen har publicerats!");setTimeout(()=>scrollToPost(0),100)}}catch(e){console.error("Publish error:",e);alert("Ett fel uppstod när berättelsen skulle publiceras. Försök igen.")}});
+
+document.getElementById("loginForm").addEventListener("submit",function(e){e.preventDefault();const email=document.getElementById("emailInput").value;signInWithGoogle(email)});
+
+document.getElementById('loginModal').addEventListener('click',function(e){if(e.target===this)closeLoginModal()});
+
+themeAudio.addEventListener("ended",()=>document.getElementById("playTheme").textContent="🎵 Spela temalåt");
+adventureAudio.addEventListener("ended",()=>document.getElementById("playAdventure").textContent="🎶 Spela äventyrslåt");
+
+function toggleThemeAudio(){const b=document.getElementById("playTheme");if(themeAudio.paused){themeAudio.play();b.textContent="⏸️ Pausa"}else{themeAudio.pause();b.textContent="🎵 Spela temalåt"}}
+
+function toggleAdventureAudio(){const b=document.getElementById("playAdventure");if(adventureAudio.paused){adventureAudio.play();b.textContent="⏸️ Pausa"}else{adventureAudio.pause();b.textContent="🎶 Spela äventyrslåt"}}
+
+document.addEventListener("DOMContentLoaded",function(){console.log("Initializing Skogsmulle application...");initAuth();setTimeout(()=>{if(window.firebaseDb){console.log("Firebase initialized, setting up real-time listener");setupRealtimeListener()}else{console.log("Firebase not available, falling back to empty state");allPosts=[];renderAllPosts();updateRecentStories()}},1000)});
+</script>
+</body>
 </html>

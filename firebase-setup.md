@@ -36,7 +36,7 @@ const firebaseConfig = {
   storageBucket: "skogsmulle-c601d.firebasestorage.app",
   messagingSenderId: "878822846379",
   appId: "1:878822846379:web:b545d30bab52d19a5facee",
-  measurementId: "G-SV2RJXDS5S"
+  measurementId: "G-SV2RJXDS5S",
 };
 ```
 
