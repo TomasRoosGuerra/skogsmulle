@@ -79,14 +79,14 @@
 
     <style>
       :root {
-        --p: #92c5a3;
-        --s: #ffffff;
-        --a: #b8d5c1;
-        --bg: rgba(9, 44, 36, 0.85);
-        --txt: #ffffff;
-        --w: rgba(255, 255, 255, 0.95);
-        --lg: rgba(146, 197, 163, 0.15);
-        --br: rgba(146, 197, 163, 0.4);
+        --p: #4a6b2a; /* Primary color (forest green) */
+        --s: #2d5016; /* Secondary color (darker green) */
+        --a: #6b8e3a; /* Accent color (medium green) */
+        --bg: rgba(144, 180, 120, 0.9); /* Muted green background, slightly transparent */
+        --txt: #2d3a1a; /* Dark green text for light background */
+        --w: rgba(255, 255, 255, 0.95); /* Near-white for elements */
+        --lg: rgba(255, 255, 255, 0.8); /* Light background for cards */
+        --br: rgba(74, 107, 42, 0.6); /* Border color, forest green */
         --r: 8px;
         --f: "Comic Sans MS", "Trebuchet MS", cursive;
         --fu: "Comic Sans MS", "Trebuchet MS", cursive;
@@ -102,8 +102,7 @@
       }
 
       body {
-        background: var(--bg) url("polygon-scatter-haikei.svg") center/cover
-          no-repeat fixed;
+        background: var(--bg) url("nedladdning.png") repeat fixed;
         color: var(--txt);
         line-height: 1.6;
         font-family: var(--f);
@@ -600,7 +599,7 @@
 
       .rich-editor:empty:before {
         content: attr(data-placeholder);
-        color: rgba(255, 255, 255, 0.6);
+        color: rgba(45, 58, 26, 0.6);
         font-style: italic;
       }
 
