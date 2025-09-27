@@ -215,7 +215,6 @@
         margin-right: auto;
       }
 
-
       .discrete-login {
         position: fixed;
         top: 20px;
@@ -371,6 +370,55 @@
         transform: translateY(-1px);
       }
 
+      .nav-controls {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        margin-top: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .search-box input {
+        padding: 8px 12px;
+        border: 1px solid var(--br);
+        border-radius: 20px;
+        font-size: 0.9rem;
+        background: var(--w);
+        font-family: var(--f);
+        min-width: 200px;
+        transition: all 0.3s ease;
+      }
+
+      .search-box input:focus {
+        outline: none;
+        border-color: var(--p);
+        box-shadow: 0 0 0 2px rgba(74, 93, 58, 0.2);
+      }
+
+      .text-size-controls {
+        display: flex;
+        gap: 5px;
+      }
+
+      .text-size-controls button {
+        background: var(--w);
+        border: 1px solid var(--br);
+        border-radius: 4px;
+        padding: 6px 10px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        font-family: var(--f);
+        min-width: 35px;
+      }
+
+      .text-size-controls button:hover {
+        background: var(--p);
+        color: var(--w);
+        transform: translateY(-1px);
+      }
+
       .content {
         display: grid;
         grid-template-columns: 1fr 300px;
@@ -436,9 +484,26 @@
         font-style: italic;
       }
 
+      .post-meta {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
       .post-date {
         color: var(--a);
         font-size: 0.85rem;
+      }
+
+      .post-category,
+      .post-age {
+        background: var(--lg);
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        color: var(--s);
+        border: 1px solid var(--br);
       }
 
       .post-content {
@@ -548,10 +613,132 @@
         font-family: var(--f);
       }
 
-      .form-group textarea:focus {
+      .form-group textarea:focus,
+      .form-group select:focus {
         outline: none;
         border-color: var(--p);
         box-shadow: 0 0 0 2px rgba(74, 93, 58, 0.2);
+      }
+
+      .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--br);
+        border-radius: 6px;
+        font-size: 1rem;
+        background: var(--w);
+        font-family: var(--f);
+      }
+
+      .editor-toolbar {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 10px;
+        padding: 8px;
+        background: var(--lg);
+        border-radius: 6px;
+        border: 1px solid var(--br);
+      }
+
+      .editor-toolbar button {
+        background: var(--w);
+        border: 1px solid var(--br);
+        border-radius: 4px;
+        padding: 6px 10px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        font-family: var(--f);
+      }
+
+      .editor-toolbar button:hover {
+        background: var(--p);
+        color: var(--w);
+        transform: translateY(-1px);
+      }
+
+      .rich-editor {
+        min-height: 200px;
+        padding: 15px;
+        border: 1px solid var(--br);
+        border-radius: 6px;
+        font-size: 1rem;
+        line-height: 1.6;
+        background: var(--w);
+        font-family: var(--f);
+        outline: none;
+        transition: border-color 0.3s ease;
+      }
+
+      .rich-editor:focus {
+        border-color: var(--p);
+        box-shadow: 0 0 0 2px rgba(74, 93, 58, 0.2);
+      }
+
+      .rich-editor:empty:before {
+        content: attr(data-placeholder);
+        color: var(--a);
+        font-style: italic;
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .form-actions .btn {
+        flex: 1;
+      }
+
+      .filter-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .filter-group label {
+        font-size: 0.9rem;
+        color: var(--s);
+        font-weight: bold;
+      }
+
+      .filter-group select {
+        padding: 8px;
+        border: 1px solid var(--br);
+        border-radius: 6px;
+        font-size: 0.9rem;
+        background: var(--w);
+        font-family: var(--f);
+      }
+
+      .stat-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--br);
+      }
+
+      .stat-item:last-child {
+        border-bottom: none;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        color: var(--s);
+      }
+
+      .stat-value {
+        font-weight: bold;
+        color: var(--p);
+        font-size: 0.9rem;
       }
 
       .submit-button {
@@ -575,7 +762,6 @@
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
-
 
       .character-grid {
         display: grid;
@@ -609,7 +795,6 @@
         font-size: 1.5rem;
         border: 2px solid var(--br);
       }
-
 
       .author-info {
         background: linear-gradient(
@@ -803,6 +988,16 @@
         <li><a href="#berattelser">📚 Berättelser</a></li>
         <li><a href="#karaktarer">🎭 Karaktärer</a></li>
       </ul>
+      <div class="nav-controls">
+        <div class="search-box">
+          <input type="text" id="globalSearch" placeholder="🔍 Sök berättelser..." onkeyup="searchStories()">
+        </div>
+        <div class="text-size-controls">
+          <button onclick="changeTextSize(-1)" title="Mindre text">A-</button>
+          <button onclick="changeTextSize(0)" title="Normal text">A</button>
+          <button onclick="changeTextSize(1)" title="Större text">A+</button>
+        </div>
+      </div>
     </nav>
 
     <main id="main-content" role="main">
@@ -842,19 +1037,88 @@
                 <input type="text" id="postTitle" required />
               </div>
               <div class="form-group">
-                <label for="postContent">Berättelse:</label>
-                <textarea id="postContent" required></textarea>
+                <label for="postCategory">Kategori:</label>
+                <select id="postCategory" required>
+                  <option value="">Välj kategori</option>
+                  <option value="äventyr">Äventyr</option>
+                  <option value="vänskap">Vänskap</option>
+                  <option value="natur">Natur</option>
+                  <option value="magi">Magi</option>
+                  <option value="djur">Djur</option>
+                </select>
               </div>
-              <button type="submit" class="submit-button">
-                Publicera berättelse
-              </button>
+              <div class="form-group">
+                <label for="postAge">Åldersgrupp:</label>
+                <select id="postAge" required>
+                  <option value="">Välj ålder</option>
+                  <option value="3-5">3-5 år</option>
+                  <option value="6-8">6-8 år</option>
+                  <option value="9-12">9-12 år</option>
+                  <option value="alla">Alla åldrar</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="postContent">Berättelse:</label>
+                <div class="editor-toolbar">
+                  <button type="button" onclick="formatText('bold')" title="Fet text">B</button>
+                  <button type="button" onclick="formatText('italic')" title="Kursiv text">I</button>
+                  <button type="button" onclick="formatText('underline')" title="Understruken text">U</button>
+                  <button type="button" onclick="insertImage()" title="Lägg till bild">🖼️</button>
+                  <button type="button" onclick="insertEmoji()" title="Lägg till emoji">😊</button>
+                </div>
+                <div id="postContent" class="rich-editor" contenteditable="true" data-placeholder="Skriv din berättelse här..."></div>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="saveDraft()">💾 Spara utkast</button>
+                <button type="submit" class="submit-button">📖 Publicera berättelse</button>
+              </div>
             </form>
           </div>
 
+          <div class="sidebar-widget">
+            <h3 class="widget-title">🔍 Filtrera berättelser</h3>
+            <div class="filter-controls">
+              <div class="filter-group">
+                <label>Kategori:</label>
+                <select id="categoryFilter" onchange="filterByCategory()">
+                  <option value="">Alla kategorier</option>
+                  <option value="äventyr">Äventyr</option>
+                  <option value="vänskap">Vänskap</option>
+                  <option value="natur">Natur</option>
+                  <option value="magi">Magi</option>
+                  <option value="djur">Djur</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label>Ålder:</label>
+                <select id="ageFilter" onchange="filterByAge()">
+                  <option value="">Alla åldrar</option>
+                  <option value="3-5">3-5 år</option>
+                  <option value="6-8">6-8 år</option>
+                  <option value="9-12">9-12 år</option>
+                  <option value="alla">Alla åldrar</option>
+                </select>
+              </div>
+            </div>
+          </div>
 
           <div class="sidebar-widget">
             <h3 class="widget-title">🌟 Senaste berättelserna</h3>
             <div id="recentStories"></div>
+          </div>
+
+          <div class="sidebar-widget">
+            <h3 class="widget-title">📊 Lässtatistik</h3>
+            <div id="readingStats">
+              <div class="stat-item">
+                <span class="stat-label">Totalt läst:</span>
+                <span class="stat-value" id="totalRead">0</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Favorit kategori:</span>
+                <span class="stat-value" id="favoriteCategory">-</span>
+              </div>
+            </div>
           </div>
 
           <div class="sidebar-widget">
@@ -881,7 +1145,6 @@
               </div>
             </div>
           </div>
-
         </aside>
       </div>
     </main>
@@ -908,8 +1171,9 @@
         &copy; 2024 Skogsmulle. Alla berättelser är skapade med kärlek för barn
         och föräldrar.
       </p>
-      <div style="margin-top:15px;font-size:0.9rem;color:var(--a)">
-        <strong>Läsningstips för föräldrar:</strong> Läs högt varje dag, ställ frågor om berättelsen, och låt barnet berätta om bilderna.
+      <div style="margin-top: 15px; font-size: 0.9rem; color: var(--a)">
+        <strong>Läsningstips för föräldrar:</strong> Läs högt varje dag, ställ
+        frågor om berättelsen, och låt barnet berätta om bilderna.
       </div>
     </footer>
 
@@ -1021,17 +1285,24 @@
         c.innerHTML = allPosts
           .map(
             (p, i) =>
-              `<article class="blog-post"><div class="post-header"><h3 class="post-title">${
-                p.title
-              }</h3><div class="post-date">${
-                p.date
-              }</div></div><div class="post-content">${
-                p.content
-              }</div><div class="post-actions">${
-                isAdmin
-                  ? `<button class="post-button" onclick="editPost(${i})">✏️ Redigera</button><button class="post-button" onclick="deletePost(${i})">🗑️ Ta bort</button>`
-                  : ""
-              }</div></article>`
+              `<article class="blog-post" data-category="${p.category || ''}" data-age="${p.age || ''}">
+                <div class="post-header">
+                  <h3 class="post-title">${p.title}</h3>
+                  <div class="post-meta">
+                    <span class="post-date">${p.date}</span>
+                    ${p.category ? `<span class="post-category">🏷️ ${p.category}</span>` : ''}
+                    ${p.age ? `<span class="post-age">👶 ${p.age} år</span>` : ''}
+                  </div>
+                </div>
+                <div class="post-content">${p.content}</div>
+                <div class="post-actions">
+                  ${isAdmin
+                    ? `<button class="post-button" onclick="editPost(${i})">✏️ Redigera</button><button class="post-button" onclick="deletePost(${i})">🗑️ Ta bort</button>`
+                    : ""
+                  }
+                  <button class="post-button" onclick="markAsRead(${i})">✅ Läs</button>
+                </div>
+              </article>`
           )
           .join("");
       }
@@ -1056,7 +1327,6 @@
         const p = document.querySelectorAll(".blog-post")[i];
         if (p) p.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-
 
       async function editPost(i) {
         const p = allPosts[i];
@@ -1112,10 +1382,143 @@
         }
       }
 
-
       function scrollToStory(id) {
         const p = document.querySelector(`[data-id="${id}"]`);
         if (p) p.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      // Rich text editor functions
+      function formatText(command) {
+        document.execCommand(command, false, null);
+        document.getElementById('postContent').focus();
+      }
+
+      function insertImage() {
+        const url = prompt('Ange bildens URL:');
+        if (url) {
+          document.execCommand('insertImage', false, url);
+        }
+      }
+
+      function insertEmoji() {
+        const emojis = ['😊', '🌲', '🦊', '🦔', '🦡', '🌟', '🌈', '🦋', '🌸', '🍄'];
+        const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+        document.execCommand('insertText', false, emoji);
+      }
+
+      // Draft system
+      function saveDraft() {
+        const title = document.getElementById('postTitle').value;
+        const category = document.getElementById('postCategory').value;
+        const age = document.getElementById('postAge').value;
+        const content = document.getElementById('postContent').innerHTML;
+        
+        if (!title && !content) {
+          alert('Inget att spara som utkast.');
+          return;
+        }
+
+        const draft = { title, category, age, content, timestamp: Date.now() };
+        localStorage.setItem('skogsmulle_draft', JSON.stringify(draft));
+        alert('Utkast sparat!');
+      }
+
+      function loadDraft() {
+        const draft = localStorage.getItem('skogsmulle_draft');
+        if (draft) {
+          const data = JSON.parse(draft);
+          document.getElementById('postTitle').value = data.title || '';
+          document.getElementById('postCategory').value = data.category || '';
+          document.getElementById('postAge').value = data.age || '';
+          document.getElementById('postContent').innerHTML = data.content || '';
+        }
+      }
+
+      // Search functionality
+      function searchStories() {
+        const searchTerm = document.getElementById('globalSearch').value.toLowerCase();
+        document.querySelectorAll('.blog-post').forEach(post => {
+          const title = post.querySelector('.post-title').textContent.toLowerCase();
+          const content = post.querySelector('.post-content').textContent.toLowerCase();
+          const category = post.dataset.category?.toLowerCase() || '';
+          const age = post.dataset.age?.toLowerCase() || '';
+          
+          const matches = title.includes(searchTerm) || 
+                         content.includes(searchTerm) || 
+                         category.includes(searchTerm) || 
+                         age.includes(searchTerm);
+          
+          post.style.display = matches ? 'block' : 'none';
+        });
+      }
+
+      // Filter functions
+      function filterByCategory() {
+        const category = document.getElementById('categoryFilter').value;
+        document.querySelectorAll('.blog-post').forEach(post => {
+          if (!category || post.dataset.category === category) {
+            post.style.display = 'block';
+          } else {
+            post.style.display = 'none';
+          }
+        });
+      }
+
+      function filterByAge() {
+        const age = document.getElementById('ageFilter').value;
+        document.querySelectorAll('.blog-post').forEach(post => {
+          if (!age || post.dataset.age === age || post.dataset.age === 'alla') {
+            post.style.display = 'block';
+          } else {
+            post.style.display = 'none';
+          }
+        });
+      }
+
+      // Text size controls
+      function changeTextSize(delta) {
+        const currentSize = parseFloat(getComputedStyle(document.body).fontSize);
+        let newSize;
+        
+        if (delta === 0) {
+          newSize = 16; // Reset to default
+        } else {
+          newSize = Math.max(12, Math.min(24, currentSize + delta));
+        }
+        
+        document.body.style.fontSize = newSize + 'px';
+        localStorage.setItem('skogsmulle_textSize', newSize);
+      }
+
+      // Reading progress
+      function markAsRead(index) {
+        const post = allPosts[index];
+        const readPosts = JSON.parse(localStorage.getItem('skogsmulle_read') || '[]');
+        
+        if (!readPosts.includes(post.id)) {
+          readPosts.push(post.id);
+          localStorage.setItem('skogsmulle_read', JSON.stringify(readPosts));
+          updateReadingStats();
+        }
+        
+        alert(`Bra jobbat! Du har läst "${post.title}"`);
+      }
+
+      function updateReadingStats() {
+        const readPosts = JSON.parse(localStorage.getItem('skogsmulle_read') || '[]');
+        document.getElementById('totalRead').textContent = readPosts.length;
+        
+        // Calculate favorite category
+        const categories = {};
+        allPosts.forEach(post => {
+          if (readPosts.includes(post.id) && post.category) {
+            categories[post.category] = (categories[post.category] || 0) + 1;
+          }
+        });
+        
+        const favorite = Object.keys(categories).reduce((a, b) => 
+          categories[a] > categories[b] ? a : b, '');
+        document.getElementById('favoriteCategory').textContent = favorite || '-';
       }
 
       function initAuth() {
@@ -1197,7 +1600,6 @@
         alert("Du har loggats ut.");
       }
 
-
       function showCharacterInfo(c) {
         const info = {
           skogsmulle: {
@@ -1232,11 +1634,15 @@
         .addEventListener("submit", async function (e) {
           e.preventDefault();
           const t = document.getElementById("postTitle").value.trim();
-          const c = document.getElementById("postContent").value.trim();
+          const category = document.getElementById("postCategory").value;
+          const age = document.getElementById("postAge").value;
+          const c = document.getElementById("postContent").innerHTML.trim();
+          
           if (!t || !c) {
             alert("Vänligen fyll i både titel och berättelse.");
             return;
           }
+          
           const today = new Date();
           const ds =
             today.getDate() +
@@ -1257,16 +1663,22 @@
             ][today.getMonth()] +
             ", " +
             today.getFullYear();
+            
           const np = {
             title: t,
-            content: `<p>${c.replace(/\n/g, "</p><p>")}</p>`,
+            category: category,
+            age: age,
+            content: c,
             date: ds,
             timestamp: Date.now(),
           };
+          
           try {
             const pid = await C.save(np);
             if (pid) {
               this.reset();
+              document.getElementById('postContent').innerHTML = '';
+              localStorage.removeItem('skogsmulle_draft');
               alert("Berättelsen har publicerats!");
               setTimeout(() => scrollToPost(0), 100);
             }
@@ -1330,6 +1742,16 @@
       document.addEventListener("DOMContentLoaded", function () {
         console.log("Initializing Skogsmulle application...");
         initAuth();
+        
+        // Load saved text size
+        const savedSize = localStorage.getItem('skogsmulle_textSize');
+        if (savedSize) {
+          document.body.style.fontSize = savedSize + 'px';
+        }
+        
+        // Load draft if available
+        loadDraft();
+        
         setTimeout(() => {
           if (window.firebaseDb) {
             console.log("Firebase initialized, setting up real-time listener");
@@ -1340,6 +1762,7 @@
             renderAllPosts();
             updateRecentStories();
           }
+          updateReadingStats();
         }, 1000);
       });
     </script>
