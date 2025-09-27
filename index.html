@@ -691,6 +691,166 @@
         flex: 1;
       }
 
+      /* Author Tools Progressive Disclosure */
+      .author-tools-widget {
+        position: relative;
+      }
+
+      .author-tools-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        padding: 5px 0;
+        border-bottom: 1px solid var(--br);
+        margin-bottom: 10px;
+      }
+
+      .author-tools-header:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        padding: 5px 8px;
+      }
+
+      .expand-icon {
+        font-size: 0.8rem;
+        color: var(--a);
+        transition: transform 0.3s ease;
+      }
+
+      .author-tools-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+
+      .author-tools-content.expanded {
+        max-height: 500px;
+      }
+
+      .author-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 15px;
+      }
+
+      .author-action-btn {
+        background: linear-gradient(135deg, rgba(144, 238, 144, 0.8), rgba(135, 206, 235, 0.8));
+        color: var(--s);
+        border: 1px solid var(--br);
+        border-radius: 6px;
+        padding: 10px 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+        font-family: var(--f);
+        text-align: left;
+      }
+
+      .author-action-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(135deg, rgba(144, 238, 144, 0.9), rgba(135, 206, 235, 0.9));
+      }
+
+      /* Floating Author Workspace */
+      .author-workspace {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 800px;
+        max-height: 90vh;
+        background: var(--w);
+        border-radius: var(--r);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        z-index: 3000;
+        display: none;
+        overflow: hidden;
+      }
+
+      .author-workspace.show {
+        display: block;
+        animation: slideIn 0.3s ease;
+      }
+
+      .workspace-header {
+        background: linear-gradient(135deg, rgba(144, 238, 144, 0.9), rgba(135, 206, 235, 0.8));
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--br);
+      }
+
+      .workspace-header h3 {
+        margin: 0;
+        color: var(--s);
+        font-family: var(--f);
+      }
+
+      .workspace-controls {
+        display: flex;
+        gap: 8px;
+      }
+
+      .workspace-controls button {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 4px;
+        padding: 6px 10px;
+        cursor: pointer;
+        color: var(--s);
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+      }
+
+      .workspace-controls button:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+      }
+
+      .workspace-content {
+        padding: 20px;
+        max-height: calc(90vh - 80px);
+        overflow-y: auto;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translate(-50%, -60%);
+        }
+        to {
+          opacity: 1;
+          transform: translate(-50%, -50%);
+        }
+      }
+
+      /* Workspace overlay */
+      .workspace-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 2999;
+        display: none;
+      }
+
+      .workspace-overlay.show {
+        display: block;
+      }
+
       .filter-controls {
         display: flex;
         flex-direction: column;
@@ -1017,62 +1177,29 @@
         </section>
 
         <aside class="sidebar">
-          <div class="sidebar-widget">
-            <h3 class="widget-title">🔐 Författarverktyg</h3>
-            <div class="author-info">
-              <p><strong>Inloggad som författare:</strong></p>
-              <div id="userInfo" style="display: none">
-                <p id="userEmail"></p>
+          <div class="sidebar-widget author-tools-widget">
+            <div class="author-tools-header" onclick="toggleAuthorWorkspace()">
+              <h3 class="widget-title">🔐 Författarverktyg</h3>
+              <span class="expand-icon" id="expandIcon">▶</span>
+            </div>
+            <div class="author-tools-content" id="authorToolsContent">
+              <div class="author-info">
+                <p><strong>Inloggad som författare:</strong></p>
+                <div id="userInfo" style="display: none">
+                  <p id="userEmail"></p>
+                </div>
+                <div id="loginSection">
+                  <p class="login-note">
+                    Logga in för att skapa och redigera berättelser.
+                  </p>
+                </div>
               </div>
-              <div id="loginSection">
-                <p class="login-note">
-                  Logga in för att skapa och redigera berättelser.
-                </p>
+              <div class="author-actions">
+                <button class="author-action-btn" onclick="openAuthorWorkspace()">📝 Skapa berättelse</button>
+                <button class="author-action-btn" onclick="showAuthorStats()">📊 Statistik</button>
+                <button class="author-action-btn" onclick="manageDrafts()">📋 Utkast</button>
               </div>
             </div>
-            <form id="newPostForm" class="new-post-form">
-              <h3 class="form-title">Skapa ny berättelse</h3>
-              <div class="form-group">
-                <label for="postTitle">Titel:</label>
-                <input type="text" id="postTitle" required />
-              </div>
-              <div class="form-group">
-                <label for="postCategory">Kategori:</label>
-                <select id="postCategory" required>
-                  <option value="">Välj kategori</option>
-                  <option value="äventyr">Äventyr</option>
-                  <option value="vänskap">Vänskap</option>
-                  <option value="natur">Natur</option>
-                  <option value="magi">Magi</option>
-                  <option value="djur">Djur</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="postAge">Åldersgrupp:</label>
-                <select id="postAge" required>
-                  <option value="">Välj ålder</option>
-                  <option value="3-5">3-5 år</option>
-                  <option value="6-8">6-8 år</option>
-                  <option value="9-12">9-12 år</option>
-                  <option value="alla">Alla åldrar</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="postContent">Berättelse:</label>
-                <div class="editor-toolbar">
-                  <button type="button" onclick="formatText('bold')" title="Fet text">B</button>
-                  <button type="button" onclick="formatText('italic')" title="Kursiv text">I</button>
-                  <button type="button" onclick="formatText('underline')" title="Understruken text">U</button>
-                  <button type="button" onclick="insertImage()" title="Lägg till bild">🖼️</button>
-                  <button type="button" onclick="insertEmoji()" title="Lägg till emoji">😊</button>
-                </div>
-                <div id="postContent" class="rich-editor" contenteditable="true" data-placeholder="Skriv din berättelse här..."></div>
-              </div>
-              <div class="form-actions">
-                <button type="button" class="btn btn-secondary" onclick="saveDraft()">💾 Spara utkast</button>
-                <button type="submit" class="submit-button">📖 Publicera berättelse</button>
-              </div>
-            </form>
           </div>
 
           <div class="sidebar-widget">
@@ -1164,6 +1291,63 @@
       >
         🎶 Spela äventyrslåt
       </button>
+    </div>
+
+    <!-- Floating Author Workspace -->
+    <div id="authorWorkspace" class="author-workspace">
+      <div class="workspace-header">
+        <h3>📝 Författarverktyg</h3>
+        <div class="workspace-controls">
+          <button onclick="minimizeWorkspace()" title="Minimera">➖</button>
+          <button onclick="closeAuthorWorkspace()" title="Stäng">✖</button>
+        </div>
+      </div>
+      <div class="workspace-content">
+        <form id="newPostForm" class="new-post-form">
+          <div class="form-group">
+            <label for="postTitle">Titel:</label>
+            <input type="text" id="postTitle" required />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="postCategory">Kategori:</label>
+              <select id="postCategory" required>
+                <option value="">Välj kategori</option>
+                <option value="äventyr">Äventyr</option>
+                <option value="vänskap">Vänskap</option>
+                <option value="natur">Natur</option>
+                <option value="magi">Magi</option>
+                <option value="djur">Djur</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="postAge">Åldersgrupp:</label>
+              <select id="postAge" required>
+                <option value="">Välj ålder</option>
+                <option value="3-5">3-5 år</option>
+                <option value="6-8">6-8 år</option>
+                <option value="9-12">9-12 år</option>
+                <option value="alla">Alla åldrar</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="postContent">Berättelse:</label>
+            <div class="editor-toolbar">
+              <button type="button" onclick="formatText('bold')" title="Fet text">B</button>
+              <button type="button" onclick="formatText('italic')" title="Kursiv text">I</button>
+              <button type="button" onclick="formatText('underline')" title="Understruken text">U</button>
+              <button type="button" onclick="insertImage()" title="Lägg till bild">🖼️</button>
+              <button type="button" onclick="insertEmoji()" title="Lägg till emoji">😊</button>
+            </div>
+            <div id="postContent" class="rich-editor" contenteditable="true" data-placeholder="Skriv din berättelse här..."></div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" onclick="saveDraft()">💾 Spara utkast</button>
+            <button type="submit" class="submit-button">📖 Publicera berättelse</button>
+          </div>
+        </form>
+      </div>
     </div>
 
     <footer class="footer">
@@ -1521,6 +1705,66 @@
         document.getElementById('favoriteCategory').textContent = favorite || '-';
       }
 
+      // Author Workspace Functions
+      function toggleAuthorWorkspace() {
+        const content = document.getElementById('authorToolsContent');
+        const icon = document.getElementById('expandIcon');
+        
+        if (content.classList.contains('expanded')) {
+          content.classList.remove('expanded');
+          icon.textContent = '▶';
+        } else {
+          content.classList.add('expanded');
+          icon.textContent = '▼';
+        }
+      }
+
+      function openAuthorWorkspace() {
+        const workspace = document.getElementById('authorWorkspace');
+        const overlay = document.createElement('div');
+        overlay.className = 'workspace-overlay show';
+        overlay.onclick = closeAuthorWorkspace;
+        
+        document.body.appendChild(overlay);
+        workspace.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeAuthorWorkspace() {
+        const workspace = document.getElementById('authorWorkspace');
+        const overlay = document.querySelector('.workspace-overlay');
+        
+        workspace.classList.remove('show');
+        if (overlay) overlay.remove();
+        document.body.style.overflow = '';
+      }
+
+      function minimizeWorkspace() {
+        // For future implementation - minimize to taskbar
+        closeAuthorWorkspace();
+      }
+
+      function showAuthorStats() {
+        alert('Författarstatistik:\n\n' +
+              `Totalt antal berättelser: ${allPosts.length}\n` +
+              `Senaste publicering: ${allPosts.length > 0 ? allPosts[0].date : 'Inga berättelser'}\n` +
+              `Kategorier använda: ${[...new Set(allPosts.map(p => p.category).filter(Boolean))].join(', ') || 'Inga'}`);
+      }
+
+      function manageDrafts() {
+        const draft = localStorage.getItem('skogsmulle_draft');
+        if (draft) {
+          const data = JSON.parse(draft);
+          const date = new Date(data.timestamp).toLocaleDateString('sv-SE');
+          if (confirm(`Hittade ett utkast från ${date}.\n\nVill du ladda det?`)) {
+            loadDraft();
+            openAuthorWorkspace();
+          }
+        } else {
+          alert('Inga utkast hittades.');
+        }
+      }
+
       function initAuth() {
         const saved = localStorage.getItem("skogsmulle_user");
         if (saved) {
@@ -1559,7 +1803,6 @@
       }
 
       function showAuthorTools() {
-        document.getElementById("newPostForm").style.display = "block";
         document.getElementById("userInfo").style.display = "block";
         document.getElementById("loginSection").style.display = "none";
         document.getElementById("userEmail").textContent = currentUser.email;
@@ -1567,7 +1810,6 @@
       }
 
       function hideAuthorTools() {
-        document.getElementById("newPostForm").style.display = "none";
         document.getElementById("userInfo").style.display = "none";
         document.getElementById("loginSection").style.display = "block";
         updateDiscreteLogin(false);
