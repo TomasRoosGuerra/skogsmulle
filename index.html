@@ -79,18 +79,17 @@
 
     <style>
       :root {
-        --p: #4a5d3a;
-        --s: #2d3a2d;
-        --a: #6a7a5a;
-        --bg: #f5f4e8;
-        --txt: #3d4a2d;
+        --p: #2d5016;
+        --s: #1a3d0a;
+        --a: #4a6b2a;
+        --bg: #f8f5e8;
+        --txt: #2d3a1a;
         --w: #fff;
-        --lg: #f0f8f0;
-        --br: rgba(144, 180, 120, 0.2);
-        --sh: 0 3px 12px rgba(0, 0, 0, 0.06);
-        --r: 12px;
-        --f: "Georgia", "Times New Roman", serif;
-        --fu: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        --lg: #e8f5e8;
+        --br: #8bb88b;
+        --r: 8px;
+        --f: "Comic Sans MS", "Trebuchet MS", cursive;
+        --fu: "Comic Sans MS", "Trebuchet MS", cursive;
       }
 
       *,
@@ -103,24 +102,7 @@
       }
 
       body {
-        background: var(--bg)
-            radial-gradient(
-              circle at 20% 80%,
-              rgba(144, 180, 120, 0.08) 0%,
-              transparent 50%
-            ),
-          radial-gradient(
-            circle at 80% 20%,
-            rgba(120, 150, 180, 0.06) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 40% 40%,
-            rgba(160, 200, 140, 0.05) 0%,
-            transparent 50%
-          ),
-          url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="watercolor"><feTurbulence baseFrequency="0.02" numOctaves="3" result="noise"/><feColorMatrix values="0 0 0 0 0.8 0 0 0 0 0.9 0 0 0 0 0.7 0 0 0 0.1 0"/></filter></defs><rect width="100" height="100" fill="%23f5f4e8" filter="url(%23watercolor)"/></svg>');
-        background-size: 200px 200px, 300px 300px, 250px 250px, 150px 150px;
+        background: var(--bg);
         color: var(--txt);
         line-height: 1.6;
         font-family: var(--f);
@@ -149,19 +131,12 @@
 
       .main-header {
         position: relative;
-        background: linear-gradient(
-          135deg,
-          rgba(144, 238, 144, 0.4),
-          rgba(135, 206, 235, 0.4),
-          rgba(152, 251, 152, 0.3)
-        );
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
+        background: var(--lg);
+        border-radius: var(--r);
         margin: 20px;
         padding: 40px 20px;
         overflow: hidden;
-        border: 1px solid var(--br);
-        box-shadow: var(--sh);
+        border: 3px solid var(--br);
       }
 
       .header-background {
@@ -186,9 +161,8 @@
         font-size: 2.8rem;
         color: var(--p);
         margin-bottom: 20px;
-        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
         font-family: var(--f);
-        font-style: italic;
+        font-weight: bold;
       }
 
       .welcome-section {
@@ -199,17 +173,14 @@
         font-size: 2.2rem;
         color: var(--p);
         margin-bottom: 15px;
-        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.9);
         font-family: var(--f);
-        font-style: italic;
-        animation: gentleGlow 3s ease-in-out infinite alternate;
+        font-weight: bold;
       }
 
       .welcome-text {
         font-size: 1.1rem;
         color: var(--txt);
         margin-bottom: 20px;
-        font-style: italic;
         max-width: 600px;
         margin-left: auto;
         margin-right: auto;
@@ -219,27 +190,17 @@
         position: fixed;
         top: 20px;
         right: 20px;
-        background: linear-gradient(
-          135deg,
-          rgba(144, 238, 144, 0.9),
-          rgba(135, 206, 235, 0.7)
-        );
+        background: var(--lg);
         color: var(--s);
-        border: 1px solid var(--br);
+        border: 2px solid var(--br);
         border-radius: var(--r);
         padding: 8px 16px;
         font-size: 0.9rem;
         cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: var(--sh);
         z-index: 1000;
         font-family: var(--f);
       }
 
-      .discrete-login:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      }
 
       .login-modal {
         position: fixed;
@@ -331,20 +292,14 @@
       }
 
       .main-navigation {
-        background: linear-gradient(
-          135deg,
-          rgba(144, 238, 144, 0.9),
-          rgba(135, 206, 235, 0.8)
-        );
-        backdrop-filter: blur(10px);
+        background: var(--lg);
         border-radius: var(--r);
         margin: 20px;
         padding: 15px 20px;
         position: sticky;
         top: 20px;
         z-index: 100;
-        border: 1px solid var(--br);
-        box-shadow: var(--sh);
+        border: 2px solid var(--br);
       }
 
       .nav-links {
@@ -366,8 +321,7 @@
       }
 
       .nav-links a:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: translateY(-1px);
+        background: var(--w);
       }
 
       .nav-controls {
@@ -393,7 +347,6 @@
       .search-box input:focus {
         outline: none;
         border-color: var(--p);
-        box-shadow: 0 0 0 2px rgba(74, 93, 58, 0.2);
       }
 
       .text-size-controls {
@@ -416,7 +369,6 @@
       .text-size-controls button:hover {
         background: var(--p);
         color: var(--w);
-        transform: translateY(-1px);
       }
 
       .content {
@@ -427,48 +379,22 @@
       }
 
       .blog-section {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(5px);
+        background: var(--w);
         border-radius: var(--r);
         padding: 30px;
-        border: 1px solid var(--br);
-        box-shadow: var(--sh);
+        border: 2px solid var(--br);
       }
 
       .blog-post {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.9),
-          rgba(240, 248, 240, 0.8)
-        );
+        background: var(--lg);
         border-radius: var(--r);
         padding: 20px;
         margin-bottom: 20px;
-        border: 1px solid var(--br);
-        box-shadow: var(--sh);
-        backdrop-filter: blur(2px);
-        transition: all 0.3s ease;
+        border: 2px solid var(--br);
         position: relative;
       }
 
-      .blog-post::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="paper"><feTurbulence baseFrequency="0.04" numOctaves="2" result="noise"/><feColorMatrix values="0 0 0 0 0.9 0 0 0 0 0.95 0 0 0 0 0.85 0 0 0 0.3 0"/></filter></defs><rect width="100" height="100" fill="white" filter="url(%23paper)"/></svg>')
-          repeat;
-        opacity: 0.1;
-        pointer-events: none;
-        border-radius: var(--r);
-      }
 
-      .blog-post:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-      }
 
       .post-header {
         margin-bottom: 15px;
@@ -481,7 +407,7 @@
         color: var(--p);
         margin-bottom: 8px;
         font-family: var(--f);
-        font-style: italic;
+        font-weight: bold;
       }
 
       .post-meta {
@@ -520,64 +446,37 @@
       }
 
       .post-button {
-        background: linear-gradient(
-          135deg,
-          rgba(144, 238, 144, 0.8),
-          rgba(135, 206, 235, 0.8)
-        );
+        background: var(--lg);
         color: var(--s);
-        border: 1px solid var(--br);
-        border-radius: 6px;
+        border: 2px solid var(--br);
+        border-radius: var(--r);
         padding: 8px 16px;
         cursor: pointer;
-        transition: all 0.3s ease;
         font-size: 0.9rem;
         font-family: var(--f);
       }
 
       .post-button:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        background: var(--w);
       }
 
       .sidebar {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(5px);
+        background: var(--w);
         border-radius: var(--r);
         padding: 20px;
-        border: 1px solid var(--br);
-        box-shadow: var(--sh);
+        border: 2px solid var(--br);
         height: fit-content;
       }
 
       .sidebar-widget {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.9),
-          rgba(240, 248, 240, 0.8)
-        );
+        background: var(--lg);
         border-radius: var(--r);
         padding: 18px;
         margin-bottom: 18px;
-        border: 1px solid var(--br);
-        box-shadow: var(--sh);
-        backdrop-filter: blur(2px);
+        border: 2px solid var(--br);
         position: relative;
       }
 
-      .sidebar-widget::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="paper"><feTurbulence baseFrequency="0.04" numOctaves="2" result="noise"/><feColorMatrix values="0 0 0 0 0.9 0 0 0 0 0.95 0 0 0 0 0.85 0 0 0 0.3 0"/></filter></defs><rect width="100" height="100" fill="white" filter="url(%23paper)"/></svg>')
-          repeat;
-        opacity: 0.1;
-        pointer-events: none;
-        border-radius: var(--r);
-      }
 
       .widget-title {
         color: var(--p);
@@ -586,7 +485,7 @@
         margin-bottom: 12px;
         font-size: 1.1rem;
         font-family: var(--f);
-        font-style: italic;
+        font-weight: bold;
       }
 
       .new-post-form {
@@ -691,164 +590,110 @@
         flex: 1;
       }
 
-      /* Author Tools Progressive Disclosure */
-      .author-tools-widget {
-        position: relative;
-      }
-
-      .author-tools-header {
+      /* Author Widget Progressive Disclosure */
+      .author-widget-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         cursor: pointer;
         padding: 5px 0;
-        border-bottom: 1px solid var(--br);
-        margin-bottom: 10px;
       }
 
-      .author-tools-header:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 6px;
+      .author-widget-header:hover {
+        background: var(--lg);
         padding: 5px 8px;
+        border-radius: var(--r);
       }
 
-      .expand-icon {
-        font-size: 0.8rem;
-        color: var(--a);
-        transition: transform 0.3s ease;
+      .toggle-icon {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: var(--p);
+        user-select: none;
       }
 
-      .author-tools-content {
+      .author-content {
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.3s ease;
       }
 
-      .author-tools-content.expanded {
-        max-height: 500px;
+      .author-content.expanded {
+        max-height: 200px;
       }
 
-      .author-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        margin-top: 15px;
-      }
-
-      .author-action-btn {
-        background: linear-gradient(135deg, rgba(144, 238, 144, 0.8), rgba(135, 206, 235, 0.8));
-        color: var(--s);
-        border: 1px solid var(--br);
-        border-radius: 6px;
+      .expand-btn {
+        background: var(--lg);
+        color: var(--p);
+        border: 2px solid var(--br);
+        border-radius: var(--r);
         padding: 10px 15px;
         cursor: pointer;
-        transition: all 0.3s ease;
-        font-size: 0.9rem;
         font-family: var(--f);
-        text-align: left;
+        width: 100%;
+        margin-top: 15px;
+        font-weight: bold;
       }
 
-      .author-action-btn:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        background: linear-gradient(135deg, rgba(144, 238, 144, 0.9), rgba(135, 206, 235, 0.9));
-      }
-
-      /* Floating Author Workspace */
-      .author-workspace {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 90%;
-        max-width: 800px;
-        max-height: 90vh;
+      .expand-btn:hover {
         background: var(--w);
-        border-radius: var(--r);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        z-index: 3000;
-        display: none;
-        overflow: hidden;
       }
 
-      .author-workspace.show {
-        display: block;
-        animation: slideIn 0.3s ease;
-      }
-
-      .workspace-header {
-        background: linear-gradient(135deg, rgba(144, 238, 144, 0.9), rgba(135, 206, 235, 0.8));
-        padding: 15px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid var(--br);
-      }
-
-      .workspace-header h3 {
-        margin: 0;
-        color: var(--s);
-        font-family: var(--f);
-      }
-
-      .workspace-controls {
-        display: flex;
-        gap: 8px;
-      }
-
-      .workspace-controls button {
-        background: rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 4px;
-        padding: 6px 10px;
-        cursor: pointer;
-        color: var(--s);
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
-      }
-
-      .workspace-controls button:hover {
-        background: rgba(255, 255, 255, 0.3);
-        transform: scale(1.1);
-      }
-
-      .workspace-content {
-        padding: 20px;
-        max-height: calc(90vh - 80px);
-        overflow-y: auto;
-      }
-
-      .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
-      }
-
-      @keyframes slideIn {
-        from {
-          opacity: 0;
-          transform: translate(-50%, -60%);
-        }
-        to {
-          opacity: 1;
-          transform: translate(-50%, -50%);
-        }
-      }
-
-      /* Workspace overlay */
-      .workspace-overlay {
+      /* Author Modal */
+      .author-modal {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
         background: rgba(0, 0, 0, 0.5);
-        z-index: 2999;
+        z-index: 2000;
         display: none;
+        justify-content: center;
+        align-items: center;
       }
 
-      .workspace-overlay.show {
-        display: block;
+      .author-modal.show {
+        display: flex;
+      }
+
+      .modal-content {
+        background: var(--w);
+        border-radius: var(--r);
+        border: 3px solid var(--br);
+        width: 90%;
+        max-width: 600px;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      .modal-header {
+        background: var(--lg);
+        padding: 15px 20px;
+        border-bottom: 2px solid var(--br);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .modal-header h3 {
+        margin: 0;
+        color: var(--p);
+        font-family: var(--f);
+        font-weight: bold;
+      }
+
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--p);
+        font-weight: bold;
+      }
+
+      .modal-body {
+        padding: 20px;
       }
 
       .filter-controls {
@@ -976,64 +821,39 @@
       }
 
       .footer {
-        background: linear-gradient(
-          135deg,
-          rgba(144, 238, 144, 0.4),
-          rgba(135, 206, 235, 0.4)
-        );
-        backdrop-filter: blur(10px);
+        background: var(--lg);
         border-radius: var(--r);
         margin: 40px 20px 20px;
         padding: 30px;
         text-align: center;
-        border: 1px solid var(--br);
-        box-shadow: var(--sh);
-      }
+        border: 2px solid var(--br);
+        }
 
-      .audio-player {
-        background: linear-gradient(
-          135deg,
-          rgba(144, 238, 144, 0.8),
-          rgba(135, 206, 235, 0.8)
-        );
+        .audio-player {
+        background: var(--lg);
         border-radius: var(--r);
         padding: 15px;
         margin: 20px;
         text-align: center;
-        border: 1px solid var(--br);
-        box-shadow: var(--sh);
+        border: 2px solid var(--br);
       }
 
       .audio-player button {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.9),
-          rgba(240, 248, 240, 0.8)
-        );
+        background: var(--w);
         color: var(--s);
-        border: 1px solid var(--br);
-        border-radius: 6px;
+        border: 2px solid var(--br);
+        border-radius: var(--r);
         padding: 10px 20px;
         margin: 5px;
         cursor: pointer;
-        transition: all 0.3s ease;
         font-family: var(--f);
+        font-weight: bold;
       }
 
       .audio-player button:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        background: var(--lg);
       }
 
-      @keyframes gentleGlow {
-        0% {
-          text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.9);
-        }
-        100% {
-          text-shadow: 1px 1px 8px rgba(74, 93, 58, 0.3),
-            1px 1px 2px rgba(255, 255, 255, 0.9);
-        }
-      }
 
       @media (max-width: 1024px) {
         .content {
@@ -1123,41 +943,46 @@
             >
               Avbryt
             </button>
-          </div>
+        </div>
         </form>
-      </div>
+            </div>
     </div>
 
     <header class="main-header">
       <div class="header-background"></div>
       <div class="hero-section">
-        <h1 class="logo">🌲 Skogsmulle</h1>
+        <h1 class="logo">Skogsmulle</h1>
         <div class="welcome-section">
           <h2 class="magical-title">Välkommen till en magisk värld!</h2>
           <p class="welcome-text">
             Här möter du Skogsmulle och alla hans vänner i underbara äventyr som
             får både stora och små att drömma sig bort till skogens djupaste
             vrår.
-          </p>
-        </div>
-      </div>
+              </p>
+            </div>
+            </div>
     </header>
 
     <nav class="main-navigation">
       <ul class="nav-links">
-        <li><a href="#berattelser">📚 Berättelser</a></li>
-        <li><a href="#karaktarer">🎭 Karaktärer</a></li>
+        <li><a href="#berattelser">Berättelser</a></li>
+        <li><a href="#karaktarer">Karaktärer</a></li>
       </ul>
       <div class="nav-controls">
         <div class="search-box">
-          <input type="text" id="globalSearch" placeholder="🔍 Sök berättelser..." onkeyup="searchStories()">
-        </div>
+          <input
+            type="text"
+            id="globalSearch"
+            placeholder="Sök berättelser..."
+            onkeyup="searchStories()"
+          />
+            </div>
         <div class="text-size-controls">
           <button onclick="changeTextSize(-1)" title="Mindre text">A-</button>
           <button onclick="changeTextSize(0)" title="Normal text">A</button>
           <button onclick="changeTextSize(1)" title="Större text">A+</button>
-        </div>
-      </div>
+            </div>
+            </div>
     </nav>
 
     <main id="main-content" role="main">
@@ -1177,33 +1002,29 @@
         </section>
 
         <aside class="sidebar">
-          <div class="sidebar-widget author-tools-widget">
-            <div class="author-tools-header" onclick="toggleAuthorWorkspace()">
-              <h3 class="widget-title">🔐 Författarverktyg</h3>
-              <span class="expand-icon" id="expandIcon">▶</span>
-            </div>
-            <div class="author-tools-content" id="authorToolsContent">
-              <div class="author-info">
-                <p><strong>Inloggad som författare:</strong></p>
-                <div id="userInfo" style="display: none">
-                  <p id="userEmail"></p>
-                </div>
-                <div id="loginSection">
-                  <p class="login-note">
-                    Logga in för att skapa och redigera berättelser.
-                  </p>
-                </div>
-              </div>
-              <div class="author-actions">
-                <button class="author-action-btn" onclick="openAuthorWorkspace()">📝 Skapa berättelse</button>
-                <button class="author-action-btn" onclick="showAuthorStats()">📊 Statistik</button>
-                <button class="author-action-btn" onclick="manageDrafts()">📋 Utkast</button>
-              </div>
-            </div>
-          </div>
+           <div class="sidebar-widget author-widget">
+             <div class="author-widget-header" onclick="toggleAuthorTools()">
+               <h3 class="widget-title">Författarverktyg</h3>
+               <span class="toggle-icon" id="toggleIcon">+</span>
+             </div>
+             <div class="author-content" id="authorContent">
+               <div class="author-info">
+                 <p><strong>Inloggad som författare:</strong></p>
+                 <div id="userInfo" style="display: none">
+                   <p id="userEmail"></p>
+                 </div>
+                 <div id="loginSection">
+                   <p class="login-note">
+                     Logga in för att skapa och redigera berättelser.
+                   </p>
+                 </div>
+               </div>
+               <button class="expand-btn" onclick="openAuthorModal()">Skriv ny berättelse</button>
+             </div>
+           </div>
 
           <div class="sidebar-widget">
-            <h3 class="widget-title">🔍 Filtrera berättelser</h3>
+            <h3 class="widget-title">Filtrera berättelser</h3>
             <div class="filter-controls">
               <div class="filter-group">
                 <label>Kategori:</label>
@@ -1230,12 +1051,12 @@
           </div>
 
           <div class="sidebar-widget">
-            <h3 class="widget-title">🌟 Senaste berättelserna</h3>
+            <h3 class="widget-title">Senaste berättelserna</h3>
             <div id="recentStories"></div>
           </div>
 
           <div class="sidebar-widget">
-            <h3 class="widget-title">📊 Lässtatistik</h3>
+            <h3 class="widget-title">Lässtatistik</h3>
             <div id="readingStats">
               <div class="stat-item">
                 <span class="stat-label">Totalt läst:</span>
@@ -1249,7 +1070,7 @@
           </div>
 
           <div class="sidebar-widget">
-            <h3 class="widget-title">🎭 Karaktärer</h3>
+            <h3 class="widget-title">Karaktärer</h3>
             <div class="character-grid">
               <div
                 class="character-card"
@@ -1274,7 +1095,7 @@
           </div>
         </aside>
       </div>
-    </main>
+      </main>
 
     <div class="audio-player">
       <button
@@ -1282,33 +1103,30 @@
         onclick="toggleThemeAudio()"
         aria-label="Spela temalåt"
       >
-        🎵 Spela temalåt
+Spela temalåt
       </button>
       <button
         id="playAdventure"
         onclick="toggleAdventureAudio()"
         aria-label="Spela äventyrslåt"
       >
-        🎶 Spela äventyrslåt
+Spela äventyrslåt
       </button>
     </div>
 
-    <!-- Floating Author Workspace -->
-    <div id="authorWorkspace" class="author-workspace">
-      <div class="workspace-header">
-        <h3>📝 Författarverktyg</h3>
-        <div class="workspace-controls">
-          <button onclick="minimizeWorkspace()" title="Minimera">➖</button>
-          <button onclick="closeAuthorWorkspace()" title="Stäng">✖</button>
+    <!-- Author Modal -->
+    <div id="authorModal" class="author-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Skriv ny berättelse</h3>
+          <button class="close-btn" onclick="closeAuthorModal()">&times;</button>
         </div>
-      </div>
-      <div class="workspace-content">
-        <form id="newPostForm" class="new-post-form">
-          <div class="form-group">
-            <label for="postTitle">Titel:</label>
-            <input type="text" id="postTitle" required />
-          </div>
-          <div class="form-row">
+        <div class="modal-body">
+          <form id="newPostForm" class="new-post-form">
+            <div class="form-group">
+              <label for="postTitle">Titel:</label>
+              <input type="text" id="postTitle" required />
+            </div>
             <div class="form-group">
               <label for="postCategory">Kategori:</label>
               <select id="postCategory" required>
@@ -1330,23 +1148,22 @@
                 <option value="alla">Alla åldrar</option>
               </select>
             </div>
-          </div>
-          <div class="form-group">
-            <label for="postContent">Berättelse:</label>
-            <div class="editor-toolbar">
-              <button type="button" onclick="formatText('bold')" title="Fet text">B</button>
-              <button type="button" onclick="formatText('italic')" title="Kursiv text">I</button>
-              <button type="button" onclick="formatText('underline')" title="Understruken text">U</button>
-              <button type="button" onclick="insertImage()" title="Lägg till bild">🖼️</button>
-              <button type="button" onclick="insertEmoji()" title="Lägg till emoji">😊</button>
+            <div class="form-group">
+              <label for="postContent">Berättelse:</label>
+              <div class="editor-toolbar">
+                <button type="button" onclick="formatText('bold')" title="Fet text">B</button>
+                <button type="button" onclick="formatText('italic')" title="Kursiv text">I</button>
+                <button type="button" onclick="formatText('underline')" title="Understruken text">U</button>
+                <button type="button" onclick="insertImage()" title="Lägg till bild">Bild</button>
+              </div>
+              <div id="postContent" class="rich-editor" contenteditable="true" data-placeholder="Skriv din berättelse här..."></div>
             </div>
-            <div id="postContent" class="rich-editor" contenteditable="true" data-placeholder="Skriv din berättelse här..."></div>
-          </div>
-          <div class="form-actions">
-            <button type="button" class="btn btn-secondary" onclick="saveDraft()">💾 Spara utkast</button>
-            <button type="submit" class="submit-button">📖 Publicera berättelse</button>
-          </div>
-        </form>
+            <div class="form-actions">
+              <button type="button" class="btn btn-secondary" onclick="saveDraft()">Spara utkast</button>
+              <button type="submit" class="submit-button">Publicera berättelse</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
 
@@ -1469,20 +1286,31 @@
         c.innerHTML = allPosts
           .map(
             (p, i) =>
-              `<article class="blog-post" data-category="${p.category || ''}" data-age="${p.age || ''}">
+              `<article class="blog-post" data-category="${
+                p.category || ""
+              }" data-age="${p.age || ""}">
                 <div class="post-header">
                   <h3 class="post-title">${p.title}</h3>
                   <div class="post-meta">
                     <span class="post-date">${p.date}</span>
-                    ${p.category ? `<span class="post-category">🏷️ ${p.category}</span>` : ''}
-                    ${p.age ? `<span class="post-age">👶 ${p.age} år</span>` : ''}
+                    ${
+                      p.category
+                        ? `<span class="post-category">🏷️ ${p.category}</span>`
+                        : ""
+                    }
+                    ${
+                      p.age
+                        ? `<span class="post-age">👶 ${p.age} år</span>`
+                        : ""
+                    }
                   </div>
                 </div>
                 <div class="post-content">${p.content}</div>
                 <div class="post-actions">
-                  ${isAdmin
-                    ? `<button class="post-button" onclick="editPost(${i})">✏️ Redigera</button><button class="post-button" onclick="deletePost(${i})">🗑️ Ta bort</button>`
-                    : ""
+                  ${
+                    isAdmin
+                      ? `<button class="post-button" onclick="editPost(${i})">✏️ Redigera</button><button class="post-button" onclick="deletePost(${i})">🗑️ Ta bort</button>`
+                      : ""
                   }
                   <button class="post-button" onclick="markAsRead(${i})">✅ Läs</button>
                 </div>
@@ -1574,195 +1402,146 @@
       // Rich text editor functions
       function formatText(command) {
         document.execCommand(command, false, null);
-        document.getElementById('postContent').focus();
+        document.getElementById("postContent").focus();
       }
 
       function insertImage() {
-        const url = prompt('Ange bildens URL:');
+        const url = prompt("Ange bildens URL:");
         if (url) {
-          document.execCommand('insertImage', false, url);
+          document.execCommand("insertImage", false, url);
         }
       }
 
-      function insertEmoji() {
-        const emojis = ['😊', '🌲', '🦊', '🦔', '🦡', '🌟', '🌈', '🦋', '🌸', '🍄'];
-        const emoji = emojis[Math.floor(Math.random() * emojis.length)];
-        document.execCommand('insertText', false, emoji);
-      }
 
       // Draft system
       function saveDraft() {
-        const title = document.getElementById('postTitle').value;
-        const category = document.getElementById('postCategory').value;
-        const age = document.getElementById('postAge').value;
-        const content = document.getElementById('postContent').innerHTML;
-        
+        const title = document.getElementById("postTitle").value;
+        const category = document.getElementById("postCategory").value;
+        const age = document.getElementById("postAge").value;
+        const content = document.getElementById("postContent").innerHTML;
+
         if (!title && !content) {
-          alert('Inget att spara som utkast.');
+          alert("Inget att spara som utkast.");
           return;
         }
 
         const draft = { title, category, age, content, timestamp: Date.now() };
-        localStorage.setItem('skogsmulle_draft', JSON.stringify(draft));
-        alert('Utkast sparat!');
+        localStorage.setItem("skogsmulle_draft", JSON.stringify(draft));
+        alert("Utkast sparat!");
       }
 
       function loadDraft() {
-        const draft = localStorage.getItem('skogsmulle_draft');
+        const draft = localStorage.getItem("skogsmulle_draft");
         if (draft) {
           const data = JSON.parse(draft);
-          document.getElementById('postTitle').value = data.title || '';
-          document.getElementById('postCategory').value = data.category || '';
-          document.getElementById('postAge').value = data.age || '';
-          document.getElementById('postContent').innerHTML = data.content || '';
+          document.getElementById("postTitle").value = data.title || "";
+          document.getElementById("postCategory").value = data.category || "";
+          document.getElementById("postAge").value = data.age || "";
+          document.getElementById("postContent").innerHTML = data.content || "";
         }
       }
 
       // Search functionality
       function searchStories() {
-        const searchTerm = document.getElementById('globalSearch').value.toLowerCase();
-        document.querySelectorAll('.blog-post').forEach(post => {
-          const title = post.querySelector('.post-title').textContent.toLowerCase();
-          const content = post.querySelector('.post-content').textContent.toLowerCase();
-          const category = post.dataset.category?.toLowerCase() || '';
-          const age = post.dataset.age?.toLowerCase() || '';
-          
-          const matches = title.includes(searchTerm) || 
-                         content.includes(searchTerm) || 
-                         category.includes(searchTerm) || 
-                         age.includes(searchTerm);
-          
-          post.style.display = matches ? 'block' : 'none';
+        const searchTerm = document
+          .getElementById("globalSearch")
+          .value.toLowerCase();
+        document.querySelectorAll(".blog-post").forEach((post) => {
+          const title = post
+            .querySelector(".post-title")
+            .textContent.toLowerCase();
+          const content = post
+            .querySelector(".post-content")
+            .textContent.toLowerCase();
+          const category = post.dataset.category?.toLowerCase() || "";
+          const age = post.dataset.age?.toLowerCase() || "";
+
+          const matches =
+            title.includes(searchTerm) ||
+            content.includes(searchTerm) ||
+            category.includes(searchTerm) ||
+            age.includes(searchTerm);
+
+          post.style.display = matches ? "block" : "none";
         });
       }
 
       // Filter functions
       function filterByCategory() {
-        const category = document.getElementById('categoryFilter').value;
-        document.querySelectorAll('.blog-post').forEach(post => {
+        const category = document.getElementById("categoryFilter").value;
+        document.querySelectorAll(".blog-post").forEach((post) => {
           if (!category || post.dataset.category === category) {
-            post.style.display = 'block';
+            post.style.display = "block";
           } else {
-            post.style.display = 'none';
+            post.style.display = "none";
           }
         });
       }
 
       function filterByAge() {
-        const age = document.getElementById('ageFilter').value;
-        document.querySelectorAll('.blog-post').forEach(post => {
-          if (!age || post.dataset.age === age || post.dataset.age === 'alla') {
-            post.style.display = 'block';
+        const age = document.getElementById("ageFilter").value;
+        document.querySelectorAll(".blog-post").forEach((post) => {
+          if (!age || post.dataset.age === age || post.dataset.age === "alla") {
+            post.style.display = "block";
           } else {
-            post.style.display = 'none';
+            post.style.display = "none";
           }
         });
       }
 
       // Text size controls
       function changeTextSize(delta) {
-        const currentSize = parseFloat(getComputedStyle(document.body).fontSize);
+        const currentSize = parseFloat(
+          getComputedStyle(document.body).fontSize
+        );
         let newSize;
-        
+
         if (delta === 0) {
           newSize = 16; // Reset to default
         } else {
           newSize = Math.max(12, Math.min(24, currentSize + delta));
         }
-        
-        document.body.style.fontSize = newSize + 'px';
-        localStorage.setItem('skogsmulle_textSize', newSize);
+
+        document.body.style.fontSize = newSize + "px";
+        localStorage.setItem("skogsmulle_textSize", newSize);
       }
 
       // Reading progress
       function markAsRead(index) {
         const post = allPosts[index];
-        const readPosts = JSON.parse(localStorage.getItem('skogsmulle_read') || '[]');
-        
+        const readPosts = JSON.parse(
+          localStorage.getItem("skogsmulle_read") || "[]"
+        );
+
         if (!readPosts.includes(post.id)) {
           readPosts.push(post.id);
-          localStorage.setItem('skogsmulle_read', JSON.stringify(readPosts));
+          localStorage.setItem("skogsmulle_read", JSON.stringify(readPosts));
           updateReadingStats();
         }
-        
+
         alert(`Bra jobbat! Du har läst "${post.title}"`);
       }
 
       function updateReadingStats() {
-        const readPosts = JSON.parse(localStorage.getItem('skogsmulle_read') || '[]');
-        document.getElementById('totalRead').textContent = readPosts.length;
-        
+        const readPosts = JSON.parse(
+          localStorage.getItem("skogsmulle_read") || "[]"
+        );
+        document.getElementById("totalRead").textContent = readPosts.length;
+
         // Calculate favorite category
         const categories = {};
-        allPosts.forEach(post => {
+        allPosts.forEach((post) => {
           if (readPosts.includes(post.id) && post.category) {
             categories[post.category] = (categories[post.category] || 0) + 1;
           }
         });
-        
-        const favorite = Object.keys(categories).reduce((a, b) => 
-          categories[a] > categories[b] ? a : b, '');
-        document.getElementById('favoriteCategory').textContent = favorite || '-';
-      }
 
-      // Author Workspace Functions
-      function toggleAuthorWorkspace() {
-        const content = document.getElementById('authorToolsContent');
-        const icon = document.getElementById('expandIcon');
-        
-        if (content.classList.contains('expanded')) {
-          content.classList.remove('expanded');
-          icon.textContent = '▶';
-        } else {
-          content.classList.add('expanded');
-          icon.textContent = '▼';
-        }
-      }
-
-      function openAuthorWorkspace() {
-        const workspace = document.getElementById('authorWorkspace');
-        const overlay = document.createElement('div');
-        overlay.className = 'workspace-overlay show';
-        overlay.onclick = closeAuthorWorkspace;
-        
-        document.body.appendChild(overlay);
-        workspace.classList.add('show');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeAuthorWorkspace() {
-        const workspace = document.getElementById('authorWorkspace');
-        const overlay = document.querySelector('.workspace-overlay');
-        
-        workspace.classList.remove('show');
-        if (overlay) overlay.remove();
-        document.body.style.overflow = '';
-      }
-
-      function minimizeWorkspace() {
-        // For future implementation - minimize to taskbar
-        closeAuthorWorkspace();
-      }
-
-      function showAuthorStats() {
-        alert('Författarstatistik:\n\n' +
-              `Totalt antal berättelser: ${allPosts.length}\n` +
-              `Senaste publicering: ${allPosts.length > 0 ? allPosts[0].date : 'Inga berättelser'}\n` +
-              `Kategorier använda: ${[...new Set(allPosts.map(p => p.category).filter(Boolean))].join(', ') || 'Inga'}`);
-      }
-
-      function manageDrafts() {
-        const draft = localStorage.getItem('skogsmulle_draft');
-        if (draft) {
-          const data = JSON.parse(draft);
-          const date = new Date(data.timestamp).toLocaleDateString('sv-SE');
-          if (confirm(`Hittade ett utkast från ${date}.\n\nVill du ladda det?`)) {
-            loadDraft();
-            openAuthorWorkspace();
-          }
-        } else {
-          alert('Inga utkast hittades.');
-        }
+        const favorite = Object.keys(categories).reduce(
+          (a, b) => (categories[a] > categories[b] ? a : b),
+          ""
+        );
+        document.getElementById("favoriteCategory").textContent =
+          favorite || "-";
       }
 
       function initAuth() {
@@ -1806,13 +1585,42 @@
         document.getElementById("userInfo").style.display = "block";
         document.getElementById("loginSection").style.display = "none";
         document.getElementById("userEmail").textContent = currentUser.email;
+        document.querySelector(".expand-btn").style.display = "block";
         updateDiscreteLogin(true);
       }
 
       function hideAuthorTools() {
         document.getElementById("userInfo").style.display = "none";
         document.getElementById("loginSection").style.display = "block";
+        document.querySelector(".expand-btn").style.display = "none";
         updateDiscreteLogin(false);
+      }
+
+      function toggleAuthorTools() {
+        const content = document.getElementById("authorContent");
+        const icon = document.getElementById("toggleIcon");
+        
+        if (content.classList.contains("expanded")) {
+          content.classList.remove("expanded");
+          icon.textContent = "+";
+        } else {
+          content.classList.add("expanded");
+          icon.textContent = "-";
+        }
+      }
+
+      function openAuthorModal() {
+        if (!isAdmin) {
+          alert("Du måste vara inloggad för att skriva berättelser.");
+          return;
+        }
+        document.getElementById("authorModal").classList.add("show");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeAuthorModal() {
+        document.getElementById("authorModal").classList.remove("show");
+        document.body.style.overflow = "";
       }
 
       function signInWithGoogle(e) {
@@ -1879,33 +1687,33 @@
           const category = document.getElementById("postCategory").value;
           const age = document.getElementById("postAge").value;
           const c = document.getElementById("postContent").innerHTML.trim();
-          
+
           if (!t || !c) {
             alert("Vänligen fyll i både titel och berättelse.");
             return;
           }
-          
-          const today = new Date();
+
+            const today = new Date();
           const ds =
-            today.getDate() +
-            " " +
-            [
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "Maj",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Okt",
-              "Nov",
-              "Dec",
-            ][today.getMonth()] +
-            ", " +
-            today.getFullYear();
-            
+              today.getDate() +
+              " " +
+              [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "Maj",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Okt",
+                "Nov",
+                "Dec",
+              ][today.getMonth()] +
+              ", " +
+              today.getFullYear();
+
           const np = {
             title: t,
             category: category,
@@ -1914,14 +1722,14 @@
             date: ds,
             timestamp: Date.now(),
           };
-          
+
           try {
             const pid = await C.save(np);
             if (pid) {
               this.reset();
-              document.getElementById('postContent').innerHTML = '';
-              localStorage.removeItem('skogsmulle_draft');
-              alert("Berättelsen har publicerats!");
+              document.getElementById("postContent").innerHTML = "";
+              localStorage.removeItem("skogsmulle_draft");
+            alert("Berättelsen har publicerats!");
               setTimeout(() => scrollToPost(0), 100);
             }
           } catch (e) {
@@ -1956,15 +1764,15 @@
         "ended",
         () =>
           (document.getElementById("playAdventure").textContent =
-            "🎶 Spela äventyrslåt")
+            "Spela äventyrslåt")
       );
 
       function toggleThemeAudio() {
         const b = document.getElementById("playTheme");
         if (themeAudio.paused) {
           themeAudio.play();
-          b.textContent = "⏸️ Pausa";
-        } else {
+          b.textContent = "Pausa";
+              } else {
           themeAudio.pause();
           b.textContent = "🎵 Spela temalåt";
         }
@@ -1974,26 +1782,26 @@
         const b = document.getElementById("playAdventure");
         if (adventureAudio.paused) {
           adventureAudio.play();
-          b.textContent = "⏸️ Pausa";
+          b.textContent = "Pausa";
         } else {
           adventureAudio.pause();
-          b.textContent = "🎶 Spela äventyrslåt";
+          b.textContent = "Spela äventyrslåt";
         }
       }
 
       document.addEventListener("DOMContentLoaded", function () {
         console.log("Initializing Skogsmulle application...");
         initAuth();
-        
+
         // Load saved text size
-        const savedSize = localStorage.getItem('skogsmulle_textSize');
+        const savedSize = localStorage.getItem("skogsmulle_textSize");
         if (savedSize) {
-          document.body.style.fontSize = savedSize + 'px';
+          document.body.style.fontSize = savedSize + "px";
         }
-        
+
         // Load draft if available
         loadDraft();
-        
+
         setTimeout(() => {
           if (window.firebaseDb) {
             console.log("Firebase initialized, setting up real-time listener");
