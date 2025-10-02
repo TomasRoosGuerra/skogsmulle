@@ -142,48 +142,181 @@
         padding: 0 20px;
       }
 
-      .main-header {
+      /* Magical Forest Header System */
+      .magical-header {
         position: relative;
-        background: var(--w);
-        border-radius: 0;
-        margin: 0 0 40px 0;
-        padding: 0;
+        height: 500px;
         overflow: hidden;
-        border: none;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(135deg, #87CEEB 0%, #98FB98 50%, #F0E68C 100%);
       }
 
-      .header-background {
+      .forest-layer {
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url("igelkotten.png") center/cover;
-        opacity: 0.7;
+        width: 120%;
+        height: 120%;
+        background-size: cover;
+        background-position: center;
+        animation: gentleSway 12s ease-in-out infinite;
+      }
+
+      .forest-layer-1 {
+        background-image: url("igelkotten.png");
+        opacity: 0.8;
         z-index: 1;
+        animation-delay: 0s;
       }
 
-      .hero-section {
-        position: relative;
+      .forest-layer-2 {
+        background: radial-gradient(circle at 20% 80%, rgba(34, 139, 34, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(107, 142, 35, 0.2) 0%, transparent 50%);
         z-index: 2;
-        text-align: center;
-        color: var(--txt);
-        padding: 60px 20px;
-        min-height: 300px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        animation-delay: -4s;
       }
 
-      .logo {
-        font-size: 3.5rem;
-        color: var(--p);
-        margin-bottom: 10px;
+      .forest-layer-3 {
+        background: radial-gradient(circle at 60% 40%, rgba(255, 255, 255, 0.1) 0%, transparent 30%);
+        z-index: 3;
+        animation-delay: -8s;
+      }
+
+      @keyframes gentleSway {
+        0%, 100% { transform: translateX(0px) translateY(0px); }
+        25% { transform: translateX(1px) translateY(-1px); }
+        50% { transform: translateX(-1px) translateY(1px); }
+        75% { transform: translateX(1px) translateY(0px); }
+      }
+
+      /* Floating Particles */
+      .floating-particles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 4;
+        pointer-events: none;
+      }
+
+      .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 50%;
+        animation: float 8s linear infinite;
+      }
+
+      .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+      .particle:nth-child(2) { left: 20%; animation-delay: -2s; }
+      .particle:nth-child(3) { left: 30%; animation-delay: -4s; }
+      .particle:nth-child(4) { left: 40%; animation-delay: -6s; }
+      .particle:nth-child(5) { left: 50%; animation-delay: -1s; }
+      .particle:nth-child(6) { left: 60%; animation-delay: -3s; }
+      .particle:nth-child(7) { left: 70%; animation-delay: -5s; }
+      .particle:nth-child(8) { left: 80%; animation-delay: -7s; }
+      .particle:nth-child(9) { left: 90%; animation-delay: -2.5s; }
+
+      @keyframes float {
+        0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+      }
+
+      /* Interactive Skogsmulle Character */
+      .skogsmulle-character {
+        position: absolute;
+        bottom: 20px;
+        right: 30px;
+        width: 120px;
+        height: 120px;
+        background: url("igelkotten.png") center/contain no-repeat;
+        cursor: pointer;
+        z-index: 10;
+        transition: transform 0.3s ease;
+        animation: gentleBounce 3s ease-in-out infinite;
+      }
+
+      .skogsmulle-character:hover {
+        transform: scale(1.1) rotate(5deg);
+        animation-play-state: paused;
+      }
+
+      .skogsmulle-character:active {
+        transform: scale(0.95) rotate(-5deg);
+      }
+
+      @keyframes gentleBounce {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+      }
+
+      /* Magical Speech Bubble */
+      .speech-bubble {
+        position: absolute;
+        bottom: 150px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 15px 20px;
+        border-radius: 20px;
+        border: 2px solid var(--p);
         font-family: var(--f);
-        font-weight: 600;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        font-size: 1rem;
+        color: var(--txt);
+        max-width: 200px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s ease;
+        z-index: 11;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .speech-bubble.show {
+        opacity: 1;
+        transform: translateY(0px);
+      }
+
+      .speech-bubble::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        right: 30px;
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid var(--p);
+      }
+
+      /* Magical Welcome Text */
+      .magical-welcome {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 5;
+        color: var(--txt);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .magical-welcome h1 {
+        font-size: 4rem;
+        font-family: var(--f);
+        font-weight: 700;
+        margin-bottom: 20px;
+        animation: magicalGlow 2s ease-in-out infinite alternate;
+      }
+
+      .magical-welcome p {
+        font-size: 1.5rem;
+        font-family: var(--f);
+        font-weight: 500;
+        margin-bottom: 30px;
+        opacity: 0.9;
+      }
+
+      @keyframes magicalGlow {
+        from { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(139, 69, 19, 0.5); }
+        to { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 30px rgba(139, 69, 19, 0.8); }
       }
 
       .welcome-section {
@@ -444,26 +577,105 @@
         margin-bottom: 0;
       }
 
-      .blog-post {
-        background: transparent;
-        border-radius: 0;
-        padding: 0 0 60px 0;
-        margin-bottom: 0;
-        border: none;
-        box-shadow: none;
-        transition: none;
+      /* Story Scene System */
+      .story-scene {
         position: relative;
-        overflow: visible;
-        border-bottom: 2px solid rgba(139, 69, 19, 0.1);
+        background: linear-gradient(135deg, #E6F3FF 0%, #F0FFF0 50%, #FFF8DC 100%);
+        border-radius: 20px;
+        padding: 40px;
+        margin: 30px 0;
+        border: 3px solid rgba(139, 69, 19, 0.2);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
 
-      .blog-post:last-child {
-        border-bottom: none;
+      .story-scene:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
       }
 
-      .blog-post:hover {
-        transform: none;
-        box-shadow: none;
+      .story-scene::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--p), var(--a), var(--s));
+        border-radius: 20px 20px 0 0;
+      }
+
+      .scene-illustration {
+        width: 100%;
+        height: 200px;
+        background: linear-gradient(45deg, #98FB98, #F0E68C);
+        border-radius: 15px;
+        margin-bottom: 25px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        color: var(--p);
+        font-family: var(--f);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .scene-illustration::before {
+        content: '🌲🌿🦔🌿🌲';
+        position: absolute;
+        animation: sceneFloat 6s ease-in-out infinite;
+      }
+
+      @keyframes sceneFloat {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-10px) rotate(2deg); }
+      }
+
+      /* Interactive Story Elements */
+      .story-interactive {
+        display: flex;
+        gap: 15px;
+        margin: 20px 0;
+        flex-wrap: wrap;
+      }
+
+      .interactive-element {
+        background: rgba(255, 255, 255, 0.8);
+        border: 2px solid var(--p);
+        border-radius: 25px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-family: var(--f);
+        font-weight: 500;
+        color: var(--txt);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .interactive-element:hover {
+        background: var(--p);
+        color: var(--w);
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+      }
+
+      .interactive-element::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s ease;
+      }
+
+      .interactive-element:hover::before {
+        left: 100%;
       }
 
       .post-header {
@@ -940,20 +1152,30 @@
         .container {
           padding: 0 15px;
         }
-        .main-header,
+        .magical-header {
+          height: 400px;
+        }
+        .magical-welcome h1 {
+          font-size: 3rem;
+        }
+        .magical-welcome p {
+          font-size: 1.2rem;
+        }
+        .skogsmulle-character {
+          width: 80px;
+          height: 80px;
+          bottom: 15px;
+          right: 20px;
+        }
+        .speech-bubble {
+          bottom: 100px;
+          right: 10px;
+          max-width: 150px;
+          font-size: 0.9rem;
+        }
         .main-navigation,
         .content {
           margin: 0 0 20px 0;
-        }
-        .hero-section {
-          padding: 40px 20px;
-          min-height: 250px;
-        }
-        .logo {
-          font-size: 2.8rem;
-        }
-        .magical-title {
-          font-size: 1.6rem;
         }
         .nav-links {
           gap: 20px;
@@ -967,11 +1189,26 @@
           position: static;
           top: auto;
         }
+        .story-scene {
+          padding: 25px;
+          margin: 20px 0;
+        }
+        .scene-illustration {
+          height: 150px;
+          font-size: 3rem;
+        }
         .post-title {
           font-size: 1.8rem;
         }
         .post-content {
           font-size: 1.1rem;
+        }
+        .story-interactive {
+          gap: 10px;
+        }
+        .interactive-element {
+          padding: 8px 15px;
+          font-size: 0.9rem;
         }
       }
 
@@ -1035,18 +1272,37 @@
       </div>
     </div>
 
-    <header class="main-header">
-      <div class="header-background"></div>
-      <div class="hero-section">
-        <h1 class="logo">Skogsmulle</h1>
-        <div class="welcome-section">
-          <h2 class="magical-title">Välkommen till en magisk värld!</h2>
-          <p class="welcome-text">
-            Här möter du Skogsmulle och alla hans vänner i underbara äventyr som
-            får både stora och små att drömma sig bort till skogens djupaste
-            vrår.
-          </p>
-        </div>
+    <!-- Magical Forest Header -->
+    <header class="magical-header">
+      <div class="forest-layer forest-layer-1"></div>
+      <div class="forest-layer forest-layer-2"></div>
+      <div class="forest-layer forest-layer-3"></div>
+      
+      <!-- Floating Particles -->
+      <div class="floating-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+      </div>
+      
+      <!-- Magical Welcome -->
+      <div class="magical-welcome">
+        <h1>Skogsmulle</h1>
+        <p>Välkommen till den magiska skogen!</p>
+      </div>
+      
+      <!-- Interactive Skogsmulle Character -->
+      <div class="skogsmulle-character" onclick="interactWithSkogsmulle()" title="Klicka på mig!"></div>
+      
+      <!-- Speech Bubble -->
+      <div class="speech-bubble" id="speechBubble">
+        Hej! Jag är Skogsmulle! Klicka på mig för att säga hej!
       </div>
     </header>
 
@@ -1092,100 +1348,106 @@
           </section>
 
           <aside class="sidebar">
-          <div class="sidebar-widget author-widget">
-            <div class="author-widget-header" onclick="toggleAuthorTools()">
-              <h3 class="widget-title">Författarverktyg</h3>
-              <span class="toggle-icon" id="toggleIcon">+</span>
-            </div>
-            <div class="author-content" id="authorContent">
-              <div class="author-info">
-                <p><strong>Inloggad som författare:</strong></p>
-                <div id="userInfo" style="display: none">
-                  <p id="userEmail"></p>
+            <div class="sidebar-widget author-widget">
+              <div class="author-widget-header" onclick="toggleAuthorTools()">
+                <h3 class="widget-title">Författarverktyg</h3>
+                <span class="toggle-icon" id="toggleIcon">+</span>
+              </div>
+              <div class="author-content" id="authorContent">
+                <div class="author-info">
+                  <p><strong>Inloggad som författare:</strong></p>
+                  <div id="userInfo" style="display: none">
+                    <p id="userEmail"></p>
+                  </div>
+                  <div id="loginSection">
+                    <p class="login-note">
+                      Logga in för att skapa och redigera berättelser.
+                    </p>
+                  </div>
                 </div>
-                <div id="loginSection">
-                  <p class="login-note">
-                    Logga in för att skapa och redigera berättelser.
-                  </p>
+                <button class="expand-btn" onclick="openAuthorModal()">
+                  Skriv ny berättelse
+                </button>
+              </div>
+            </div>
+
+            <div class="sidebar-widget">
+              <h3 class="widget-title">Filtrera berättelser</h3>
+              <div class="filter-controls">
+                <div class="filter-group">
+                  <label>Kategori:</label>
+                  <select id="categoryFilter" onchange="filterByCategory()">
+                    <option value="">Alla kategorier</option>
+                    <option value="äventyr">Äventyr</option>
+                    <option value="vänskap">Vänskap</option>
+                    <option value="natur">Natur</option>
+                    <option value="magi">Magi</option>
+                    <option value="djur">Djur</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label>Ålder:</label>
+                  <select id="ageFilter" onchange="filterByAge()">
+                    <option value="">Alla åldrar</option>
+                    <option value="3-5">3-5 år</option>
+                    <option value="6-8">6-8 år</option>
+                    <option value="9-12">9-12 år</option>
+                    <option value="alla">Alla åldrar</option>
+                  </select>
                 </div>
               </div>
-              <button class="expand-btn" onclick="openAuthorModal()">
-                Skriv ny berättelse
-              </button>
             </div>
-          </div>
 
-          <div class="sidebar-widget">
-            <h3 class="widget-title">Filtrera berättelser</h3>
-            <div class="filter-controls">
-              <div class="filter-group">
-                <label>Kategori:</label>
-                <select id="categoryFilter" onchange="filterByCategory()">
-                  <option value="">Alla kategorier</option>
-                  <option value="äventyr">Äventyr</option>
-                  <option value="vänskap">Vänskap</option>
-                  <option value="natur">Natur</option>
-                  <option value="magi">Magi</option>
-                  <option value="djur">Djur</option>
-                </select>
-              </div>
-              <div class="filter-group">
-                <label>Ålder:</label>
-                <select id="ageFilter" onchange="filterByAge()">
-                  <option value="">Alla åldrar</option>
-                  <option value="3-5">3-5 år</option>
-                  <option value="6-8">6-8 år</option>
-                  <option value="9-12">9-12 år</option>
-                  <option value="alla">Alla åldrar</option>
-                </select>
+            <div class="sidebar-widget">
+              <h3 class="widget-title">Senaste berättelserna</h3>
+              <div id="recentStories"></div>
+            </div>
+
+            <div class="sidebar-widget">
+              <h3 class="widget-title">Lässtatistik</h3>
+              <div id="readingStats">
+                <div class="stat-item">
+                  <span class="stat-label">Totalt läst:</span>
+                  <span class="stat-value" id="totalRead">0</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Favorit kategori:</span>
+                  <span class="stat-value" id="favoriteCategory">-</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="sidebar-widget">
-            <h3 class="widget-title">Senaste berättelserna</h3>
-            <div id="recentStories"></div>
-          </div>
-
-          <div class="sidebar-widget">
-            <h3 class="widget-title">Lässtatistik</h3>
-            <div id="readingStats">
-              <div class="stat-item">
-                <span class="stat-label">Totalt läst:</span>
-                <span class="stat-value" id="totalRead">0</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-label">Favorit kategori:</span>
-                <span class="stat-value" id="favoriteCategory">-</span>
+            <div class="sidebar-widget">
+              <h3 class="widget-title">Karaktärer</h3>
+              <div class="character-grid">
+                <div
+                  class="character-card"
+                  onclick="showCharacterInfo('skogsmulle')"
+                >
+                  <div class="character-icon">🌲</div>
+                  <div>Skogsmulle</div>
+                </div>
+                <div
+                  class="character-card"
+                  onclick="showCharacterInfo('morris')"
+                >
+                  <div class="character-icon">🦡</div>
+                  <div>Morris</div>
+                </div>
+                <div
+                  class="character-card"
+                  onclick="showCharacterInfo('evert')"
+                >
+                  <div class="character-icon">🦔</div>
+                  <div>Evert</div>
+                </div>
+                <div class="character-card" onclick="showCharacterInfo('ron')">
+                  <div class="character-icon">🦊</div>
+                  <div>Ron</div>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div class="sidebar-widget">
-            <h3 class="widget-title">Karaktärer</h3>
-            <div class="character-grid">
-              <div
-                class="character-card"
-                onclick="showCharacterInfo('skogsmulle')"
-              >
-                <div class="character-icon">🌲</div>
-                <div>Skogsmulle</div>
-              </div>
-              <div class="character-card" onclick="showCharacterInfo('morris')">
-                <div class="character-icon">🦡</div>
-                <div>Morris</div>
-              </div>
-              <div class="character-card" onclick="showCharacterInfo('evert')">
-                <div class="character-icon">🦔</div>
-                <div>Evert</div>
-              </div>
-              <div class="character-card" onclick="showCharacterInfo('ron')">
-                <div class="character-icon">🦊</div>
-                <div>Ron</div>
-              </div>
-            </div>
-          </div>
-        </aside>
+          </aside>
         </div>
       </div>
     </main>
@@ -1311,11 +1573,117 @@
     </footer>
 
     <script>
-      let allPosts = [],
-        isAdmin = false,
-        currentUser = null,
-        themeAudio = new Audio("Skogsmulle.mp3"),
-        adventureAudio = new Audio("telegram_audio.mp3");
+      // Magical Interactive Functions
+      function interactWithSkogsmulle() {
+        const bubble = document.getElementById('speechBubble');
+        const messages = [
+          "Hej! Jag är Skogsmulle!",
+          "Vill du höra en berättelse?",
+          "Låt oss utforska skogen tillsammans!",
+          "Jag har många vänner här i skogen!",
+          "Vad roligt att träffa dig!",
+          "Ska vi gå på äventyr?"
+        ];
+        
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+        bubble.textContent = randomMessage;
+        bubble.classList.add('show');
+        
+        setTimeout(() => {
+          bubble.classList.remove('show');
+        }, 3000);
+        
+        // Add magical sparkle effect
+        createSparkles();
+      }
+      
+      function createSparkles() {
+        for (let i = 0; i < 10; i++) {
+          const sparkle = document.createElement('div');
+          sparkle.style.position = 'absolute';
+          sparkle.style.width = '6px';
+          sparkle.style.height = '6px';
+          sparkle.style.background = '#FFD700';
+          sparkle.style.borderRadius = '50%';
+          sparkle.style.pointerEvents = 'none';
+          sparkle.style.left = Math.random() * window.innerWidth + 'px';
+          sparkle.style.top = Math.random() * 200 + 'px';
+          sparkle.style.animation = 'sparkle 2s ease-out forwards';
+          document.body.appendChild(sparkle);
+          
+          setTimeout(() => {
+            sparkle.remove();
+          }, 2000);
+        }
+      }
+      
+      function exploreStory(storyIndex) {
+        const story = allPosts[storyIndex];
+        alert(`Utforskar berättelsen: "${story.title}"\n\nLåt oss gå på äventyr tillsammans!`);
+        
+        // Add exploration effect
+        const storyElement = document.querySelectorAll('.story-scene')[storyIndex];
+        storyElement.style.transform = 'scale(1.02)';
+        storyElement.style.boxShadow = '0 20px 40px rgba(139, 69, 19, 0.3)';
+        
+        setTimeout(() => {
+          storyElement.style.transform = '';
+          storyElement.style.boxShadow = '';
+        }, 1000);
+      }
+      
+      function meetCharacters(storyIndex) {
+        const characters = ['Skogsmulle', 'Morris (ekorren)', 'Evert (ugglan)', 'Ron (räven)'];
+        const characterInfo = characters.map(char => `• ${char}`).join('\n');
+        
+        alert(`Träffa karaktärerna i denna berättelse:\n\n${characterInfo}\n\nVilken karaktär vill du lära känna bättre?`);
+      }
+      
+      function playStorySounds(storyIndex) {
+        const story = allPosts[storyIndex];
+        
+        // Play different sounds based on story category
+        const soundMap = {
+          'äventyr': 'Skogsmulle.mp3',
+          'natur': 'telegram_audio.mp3',
+          'magi': 'Skogsmulle.mp3',
+          'vänskap': 'telegram_audio.mp3',
+          'djur': 'Skogsmulle.mp3'
+        };
+        
+        const soundFile = soundMap[story.category] || 'Skogsmulle.mp3';
+        const audio = new Audio(soundFile);
+        
+        audio.play().catch(e => {
+          console.log('Audio play failed:', e);
+          alert(`Ljud för berättelsen "${story.title}" skulle spelas nu!`);
+        });
+        
+        // Add visual feedback
+        const storyElement = document.querySelectorAll('.story-scene')[storyIndex];
+        storyElement.style.animation = 'storyPulse 1s ease-in-out';
+        
+        setTimeout(() => {
+          storyElement.style.animation = '';
+        }, 1000);
+      }
+      
+      // Add CSS animations for interactive effects
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes sparkle {
+          0% { opacity: 1; transform: scale(0) rotate(0deg); }
+          50% { opacity: 1; transform: scale(1) rotate(180deg); }
+          100% { opacity: 0; transform: scale(0) rotate(360deg); }
+        }
+        
+        @keyframes storyPulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+          100% { transform: scale(1); }
+        }
+      `;
+      document.head.appendChild(style);
 
       const C = {
         save: async (p) => {
@@ -1418,9 +1786,10 @@
         c.innerHTML = allPosts
           .map(
             (p, i) =>
-              `<article class="blog-post" data-category="${
+              `<div class="story-scene" data-category="${
                 p.category || ""
               }" data-age="${p.age || ""}">
+                <div class="scene-illustration"></div>
                 <div class="post-header">
                   <h3 class="post-title">${p.title}</h3>
                   <div class="post-meta">
@@ -1434,15 +1803,20 @@
                   </div>
                 </div>
                 <div class="post-content">${p.content}</div>
+                <div class="story-interactive">
+                  <div class="interactive-element" onclick="exploreStory(${i})">Utforska berättelsen</div>
+                  <div class="interactive-element" onclick="meetCharacters(${i})">Träffa karaktärer</div>
+                  <div class="interactive-element" onclick="playStorySounds(${i})">Lyssna på ljud</div>
+                </div>
                 <div class="post-actions">
                   ${
                     isAdmin
                       ? `<button class="post-button" onclick="editPost(${i})">Redigera</button><button class="post-button" onclick="deletePost(${i})">Ta bort</button>`
                       : ""
                   }
-                  <button class="post-button" onclick="markAsRead(${i})">Läs</button>
+                  <button class="post-button" onclick="markAsRead(${i})">Markera som läst</button>
                 </div>
-              </article>`
+              </div>`
           )
           .join("");
       }
