@@ -1969,7 +1969,7 @@
       }
 
       function scrollToPost(i) {
-        const p = document.querySelectorAll(".blog-post")[i];
+        const p = document.querySelectorAll(".story-scene")[i];
         if (p) p.scrollIntoView({ behavior: "smooth", block: "start" });
       }
 
@@ -2375,13 +2375,24 @@
           };
 
           try {
+            console.log("Attempting to save story:", np);
             const pid = await C.save(np);
+            console.log("Story saved with ID:", pid);
             if (pid) {
               this.reset();
               document.getElementById("postContent").innerHTML = "";
               localStorage.removeItem("skogsmulle_draft");
               alert("Berättelsen har publicerats!");
-              setTimeout(() => scrollToPost(0), 100);
+              console.log("Story published successfully, scrolling to first post");
+              // Force reload stories to ensure they appear
+              setTimeout(async () => {
+                try {
+                  await C.load();
+                  scrollToPost(0);
+                } catch (error) {
+                  console.error("Error reloading stories:", error);
+                }
+              }, 500);
             }
           } catch (e) {
             console.error("Publish error:", e);
