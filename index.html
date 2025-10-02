@@ -1495,6 +1495,9 @@
             <div class="sidebar-widget">
               <h3 class="widget-title">Senaste berättelserna</h3>
               <div id="recentStories"></div>
+              <button onclick="manualLoadStories()" style="margin-top: 10px; padding: 8px 15px; background: var(--p); color: var(--w); border: none; border-radius: 5px; cursor: pointer; font-family: var(--f);">
+                Ladda om berättelser
+              </button>
             </div>
 
             <div class="sidebar-widget">
@@ -1890,7 +1893,7 @@
         const c = document.getElementById("posts-container");
         console.log("Rendering posts:", allPosts.length, "posts found");
         console.log("Posts data:", allPosts);
-        
+
         if (allPosts.length === 0) {
           c.innerHTML =
             '<p style="text-align:center;color:var(--a);font-style:italic;padding:40px">Inga berättelser ännu. Skapa den första!</p>';
@@ -2158,6 +2161,23 @@
           favorite || "-";
       }
 
+      // Manual load stories function for troubleshooting
+      async function manualLoadStories() {
+        console.log("Manual load stories triggered");
+        try {
+          if (window.firebaseDb) {
+            console.log("Attempting to load stories from Firebase...");
+            await C.load();
+            alert(`Berättelser laddade! Hittade ${allPosts.length} berättelser.`);
+          } else {
+            alert("Firebase är inte tillgängligt. Kontrollera din internetanslutning.");
+          }
+        } catch (error) {
+          console.error("Manual load failed:", error);
+          alert("Kunde inte ladda berättelser. Kontrollera konsolen för detaljer.");
+        }
+      }
+
       function initAuth() {
         const saved = localStorage.getItem("skogsmulle_user");
         if (saved) {
@@ -2412,10 +2432,20 @@
         // Load draft if available
         loadDraft();
 
-        setTimeout(() => {
+        setTimeout(async () => {
           if (window.firebaseDb) {
             console.log("Firebase initialized, setting up real-time listener");
-            setupRealtimeListener();
+            try {
+              setupRealtimeListener();
+              // Also try to load posts directly as fallback
+              await C.load();
+            } catch (error) {
+              console.error("Firebase setup failed:", error);
+              console.log("Falling back to empty state");
+              allPosts = [];
+              renderAllPosts();
+              updateRecentStories();
+            }
           } else {
             console.log("Firebase not available, falling back to empty state");
             allPosts = [];
