@@ -153,6 +153,7 @@
           #98fb98 50%,
           #f0e68c 100%
         );
+        backdrop-filter: blur(2px);
       }
 
       .forest-layer {
@@ -162,6 +163,7 @@
         background-size: cover;
         background-position: center;
         animation: gentleSway 12s ease-in-out infinite;
+        filter: blur(1px);
       }
 
       .forest-layer-1 {
@@ -668,6 +670,7 @@
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         overflow: hidden;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        backdrop-filter: blur(1px);
       }
 
       .story-scene:hover {
@@ -1495,7 +1498,19 @@
             <div class="sidebar-widget">
               <h3 class="widget-title">Senaste berättelserna</h3>
               <div id="recentStories"></div>
-              <button onclick="manualLoadStories()" style="margin-top: 10px; padding: 8px 15px; background: var(--p); color: var(--w); border: none; border-radius: 5px; cursor: pointer; font-family: var(--f);">
+              <button
+                onclick="manualLoadStories()"
+                style="
+                  margin-top: 10px;
+                  padding: 8px 15px;
+                  background: var(--p);
+                  color: var(--w);
+                  border: none;
+                  border-radius: 5px;
+                  cursor: pointer;
+                  font-family: var(--f);
+                "
+              >
                 Ladda om berättelser
               </button>
             </div>
@@ -2168,13 +2183,19 @@
           if (window.firebaseDb) {
             console.log("Attempting to load stories from Firebase...");
             await C.load();
-            alert(`Berättelser laddade! Hittade ${allPosts.length} berättelser.`);
+            alert(
+              `Berättelser laddade! Hittade ${allPosts.length} berättelser.`
+            );
           } else {
-            alert("Firebase är inte tillgängligt. Kontrollera din internetanslutning.");
+            alert(
+              "Firebase är inte tillgängligt. Kontrollera din internetanslutning."
+            );
           }
         } catch (error) {
           console.error("Manual load failed:", error);
-          alert("Kunde inte ladda berättelser. Kontrollera konsolen för detaljer.");
+          alert(
+            "Kunde inte ladda berättelser. Kontrollera konsolen för detaljer."
+          );
         }
       }
 
