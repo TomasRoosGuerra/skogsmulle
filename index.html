@@ -1996,6 +1996,8 @@
           await C.update(p.id, {
             title: t.trim(),
             content: `<p>${c.trim().replace(/\n/g, "</p><p>")}</p>`,
+            category: p.category || "",
+            age: p.age || "",
             date: p.date,
             timestamp: p.timestamp,
           });
@@ -2330,9 +2332,12 @@
         }
       }
 
-      document
-        .getElementById("newPostForm")
-        .addEventListener("submit", async function (e) {
+      // Move form event listener inside DOMContentLoaded to prevent duplicates
+      function setupFormListeners() {
+        const form = document.getElementById("newPostForm");
+        if (form && !form.hasAttribute('data-listener-added')) {
+          form.setAttribute('data-listener-added', 'true');
+          form.addEventListener("submit", async function (e) {
           e.preventDefault();
           const t = document.getElementById("postTitle").value.trim();
           const category = document.getElementById("postCategory").value;
@@ -2383,7 +2388,9 @@
               document.getElementById("postContent").innerHTML = "";
               localStorage.removeItem("skogsmulle_draft");
               alert("Berättelsen har publicerats!");
-              console.log("Story published successfully, scrolling to first post");
+              console.log(
+                "Story published successfully, scrolling to first post"
+              );
               // Force reload stories to ensure they appear
               setTimeout(async () => {
                 try {
@@ -2401,20 +2408,32 @@
             );
           }
         });
+        }
+      }
 
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          const email = document.getElementById("emailInput").value;
-          signInWithGoogle(email);
-        });
+      // Move login form listener inside setupFormListeners
+      function setupLoginListener() {
+        const loginForm = document.getElementById("loginForm");
+        if (loginForm && !loginForm.hasAttribute('data-listener-added')) {
+          loginForm.setAttribute('data-listener-added', 'true');
+          loginForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const email = document.getElementById("emailInput").value;
+            signInWithGoogle(email);
+          });
+        }
+      }
 
-      document
-        .getElementById("loginModal")
-        .addEventListener("click", function (e) {
-          if (e.target === this) closeLoginModal();
-        });
+      // Move modal listener inside setupFormListeners
+      function setupModalListeners() {
+        const loginModal = document.getElementById("loginModal");
+        if (loginModal && !loginModal.hasAttribute('data-listener-added')) {
+          loginModal.setAttribute('data-listener-added', 'true');
+          loginModal.addEventListener("click", function (e) {
+            if (e.target === this) closeLoginModal();
+          });
+        }
+      }
 
       themeAudio.addEventListener(
         "ended",
@@ -2454,6 +2473,9 @@
       document.addEventListener("DOMContentLoaded", function () {
         console.log("Initializing Skogsmulle application...");
         initAuth();
+        setupFormListeners();
+        setupLoginListener();
+        setupModalListeners();
 
         // Load saved text size
         const savedSize = localStorage.getItem("skogsmulle_textSize");
