@@ -1824,6 +1824,8 @@
               title: p.title,
               content: p.content,
               date: p.date,
+              category: p.category || "",
+              age: p.age || "",
               timestamp: p.createdAt?.toMillis() || Date.now(),
               createdAt: p.createdAt,
               updatedAt: p.updatedAt,
@@ -1866,6 +1868,8 @@
                   title: p.title,
                   content: p.content,
                   date: p.date,
+                  category: p.category || "",
+                  age: p.age || "",
                   timestamp: p.createdAt?.toMillis() || Date.now(),
                   createdAt: p.createdAt,
                   updatedAt: p.updatedAt,
@@ -1884,6 +1888,9 @@
 
       function renderAllPosts() {
         const c = document.getElementById("posts-container");
+        console.log("Rendering posts:", allPosts.length, "posts found");
+        console.log("Posts data:", allPosts);
+        
         if (allPosts.length === 0) {
           c.innerHTML =
             '<p style="text-align:center;color:var(--a);font-style:italic;padding:40px">Inga berättelser ännu. Skapa den första!</p>';
