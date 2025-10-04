@@ -1641,6 +1641,13 @@
     </footer>
 
     <script>
+      // Global variables
+      let isAdmin = false;
+      let currentUser = null;
+      let allPosts = [];
+      let themeAudio = new Audio("Skogsmulle.mp3");
+      let adventureAudio = new Audio("telegram_audio.mp3");
+
       // Magical Interactive Functions
       function interactWithSkogsmulle() {
         const bubble = document.getElementById("speechBubble");
@@ -2167,20 +2174,33 @@
       }
 
       function initAuth() {
-        const saved = localStorage.getItem("skogsmulle_user");
-        if (saved) {
-          const user = JSON.parse(saved);
-          if (
-            user.email === "tomas.roosguerra@gmail.com" ||
-            user.email === "tomasroosguerra@gmail.com"
-          ) {
-            isAdmin = true;
-            currentUser = user;
-            showAuthorTools();
+        console.log("Initializing authentication...");
+        try {
+          const saved = localStorage.getItem("skogsmulle_user");
+          console.log("Saved user data:", saved);
+          
+          if (saved) {
+            const user = JSON.parse(saved);
+            console.log("Parsed user:", user);
+            
+            if (
+              user.email === "tomas.roosguerra@gmail.com" ||
+              user.email === "tomasroosguerra@gmail.com"
+            ) {
+              console.log("Valid admin user found, logging in...");
+              isAdmin = true;
+              currentUser = user;
+              showAuthorTools();
+            } else {
+              console.log("Invalid user, showing login section");
+              showLoginSection();
+            }
           } else {
+            console.log("No saved user, showing login section");
             showLoginSection();
           }
-        } else {
+        } catch (error) {
+          console.error("Auth initialization error:", error);
           showLoginSection();
         }
       }
@@ -2200,11 +2220,30 @@
       }
 
       function showAuthorTools() {
-        document.getElementById("userInfo").style.display = "block";
-        document.getElementById("loginSection").style.display = "none";
-        document.getElementById("userEmail").textContent = currentUser.email;
-        document.querySelector(".expand-btn").style.display = "block";
-        updateDiscreteLogin(true);
+        console.log("Showing author tools for user:", currentUser);
+        try {
+          const userInfo = document.getElementById("userInfo");
+          const loginSection = document.getElementById("loginSection");
+          const userEmail = document.getElementById("userEmail");
+          const expandBtn = document.querySelector(".expand-btn");
+          
+          if (userInfo) userInfo.style.display = "block";
+          if (loginSection) loginSection.style.display = "none";
+          if (userEmail && currentUser) userEmail.textContent = currentUser.email;
+          if (expandBtn) expandBtn.style.display = "block";
+          
+          updateDiscreteLogin(true);
+          console.log("Author tools displayed successfully");
+        } catch (error) {
+          console.error("Error showing author tools:", error);
+        }
+      }
+
+      function showLoginSection() {
+        document.getElementById("userInfo").style.display = "none";
+        document.getElementById("loginSection").style.display = "block";
+        document.querySelector(".expand-btn").style.display = "none";
+        updateDiscreteLogin(false);
       }
 
       function hideAuthorTools() {
@@ -2242,18 +2281,31 @@
       }
 
       function signInWithGoogle(e) {
+        console.log("Sign in attempt with email:", e);
         const email = e.toLowerCase().trim();
+        console.log("Normalized email:", email);
+        
         if (
           email === "tomas.roosguerra@gmail.com" ||
           email === "tomasroosguerra@gmail.com"
         ) {
+          console.log("Valid email, setting admin privileges...");
           isAdmin = true;
           currentUser = { email: email, name: email.split("@")[0] };
-          localStorage.setItem("skogsmulle_user", JSON.stringify(currentUser));
-          showAuthorTools();
-          closeLoginModal();
-          alert("Välkommen tillbaka, författare!");
+          
+          try {
+            localStorage.setItem("skogsmulle_user", JSON.stringify(currentUser));
+            console.log("User saved to localStorage:", currentUser);
+            
+            showAuthorTools();
+            closeLoginModal();
+            alert("Välkommen tillbaka, författare!");
+          } catch (error) {
+            console.error("Error saving user to localStorage:", error);
+            alert("Ett fel uppstod vid inloggning. Försök igen.");
+          }
         } else {
+          console.log("Invalid email:", email);
           isAdmin = false;
           currentUser = null;
           alert("Endast författaren kan logga in här.");
@@ -2412,14 +2464,23 @@
 
       // Move login form listener inside setupFormListeners
       function setupLoginListener() {
+        console.log("Setting up login listener...");
         const loginForm = document.getElementById("loginForm");
+        console.log("Login form element:", loginForm);
+        
         if (loginForm && !loginForm.hasAttribute("data-listener-added")) {
+          console.log("Adding login form event listener");
           loginForm.setAttribute("data-listener-added", "true");
           loginForm.addEventListener("submit", function (e) {
             e.preventDefault();
+            console.log("Login form submitted");
             const email = document.getElementById("emailInput").value;
+            console.log("Email from form:", email);
             signInWithGoogle(email);
           });
+          console.log("Login form listener added successfully");
+        } else {
+          console.warn("Login form not found or listener already added");
         }
       }
 
@@ -2434,18 +2495,6 @@
         }
       }
 
-      themeAudio.addEventListener(
-        "ended",
-        () =>
-          (document.getElementById("playTheme").textContent =
-            "🎵 Spela temalåt")
-      );
-      adventureAudio.addEventListener(
-        "ended",
-        () =>
-          (document.getElementById("playAdventure").textContent =
-            "Spela äventyrslåt")
-      );
 
       function toggleThemeAudio() {
         const b = document.getElementById("playTheme");
@@ -2471,6 +2520,25 @@
 
       document.addEventListener("DOMContentLoaded", function () {
         console.log("Initializing Skogsmulle application...");
+        
+        // Setup audio event listeners
+        try {
+          themeAudio.addEventListener(
+            "ended",
+            () =>
+              (document.getElementById("playTheme").textContent =
+                "🎵 Spela temalåt")
+          );
+          adventureAudio.addEventListener(
+            "ended",
+            () =>
+              (document.getElementById("playAdventure").textContent =
+                "Spela äventyrslåt")
+          );
+        } catch (error) {
+          console.warn("Audio setup failed:", error);
+        }
+        
         initAuth();
         setupFormListeners();
         setupLoginListener();
