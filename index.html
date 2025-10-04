@@ -163,13 +163,7 @@
         position: relative;
         height: 500px;
         overflow: hidden;
-        background: linear-gradient(
-          135deg,
-          #87ceeb 0%,
-          #98fb98 50%,
-          #f0e68c 100%
-        );
-        backdrop-filter: blur(2px);
+        background: transparent;
       }
 
       .forest-layer {
@@ -179,12 +173,11 @@
         background-size: cover;
         background-position: center;
         animation: gentleSway 12s ease-in-out infinite;
-        filter: blur(1px);
       }
 
       .forest-layer-1 {
         background-image: url("igelkotten.png");
-        opacity: 0.8;
+        opacity: 1;
         z-index: 1;
         animation-delay: 0s;
       }
@@ -2178,11 +2171,11 @@
         try {
           const saved = localStorage.getItem("skogsmulle_user");
           console.log("Saved user data:", saved);
-          
+
           if (saved) {
             const user = JSON.parse(saved);
             console.log("Parsed user:", user);
-            
+
             if (
               user.email === "tomas.roosguerra@gmail.com" ||
               user.email === "tomasroosguerra@gmail.com"
@@ -2226,12 +2219,13 @@
           const loginSection = document.getElementById("loginSection");
           const userEmail = document.getElementById("userEmail");
           const expandBtn = document.querySelector(".expand-btn");
-          
+
           if (userInfo) userInfo.style.display = "block";
           if (loginSection) loginSection.style.display = "none";
-          if (userEmail && currentUser) userEmail.textContent = currentUser.email;
+          if (userEmail && currentUser)
+            userEmail.textContent = currentUser.email;
           if (expandBtn) expandBtn.style.display = "block";
-          
+
           updateDiscreteLogin(true);
           console.log("Author tools displayed successfully");
         } catch (error) {
@@ -2284,7 +2278,7 @@
         console.log("Sign in attempt with email:", e);
         const email = e.toLowerCase().trim();
         console.log("Normalized email:", email);
-        
+
         if (
           email === "tomas.roosguerra@gmail.com" ||
           email === "tomasroosguerra@gmail.com"
@@ -2292,11 +2286,14 @@
           console.log("Valid email, setting admin privileges...");
           isAdmin = true;
           currentUser = { email: email, name: email.split("@")[0] };
-          
+
           try {
-            localStorage.setItem("skogsmulle_user", JSON.stringify(currentUser));
+            localStorage.setItem(
+              "skogsmulle_user",
+              JSON.stringify(currentUser)
+            );
             console.log("User saved to localStorage:", currentUser);
-            
+
             showAuthorTools();
             closeLoginModal();
             alert("Välkommen tillbaka, författare!");
@@ -2467,7 +2464,7 @@
         console.log("Setting up login listener...");
         const loginForm = document.getElementById("loginForm");
         console.log("Login form element:", loginForm);
-        
+
         if (loginForm && !loginForm.hasAttribute("data-listener-added")) {
           console.log("Adding login form event listener");
           loginForm.setAttribute("data-listener-added", "true");
@@ -2495,7 +2492,6 @@
         }
       }
 
-
       function toggleThemeAudio() {
         const b = document.getElementById("playTheme");
         if (themeAudio.paused) {
@@ -2520,7 +2516,7 @@
 
       document.addEventListener("DOMContentLoaded", function () {
         console.log("Initializing Skogsmulle application...");
-        
+
         // Setup audio event listeners
         try {
           themeAudio.addEventListener(
@@ -2538,7 +2534,7 @@
         } catch (error) {
           console.warn("Audio setup failed:", error);
         }
-        
+
         initAuth();
         setupFormListeners();
         setupLoginListener();
