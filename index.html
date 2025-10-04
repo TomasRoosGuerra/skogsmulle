@@ -34,7 +34,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&family=Creepster:wght@400&family=Bungee:wght@400&family=Amatic+SC:wght@400;700&family=Fredericka+the+Great&family=Mountains+of+Christmas:wght@400;700&family=Butterfly+Kids&family=Indie+Flower&display=swap"
       rel="stylesheet"
     />
 
@@ -113,12 +113,28 @@
       }
 
       body {
-        background: var(--bg) url("nedladdning.png") repeat fixed;
+        background: var(--bg);
         color: var(--txt);
         line-height: 1.7;
         font-family: var(--f);
         min-height: 100vh;
         font-weight: 400;
+        position: relative;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("igelkotten.png") repeat;
+        background-size: cover;
+        background-position: center;
+        filter: blur(2px);
+        z-index: -1;
+        opacity: 0.3;
       }
 
       .skip-link {
@@ -293,7 +309,7 @@
         right: 30px;
         width: 120px;
         height: 120px;
-        background: url("igelkotten.png") center/contain no-repeat;
+        background: url("mulle.png") center/contain no-repeat;
         cursor: pointer;
         z-index: 10;
         transition: transform 0.3s ease;
@@ -369,20 +385,30 @@
       }
 
       .magical-welcome h1 {
-        font-size: 3.5rem;
-        font-family: var(--f);
-        font-weight: 600;
+        font-size: 5.5rem;
+        font-family: "Fredericka the Great", "Mountains of Christmas", cursive;
+        font-weight: 400;
         margin-bottom: 20px;
         animation: magicalGlow 2s ease-in-out infinite alternate;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4),
+          0 0 25px rgba(139, 69, 19, 0.6), 2px 2px 4px rgba(34, 139, 34, 0.3);
+        letter-spacing: 3px;
+        transform: perspective(500px) rotateX(15deg);
+        color: #8b4513;
+        -webkit-text-stroke: 2px solid #654321;
       }
 
       .magical-welcome p {
-        font-size: 1.8rem;
-        font-family: var(--f);
-        font-weight: 500;
+        font-size: 2.5rem;
+        font-family: "Amatic SC", "Butterfly Kids", cursive;
+        font-weight: 700;
         margin-bottom: 30px;
-        opacity: 0.9;
+        opacity: 0.95;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3),
+          0 0 15px rgba(139, 69, 19, 0.5);
+        letter-spacing: 2px;
+        color: #654321;
+        -webkit-text-stroke: 1px solid #8b4513;
       }
 
       @keyframes magicalGlow {
@@ -1249,10 +1275,12 @@
           height: 400px;
         }
         .magical-welcome h1 {
-          font-size: 2.8rem;
+          font-size: 4rem;
+          letter-spacing: 2px;
         }
         .magical-welcome p {
-          font-size: 1.4rem;
+          font-size: 2rem;
+          letter-spacing: 1px;
         }
         .skogsmulle-character {
           width: 80px;
@@ -1266,12 +1294,8 @@
           max-width: 150px;
           font-size: 0.9rem;
         }
-        .main-navigation,
         .content {
           margin: 0 0 20px 0;
-        }
-        .nav-links {
-          gap: 20px;
         }
         .main-content {
           grid-template-columns: 1fr;
@@ -1402,28 +1426,6 @@
         Hej! Jag är Skogsmulle! Klicka på mig för att säga hej!
       </div>
     </header>
-
-    <nav class="main-navigation">
-      <ul class="nav-links">
-        <li><a href="#berattelser">Berättelser</a></li>
-        <li><a href="#karaktarer">Karaktärer</a></li>
-      </ul>
-      <div class="nav-controls">
-        <div class="search-box">
-          <input
-            type="text"
-            id="globalSearch"
-            placeholder="Sök berättelser..."
-            onkeyup="searchStories()"
-          />
-        </div>
-        <div class="text-size-controls">
-          <button onclick="changeTextSize(-1)" title="Mindre text">A-</button>
-          <button onclick="changeTextSize(0)" title="Normal text">A</button>
-          <button onclick="changeTextSize(1)" title="Större text">A+</button>
-        </div>
-      </div>
-    </nav>
 
     <main id="main-content" role="main">
       <div class="content">
@@ -1914,17 +1916,26 @@
             '<p style="text-align:center;color:var(--a);font-style:italic;padding:40px">Inga berättelser ännu. Skapa den första!</p>';
           return;
         }
-        c.innerHTML = allPosts
-          .map(
-            (p, i) =>
-              `<div class="story-scene" data-category="${
-                p.category || ""
-              }" data-age="${p.age || ""}">
+
+        // Sort posts by timestamp to ensure newest first
+        const sortedPosts = [...allPosts].sort(
+          (a, b) => (b.timestamp || 0) - (a.timestamp || 0)
+        );
+
+        c.innerHTML = sortedPosts
+          .map((p, i) => {
+            // Ensure content is properly formatted
+            const content =
+              p.content && p.content.trim() ? p.content : `<p>${p.title}</p>`;
+
+            return `<div class="story-scene" data-category="${
+              p.category || ""
+            }" data-age="${p.age || ""}" data-id="${p.id || ""}">
                 <div class="scene-illustration"></div>
                 <div class="post-header">
-                  <h3 class="post-title">${p.title}</h3>
+                  <h3 class="post-title">${p.title || "Untitled Story"}</h3>
                   <div class="post-meta">
-                    <span class="post-date">${p.date}</span>
+                    <span class="post-date">${p.date || "No date"}</span>
                     ${
                       p.category
                         ? `<span class="post-category">${p.category}</span>`
@@ -1933,7 +1944,7 @@
                     ${p.age ? `<span class="post-age">${p.age} år</span>` : ""}
                   </div>
                 </div>
-                <div class="post-content">${p.content}</div>
+                <div class="post-content">${content}</div>
                 <div class="story-interactive">
                   <div class="interactive-element" onclick="exploreStory(${i})">Utforska berättelsen</div>
                   <div class="interactive-element" onclick="meetCharacters(${i})">Träffa karaktärer</div>
@@ -1947,8 +1958,8 @@
                   }
                   <button class="post-button" onclick="markAsRead(${i})">Markera som läst</button>
                 </div>
-              </div>`
-          )
+              </div>`;
+          })
           .join("");
       }
 
@@ -2335,87 +2346,121 @@
       // Move form event listener inside DOMContentLoaded to prevent duplicates
       function setupFormListeners() {
         const form = document.getElementById("newPostForm");
-        if (form && !form.hasAttribute('data-listener-added')) {
-          form.setAttribute('data-listener-added', 'true');
+        if (form && !form.hasAttribute("data-listener-added")) {
+          form.setAttribute("data-listener-added", "true");
           form.addEventListener("submit", async function (e) {
-          e.preventDefault();
-          const t = document.getElementById("postTitle").value.trim();
-          const category = document.getElementById("postCategory").value;
-          const age = document.getElementById("postAge").value;
-          const c = document.getElementById("postContent").innerHTML.trim();
+            e.preventDefault();
 
-          if (!t || !c) {
-            alert("Vänligen fyll i både titel och berättelse.");
-            return;
-          }
+            // Prevent multiple submissions
+            if (this.submitting) return;
+            this.submitting = true;
 
-          const today = new Date();
-          const ds =
-            today.getDate() +
-            " " +
-            [
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "Maj",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Okt",
-              "Nov",
-              "Dec",
-            ][today.getMonth()] +
-            ", " +
-            today.getFullYear();
+            const submitButton = this.querySelector(".submit-button");
+            submitButton.disabled = true;
+            submitButton.textContent = "Publicerar...";
 
-          const np = {
-            title: t,
-            category: category,
-            age: age,
-            content: c,
-            date: ds,
-            timestamp: Date.now(),
-          };
+            const t = document.getElementById("postTitle").value.trim();
+            const category = document.getElementById("postCategory").value;
+            const age = document.getElementById("postAge").value;
+            const c = document.getElementById("postContent").innerHTML.trim();
 
-          try {
-            console.log("Attempting to save story:", np);
-            const pid = await C.save(np);
-            console.log("Story saved with ID:", pid);
-            if (pid) {
-              this.reset();
-              document.getElementById("postContent").innerHTML = "";
-              localStorage.removeItem("skogsmulle_draft");
-              alert("Berättelsen har publicerats!");
-              console.log(
-                "Story published successfully, scrolling to first post"
-              );
-              // Force reload stories to ensure they appear
-              setTimeout(async () => {
-                try {
-                  await C.load();
-                  scrollToPost(0);
-                } catch (error) {
-                  console.error("Error reloading stories:", error);
-                }
-              }, 500);
+            if (!t || !c) {
+              alert("Vänligen fyll i både titel och berättelse.");
+              this.submitting = false;
+              submitButton.disabled = false;
+              submitButton.textContent = "Publicera berättelse";
+              return;
             }
-          } catch (e) {
-            console.error("Publish error:", e);
-            alert(
-              "Ett fel uppstod när berättelsen skulle publiceras. Försök igen."
-            );
-          }
-        });
+
+            // Clean content to prevent duplicate formatting
+            const cleanContent = c
+              .replace(/<p><br><\/p>/g, "")
+              .replace(/<p><\/p>/g, "");
+
+            const today = new Date();
+            const ds =
+              today.getDate() +
+              " " +
+              [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "Maj",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Okt",
+                "Nov",
+                "Dec",
+              ][today.getMonth()] +
+              ", " +
+              today.getFullYear();
+
+            const np = {
+              title: t,
+              category: category,
+              age: age,
+              content: cleanContent || `<p>${t}</p>`,
+              date: ds,
+              timestamp: Date.now(),
+            };
+
+            try {
+              console.log("Attempting to save story:", np);
+              const pid = await C.save(np);
+              console.log("Story saved with ID:", pid);
+
+              if (pid) {
+                // Clear form completely
+                this.reset();
+                document.getElementById("postContent").innerHTML = "";
+                localStorage.removeItem("skogsmulle_draft");
+
+                // Close modal
+                closeAuthorModal();
+
+                alert("Berättelsen har publicerats!");
+                console.log("Story published successfully");
+
+                // Force reload stories to ensure they appear
+                setTimeout(async () => {
+                  try {
+                    await C.load();
+                    if (allPosts.length > 0) {
+                      const firstStory = document.querySelector(".story-scene");
+                      if (firstStory) {
+                        firstStory.scrollIntoView({
+                          behavior: "smooth",
+                          block: "start",
+                        });
+                      }
+                    }
+                  } catch (error) {
+                    console.error("Error reloading stories:", error);
+                  }
+                }, 1000);
+              }
+            } catch (e) {
+              console.error("Publish error:", e);
+              alert(
+                "Ett fel uppstod när berättelsen skulle publiceras. Försök igen."
+              );
+            } finally {
+              this.submitting = false;
+              submitButton.disabled = false;
+              submitButton.textContent = "Publicera berättelse";
+            }
+          });
         }
       }
 
       // Move login form listener inside setupFormListeners
       function setupLoginListener() {
         const loginForm = document.getElementById("loginForm");
-        if (loginForm && !loginForm.hasAttribute('data-listener-added')) {
-          loginForm.setAttribute('data-listener-added', 'true');
+        if (loginForm && !loginForm.hasAttribute("data-listener-added")) {
+          loginForm.setAttribute("data-listener-added", "true");
           loginForm.addEventListener("submit", function (e) {
             e.preventDefault();
             const email = document.getElementById("emailInput").value;
@@ -2427,8 +2472,8 @@
       // Move modal listener inside setupFormListeners
       function setupModalListeners() {
         const loginModal = document.getElementById("loginModal");
-        if (loginModal && !loginModal.hasAttribute('data-listener-added')) {
-          loginModal.setAttribute('data-listener-added', 'true');
+        if (loginModal && !loginModal.hasAttribute("data-listener-added")) {
+          loginModal.setAttribute("data-listener-added", "true");
           loginModal.addEventListener("click", function (e) {
             if (e.target === this) closeLoginModal();
           });
