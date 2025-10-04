@@ -673,72 +673,212 @@
         margin-bottom: 0;
       }
 
-      /* Story Scene System */
+      /* Story Flip Card System */
       .story-scene {
+        background-color: rgba(0, 0, 0, 0.05);
+        box-shadow: -0.1rem 1.7rem 6.6rem -3.2rem rgba(0, 0, 0, 0.5);
+        height: 400px;
         position: relative;
+        transition: all 1s ease;
+        width: 100%;
+        max-width: 400px;
+        margin: 30px auto;
+        border-radius: 20px;
+        overflow: visible;
+      }
+
+      .story-scene:hover {
+        box-shadow: -0.1rem 1.7rem 6.6rem -3.2rem rgba(0, 0, 0, 0.75);
+        max-width: 800px;
+      }
+
+      /* Flip card outer container */
+      .flip-card {
+        height: 400px;
+        perspective: 1000px;
+        position: absolute;
+        right: 0;
+        transition: all 1s ease;
+        visibility: hidden;
+        width: 400px;
+        z-index: 100;
+        border-radius: 20px;
+      }
+
+      .flip-card > * {
+        visibility: visible;
+      }
+
+      /* Flip card inner container */
+      .flip-card__container {
+        height: 100%;
+        position: absolute;
+        right: 0;
+        transform-origin: left;
+        transform-style: preserve-3d;
+        transition: all 1s ease;
+        width: 100%;
+        border-radius: 20px;
+      }
+
+      .story-scene:hover .flip-card__container {
+        transform: rotateY(-180deg);
+      }
+
+      .card-front,
+      .card-back {
+        backface-visibility: hidden;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        border-radius: 20px;
+        overflow: hidden;
+      }
+
+      /* Front of card */
+      .card-front {
         background: linear-gradient(
           135deg,
           #e6f3ff 0%,
           #f0fff0 50%,
           #fff8dc 100%
         );
-        border-radius: 20px;
-        padding: 40px;
-        margin: 30px 0;
-        border: 3px solid rgba(139, 69, 19, 0.2);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        backdrop-filter: blur(1px);
+        display: flex;
+        flex-direction: column;
+        height: 400px;
+        width: 400px;
       }
 
-      .story-scene:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-      }
-
-      .story-scene::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, var(--p), var(--a), var(--s));
-        border-radius: 20px 20px 0 0;
+      .card-front__tp {
+        align-items: center;
+        clip-path: polygon(
+          0 0,
+          100% 0,
+          100% 85%,
+          57% 85%,
+          50% 95%,
+          43% 85%,
+          0 85%
+        );
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 2rem;
+        height: 300px;
+        background: linear-gradient(to bottom, #a0522d, #8b4513);
+        color: #fafbfa;
       }
 
       .scene-illustration {
-        width: 100%;
-        height: 200px;
-        background: linear-gradient(45deg, #98fb98, #f0e68c);
-        border-radius: 15px;
-        margin-bottom: 25px;
-        position: relative;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 4rem;
-        color: var(--p);
-        font-family: var(--f);
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      .scene-illustration::before {
-        content: "🌲🌿🦔🌿🌲";
-        position: absolute;
-        animation: sceneFloat 6s ease-in-out infinite;
+        font-size: 5rem;
+        margin-bottom: 1rem;
+        animation: sceneFloat 3s ease-in-out infinite;
       }
 
       @keyframes sceneFloat {
         0%,
         100% {
+          transform: translateY(0px) scale(1);
+        }
+        50% {
+          transform: translateY(-10px) scale(1.05);
+        }
+      }
+
+      .card-front__heading {
+        font-size: 2rem;
+        margin-top: 1rem;
+        text-align: center;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .card-front__text-date {
+        font-size: 1rem;
+        margin-top: 0.5rem;
+        opacity: 0.9;
+      }
+
+      .card-front__bt {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        flex: 1;
+        padding: 1rem;
+      }
+
+      .card-front__text-view {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--p);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .card-front__text-view:hover {
+        color: var(--a);
+        transform: scale(1.1);
+      }
+
+      /* Back of card */
+      .card-back {
+        background: linear-gradient(
+          135deg,
+          #8b4513 0%,
+          #a0522d 50%,
+          #d2691e 100%
+        );
+        transform: rotateY(180deg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+      }
+
+      .card-back__illustration {
+        font-size: 8rem;
+        animation: backFloat 4s ease-in-out infinite;
+        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+      }
+
+      @keyframes backFloat {
+        0%,
+        100% {
           transform: translateY(0px) rotate(0deg);
         }
         50% {
-          transform: translateY(-10px) rotate(2deg);
+          transform: translateY(-15px) rotate(5deg);
         }
+      }
+
+      /* Inside page */
+      .inside-page {
+        background: linear-gradient(
+          135deg,
+          #fff8dc 0%,
+          #f0fff0 50%,
+          #e6f3ff 100%
+        );
+        box-shadow: inset 20rem 0px 5rem -2.5rem rgba(0, 0, 0, 0.25);
+        height: 100%;
+        padding: 2rem;
+        position: absolute;
+        right: 0;
+        transition: all 1s ease;
+        width: 400px;
+        z-index: 1;
+        border-radius: 20px;
+        overflow-y: auto;
+      }
+
+      .story-scene:hover .inside-page {
+        box-shadow: inset 1rem 0px 5rem -2.5rem rgba(0, 0, 0, 0.1);
+      }
+
+      .inside-page__container {
+        height: 100%;
+        width: 100%;
       }
 
       /* Interactive Story Elements */
@@ -791,7 +931,7 @@
       }
 
       .post-header {
-        margin-bottom: 25px;
+        margin-bottom: 0;
         border-bottom: none;
         padding-bottom: 0;
       }
@@ -824,15 +964,16 @@
       .post-category,
       .post-age {
         background: var(--lg);
-        padding: 2px 8px;
+        padding: 4px 10px;
         border-radius: 12px;
         font-size: 0.75rem;
         color: var(--s);
         border: 1px solid var(--br);
+        font-weight: 600;
       }
 
       .post-content {
-        margin-bottom: 30px;
+        margin-bottom: 0;
         color: var(--txt);
         line-height: 1.8;
         font-size: 1.2rem;
@@ -842,26 +983,30 @@
 
       .post-actions {
         display: flex;
-        gap: 15px;
+        gap: 10px;
         flex-wrap: wrap;
-        margin-top: 30px;
-        padding-top: 20px;
-        border-top: 1px solid rgba(139, 69, 19, 0.2);
+        margin-top: 0;
+        padding-top: 0;
+        border-top: none;
       }
 
       .post-button {
-        background: var(--lg);
-        color: var(--s);
+        background: var(--p);
+        color: var(--w);
         border: 2px solid var(--br);
         border-radius: var(--r);
         padding: 8px 16px;
         cursor: pointer;
         font-size: 0.9rem;
         font-family: var(--f);
+        font-weight: 600;
+        transition: all 0.3s ease;
       }
 
       .post-button:hover {
-        background: var(--w);
+        background: var(--s);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
       }
 
       .sidebar {
@@ -1300,25 +1445,52 @@
           top: auto;
         }
         .story-scene {
-          padding: 25px;
+          height: 350px;
+          max-width: 100%;
           margin: 20px 0;
         }
+        .story-scene:hover {
+          max-width: 100%;
+        }
+        .flip-card,
+        .card-front,
+        .inside-page {
+          width: 100%;
+        }
+        .flip-card {
+          height: 350px;
+        }
+        .card-front {
+          height: 350px;
+        }
+        .card-front__tp {
+          height: 250px;
+          padding: 1.5rem;
+        }
         .scene-illustration {
-          height: 150px;
-          font-size: 3rem;
+          font-size: 3.5rem;
+        }
+        .card-front__heading {
+          font-size: 1.5rem;
+        }
+        .card-back__illustration {
+          font-size: 6rem;
+        }
+        .inside-page {
+          padding: 1.5rem;
         }
         .post-title {
-          font-size: 1.8rem;
+          font-size: 1.5rem;
         }
         .post-content {
-          font-size: 1.1rem;
+          font-size: 1rem;
         }
         .story-interactive {
-          gap: 10px;
+          gap: 8px;
         }
         .interactive-element {
-          padding: 8px 15px;
-          font-size: 0.9rem;
+          padding: 6px 12px;
+          font-size: 0.85rem;
         }
       }
 
@@ -1882,35 +2054,76 @@
             const content =
               p.content && p.content.trim() ? p.content : `<p>${p.title}</p>`;
 
+            // Generate emoji based on category
+            const categoryEmoji = {
+              äventyr: "🌲🦊",
+              vänskap: "🦔🤝",
+              natur: "🌿🌸",
+              magi: "✨🔮",
+              djur: "🦔🐿️",
+            };
+            const emoji =
+              categoryEmoji[p.category] || "🌲🦔";
+
             return `<div class="story-scene" data-category="${
               p.category || ""
             }" data-age="${p.age || ""}" data-id="${p.id || ""}">
-                <div class="scene-illustration"></div>
-                <div class="post-header">
-                  <h3 class="post-title">${p.title || "Untitled Story"}</h3>
-                  <div class="post-meta">
-                    <span class="post-date">${p.date || "No date"}</span>
-                    ${
-                      p.category
-                        ? `<span class="post-category">${p.category}</span>`
-                        : ""
-                    }
-                    ${p.age ? `<span class="post-age">${p.age} år</span>` : ""}
+                <div class="flip-card">
+                  <div class="flip-card__container">
+                    <div class="card-front">
+                      <div class="card-front__tp">
+                        <div class="scene-illustration">${emoji}</div>
+                        <h2 class="card-front__heading">${
+                          p.title || "Untitled Story"
+                        }</h2>
+                        <p class="card-front__text-date">${p.date || "No date"}</p>
+                        ${
+                          p.category
+                            ? `<p style="margin-top:0.5rem;font-size:0.9rem;text-transform:uppercase;letter-spacing:1px;">${p.category}</p>`
+                            : ""
+                        }
+                      </div>
+                      <div class="card-front__bt">
+                        <p class="card-front__text-view">✨ Läs mig ✨</p>
+                      </div>
+                    </div>
+                    <div class="card-back">
+                      <div class="card-back__illustration">🦔🌿</div>
+                    </div>
                   </div>
                 </div>
-                <div class="post-content">${content}</div>
-                <div class="story-interactive">
-                  <div class="interactive-element" onclick="exploreStory(${i})">Utforska berättelsen</div>
-                  <div class="interactive-element" onclick="meetCharacters(${i})">Träffa karaktärer</div>
-                  <div class="interactive-element" onclick="playStorySounds(${i})">Lyssna på ljud</div>
-                </div>
-                <div class="post-actions">
-                  ${
-                    isAdmin
-                      ? `<button class="post-button" onclick="editPost(${i})">Redigera</button><button class="post-button" onclick="deletePost(${i})">Ta bort</button>`
-                      : ""
-                  }
-                  <button class="post-button" onclick="markAsRead(${i})">Markera som läst</button>
+
+                <div class="inside-page">
+                  <div class="inside-page__container">
+                    <div class="post-header">
+                      <h3 class="post-title" style="color:var(--p);font-size:1.8rem;margin-bottom:1rem;">${
+                        p.title || "Untitled Story"
+                      }</h3>
+                      <div class="post-meta" style="margin-bottom:1.5rem;">
+                        <span class="post-date">${p.date || "No date"}</span>
+                        ${
+                          p.category
+                            ? `<span class="post-category">${p.category}</span>`
+                            : ""
+                        }
+                        ${p.age ? `<span class="post-age">${p.age} år</span>` : ""}
+                      </div>
+                    </div>
+                    <div class="post-content" style="line-height:1.8;font-size:1.1rem;">${content}</div>
+                    <div class="story-interactive" style="margin-top:1.5rem;">
+                      <div class="interactive-element" onclick="exploreStory(${i})">🔍 Utforska</div>
+                      <div class="interactive-element" onclick="meetCharacters(${i})">👋 Karaktärer</div>
+                      <div class="interactive-element" onclick="playStorySounds(${i})">🎵 Ljud</div>
+                    </div>
+                    <div class="post-actions" style="margin-top:1.5rem;padding-top:1.5rem;border-top:2px solid rgba(139,69,19,0.2);">
+                      ${
+                        isAdmin
+                          ? `<button class="post-button" onclick="editPost(${i})">Redigera</button><button class="post-button" onclick="deletePost(${i})">Ta bort</button>`
+                          : ""
+                      }
+                      <button class="post-button" onclick="markAsRead(${i})">Markera som läst ✓</button>
+                    </div>
+                  </div>
                 </div>
               </div>`;
           })
