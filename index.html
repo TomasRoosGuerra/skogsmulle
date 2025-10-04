@@ -2202,6 +2202,7 @@
         const b = document.querySelector(".discrete-login");
         b.textContent = l ? currentUser.email.split("@")[0] : "Logga in";
         b.style.background = l ? "var(--p)" : "var(--lg)";
+        b.style.color = l ? "var(--w)" : "var(--s)";
       }
 
       function toggleLoginModal() {
