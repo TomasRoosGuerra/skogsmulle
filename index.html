@@ -568,6 +568,7 @@
         transform: translateY(-1px);
       }
 
+      /* Main Navigation Bar */
       .main-navigation {
         background: var(--w);
         border-radius: 0;
@@ -575,79 +576,128 @@
         padding: 15px 20px;
         position: sticky;
         top: 0;
-        z-index: 100;
+        z-index: 1000;
         border: none;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       }
 
-      .nav-links {
-        list-style: none;
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .nav-menu {
         display: flex;
-        justify-content: center;
-        gap: 30px;
-        flex-wrap: wrap;
-      }
-
-      .nav-links a {
-        color: var(--s);
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 1.1rem;
-        padding: 8px 16px;
-        border-radius: 6px;
-        transition: all 0.3s ease;
-        font-family: var(--f);
-      }
-
-      .nav-links a:hover {
-        background: var(--w);
-      }
-
-      .nav-controls {
-        display: flex;
-        gap: 15px;
+        justify-content: space-between;
         align-items: center;
-        margin-top: 10px;
+        gap: 20px;
         flex-wrap: wrap;
-        justify-content: center;
       }
 
-      .search-box input {
-        padding: 8px 12px;
-        border: 1px solid var(--br);
-        border-radius: 20px;
-        font-size: 0.9rem;
-        background: var(--w);
-        font-family: var(--f);
-        min-width: 200px;
-        transition: all 0.3s ease;
+      .nav-item {
+        position: relative;
       }
 
-      .search-box input:focus {
-        outline: none;
-        border-color: var(--p);
-      }
-
-      .text-size-controls {
-        display: flex;
-        gap: 5px;
-      }
-
-      .text-size-controls button {
-        background: var(--w);
-        border: 1px solid var(--br);
-        border-radius: 4px;
-        padding: 6px 10px;
+      .nav-button {
+        background: var(--lg);
+        color: var(--p);
+        border: 2px solid var(--br);
+        border-radius: var(--r);
+        padding: 10px 20px;
         cursor: pointer;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
+        font-size: 1rem;
         font-family: var(--f);
-        min-width: 35px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
       }
 
-      .text-size-controls button:hover {
+      .nav-button:hover {
         background: var(--p);
         color: var(--w);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+      }
+
+      .nav-button.active {
+        background: var(--p);
+        color: var(--w);
+      }
+
+      .nav-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        margin-top: 10px;
+        background: var(--w);
+        border: 3px solid var(--br);
+        border-radius: var(--r);
+        padding: 20px;
+        min-width: 300px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        display: none;
+        z-index: 1001;
+        max-height: 500px;
+        overflow-y: auto;
+      }
+
+      .nav-dropdown.show {
+        display: block;
+        animation: dropdownSlide 0.3s ease;
+      }
+
+      @keyframes dropdownSlide {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .nav-dropdown h3 {
+        color: var(--p);
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+        border-bottom: 2px solid var(--br);
+        padding-bottom: 10px;
+      }
+
+      .nav-dropdown .filter-controls,
+      .nav-dropdown .author-content {
+        margin-top: 10px;
+      }
+
+      .recent-story-item {
+        margin-bottom: 10px;
+        padding: 10px;
+        background: var(--lg);
+        border-radius: 6px;
+        border: 1px solid var(--br);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .recent-story-item:hover {
+        background: var(--w);
+        transform: translateX(5px);
+        box-shadow: 0 2px 8px rgba(139, 69, 19, 0.2);
+      }
+
+      .recent-story-item strong {
+        color: var(--p);
+        font-size: 0.95rem;
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .recent-story-item small {
+        color: var(--a);
+        font-size: 0.85rem;
       }
 
       .content {
@@ -658,9 +708,7 @@
       }
 
       .main-content {
-        display: grid;
-        grid-template-columns: 1fr 300px;
-        gap: 50px;
+        display: block;
         margin: 40px 0;
       }
 
@@ -1010,15 +1058,7 @@
       }
 
       .sidebar {
-        background: transparent;
-        border-radius: 0;
-        padding: 0;
-        border: none;
-        box-shadow: none;
-        height: auto;
-        display: block;
-        position: sticky;
-        top: 100px;
+        display: none;
       }
 
       .sidebar-widget {
@@ -1435,15 +1475,35 @@
         .content {
           margin: 0 0 20px 0;
         }
-        .main-content {
-          grid-template-columns: 1fr;
-          gap: 30px;
+        
+        /* Navbar mobile styles */
+        .nav-menu {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 10px;
         }
-        .sidebar {
-          order: -1;
-          position: static;
+        
+        .nav-item {
+          width: 100%;
+        }
+        
+        .nav-button {
+          width: 100%;
+          justify-content: center;
+          padding: 12px 15px;
+          font-size: 0.95rem;
+        }
+        
+        .nav-dropdown {
+          position: fixed;
+          left: 50%;
+          transform: translateX(-50%);
           top: auto;
+          width: 90%;
+          max-width: 400px;
+          margin-top: 5px;
         }
+        
         .story-scene {
           height: 350px;
           max-width: 100%;
@@ -1504,15 +1564,23 @@
         .post-actions {
           justify-content: center;
         }
-        .nav-links {
-          gap: 15px;
-        }
-        .nav-links a {
-          font-size: 1rem;
-          padding: 6px 12px;
-        }
         .character-grid {
           grid-template-columns: repeat(3, 1fr);
+        }
+        
+        /* Navbar extra small screens */
+        .nav-button {
+          padding: 10px 12px;
+          font-size: 0.9rem;
+        }
+        
+        .nav-dropdown {
+          width: 95%;
+          padding: 15px;
+        }
+        
+        .nav-dropdown h3 {
+          font-size: 1.1rem;
         }
       }
     </style>
@@ -1591,6 +1659,99 @@
         Hej! Jag är Skogsmulle! Klicka på mig för att säga hej!
       </div>
     </header>
+
+    <!-- Navigation Bar with Tools -->
+    <nav class="main-navigation">
+      <div class="nav-container">
+        <div class="nav-menu">
+          <!-- Author Tools -->
+          <div class="nav-item">
+            <button class="nav-button" onclick="toggleNavDropdown('authorTools')">
+              ✍️ Författarverktyg
+            </button>
+            <div id="authorTools" class="nav-dropdown">
+              <h3>Författarverktyg</h3>
+              <div class="author-info">
+                <div id="navUserInfo" style="display: none">
+                  <p><strong>Inloggad som:</strong></p>
+                  <p id="navUserEmail"></p>
+                </div>
+                <div id="navLoginSection">
+                  <p class="login-note">
+                    Logga in för att skriva berättelser.
+                  </p>
+                </div>
+              </div>
+              <button class="expand-btn" onclick="openAuthorModal()" id="navWriteBtn" style="display: none;">
+                Skriv ny berättelse
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter Stories -->
+          <div class="nav-item">
+            <button class="nav-button" onclick="toggleNavDropdown('filterTools')">
+              🔍 Filtrera berättelser
+            </button>
+            <div id="filterTools" class="nav-dropdown">
+              <h3>Filtrera berättelser</h3>
+              <div class="filter-controls">
+                <div class="filter-group">
+                  <label>Kategori:</label>
+                  <select id="categoryFilter" onchange="filterByCategory()">
+                    <option value="">Alla kategorier</option>
+                    <option value="äventyr">Äventyr</option>
+                    <option value="vänskap">Vänskap</option>
+                    <option value="natur">Natur</option>
+                    <option value="magi">Magi</option>
+                    <option value="djur">Djur</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label>Ålder:</label>
+                  <select id="ageFilter" onchange="filterByAge()">
+                    <option value="">Alla åldrar</option>
+                    <option value="3-5">3-5 år</option>
+                    <option value="6-8">6-8 år</option>
+                    <option value="9-12">9-12 år</option>
+                    <option value="alla">Alla åldrar</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Stories -->
+          <div class="nav-item">
+            <button class="nav-button" onclick="toggleNavDropdown('recentStories')">
+              📚 Senaste berättelserna
+            </button>
+            <div id="recentStories" class="nav-dropdown">
+              <h3>Senaste berättelserna</h3>
+              <div id="navRecentStories"></div>
+            </div>
+          </div>
+
+          <!-- Reading Stats -->
+          <div class="nav-item">
+            <button class="nav-button" onclick="toggleNavDropdown('readingStats')">
+              📊 Lässtatistik
+            </button>
+            <div id="readingStats" class="nav-dropdown">
+              <h3>Lässtatistik</h3>
+              <div class="stat-item">
+                <span class="stat-label">Totalt läst:</span>
+                <span class="stat-value" id="navTotalRead">0</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Favorit kategori:</span>
+                <span class="stat-value" id="navFavoriteCategory">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
 
     <main id="main-content" role="main">
       <div class="content">
@@ -2062,8 +2223,7 @@
               magi: "✨🔮",
               djur: "🦔🐿️",
             };
-            const emoji =
-              categoryEmoji[p.category] || "🌲🦔";
+            const emoji = categoryEmoji[p.category] || "🌲🦔";
 
             return `<div class="story-scene" data-category="${
               p.category || ""
@@ -2076,7 +2236,9 @@
                         <h2 class="card-front__heading">${
                           p.title || "Untitled Story"
                         }</h2>
-                        <p class="card-front__text-date">${p.date || "No date"}</p>
+                        <p class="card-front__text-date">${
+                          p.date || "No date"
+                        }</p>
                         ${
                           p.category
                             ? `<p style="margin-top:0.5rem;font-size:0.9rem;text-transform:uppercase;letter-spacing:1px;">${p.category}</p>`
@@ -2106,7 +2268,11 @@
                             ? `<span class="post-category">${p.category}</span>`
                             : ""
                         }
-                        ${p.age ? `<span class="post-age">${p.age} år</span>` : ""}
+                        ${
+                          p.age
+                            ? `<span class="post-age">${p.age} år</span>`
+                            : ""
+                        }
                       </div>
                     </div>
                     <div class="post-content" style="line-height:1.8;font-size:1.1rem;">${content}</div>
@@ -2130,20 +2296,60 @@
           .join("");
       }
 
+      // Toggle navigation dropdowns
+      function toggleNavDropdown(dropdownId) {
+        // Close all other dropdowns
+        document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
+          if (dropdown.id !== dropdownId) {
+            dropdown.classList.remove('show');
+          }
+        });
+        
+        // Toggle the clicked dropdown
+        const dropdown = document.getElementById(dropdownId);
+        dropdown.classList.toggle('show');
+        
+        // Update button active state
+        document.querySelectorAll('.nav-button').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        if (dropdown.classList.contains('show')) {
+          event.target.classList.add('active');
+        }
+      }
+
+      // Close dropdowns when clicking outside
+      document.addEventListener('click', function(event) {
+        if (!event.target.closest('.nav-item')) {
+          document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
+            dropdown.classList.remove('show');
+          });
+          document.querySelectorAll('.nav-button').forEach(btn => {
+            btn.classList.remove('active');
+          });
+        }
+      });
+
       function updateRecentStories() {
-        const c = document.getElementById("recentStories");
+        const navContainer = document.getElementById("navRecentStories");
+        
         if (allPosts.length === 0) {
-          c.innerHTML =
-            '<p style="color:var(--a);font-style:italic">Inga berättelser ännu.</p>';
+          if (navContainer) {
+            navContainer.innerHTML =
+              '<p style="color:var(--a);font-style:italic">Inga berättelser ännu.</p>';
+          }
           return;
         }
+        
         const r = allPosts.slice(0, 5);
-        c.innerHTML = r
+        const html = r
           .map(
             (p) =>
-              `<div style="margin-bottom:10px;padding:8px;background:var(--lg);border-radius:6px;border:1px solid var(--br);cursor:pointer" onclick="scrollToStory('${p.id}')"><strong style="color:var(--p);font-size:0.9rem">${p.title}</strong><br><small style="color:var(--a)">${p.date}</small></div>`
+              `<div class="recent-story-item" onclick="scrollToStory('${p.id}'); toggleNavDropdown('recentStories');"><strong>${p.title}</strong><br><small>${p.date}</small></div>`
           )
           .join("");
+        
+        if (navContainer) navContainer.innerHTML = html;
       }
 
       function scrollToPost(i) {
@@ -2338,7 +2544,12 @@
         const readPosts = JSON.parse(
           localStorage.getItem("skogsmulle_read") || "[]"
         );
-        document.getElementById("totalRead").textContent = readPosts.length;
+        
+        // Update navbar stats
+        const navTotalRead = document.getElementById("navTotalRead");
+        const navFavoriteCategory = document.getElementById("navFavoriteCategory");
+        
+        if (navTotalRead) navTotalRead.textContent = readPosts.length;
 
         // Calculate favorite category
         const categories = {};
@@ -2352,8 +2563,8 @@
           (a, b) => (categories[a] > categories[b] ? a : b),
           ""
         );
-        document.getElementById("favoriteCategory").textContent =
-          favorite || "-";
+        
+        if (navFavoriteCategory) navFavoriteCategory.textContent = favorite || "-";
       }
 
       // Manual load stories function for troubleshooting
@@ -2429,16 +2640,17 @@
       function showAuthorTools() {
         console.log("Showing author tools for user:", currentUser);
         try {
-          const userInfo = document.getElementById("userInfo");
-          const loginSection = document.getElementById("loginSection");
-          const userEmail = document.getElementById("userEmail");
-          const expandBtn = document.querySelector(".expand-btn");
+          // Update navbar elements
+          const navUserInfo = document.getElementById("navUserInfo");
+          const navLoginSection = document.getElementById("navLoginSection");
+          const navUserEmail = document.getElementById("navUserEmail");
+          const navWriteBtn = document.getElementById("navWriteBtn");
 
-          if (userInfo) userInfo.style.display = "block";
-          if (loginSection) loginSection.style.display = "none";
-          if (userEmail && currentUser)
-            userEmail.textContent = currentUser.email;
-          if (expandBtn) expandBtn.style.display = "block";
+          if (navUserInfo) navUserInfo.style.display = "block";
+          if (navLoginSection) navLoginSection.style.display = "none";
+          if (navUserEmail && currentUser)
+            navUserEmail.textContent = currentUser.email;
+          if (navWriteBtn) navWriteBtn.style.display = "block";
 
           updateDiscreteLogin(true);
           console.log("Author tools displayed successfully");
