@@ -606,20 +606,20 @@
       .main-navigation {
         position: fixed;
         top: 80px;
-        right: 20px;
+        right: -200px;
         z-index: 1000;
-        display: none;
+        display: flex;
         flex-direction: column;
         gap: 10px;
         opacity: 0;
-        transform: translateX(20px);
-        transition: all 0.3s ease;
+        visibility: hidden;
+        transition: right 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
       }
 
       .main-navigation.show {
-        display: flex;
+        right: 20px;
         opacity: 1;
-        transform: translateX(0);
+        visibility: visible;
       }
 
       .nav-container {
@@ -1506,6 +1506,9 @@
         /* Navbar mobile styles */
         .main-navigation {
           top: 70px;
+        }
+        
+        .main-navigation.show {
           right: 10px;
         }
 
