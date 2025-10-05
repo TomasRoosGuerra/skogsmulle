@@ -440,7 +440,7 @@
       .discrete-login {
         position: fixed;
         top: 20px;
-        right: 20px;
+        right: 70px;
         background: var(--lg);
         color: var(--s);
         border: 2px solid var(--br);
@@ -450,6 +450,39 @@
         cursor: pointer;
         z-index: 1000;
         font-family: var(--f);
+      }
+
+      /* Hamburger Menu Button */
+      .hamburger-menu {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--p);
+        color: var(--w);
+        border: 2px solid var(--br);
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        cursor: pointer;
+        z-index: 1001;
+        font-family: var(--f);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .hamburger-menu:hover {
+        background: var(--s);
+        transform: scale(1.1);
+        box-shadow: 0 4px 16px rgba(139, 69, 19, 0.3);
+      }
+
+      .hamburger-menu.active {
+        background: var(--a);
+        transform: rotate(90deg);
       }
 
       .login-modal {
@@ -575,9 +608,18 @@
         top: 80px;
         right: 20px;
         z-index: 1000;
-        display: flex;
+        display: none;
         flex-direction: column;
         gap: 10px;
+        opacity: 0;
+        transform: translateX(20px);
+        transition: all 0.3s ease;
+      }
+
+      .main-navigation.show {
+        display: flex;
+        opacity: 1;
+        transform: translateX(0);
       }
 
       .nav-container {
@@ -782,7 +824,7 @@
         transition: all 1s ease;
         visibility: hidden;
         width: 400px;
-        z-index: 100;
+        z-index: 2;
         border-radius: 20px;
       }
 
@@ -802,9 +844,12 @@
         border-radius: 20px;
       }
 
-      .story-scene:hover .flip-card__container {
-        transform: rotateY(-180deg) translateX(-100%);
+      .story-scene:hover .flip-card {
         z-index: 0;
+      }
+
+      .story-scene:hover .flip-card__container {
+        transform: rotateY(-180deg) translateX(-120%);
       }
 
       .card-front,
@@ -949,13 +994,14 @@
         right: 0;
         transition: all 1s ease;
         width: 400px;
-        z-index: 1;
+        z-index: 10;
         border-radius: 20px;
         overflow-y: auto;
       }
 
       .story-scene:hover .inside-page {
         box-shadow: inset 1rem 0px 5rem -2.5rem rgba(0, 0, 0, 0.1);
+        z-index: 10;
       }
 
       .inside-page__container {
@@ -1628,6 +1674,17 @@
       Logga in
     </button>
 
+    <button
+      class="hamburger-menu"
+      onclick="toggleMenu()"
+      role="button"
+      tabindex="0"
+      aria-label="Öppna meny"
+      id="hamburgerBtn"
+    >
+      ☰
+    </button>
+
     <div id="loginModal" class="login-modal">
       <div class="modal-content">
         <h2>Författarlogin</h2>
@@ -1689,7 +1746,11 @@
     </header>
 
     <!-- Backdrop for nav dropdowns -->
-    <div class="nav-backdrop" id="navBackdrop" onclick="closeAllDropdowns()"></div>
+    <div
+      class="nav-backdrop"
+      id="navBackdrop"
+      onclick="closeAllDropdowns()"
+    ></div>
 
     <!-- Navigation Bar with Tools -->
     <nav class="main-navigation">
@@ -1725,36 +1786,6 @@
             </div>
           </div>
 
-          <!-- Recent Stories -->
-          <div class="nav-item">
-            <button
-              class="nav-button"
-              onclick="toggleNavDropdown('recentStories')"
-            >
-              📚 Senaste berättelserna
-            </button>
-            <div id="recentStories" class="nav-dropdown">
-              <h3>Senaste berättelserna</h3>
-              <div id="navRecentStories"></div>
-            </div>
-          </div>
-
-          <!-- Reading Stats -->
-          <div class="nav-item">
-            <button
-              class="nav-button"
-              onclick="toggleNavDropdown('readingStats')"
-            >
-              📊 Lässtatistik
-            </button>
-            <div id="readingStats" class="nav-dropdown">
-              <h3>Lässtatistik</h3>
-              <div class="stat-item">
-                <span class="stat-label">Totalt läst:</span>
-                <span class="stat-value" id="navTotalRead">0</span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </nav>
@@ -2125,7 +2156,6 @@
           });
           console.log("Posts loaded:", allPosts.length);
           renderAllPosts();
-          updateRecentStories();
         },
         update: async (id, p) =>
           window.firebaseUpdateDoc(
@@ -2169,7 +2199,6 @@
               });
               console.log("Real-time update:", allPosts.length, "posts");
               renderAllPosts();
-              updateRecentStories();
             },
             (e) => console.error("Real-time listener error:", e)
           );
@@ -2254,6 +2283,20 @@
           .join("");
       }
 
+      // Toggle hamburger menu
+      function toggleMenu() {
+        const nav = document.querySelector(".main-navigation");
+        const hamburger = document.getElementById("hamburgerBtn");
+        
+        nav.classList.toggle("show");
+        hamburger.classList.toggle("active");
+        
+        // Close all dropdowns when closing menu
+        if (!nav.classList.contains("show")) {
+          closeAllDropdowns();
+        }
+      }
+
       // Toggle navigation dropdowns
       function toggleNavDropdown(dropdownId) {
         const dropdown = document.getElementById(dropdownId);
@@ -2283,27 +2326,7 @@
         if (backdrop) backdrop.classList.remove("show");
       }
 
-      function updateRecentStories() {
-        const navContainer = document.getElementById("navRecentStories");
-
-        if (allPosts.length === 0) {
-          if (navContainer) {
-            navContainer.innerHTML =
-              '<p style="color:var(--a);font-style:italic">Inga berättelser ännu.</p>';
-          }
-          return;
-        }
-
-        const r = allPosts.slice(0, 5);
-        const html = r
-          .map(
-            (p) =>
-              `<div class="recent-story-item" onclick="scrollToStory('${p.id}'); toggleNavDropdown('recentStories');"><strong>${p.title}</strong><br><small>${p.date}</small></div>`
-          )
-          .join("");
-
-        if (navContainer) navContainer.innerHTML = html;
-      }
+      // Recent stories functionality removed
 
       function scrollToPost(i) {
         const p = document.querySelectorAll(".story-scene")[i];
@@ -2435,7 +2458,6 @@
         });
       }
 
-
       // Text size controls
       function changeTextSize(delta) {
         const currentSize = parseFloat(
@@ -2463,22 +2485,12 @@
         if (!readPosts.includes(post.id)) {
           readPosts.push(post.id);
           localStorage.setItem("skogsmulle_read", JSON.stringify(readPosts));
-          updateReadingStats();
         }
 
         alert(`Bra jobbat! Du har läst "${post.title}"`);
       }
 
-      function updateReadingStats() {
-        const readPosts = JSON.parse(
-          localStorage.getItem("skogsmulle_read") || "[]"
-        );
-
-        // Update navbar stats
-        const navTotalRead = document.getElementById("navTotalRead");
-
-        if (navTotalRead) navTotalRead.textContent = readPosts.length;
-      }
+      // Reading stats functionality removed
 
       // Manual load stories function for troubleshooting
       async function manualLoadStories() {
@@ -2778,7 +2790,7 @@
                   } catch (error) {
                     console.error("Error reloading stories:", error);
                   }
-                }, 1000);
+                }, 500);
               }
             } catch (e) {
               console.error("Publish error:", e);
@@ -2896,15 +2908,12 @@
               console.log("Falling back to empty state");
               allPosts = [];
               renderAllPosts();
-              updateRecentStories();
             }
           } else {
             console.log("Firebase not available, falling back to empty state");
             allPosts = [];
             renderAllPosts();
-            updateRecentStories();
           }
-          updateReadingStats();
         }, 1000);
       });
     </script>
