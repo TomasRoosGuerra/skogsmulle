@@ -709,22 +709,7 @@
         }
       }
 
-      /* Backdrop for dropdowns */
-      .nav-backdrop {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 1999;
-        display: none;
-      }
-
-      .nav-backdrop.show {
-        display: block;
-        animation: fadeIn 0.3s ease;
-      }
+      /* Backdrop for dropdowns - removed */
 
       @keyframes fadeIn {
         from {
@@ -1253,67 +1238,6 @@
         background: var(--w);
       }
 
-      /* Author Modal */
-      .author-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.6);
-        z-index: 2500;
-        display: none;
-        justify-content: center;
-        align-items: center;
-        animation: fadeIn 0.3s ease;
-      }
-
-      .author-modal.show {
-        display: flex;
-      }
-
-      .author-modal .modal-content {
-        animation: modalFadeIn 0.3s ease;
-      }
-
-      .modal-content {
-        background: var(--w);
-        border-radius: var(--r);
-        border: 3px solid var(--br);
-        width: 90%;
-        max-width: 600px;
-        max-height: 90vh;
-        overflow-y: auto;
-      }
-
-      .modal-header {
-        background: var(--lg);
-        padding: 15px 20px;
-        border-bottom: 2px solid var(--br);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .modal-header h3 {
-        margin: 0;
-        color: var(--p);
-        font-family: var(--f);
-        font-weight: bold;
-      }
-
-      .close-btn {
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-        color: var(--p);
-        font-weight: bold;
-      }
-
-      .modal-body {
-        padding: 20px;
-      }
 
       .filter-controls {
         display: flex;
@@ -1507,7 +1431,7 @@
         .main-navigation {
           top: 70px;
         }
-        
+
         .main-navigation.show {
           right: 10px;
         }
@@ -1677,12 +1601,6 @@
       </div>
     </header>
 
-    <!-- Backdrop for nav dropdowns -->
-    <div
-      class="nav-backdrop"
-      id="navBackdrop"
-      onclick="closeAllDropdowns()"
-    ></div>
 
     <!-- Navigation Bar with Tools -->
     <nav class="main-navigation">
@@ -1697,8 +1615,8 @@
               ✍️ Författarverktyg
             </button>
             <div id="authorTools" class="nav-dropdown">
-              <h3>Författarverktyg</h3>
-              <div class="author-info">
+              <h3>Skriv ny berättelse</h3>
+              <div class="author-info" style="margin-bottom: 15px;">
                 <div id="navUserInfo" style="display: none">
                   <p><strong>Inloggad som:</strong></p>
                   <p id="navUserEmail"></p>
@@ -1707,14 +1625,65 @@
                   <p class="login-note">Logga in för att skriva berättelser.</p>
                 </div>
               </div>
-              <button
-                class="expand-btn"
-                onclick="openAuthorModal()"
-                id="navWriteBtn"
-                style="display: none"
-              >
-                Skriv ny berättelse
-              </button>
+              <div id="authorFormSection" style="display: none;">
+                <form id="newPostForm" class="new-post-form">
+                  <div class="form-group">
+                    <label for="postTitle">Titel:</label>
+                    <input type="text" id="postTitle" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="postContent">Berättelse:</label>
+                    <div class="editor-toolbar">
+                      <button
+                        type="button"
+                        onclick="formatText('bold')"
+                        title="Fet text"
+                      >
+                        B
+                      </button>
+                      <button
+                        type="button"
+                        onclick="formatText('italic')"
+                        title="Kursiv text"
+                      >
+                        I
+                      </button>
+                      <button
+                        type="button"
+                        onclick="formatText('underline')"
+                        title="Understruken text"
+                      >
+                        U
+                      </button>
+                      <button
+                        type="button"
+                        onclick="insertImage()"
+                        title="Lägg till bild"
+                      >
+                        Bild
+                      </button>
+                    </div>
+                    <div
+                      id="postContent"
+                      class="rich-editor"
+                      contenteditable="true"
+                      data-placeholder="Skriv din berättelse här..."
+                    ></div>
+                  </div>
+                  <div class="form-actions">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      onclick="saveDraft()"
+                    >
+                      Spara utkast
+                    </button>
+                    <button type="submit" class="submit-button">
+                      Publicera berättelse
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -1831,76 +1800,6 @@
       </button>
     </div>
 
-    <!-- Author Modal -->
-    <div id="authorModal" class="author-modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>Skriv ny berättelse</h3>
-          <button class="close-btn" onclick="closeAuthorModal()">
-            &times;
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="newPostForm" class="new-post-form">
-            <div class="form-group">
-              <label for="postTitle">Titel:</label>
-              <input type="text" id="postTitle" required />
-            </div>
-            <div class="form-group">
-              <label for="postContent">Berättelse:</label>
-              <div class="editor-toolbar">
-                <button
-                  type="button"
-                  onclick="formatText('bold')"
-                  title="Fet text"
-                >
-                  B
-                </button>
-                <button
-                  type="button"
-                  onclick="formatText('italic')"
-                  title="Kursiv text"
-                >
-                  I
-                </button>
-                <button
-                  type="button"
-                  onclick="formatText('underline')"
-                  title="Understruken text"
-                >
-                  U
-                </button>
-                <button
-                  type="button"
-                  onclick="insertImage()"
-                  title="Lägg till bild"
-                >
-                  Bild
-                </button>
-              </div>
-              <div
-                id="postContent"
-                class="rich-editor"
-                contenteditable="true"
-                data-placeholder="Skriv din berättelse här..."
-              ></div>
-            </div>
-            <div class="form-actions">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                onclick="saveDraft()"
-              >
-                Spara utkast
-              </button>
-              <button type="submit" class="submit-button">
-                Publicera berättelse
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
 
     <footer class="footer">
       <p>
@@ -2226,7 +2125,6 @@
       // Toggle navigation dropdowns
       function toggleNavDropdown(dropdownId) {
         const dropdown = document.getElementById(dropdownId);
-        const backdrop = document.getElementById("navBackdrop");
         const isOpen = dropdown.classList.contains("show");
 
         // Close all dropdowns first
@@ -2235,7 +2133,6 @@
         // If it wasn't open, open this one
         if (!isOpen) {
           dropdown.classList.add("show");
-          backdrop.classList.add("show");
           event.target.classList.add("active");
         }
       }
@@ -2248,8 +2145,6 @@
         document.querySelectorAll(".nav-button").forEach((btn) => {
           btn.classList.remove("active");
         });
-        const backdrop = document.getElementById("navBackdrop");
-        if (backdrop) backdrop.classList.remove("show");
       }
 
       // Recent stories functionality removed
@@ -2495,13 +2390,13 @@
           const navUserInfo = document.getElementById("navUserInfo");
           const navLoginSection = document.getElementById("navLoginSection");
           const navUserEmail = document.getElementById("navUserEmail");
-          const navWriteBtn = document.getElementById("navWriteBtn");
+          const authorFormSection = document.getElementById("authorFormSection");
 
           if (navUserInfo) navUserInfo.style.display = "block";
           if (navLoginSection) navLoginSection.style.display = "none";
           if (navUserEmail && currentUser)
             navUserEmail.textContent = currentUser.email;
-          if (navWriteBtn) navWriteBtn.style.display = "block";
+          if (authorFormSection) authorFormSection.style.display = "block";
 
           updateDiscreteLogin(true);
           console.log("Author tools displayed successfully");
@@ -2537,19 +2432,6 @@
         }
       }
 
-      function openAuthorModal() {
-        if (!isAdmin) {
-          alert("Du måste vara inloggad för att skriva berättelser.");
-          return;
-        }
-        document.getElementById("authorModal").classList.add("show");
-        document.body.style.overflow = "hidden";
-      }
-
-      function closeAuthorModal() {
-        document.getElementById("authorModal").classList.remove("show");
-        document.body.style.overflow = "";
-      }
 
       function signInWithGoogle(e) {
         console.log("Sign in attempt with email:", e);
