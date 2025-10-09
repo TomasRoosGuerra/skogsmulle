@@ -1,0 +1,30 @@
+{
+  "name": "skogsmulle-barnbocker",
+  "version": "2.0.0",
+  "description": "Svenska barnberättelser och sagor online - SEO-optimerad plattform för Skogsmulle",
+  "main": "index.html",
+  "scripts": {
+    "generate-pages": "node generate-pages.js",
+    "build": "npm run generate-pages",
+    "dev": "npx serve .",
+    "deploy": "npm run build && echo 'Ready for Netlify deployment'"
+  },
+  "keywords": [
+    "svenska sagor",
+    "barnböcker",
+    "barnberättelser",
+    "skogsmulle",
+    "svenska barnböcker",
+    "children stories",
+    "swedish children books"
+  ],
+  "author": "Tomas Roos Guerra",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TomasRoosGuerra/skogsmulle.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

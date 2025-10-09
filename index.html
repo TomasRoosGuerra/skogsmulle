@@ -3,34 +3,101 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Skogsmulle - Magiska äventyr för barn</title>
+    <title>
+      Skogsmulle - Svenska Sagor och Barnböcker Online | Magiska Berättelser för
+      Barn
+    </title>
     <meta
       name="description"
-      content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn. Perfekt för föräldrar som vill läsa sagor för sina barn."
+      content="Läs svenska sagor och barnberättelser gratis online med Skogsmulle. Perfekt för barn 3-12 år. Nya berättelser om äventyr, vänskap och naturens under. Bästa barnsagorna 2025."
     />
     <meta
       name="keywords"
-      content="barnböcker,sagor,Skogsmulle,barn,föräldrar,läsning,äventyr,svenska sagor"
+      content="svenska sagor,barnböcker online,barnberättelser,sagor för barn,läsa sagor,Skogsmulle,svenska barnböcker,gratis sagor,godnattsagor,svenska folksagor,barnlitteratur,läsa för barn,svenska berättelser,sagor 3 år,sagor 5 år,sagor 8 år,barnsagor svenska,barnböcker gratis,svenska äventyr barn"
     />
     <meta name="author" content="Tomas Roos Guerra" />
-    <meta name="robots" content="index,follow" />
-    <meta property="og:title" content="Skogsmulle - Magiska äventyr för barn" />
+    <meta
+      name="robots"
+      content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
+    />
+    <meta property="og:locale" content="sv_SE" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Skogsmulle - Svenska Barnböcker" />
+    <meta
+      property="og:title"
+      content="Skogsmulle - Svenska Sagor och Barnböcker Online | Magiska Berättelser för Barn"
+    />
     <meta
       property="og:description"
-      content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn."
+      content="Läs svenska sagor och barnberättelser gratis online. Perfekt för barn 3-12 år med nya magiska berättelser om äventyr och vänskap."
     />
-    <meta property="og:type" content="website" />
     <meta property="og:url" content="https://skogsmulle.netlify.app" />
+    <meta
+      property="og:image"
+      content="https://skogsmulle.netlify.app/igelkotten.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Skogsmulle - Magiska svenska barnberättelser"
+    />
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="Skogsmulle - Magiska äventyr för barn"
+      content="Skogsmulle - Svenska Sagor och Barnböcker Online"
     />
     <meta
       name="twitter:description"
-      content="Upptäck Skogsmulles magiska värld med underbara berättelser för barn."
+      content="Läs svenska sagor gratis online. Perfekt för barn 3-12 år. Nya berättelser om äventyr och vänskap."
     />
+    <meta
+      name="twitter:image"
+      content="https://skogsmulle.netlify.app/igelkotten.png"
+    />
+    <meta name="twitter:image:alt" content="Skogsmulle barnberättelser" />
     <link rel="canonical" href="https://skogsmulle.netlify.app" />
+    <link
+      rel="sitemap"
+      type="application/xml"
+      title="Sitemap"
+      href="/sitemap.xml"
+    />
+    <meta name="language" content="Swedish" />
+    <meta name="geo.region" content="SE" />
+    <meta name="geo.placename" content="Sweden" />
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Skogsmulle - Svenska Barnböcker",
+        "url": "https://skogsmulle.netlify.app",
+        "description": "Svenska sagor och barnberättelser online för barn 3-12 år",
+        "inLanguage": "sv-SE",
+        "author": {
+          "@type": "Person",
+          "name": "Tomas Roos Guerra"
+        },
+        "potentialAction": {
+          "@type": "ReadAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://skogsmulle.netlify.app"
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Svenska Barnberättelser",
+        "description": "Samling av svenska sagor och berättelser för barn",
+        "itemListElement": []
+      }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -1238,7 +1305,6 @@
         background: var(--w);
       }
 
-
       .filter-controls {
         display: flex;
         flex-direction: column;
@@ -1384,6 +1450,34 @@
 
       .audio-player button:hover {
         background: var(--lg);
+      }
+
+      /* Slide-in animation for undo notification */
+      @keyframes slideIn {
+        from {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      /* Breadcrumb styles */
+      .breadcrumb-nav {
+        font-family: var(--f);
+      }
+
+      .breadcrumb-nav a {
+        color: var(--p);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .breadcrumb-nav a:hover {
+        color: var(--a);
+        text-decoration: underline;
       }
 
       @media (max-width: 1024px) {
@@ -1601,7 +1695,6 @@
       </div>
     </header>
 
-
     <!-- Navigation Bar with Tools -->
     <nav class="main-navigation">
       <div class="nav-container">
@@ -1616,7 +1709,7 @@
             </button>
             <div id="authorTools" class="nav-dropdown">
               <h3>Skriv ny berättelse</h3>
-              <div class="author-info" style="margin-bottom: 15px;">
+              <div class="author-info" style="margin-bottom: 15px">
                 <div id="navUserInfo" style="display: none">
                   <p><strong>Inloggad som:</strong></p>
                   <p id="navUserEmail"></p>
@@ -1625,11 +1718,38 @@
                   <p class="login-note">Logga in för att skriva berättelser.</p>
                 </div>
               </div>
-              <div id="authorFormSection" style="display: none;">
+              <div id="authorFormSection" style="display: none">
                 <form id="newPostForm" class="new-post-form">
                   <div class="form-group">
                     <label for="postTitle">Titel:</label>
-                    <input type="text" id="postTitle" required />
+                    <input
+                      type="text"
+                      id="postTitle"
+                      required
+                      placeholder="T.ex. Skogsmulles stora äventyr"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="postCategory">Kategori:</label>
+                    <select id="postCategory">
+                      <option value="">Välj kategori</option>
+                      <option value="äventyr">Äventyr</option>
+                      <option value="vänskap">Vänskap</option>
+                      <option value="natur">Natur</option>
+                      <option value="magi">Magi</option>
+                      <option value="djur">Djur</option>
+                      <option value="lärdom">Lärdom</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="postAge">Åldersgrupp:</label>
+                    <select id="postAge">
+                      <option value="">Välj ålder</option>
+                      <option value="3-5 år">3-5 år</option>
+                      <option value="6-8 år">6-8 år</option>
+                      <option value="9-12 år">9-12 år</option>
+                      <option value="alla åldrar">Alla åldrar</option>
+                    </select>
                   </div>
                   <div class="form-group">
                     <label for="postContent">Berättelse:</label>
@@ -1639,35 +1759,42 @@
                         onclick="formatText('bold')"
                         title="Fet text"
                       >
-                        B
+                        <strong>B</strong>
                       </button>
                       <button
                         type="button"
                         onclick="formatText('italic')"
                         title="Kursiv text"
                       >
-                        I
+                        <em>I</em>
                       </button>
                       <button
                         type="button"
                         onclick="formatText('underline')"
                         title="Understruken text"
                       >
-                        U
+                        <u>U</u>
                       </button>
                       <button
                         type="button"
                         onclick="insertImage()"
                         title="Lägg till bild"
                       >
-                        Bild
+                        🖼️ Bild
+                      </button>
+                      <button
+                        type="button"
+                        onclick="formatText('insertUnorderedList')"
+                        title="Lista"
+                      >
+                        • Lista
                       </button>
                     </div>
                     <div
                       id="postContent"
                       class="rich-editor"
                       contenteditable="true"
-                      data-placeholder="Skriv din berättelse här..."
+                      data-placeholder="Skriv din magiska berättelse här..."
                     ></div>
                   </div>
                   <div class="form-actions">
@@ -1676,10 +1803,10 @@
                       class="btn btn-secondary"
                       onclick="saveDraft()"
                     >
-                      Spara utkast
+                      💾 Spara utkast
                     </button>
                     <button type="submit" class="submit-button">
-                      Publicera berättelse
+                      ✨ Publicera berättelse
                     </button>
                   </div>
                 </form>
@@ -1692,8 +1819,18 @@
 
     <main id="main-content" role="main">
       <div class="content">
+        <!-- Breadcrumb Navigation -->
+        <nav
+          class="breadcrumb-nav"
+          aria-label="Breadcrumb"
+          style="padding: 20px 0; font-size: 0.95rem; color: var(--s)"
+        >
+          <span style="color: var(--p); font-weight: 600">🏠 Hem</span> /
+          <span>Svenska Barnberättelser</span>
+        </nav>
+
         <div class="main-content">
-          <section class="blog-section" aria-label="Berättelser">
+          <section class="blog-section" aria-label="Berättelser" id="stories">
             <h2
               style="
                 color: var(--p);
@@ -1704,7 +1841,7 @@
                 font-weight: 600;
               "
             >
-              Berättelser
+              Alla Berättelser
             </h2>
             <div id="posts-container"></div>
           </section>
@@ -1799,7 +1936,6 @@
         Spela äventyrslåt
       </button>
     </div>
-
 
     <footer class="footer">
       <p>
@@ -1944,16 +2080,47 @@
       `;
       document.head.appendChild(style);
 
+      // Story Page Generation System
+      function generateStorySlug(title) {
+        return title
+          .toLowerCase()
+          .replace(/å/g, "a")
+          .replace(/ä/g, "a")
+          .replace(/ö/g, "o")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+      }
+
+      // NOTE: generateStoryPage function removed from client-side code
+      // Use generate-pages.js server-side script to create static story pages
+      async function generateStoryPage(post) {
+        const slug = post.slug || generateStorySlug(post.title);
+        const storyUrl = "/stories/" + slug + ".html";
+        // Return minimal data for client-side use
+        return { slug, url: storyUrl, html: "" };
+      }
+
+      // NOTE: Story page HTML generation has been moved to the generate-pages.js file
+      // That server-side script creates static HTML files for better SEO
+
+      // Updated Story CRUD operations
       const C = {
         save: async (p) => {
           if (!window.firebaseDb) throw new Error("Firebase not initialized");
           const r = window.firebaseCollection(window.firebaseDb, "posts");
+          const slug = generateStorySlug(p.title);
           const d = await window.firebaseAddDoc(r, {
             ...p,
+            slug: slug,
             createdAt: window.firebaseServerTimestamp(),
             updatedAt: window.firebaseServerTimestamp(),
           });
           console.log("Post saved:", d.id);
+
+          // Generate individual story page
+          const storyData = { ...p, id: d.id, slug, timestamp: Date.now() };
+          await generateAndSaveStoryPage(storyData);
+
           return d.id;
         },
         load: async () => {
@@ -1979,6 +2146,7 @@
               date: p.date,
               category: p.category || "",
               age: p.age || "",
+              slug: p.slug || generateStorySlug(p.title),
               timestamp: p.createdAt?.toMillis() || Date.now(),
               createdAt: p.createdAt,
               updatedAt: p.updatedAt,
@@ -1986,6 +2154,7 @@
           });
           console.log("Posts loaded:", allPosts.length);
           renderAllPosts();
+          updateSitemap();
         },
         update: async (id, p) =>
           window.firebaseUpdateDoc(
@@ -2037,6 +2206,67 @@
         }
       }
 
+      // Generate and save story page (client-side indication)
+      async function generateAndSaveStoryPage(post) {
+        try {
+          const storyPage = await generateStoryPage(post);
+          console.log(`Story page data prepared for: ${post.title}`);
+          console.log(`URL: ${storyPage.url}`);
+          // Note: In a static site, actual file generation happens on the server
+          // Use generate-pages.js script to create static HTML files
+          return storyPage;
+        } catch (e) {
+          console.error("Error preparing story page data:", e);
+        }
+      }
+
+      // Update sitemap with all stories
+      function updateSitemap() {
+        const sitemap = generateSitemap(allPosts);
+        localStorage.setItem("sitemap", sitemap);
+        console.log("Sitemap updated with", allPosts.length, "stories");
+      }
+
+      function generateSitemap(posts) {
+        const baseUrl = "https://skogsmulle.netlify.app";
+        let xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>${baseUrl}/</loc>
+    <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+`;
+
+        // Add each story
+        posts.forEach((post) => {
+          const slug = post.slug || generateStorySlug(post.title);
+          const date = post.timestamp
+            ? new Date(post.timestamp).toISOString().split("T")[0]
+            : new Date().toISOString().split("T")[0];
+          xml += `  <!-- ${post.title} -->
+  <url>
+    <loc>${baseUrl}/stories/${slug}.html</loc>
+    <lastmod>${date}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+`;
+        });
+
+        xml += `</urlset>`;
+        return xml;
+      }
+
       function renderAllPosts() {
         const c = document.getElementById("posts-container");
         console.log("Rendering posts:", allPosts.length, "posts found");
@@ -2058,8 +2288,13 @@
             // Ensure content is properly formatted
             const content =
               p.content && p.content.trim() ? p.content : `<p>${p.title}</p>`;
+            const slug = p.slug || generateStorySlug(p.title);
+            const storyUrl = `/stories/${slug}.html`;
+            const safeTitle = (p.title || "").replace(/'/g, "&apos;");
 
-            return `<div class="story-scene" data-id="${p.id || ""}">
+            return `<div class="story-scene" data-id="${
+              p.id || ""
+            }" data-slug="${slug}">
                 <div class="flip-card">
                   <div class="card-front">
                     <div class="card-front__tp">
@@ -2085,10 +2320,20 @@
                       }</h3>
                       <div class="post-meta" style="margin-bottom:1.5rem;">
                         <span class="post-date">${p.date || "No date"}</span>
+                        ${
+                          p.category
+                            ? `<span class="post-category">${p.category}</span>`
+                            : ""
+                        }
+                        ${p.age ? `<span class="post-age">${p.age}</span>` : ""}
                       </div>
                     </div>
-                    <div class="post-content" style="line-height:1.8;font-size:1.1rem;">${content}</div>
+                    <div class="post-content" style="line-height:1.8;font-size:1.1rem;max-height:300px;overflow-y:auto;">${content.substring(
+                      0,
+                      500
+                    )}${content.length > 500 ? "..." : ""}</div>
                     <div class="story-interactive" style="margin-top:1.5rem;">
+                      <a href="${storyUrl}" class="interactive-element" style="text-decoration:none;color:inherit;">📖 Läs hela berättelsen</a>
                       <div class="interactive-element" onclick="exploreStory(${i})">🔍 Utforska</div>
                       <div class="interactive-element" onclick="meetCharacters(${i})">👋 Karaktärer</div>
                       <div class="interactive-element" onclick="playStorySounds(${i})">🎵 Ljud</div>
@@ -2096,16 +2341,33 @@
                     <div class="post-actions" style="margin-top:1.5rem;padding-top:1.5rem;border-top:2px solid rgba(139,69,19,0.2);">
                       ${
                         isAdmin
-                          ? `<button class="post-button" onclick="editPost(${i})">Redigera</button><button class="post-button" onclick="deletePost(${i})">Ta bort</button>`
+                          ? `<button class="post-button" onclick="editPost(${i})">✏️ Redigera</button><button class="post-button" onclick="deletePost(${i})">🗑️ Ta bort</button>`
                           : ""
                       }
-                      <button class="post-button" onclick="markAsRead(${i})">Markera som läst ✓</button>
+                      <button class="post-button" onclick="markAsRead(${i})">✓ Markera som läst</button>
+                      <button class="post-button" onclick="shareStoryFromCard('${slug}', '${safeTitle}')">📤 Dela</button>
                     </div>
                   </div>
                 </div>
               </div>`;
           })
           .join("");
+      }
+
+      function shareStoryFromCard(slug, title) {
+        const url = `https://skogsmulle.netlify.app/stories/${slug}.html`;
+        if (navigator.share) {
+          navigator
+            .share({
+              title: title,
+              text: `Läs berättelsen: ${title}`,
+              url: url,
+            })
+            .catch((err) => console.log("Share failed:", err));
+        } else {
+          navigator.clipboard.writeText(url);
+          alert("Länken har kopierats!");
+        }
       }
 
       // Toggle hamburger menu
@@ -2189,21 +2451,94 @@
         }
       }
 
+      // Improved Delete with Undo functionality
+      let deletedStory = null;
+      let deleteTimeout = null;
+
       async function deletePost(i) {
         const p = allPosts[i];
         if (
           confirm(
-            `Är du säker på att du vill ta bort berättelsen "${p.title}"?`
+            `Är du säker på att du vill ta bort berättelsen "${p.title}"?\n\nDu kan ångra detta inom 10 sekunder.`
           )
         ) {
           try {
+            // Store for undo
+            deletedStory = { ...p };
+
+            // Remove from Firebase
             await C.delete(p.id);
-            alert("Berättelsen har tagits bort!");
+
+            // Show undo notification
+            showUndoNotification(p.title);
+
+            // Set timeout to remove story page file
+            deleteTimeout = setTimeout(() => {
+              deletedStory = null;
+              console.log("Delete confirmed, story permanently removed");
+            }, 10000);
           } catch (e) {
             console.error("Delete error:", e);
             alert(
               "Ett fel uppstod när berättelsen skulle tas bort. Försök igen."
             );
+          }
+        }
+      }
+
+      function showUndoNotification(title) {
+        const notification = document.createElement("div");
+        notification.style.cssText = `
+          position: fixed;
+          bottom: 30px;
+          right: 30px;
+          background: var(--a);
+          color: var(--w);
+          padding: 20px 30px;
+          border-radius: 12px;
+          box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+          z-index: 3000;
+          display: flex;
+          gap: 15px;
+          align-items: center;
+          animation: slideIn 0.3s ease;
+          font-family: var(--f);
+          font-weight: 600;
+        `;
+
+        notification.innerHTML = `
+          <span>Berättelsen "${title}" har tagits bort</span>
+          <button onclick="undoDelete()" style="
+            background: var(--w);
+            color: var(--a);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: var(--f);
+          ">↩️ Ångra</button>
+        `;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.remove();
+        }, 10000);
+      }
+
+      async function undoDelete() {
+        if (deletedStory && deleteTimeout) {
+          clearTimeout(deleteTimeout);
+          try {
+            // Restore to Firebase
+            await C.save(deletedStory);
+            alert(`Berättelsen "${deletedStory.title}" har återställts!`);
+            deletedStory = null;
+            deleteTimeout = null;
+          } catch (e) {
+            console.error("Undo error:", e);
+            alert("Kunde inte återställa berättelsen. Försök igen.");
           }
         }
       }
@@ -2390,7 +2725,8 @@
           const navUserInfo = document.getElementById("navUserInfo");
           const navLoginSection = document.getElementById("navLoginSection");
           const navUserEmail = document.getElementById("navUserEmail");
-          const authorFormSection = document.getElementById("authorFormSection");
+          const authorFormSection =
+            document.getElementById("authorFormSection");
 
           if (navUserInfo) navUserInfo.style.display = "block";
           if (navLoginSection) navLoginSection.style.display = "none";
@@ -2431,7 +2767,6 @@
           icon.textContent = "-";
         }
       }
-
 
       function signInWithGoogle(e) {
         console.log("Sign in attempt with email:", e);
@@ -2523,6 +2858,9 @@
 
             const t = document.getElementById("postTitle").value.trim();
             const c = document.getElementById("postContent").innerHTML.trim();
+            const category =
+              document.getElementById("postCategory")?.value || "";
+            const age = document.getElementById("postAge")?.value || "";
 
             if (!t || !c) {
               alert("Vänligen fyll i både titel och berättelse.");
@@ -2562,6 +2900,8 @@
               title: t,
               content: cleanContent || `<p>${t}</p>`,
               date: ds,
+              category: category,
+              age: age,
               timestamp: Date.now(),
             };
 

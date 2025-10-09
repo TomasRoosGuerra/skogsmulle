@@ -1,0 +1,27 @@
+# robots.txt for Skogsmulle - Svenska Barnböcker
+User-agent: *
+Allow: /
+Allow: /stories/
+Allow: /*.html
+Allow: /*.png
+Allow: /*.jpg
+
+# Sitemap location
+Sitemap: https://skogsmulle.netlify.app/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 0
+
+# Specific directives for major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
