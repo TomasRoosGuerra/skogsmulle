@@ -1,0 +1,379 @@
+/**
+ * Skogsmulle - Shared Stylesheet
+ * Common CSS variables and reusable components following DRY principles
+ */
+
+/* ===== CSS Variables ===== */
+:root {
+  /* Colors */
+  --p: #8b4513; /* Primary color (warm brown) */
+  --s: #a0522d; /* Secondary color (saddle brown) */
+  --a: #dc143c; /* Accent color (red) */
+  --bg: rgba(255, 248, 220, 0.95); /* Warm cream background */
+  --txt: #2f4f2f; /* Dark green text */
+  --w: rgba(255, 255, 255, 0.95); /* Near-white */
+  --lg: rgba(255, 248, 220, 0.8); /* Light cream */
+  --br: rgba(139, 69, 19, 0.6); /* Border color */
+
+  /* Layout */
+  --r: 8px; /* Border radius */
+  --max-width: 1200px; /* Container max width */
+
+  /* Typography */
+  --f: "Fredoka", "Nunito", sans-serif; /* Font family */
+  --fu: "Fredoka", "Nunito", sans-serif; /* UI font family */
+
+  /* Shadows */
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 16px rgba(139, 69, 19, 0.3);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.1);
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.6s ease;
+}
+
+/* ===== Reset & Base Styles ===== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--fu);
+}
+
+body {
+  background: var(--bg);
+  color: var(--txt);
+  line-height: 1.7;
+  font-family: var(--f);
+  min-height: 100vh;
+  font-weight: 400;
+  position: relative;
+}
+
+/* ===== Utility Classes ===== */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mb-1 {
+  margin-bottom: 0.5rem;
+}
+.mb-2 {
+  margin-bottom: 1rem;
+}
+.mb-3 {
+  margin-bottom: 1.5rem;
+}
+.mb-4 {
+  margin-bottom: 2rem;
+}
+
+.mt-1 {
+  margin-top: 0.5rem;
+}
+.mt-2 {
+  margin-top: 1rem;
+}
+.mt-3 {
+  margin-top: 1.5rem;
+}
+.mt-4 {
+  margin-top: 2rem;
+}
+
+.p-1 {
+  padding: 0.5rem;
+}
+.p-2 {
+  padding: 1rem;
+}
+.p-3 {
+  padding: 1.5rem;
+}
+.p-4 {
+  padding: 2rem;
+}
+
+/* ===== Unified Button System ===== */
+.btn {
+  background: var(--lg);
+  color: var(--s);
+  border: 2px solid var(--br);
+  border-radius: var(--r);
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  font-family: var(--f);
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn:hover {
+  background: var(--w);
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--p);
+  color: var(--w);
+}
+
+.btn-primary:hover {
+  background: var(--s);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  /* Inherits from .btn */
+}
+
+.btn-large {
+  padding: 12px 24px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.btn-small {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+}
+
+/* ===== Form Elements ===== */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--s);
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid var(--br);
+  border-radius: var(--r);
+  font-size: 1rem;
+  background: var(--w);
+  color: var(--txt);
+  transition: border-color var(--transition-normal);
+  font-family: var(--f);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--p);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* ===== Cards ===== */
+.card {
+  background: var(--w);
+  border-radius: var(--r);
+  border: 2px solid var(--br);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  border-bottom: 2px solid var(--br);
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  color: var(--p);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.card-body {
+  color: var(--txt);
+}
+
+.card-footer {
+  border-top: 2px solid var(--br);
+  padding-top: 15px;
+  margin-top: 15px;
+}
+
+/* ===== Tags & Badges ===== */
+.tag {
+  background: var(--lg);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  color: var(--s);
+  border: 1px solid var(--br);
+  font-weight: 600;
+  display: inline-block;
+}
+
+.badge {
+  background: var(--a);
+  color: var(--w);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  display: inline-block;
+}
+
+/* ===== Accessibility ===== */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--p);
+  color: var(--w);
+  padding: 8px;
+  text-decoration: none;
+  z-index: 1000;
+  border-radius: 4px;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes gentleBounce {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes sparkle {
+  0% {
+    opacity: 1;
+    transform: scale(0) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(180deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0) rotate(360deg);
+  }
+}
+
+.fade-in {
+  animation: fadeIn var(--transition-normal);
+}
+
+.slide-in {
+  animation: slideIn var(--transition-normal);
+}
+
+/* ===== Responsive Utilities ===== */
+@media (max-width: 768px) {
+  :root {
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 0 15px;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    font-size: 13px;
+  }
+
+  .btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+}
+
+/* ===== Print Styles ===== */
+@media print {
+  body {
+    background: white;
+  }
+
+  .btn,
+  .nav-button,
+  .hamburger-menu,
+  .discrete-login {
+    display: none;
+  }
+
+  .story-page-container {
+    box-shadow: none;
+    border: none;
+  }
+}

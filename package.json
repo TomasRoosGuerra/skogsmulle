@@ -1,6 +1,6 @@
 {
   "name": "skogsmulle-barnbocker",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Svenska barnberättelser och sagor online - SEO-optimerad plattform för Skogsmulle",
   "main": "index.html",
   "scripts": {
@@ -26,5 +26,16 @@
   },
   "engines": {
     "node": ">=14.0.0"
-  }
+  },
+  "files": [
+    "index.html",
+    "styles.css",
+    "utils.js",
+    "generate-pages.js",
+    "netlify.toml",
+    "robots.txt",
+    "sitemap.xml",
+    "*.png",
+    "*.mp3"
+  ]
 }

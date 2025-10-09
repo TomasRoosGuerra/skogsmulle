@@ -634,6 +634,7 @@
         margin-top: 20px;
       }
 
+      /* Unified Button System - DRY principle */
       .btn {
         background: var(--lg);
         color: var(--s);
@@ -644,6 +645,7 @@
         transition: all 0.3s ease;
         font-family: var(--f);
         font-weight: bold;
+        font-size: 0.9rem;
       }
 
       .btn:hover {
@@ -651,22 +653,24 @@
         transform: translateY(-1px);
       }
 
-      .btn-secondary {
-        background: var(--lg);
-        color: var(--s);
-        border: 2px solid var(--br);
-        border-radius: var(--r);
-        padding: 10px 20px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        font-family: var(--f);
-        font-weight: bold;
-        transition: all 0.3s ease;
+      .btn-primary {
+        background: var(--p);
+        color: var(--w);
       }
 
-      .btn-secondary:hover {
-        background: var(--w);
-        transform: translateY(-1px);
+      .btn-primary:hover {
+        background: var(--s);
+        box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+      }
+
+      .btn-secondary {
+        /* Inherits from .btn - no additional styles needed */
+      }
+
+      .btn-large {
+        padding: 12px 24px;
+        font-size: 1rem;
+        width: 100%;
       }
 
       /* Fixed Corner Navigation Menu */
@@ -1112,6 +1116,7 @@
         border-top: none;
       }
 
+      /* Post button inherits from btn-primary */
       .post-button {
         background: var(--p);
         color: var(--w);
@@ -1131,29 +1136,7 @@
         box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
       }
 
-      .sidebar {
-        display: none;
-      }
-
-      .sidebar-widget {
-        background: transparent;
-        border-radius: 0;
-        padding: 0 0 40px 0;
-        margin-bottom: 0;
-        border: none;
-        box-shadow: none;
-        position: relative;
-      }
-
-      .widget-title {
-        color: var(--p);
-        border-bottom: 1px dashed var(--br);
-        padding-bottom: 8px;
-        margin-bottom: 15px;
-        font-size: 1.2rem;
-        font-family: var(--f);
-        font-weight: 600;
-      }
+      /* Sidebar styles removed - functionality consolidated into navigation */
 
       .new-post-form {
         display: block;
@@ -1256,54 +1239,7 @@
         flex: 1;
       }
 
-      /* Author Widget Progressive Disclosure */
-      .author-widget-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        cursor: pointer;
-        padding: 5px 0;
-      }
-
-      .author-widget-header:hover {
-        background: var(--lg);
-        padding: 5px 8px;
-        border-radius: var(--r);
-      }
-
-      .toggle-icon {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: var(--p);
-        user-select: none;
-      }
-
-      .author-content {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease;
-      }
-
-      .author-content.expanded {
-        max-height: 200px;
-      }
-
-      .expand-btn {
-        background: var(--lg);
-        color: var(--p);
-        border: 2px solid var(--br);
-        border-radius: var(--r);
-        padding: 10px 15px;
-        cursor: pointer;
-        font-family: var(--f);
-        width: 100%;
-        margin-top: 15px;
-        font-weight: bold;
-      }
-
-      .expand-btn:hover {
-        background: var(--w);
-      }
+      /* Author widget styles removed - consolidated into navigation dropdown */
 
       .filter-controls {
         display: flex;
@@ -1355,6 +1291,7 @@
         font-size: 0.9rem;
       }
 
+      /* Submit button uses .btn .btn-primary .btn-large classes */
       .submit-button {
         background: var(--p);
         color: var(--w);
@@ -1372,6 +1309,7 @@
       .submit-button:hover {
         background: var(--s);
         transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
       }
 
       .character-grid {
@@ -1846,76 +1784,7 @@
             <div id="posts-container"></div>
           </section>
 
-          <aside class="sidebar">
-            <div class="sidebar-widget author-widget">
-              <div class="author-widget-header" onclick="toggleAuthorTools()">
-                <h3 class="widget-title">Författarverktyg</h3>
-                <span class="toggle-icon" id="toggleIcon">+</span>
-              </div>
-              <div class="author-content" id="authorContent">
-                <div class="author-info">
-                  <p><strong>Inloggad som författare:</strong></p>
-                  <div id="userInfo" style="display: none">
-                    <p id="userEmail"></p>
-                  </div>
-                  <div id="loginSection">
-                    <p class="login-note">
-                      Logga in för att skapa och redigera berättelser.
-                    </p>
-                  </div>
-                </div>
-                <button class="expand-btn" onclick="openAuthorModal()">
-                  Skriv ny berättelse
-                </button>
-              </div>
-            </div>
-
-            <div class="sidebar-widget">
-              <h3 class="widget-title">Filtrera berättelser</h3>
-              <div class="filter-controls">
-                <div class="filter-group">
-                  <label>Kategori:</label>
-                  <select id="categoryFilter" onchange="filterByCategory()">
-                    <option value="">Alla kategorier</option>
-                    <option value="äventyr">Äventyr</option>
-                    <option value="vänskap">Vänskap</option>
-                    <option value="natur">Natur</option>
-                    <option value="magi">Magi</option>
-                    <option value="djur">Djur</option>
-                  </select>
-                </div>
-                <div class="filter-group">
-                  <label>Ålder:</label>
-                  <select id="ageFilter" onchange="filterByAge()">
-                    <option value="">Alla åldrar</option>
-                    <option value="3-5">3-5 år</option>
-                    <option value="6-8">6-8 år</option>
-                    <option value="9-12">9-12 år</option>
-                    <option value="alla">Alla åldrar</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div class="sidebar-widget">
-              <h3 class="widget-title">Senaste berättelserna</h3>
-              <div id="recentStories"></div>
-            </div>
-
-            <div class="sidebar-widget">
-              <h3 class="widget-title">Lässtatistik</h3>
-              <div id="readingStats">
-                <div class="stat-item">
-                  <span class="stat-label">Totalt läst:</span>
-                  <span class="stat-value" id="totalRead">0</span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-label">Favorit kategori:</span>
-                  <span class="stat-value" id="favoriteCategory">-</span>
-                </div>
-              </div>
-            </div>
-          </aside>
+          <!-- Sidebar removed - all functionality moved to navigation dropdown to avoid duplication -->
         </div>
       </div>
     </main>
@@ -2738,31 +2607,16 @@
       }
 
       function showLoginSection() {
-        document.getElementById("userInfo").style.display = "none";
-        document.getElementById("loginSection").style.display = "block";
-        document.querySelector(".expand-btn").style.display = "none";
+        // Sidebar removed - all login UI is in navigation dropdown
         updateDiscreteLogin(false);
       }
 
       function hideAuthorTools() {
-        document.getElementById("userInfo").style.display = "none";
-        document.getElementById("loginSection").style.display = "block";
-        document.querySelector(".expand-btn").style.display = "none";
+        // Sidebar removed - all author UI is in navigation dropdown
         updateDiscreteLogin(false);
       }
 
-      function toggleAuthorTools() {
-        const content = document.getElementById("authorContent");
-        const icon = document.getElementById("toggleIcon");
-
-        if (content.classList.contains("expanded")) {
-          content.classList.remove("expanded");
-          icon.textContent = "+";
-        } else {
-          content.classList.add("expanded");
-          icon.textContent = "-";
-        }
-      }
+      // toggleAuthorTools function removed - sidebar functionality consolidated into navigation
 
       function signInWithGoogle(e) {
         console.log("Sign in attempt with email:", e);

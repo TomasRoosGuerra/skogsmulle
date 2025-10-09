@@ -12,9 +12,28 @@
 const fs = require("fs");
 const path = require("path");
 
+// Import shared utilities (for CommonJS)
+// Note: In production, utils.js would need to be converted to CommonJS or this file to ES modules
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyAl4FKCAqrt_Vkw0jRddSnR1gn4BGby-rA",
+  authDomain: "skogsmulle-c601d.firebaseapp.com",
+  projectId: "skogsmulle-c601d",
+  storageBucket: "skogsmulle-c601d.firebasestorage.app",
+  messagingSenderId: "878822846379",
+  appId: "1:878822846379:web:b545d30bab52d19a5facee",
+  measurementId: "G-SV2RJXDS5S",
+};
+
+const SITE_CONFIG = {
+  baseUrl: "https://skogsmulle.netlify.app",
+  title: "Skogsmulle - Svenska Barnböcker",
+  description: "Svenska sagor och barnberättelser online för barn 3-12 år",
+  author: "Tomas Roos Guerra",
+};
+
 // Configuration
 const STORIES_DIR = path.join(__dirname, "stories");
-const BASE_URL = "https://skogsmulle.netlify.app";
+const BASE_URL = SITE_CONFIG.baseUrl;
 
 // Ensure stories directory exists
 if (!fs.existsSync(STORIES_DIR)) {
@@ -22,7 +41,7 @@ if (!fs.existsSync(STORIES_DIR)) {
   console.log("✓ Created stories directory");
 }
 
-// Function to generate slug from title
+// Shared function to generate slug from title (DRY principle)
 function generateSlug(title) {
   return title
     .toLowerCase()
