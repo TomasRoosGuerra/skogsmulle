@@ -48,11 +48,11 @@
     Content-Type = "text/plain"
     Cache-Control = "public, max-age=86400"
 
-# Redirect story pages that don't exist to main page
+# Redirect story pages that don't exist back to main page with anchor
 [[redirects]]
   from = "/stories/*"
-  to = "/stories/:splat"
-  status = 200
+  to = "/#stories"
+  status = 302
 
 # Catch-all redirect for SPA
 [[redirects]]

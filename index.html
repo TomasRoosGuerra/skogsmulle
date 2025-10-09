@@ -2328,12 +2328,8 @@
                         ${p.age ? `<span class="post-age">${p.age}</span>` : ""}
                       </div>
                     </div>
-                    <div class="post-content" style="line-height:1.8;font-size:1.1rem;max-height:300px;overflow-y:auto;">${content.substring(
-                      0,
-                      500
-                    )}${content.length > 500 ? "..." : ""}</div>
+                    <div class="post-content" style="line-height:1.8;font-size:1.1rem;max-height:400px;overflow-y:auto;">${content}</div>
                     <div class="story-interactive" style="margin-top:1.5rem;">
-                      <a href="${storyUrl}" class="interactive-element" style="text-decoration:none;color:inherit;">📖 Läs hela berättelsen</a>
                       <div class="interactive-element" onclick="exploreStory(${i})">🔍 Utforska</div>
                       <div class="interactive-element" onclick="meetCharacters(${i})">👋 Karaktärer</div>
                       <div class="interactive-element" onclick="playStorySounds(${i})">🎵 Ljud</div>
