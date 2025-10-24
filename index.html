@@ -432,6 +432,25 @@
         border-top: 10px solid var(--p);
       }
 
+      /* Header Audio Player */
+      .header-audio-player {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 15;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        padding: 10px;
+        border: 2px solid var(--br);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(10px);
+      }
+
+      .header-audio-player audio {
+        width: 200px;
+        height: 40px;
+      }
+
       /* Magical Welcome Text */
       .magical-welcome {
         position: absolute;
@@ -1544,6 +1563,18 @@
         .nav-dropdown h3 {
           font-size: 1rem;
         }
+
+        /* Header audio player mobile styles */
+        .header-audio-player {
+          top: 15px;
+          left: 15px;
+          padding: 8px;
+        }
+
+        .header-audio-player audio {
+          width: 150px;
+          height: 35px;
+        }
       }
     </style>
   </head>
@@ -1630,6 +1661,14 @@
       <!-- Speech Bubble -->
       <div class="speech-bubble" id="speechBubble">
         Hej! Jag är Skogsmulle! Klicka på mig för att säga hej!
+      </div>
+
+      <!-- Header Audio Player -->
+      <div class="header-audio-player">
+        <audio id="headerAudio" controls>
+          <source src="detblirbra.wav" type="audio/wav">
+          Din webbläsare stöder inte audio-elementet.
+        </audio>
       </div>
     </header>
 
