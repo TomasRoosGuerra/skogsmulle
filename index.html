@@ -225,12 +225,90 @@
         padding: 0 20px;
       }
 
-      /* Magical Forest Header System */
+      /* Magical Forest Header System with Slides */
       .magical-header {
         position: relative;
         height: 500px;
         overflow: hidden;
         background: transparent;
+      }
+
+      /* Header Slides System */
+      .header-slides-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      .header-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.6s ease-in-out;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 5;
+        pointer-events: none;
+      }
+
+      .header-slide.active {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: auto;
+        z-index: 6;
+      }
+
+      .header-slide.prev {
+        transform: translateX(-100%);
+        z-index: 4;
+      }
+
+      /* Slide Navigation */
+      .slide-navigation {
+        position: absolute;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 30;
+      }
+
+      .slide-nav-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        color: white;
+        font-size: 1.2rem;
+      }
+
+      .slide-nav-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .slide-nav-btn.active {
+        background: var(--p);
+        border-color: var(--w);
+        box-shadow: 0 4px 15px rgba(139, 69, 19, 0.5);
+      }
+
+      .slide-icon {
+        font-size: 1.5rem;
       }
 
       .forest-layer {
@@ -453,14 +531,17 @@
 
       /* Magical Welcome Text */
       .magical-welcome {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        position: relative;
         text-align: center;
-        z-index: 5;
+        z-index: 10;
         color: #ffffff;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
       }
 
       .magical-welcome h1 {
@@ -1687,6 +1768,164 @@
         border: 2px solid var(--a);
       }
 
+      /* ===== Header Video Styles ===== */
+      .header-video-container {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        max-width: 800px;
+        width: 100%;
+        padding: 20px;
+        position: relative;
+        z-index: 10;
+      }
+
+      .header-video-wrapper {
+        position: relative;
+        background: #000;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+        flex-shrink: 0;
+      }
+
+      .header-video-player {
+        width: 280px;
+        height: 200px;
+        display: block;
+        border-radius: 12px;
+      }
+
+      .header-video-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.8) 0%,
+          rgba(0, 0, 0, 0.4) 50%,
+          transparent 100%
+        );
+        padding: 15px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 10;
+      }
+
+      .header-video-wrapper:hover .header-video-overlay,
+      .header-video-overlay.show {
+        opacity: 1;
+      }
+
+      .header-video-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: white;
+      }
+
+      .header-play-pause-btn,
+      .header-volume-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .header-play-pause-btn:hover,
+      .header-volume-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      .header-play-icon,
+      .header-volume-icon {
+        font-size: 1rem;
+      }
+
+      .header-video-progress {
+        flex: 1;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 2px;
+        position: relative;
+        cursor: pointer;
+        margin: 0 8px;
+      }
+
+      .header-progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, var(--p), var(--a));
+        border-radius: 2px;
+        width: 0%;
+        transition: width 0.1s ease;
+      }
+
+      .header-progress-handle {
+        position: absolute;
+        top: 50%;
+        left: 0%;
+        width: 12px;
+        height: 12px;
+        background: white;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .header-video-progress:hover .header-progress-handle {
+        opacity: 1;
+      }
+
+      .header-video-time {
+        font-size: 0.8rem;
+        font-weight: 600;
+        min-width: 60px;
+        text-align: center;
+      }
+
+      .header-video-info {
+        flex: 1;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .header-video-title {
+        font-size: 1.8rem;
+        color: #ffffff;
+        font-family: "Fredericka the Great", "Mountains of Christmas", cursive;
+        font-weight: 400;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .header-magical-icon {
+        font-size: 2rem;
+        animation: gentleBounce 2s ease-in-out infinite;
+      }
+
+      .header-video-description {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.5;
+        font-style: italic;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      }
+
       /* Breadcrumb styles */
       .breadcrumb-nav {
         font-family: var(--f);
@@ -1889,6 +2128,42 @@
         .video-meta span {
           font-size: 0.8rem;
         }
+
+        /* Header slides mobile styles */
+        .header-video-container {
+          flex-direction: column;
+          gap: 20px;
+          padding: 15px;
+        }
+
+        .header-video-player {
+          width: 100%;
+          max-width: 300px;
+          height: 180px;
+        }
+
+        .header-video-title {
+          font-size: 1.4rem;
+          text-align: center;
+        }
+
+        .header-video-description {
+          font-size: 0.9rem;
+          text-align: center;
+        }
+
+        .slide-navigation {
+          bottom: 60px;
+        }
+
+        .slide-nav-btn {
+          width: 45px;
+          height: 45px;
+        }
+
+        .slide-icon {
+          font-size: 1.3rem;
+        }
       }
     </style>
   </head>
@@ -1940,7 +2215,7 @@
       </div>
     </div>
 
-    <!-- Magical Forest Header -->
+    <!-- Magical Forest Header with Slides -->
     <header class="magical-header">
       <div class="forest-layer forest-layer-1"></div>
       <div class="forest-layer forest-layer-2"></div>
@@ -1959,10 +2234,107 @@
         <div class="particle"></div>
       </div>
 
-      <!-- Magical Welcome -->
-      <div class="magical-welcome">
-        <h1>Skogsmulle</h1>
-        <p>Välkommen till den magiska skogen!</p>
+      <!-- Header Slides Container -->
+      <div class="header-slides-container">
+        <!-- Slide 1: Welcome -->
+        <div
+          class="header-slide active"
+          data-slide="0"
+          style="opacity: 1; transform: translateX(0); z-index: 6"
+        >
+          <div class="magical-welcome">
+            <h1>Skogsmulle</h1>
+            <p>Välkommen till den magiska skogen!</p>
+          </div>
+        </div>
+
+        <!-- Slide 2: Video -->
+        <div class="header-slide" data-slide="1">
+          <div class="header-video-container">
+            <div class="header-video-wrapper">
+              <video
+                id="headerVideo"
+                class="header-video-player"
+                controls
+                preload="metadata"
+                poster="igelkotten.png"
+                aria-label="Skogsmulles magiska äventyr video"
+              >
+                <source src="media.mp4" type="video/mp4" />
+                <track
+                  kind="captions"
+                  src=""
+                  label="Swedish"
+                  srclang="sv"
+                  default
+                />
+                Din webbläsare stöder inte video-elementet.
+              </video>
+
+              <!-- Header Video Controls Overlay -->
+              <div class="header-video-overlay" id="headerVideoOverlay">
+                <div class="header-video-controls">
+                  <button
+                    class="header-play-pause-btn"
+                    id="headerPlayPauseBtn"
+                    aria-label="Spela/Pausa video"
+                  >
+                    <span class="header-play-icon">▶️</span>
+                  </button>
+                  <div class="header-video-progress">
+                    <div
+                      class="header-progress-bar"
+                      id="headerProgressBar"
+                    ></div>
+                    <div
+                      class="header-progress-handle"
+                      id="headerProgressHandle"
+                    ></div>
+                  </div>
+                  <div class="header-video-time">
+                    <span id="headerCurrentTime">0:00</span> /
+                    <span id="headerDuration">0:00</span>
+                  </div>
+                  <button
+                    class="header-volume-btn"
+                    id="headerVolumeBtn"
+                    aria-label="Ljud på/av"
+                  >
+                    <span class="header-volume-icon">🔊</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="header-video-info">
+              <h3 class="header-video-title">
+                <span class="header-magical-icon">🎬</span>
+                Skogsmulles Magiska Äventyr
+              </h3>
+              <p class="header-video-description">
+                Följ med Skogsmulle på en fantastisk resa genom den magiska
+                skogen!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide Navigation -->
+      <div class="slide-navigation">
+        <button
+          class="slide-nav-btn active"
+          data-slide="0"
+          aria-label="Visa välkomstmeddelande"
+        >
+          <span class="slide-icon">🏠</span>
+        </button>
+        <button
+          class="slide-nav-btn"
+          data-slide="1"
+          aria-label="Visa magisk video"
+        >
+          <span class="slide-icon">🎬</span>
+        </button>
       </div>
 
       <!-- Interactive Skogsmulle Character -->
@@ -2121,93 +2493,6 @@
         </nav>
 
         <div class="main-content">
-          <!-- Magical Video Section -->
-          <section class="magical-video-section" aria-label="Magisk video">
-            <div class="video-container">
-              <div class="video-header">
-                <h2 class="video-title">
-                  <span class="magical-icon">🎬</span>
-                  Skogsmulles Magiska Äventyr
-                </h2>
-                <p class="video-description">
-                  Följ med Skogsmulle på en fantastisk resa genom den magiska
-                  skogen! Se hur våra älskade karaktärer kommer till liv i denna
-                  underbara berättelse.
-                </p>
-              </div>
-
-              <div class="video-wrapper">
-                <video
-                  id="magicalVideo"
-                  class="magical-video-player"
-                  controls
-                  preload="metadata"
-                  poster="igelkotten.png"
-                  aria-label="Skogsmulles magiska äventyr video"
-                >
-                  <source src="media.mp4" type="video/mp4" />
-                  <track
-                    kind="captions"
-                    src=""
-                    label="Swedish"
-                    srclang="sv"
-                    default
-                  />
-                  Din webbläsare stöder inte video-elementet.
-                </video>
-
-                <!-- Custom Video Controls Overlay -->
-                <div class="video-overlay" id="videoOverlay">
-                  <div class="video-controls">
-                    <button
-                      class="play-pause-btn"
-                      id="playPauseBtn"
-                      aria-label="Spela/Pausa video"
-                    >
-                      <span class="play-icon">▶️</span>
-                    </button>
-                    <div class="video-progress">
-                      <div class="progress-bar" id="progressBar"></div>
-                      <div class="progress-handle" id="progressHandle"></div>
-                    </div>
-                    <div class="video-time">
-                      <span id="currentTime">0:00</span> /
-                      <span id="duration">0:00</span>
-                    </div>
-                    <button
-                      class="volume-btn"
-                      id="volumeBtn"
-                      aria-label="Ljud på/av"
-                    >
-                      <span class="volume-icon">🔊</span>
-                    </button>
-                    <button
-                      class="fullscreen-btn"
-                      id="fullscreenBtn"
-                      aria-label="Helskärm"
-                    >
-                      <span class="fullscreen-icon">⛶</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="video-info">
-                <div class="video-meta">
-                  <span class="video-duration">⏱️ Längd: 2 minuter</span>
-                  <span class="video-quality">📺 HD Kvalitet</span>
-                  <span class="video-age">👶 Rekommenderas för: 3-8 år</span>
-                </div>
-                <div class="video-tags">
-                  <span class="tag">Äventyr</span>
-                  <span class="tag">Magi</span>
-                  <span class="tag">Vänskap</span>
-                  <span class="tag">Natur</span>
-                </div>
-              </div>
-            </div>
-          </section>
-
           <section class="blog-section" aria-label="Berättelser" id="stories">
             <h2
               style="
@@ -3299,17 +3584,74 @@
         }
       }
 
-      // ===== Magical Video Player Functionality =====
-      function initializeVideoPlayer() {
-        const video = document.getElementById("magicalVideo");
-        const overlay = document.getElementById("videoOverlay");
-        const playPauseBtn = document.getElementById("playPauseBtn");
-        const progressBar = document.getElementById("progressBar");
-        const progressHandle = document.getElementById("progressHandle");
-        const currentTimeEl = document.getElementById("currentTime");
-        const durationEl = document.getElementById("duration");
-        const volumeBtn = document.getElementById("volumeBtn");
-        const fullscreenBtn = document.getElementById("fullscreenBtn");
+      // ===== Header Slide System =====
+      function initializeHeaderSlides() {
+        const slides = document.querySelectorAll(".header-slide");
+        const navButtons = document.querySelectorAll(".slide-nav-btn");
+        let currentSlide = 0;
+
+        console.log(
+          "Initializing header slides:",
+          slides.length,
+          "slides found"
+        );
+
+        function showSlide(index) {
+          console.log("Showing slide:", index);
+
+          // Remove active class from all slides and buttons
+          slides.forEach((slide) => {
+            slide.classList.remove("active", "prev");
+          });
+          navButtons.forEach((btn) => {
+            btn.classList.remove("active");
+          });
+
+          // Add active class to current slide and button
+          if (slides[index]) {
+            slides[index].classList.add("active");
+          }
+          if (navButtons[index]) {
+            navButtons[index].classList.add("active");
+          }
+
+          // Add prev class to previous slide for animation
+          if (index > 0 && slides[index - 1]) {
+            slides[index - 1].classList.add("prev");
+          }
+
+          currentSlide = index;
+        }
+
+        // Ensure first slide is visible on load
+        setTimeout(() => {
+          showSlide(0);
+        }, 100);
+
+        // Add click event listeners to navigation buttons
+        navButtons.forEach((btn, index) => {
+          btn.addEventListener("click", () => {
+            showSlide(index);
+          });
+        });
+
+        // Auto-advance slides every 8 seconds
+        setInterval(() => {
+          const nextSlide = (currentSlide + 1) % slides.length;
+          showSlide(nextSlide);
+        }, 8000);
+      }
+
+      // ===== Header Video Player Functionality =====
+      function initializeHeaderVideoPlayer() {
+        const video = document.getElementById("headerVideo");
+        const overlay = document.getElementById("headerVideoOverlay");
+        const playPauseBtn = document.getElementById("headerPlayPauseBtn");
+        const progressBar = document.getElementById("headerProgressBar");
+        const progressHandle = document.getElementById("headerProgressHandle");
+        const currentTimeEl = document.getElementById("headerCurrentTime");
+        const durationEl = document.getElementById("headerDuration");
+        const volumeBtn = document.getElementById("headerVolumeBtn");
 
         if (!video || !overlay) return;
 
@@ -3328,11 +3670,11 @@
         playPauseBtn.addEventListener("click", () => {
           if (video.paused) {
             video.play();
-            playPauseBtn.querySelector(".play-icon").textContent = "⏸️";
+            playPauseBtn.querySelector(".header-play-icon").textContent = "⏸️";
             overlay.classList.remove("show");
           } else {
             video.pause();
-            playPauseBtn.querySelector(".play-icon").textContent = "▶️";
+            playPauseBtn.querySelector(".header-play-icon").textContent = "▶️";
           }
         });
 
@@ -3340,11 +3682,11 @@
         video.addEventListener("click", () => {
           if (video.paused) {
             video.play();
-            playPauseBtn.querySelector(".play-icon").textContent = "⏸️";
+            playPauseBtn.querySelector(".header-play-icon").textContent = "⏸️";
             overlay.classList.remove("show");
           } else {
             video.pause();
-            playPauseBtn.querySelector(".play-icon").textContent = "▶️";
+            playPauseBtn.querySelector(".header-play-icon").textContent = "▶️";
           }
         });
 
@@ -3363,7 +3705,9 @@
         });
 
         // Progress bar click to seek
-        const progressContainer = document.querySelector(".video-progress");
+        const progressContainer = document.querySelector(
+          ".header-video-progress"
+        );
         progressContainer.addEventListener("click", (e) => {
           const rect = progressContainer.getBoundingClientRect();
           const clickX = e.clientX - rect.left;
@@ -3376,38 +3720,27 @@
         volumeBtn.addEventListener("click", () => {
           if (isMuted) {
             video.muted = false;
-            volumeBtn.querySelector(".volume-icon").textContent = "🔊";
+            volumeBtn.querySelector(".header-volume-icon").textContent = "🔊";
             isMuted = false;
           } else {
             video.muted = true;
-            volumeBtn.querySelector(".volume-icon").textContent = "🔇";
+            volumeBtn.querySelector(".header-volume-icon").textContent = "🔇";
             isMuted = true;
-          }
-        });
-
-        // Fullscreen functionality
-        fullscreenBtn.addEventListener("click", () => {
-          if (video.requestFullscreen) {
-            video.requestFullscreen();
-          } else if (video.webkitRequestFullscreen) {
-            video.webkitRequestFullscreen();
-          } else if (video.msRequestFullscreen) {
-            video.msRequestFullscreen();
           }
         });
 
         // Video state changes
         video.addEventListener("play", () => {
-          playPauseBtn.querySelector(".play-icon").textContent = "⏸️";
+          playPauseBtn.querySelector(".header-play-icon").textContent = "⏸️";
         });
 
         video.addEventListener("pause", () => {
-          playPauseBtn.querySelector(".play-icon").textContent = "▶️";
+          playPauseBtn.querySelector(".header-play-icon").textContent = "▶️";
           overlay.classList.add("show");
         });
 
         video.addEventListener("ended", () => {
-          playPauseBtn.querySelector(".play-icon").textContent = "▶️";
+          playPauseBtn.querySelector(".header-play-icon").textContent = "▶️";
           overlay.classList.add("show");
           progressBar.style.width = "0%";
           progressHandle.style.left = "0%";
@@ -3416,13 +3749,12 @@
 
         // Error handling
         video.addEventListener("error", (e) => {
-          console.error("Video error:", e);
+          console.error("Header video error:", e);
           const errorDiv = document.createElement("div");
           errorDiv.className = "video-error";
           errorDiv.innerHTML = `
             <h3>🎬 Oops! Video kunde inte laddas</h3>
             <p>Kontrollera din internetanslutning och försök igen.</p>
-            <button class="btn btn-primary" onclick="location.reload()">Ladda om sidan</button>
           `;
           video.parentNode.appendChild(errorDiv);
         });
@@ -3431,7 +3763,7 @@
         video.addEventListener("loadstart", () => {
           const loadingDiv = document.createElement("div");
           loadingDiv.className = "video-loading";
-          loadingDiv.textContent = "🎬 Laddar magisk video...";
+          loadingDiv.textContent = "🎬 Laddar...";
           video.parentNode.appendChild(loadingDiv);
         });
 
@@ -3474,7 +3806,8 @@
         setupFormListeners();
         setupLoginListener();
         setupModalListeners();
-        initializeVideoPlayer();
+        initializeHeaderSlides();
+        initializeHeaderVideoPlayer();
 
         // Load saved text size
         const savedSize = localStorage.getItem("skogsmulle_textSize");
