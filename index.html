@@ -684,6 +684,8 @@
 
       .btn-secondary {
         /* Inherits from .btn - no additional styles needed */
+        background: var(--lg);
+        color: var(--s);
       }
 
       .btn-large {
@@ -1421,6 +1423,270 @@
         }
       }
 
+      /* ===== Magical Video Section Styles ===== */
+      .magical-video-section {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 248, 220, 0.9) 0%,
+          rgba(255, 255, 255, 0.8) 50%,
+          rgba(255, 248, 220, 0.9) 100%
+        );
+        border-radius: 20px;
+        padding: 30px;
+        margin: 40px 0;
+        border: 3px solid var(--br);
+        box-shadow: 0 10px 40px rgba(139, 69, 19, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .magical-video-section::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+            circle at 30% 20%,
+            rgba(34, 139, 34, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 70% 80%,
+            rgba(107, 142, 35, 0.1) 0%,
+            transparent 50%
+          );
+        animation: gentleSway 15s ease-in-out infinite;
+        z-index: -1;
+      }
+
+      .video-container {
+        position: relative;
+        z-index: 1;
+      }
+
+      .video-header {
+        text-align: center;
+        margin-bottom: 25px;
+      }
+
+      .video-title {
+        font-size: 2.5rem;
+        color: var(--p);
+        font-family: "Fredericka the Great", "Mountains of Christmas", cursive;
+        font-weight: 400;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .magical-icon {
+        font-size: 3rem;
+        animation: gentleBounce 2s ease-in-out infinite;
+      }
+
+      .video-description {
+        font-size: 1.2rem;
+        color: var(--txt);
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+        font-style: italic;
+      }
+
+      .video-wrapper {
+        position: relative;
+        background: #000;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        margin-bottom: 20px;
+      }
+
+      .magical-video-player {
+        width: 100%;
+        height: auto;
+        min-height: 400px;
+        display: block;
+        border-radius: 15px;
+      }
+
+      .video-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.8) 0%,
+          rgba(0, 0, 0, 0.4) 50%,
+          transparent 100%
+        );
+        padding: 20px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 10;
+      }
+
+      .video-wrapper:hover .video-overlay,
+      .video-overlay.show {
+        opacity: 1;
+      }
+
+      .video-controls {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        color: white;
+      }
+
+      .play-pause-btn,
+      .volume-btn,
+      .fullscreen-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .play-pause-btn:hover,
+      .volume-btn:hover,
+      .fullscreen-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .play-icon,
+      .volume-icon,
+      .fullscreen-icon {
+        font-size: 1.2rem;
+      }
+
+      .video-progress {
+        flex: 1;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 3px;
+        position: relative;
+        cursor: pointer;
+        margin: 0 10px;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, var(--p), var(--a));
+        border-radius: 3px;
+        width: 0%;
+        transition: width 0.1s ease;
+      }
+
+      .progress-handle {
+        position: absolute;
+        top: 50%;
+        left: 0%;
+        width: 16px;
+        height: 16px;
+        background: white;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .video-progress:hover .progress-handle {
+        opacity: 1;
+      }
+
+      .video-time {
+        font-size: 0.9rem;
+        font-weight: 600;
+        min-width: 80px;
+        text-align: center;
+      }
+
+      .video-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .video-meta {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .video-meta span {
+        font-size: 0.9rem;
+        color: var(--s);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .video-tags {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .video-tags .tag {
+        background: var(--lg);
+        color: var(--p);
+        border: 2px solid var(--br);
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .video-tags .tag:hover {
+        background: var(--p);
+        color: var(--w);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+      }
+
+      /* Video Loading Animation */
+      .video-loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 2rem;
+        animation: gentleBounce 1s ease-in-out infinite;
+      }
+
+      /* Video Error State */
+      .video-error {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: var(--a);
+        text-align: center;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        border-radius: 10px;
+        border: 2px solid var(--a);
+      }
+
       /* Breadcrumb styles */
       .breadcrumb-nav {
         font-family: var(--f);
@@ -1575,6 +1841,54 @@
           width: 150px;
           height: 35px;
         }
+
+        /* Video section mobile styles */
+        .magical-video-section {
+          padding: 20px;
+          margin: 20px 0;
+        }
+
+        .video-title {
+          font-size: 2rem;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .magical-icon {
+          font-size: 2.5rem;
+        }
+
+        .video-description {
+          font-size: 1rem;
+        }
+
+        .magical-video-player {
+          min-height: 250px;
+        }
+
+        .video-controls {
+          gap: 10px;
+        }
+
+        .play-pause-btn,
+        .volume-btn,
+        .fullscreen-btn {
+          width: 40px;
+          height: 40px;
+        }
+
+        .video-info {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .video-meta {
+          gap: 15px;
+        }
+
+        .video-meta span {
+          font-size: 0.8rem;
+        }
       }
     </style>
   </head>
@@ -1666,7 +1980,7 @@
       <!-- Header Audio Player -->
       <div class="header-audio-player">
         <audio id="headerAudio" controls>
-          <source src="detblirbra.wav" type="audio/wav">
+          <source src="detblirbra.wav" type="audio/wav" />
           Din webbläsare stöder inte audio-elementet.
         </audio>
       </div>
@@ -1807,6 +2121,93 @@
         </nav>
 
         <div class="main-content">
+          <!-- Magical Video Section -->
+          <section class="magical-video-section" aria-label="Magisk video">
+            <div class="video-container">
+              <div class="video-header">
+                <h2 class="video-title">
+                  <span class="magical-icon">🎬</span>
+                  Skogsmulles Magiska Äventyr
+                </h2>
+                <p class="video-description">
+                  Följ med Skogsmulle på en fantastisk resa genom den magiska
+                  skogen! Se hur våra älskade karaktärer kommer till liv i denna
+                  underbara berättelse.
+                </p>
+              </div>
+
+              <div class="video-wrapper">
+                <video
+                  id="magicalVideo"
+                  class="magical-video-player"
+                  controls
+                  preload="metadata"
+                  poster="igelkotten.png"
+                  aria-label="Skogsmulles magiska äventyr video"
+                >
+                  <source src="media.mp4" type="video/mp4" />
+                  <track
+                    kind="captions"
+                    src=""
+                    label="Swedish"
+                    srclang="sv"
+                    default
+                  />
+                  Din webbläsare stöder inte video-elementet.
+                </video>
+
+                <!-- Custom Video Controls Overlay -->
+                <div class="video-overlay" id="videoOverlay">
+                  <div class="video-controls">
+                    <button
+                      class="play-pause-btn"
+                      id="playPauseBtn"
+                      aria-label="Spela/Pausa video"
+                    >
+                      <span class="play-icon">▶️</span>
+                    </button>
+                    <div class="video-progress">
+                      <div class="progress-bar" id="progressBar"></div>
+                      <div class="progress-handle" id="progressHandle"></div>
+                    </div>
+                    <div class="video-time">
+                      <span id="currentTime">0:00</span> /
+                      <span id="duration">0:00</span>
+                    </div>
+                    <button
+                      class="volume-btn"
+                      id="volumeBtn"
+                      aria-label="Ljud på/av"
+                    >
+                      <span class="volume-icon">🔊</span>
+                    </button>
+                    <button
+                      class="fullscreen-btn"
+                      id="fullscreenBtn"
+                      aria-label="Helskärm"
+                    >
+                      <span class="fullscreen-icon">⛶</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="video-info">
+                <div class="video-meta">
+                  <span class="video-duration">⏱️ Längd: 2 minuter</span>
+                  <span class="video-quality">📺 HD Kvalitet</span>
+                  <span class="video-age">👶 Rekommenderas för: 3-8 år</span>
+                </div>
+                <div class="video-tags">
+                  <span class="tag">Äventyr</span>
+                  <span class="tag">Magi</span>
+                  <span class="tag">Vänskap</span>
+                  <span class="tag">Natur</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <section class="blog-section" aria-label="Berättelser" id="stories">
             <h2
               style="
@@ -2898,6 +3299,156 @@
         }
       }
 
+      // ===== Magical Video Player Functionality =====
+      function initializeVideoPlayer() {
+        const video = document.getElementById("magicalVideo");
+        const overlay = document.getElementById("videoOverlay");
+        const playPauseBtn = document.getElementById("playPauseBtn");
+        const progressBar = document.getElementById("progressBar");
+        const progressHandle = document.getElementById("progressHandle");
+        const currentTimeEl = document.getElementById("currentTime");
+        const durationEl = document.getElementById("duration");
+        const volumeBtn = document.getElementById("volumeBtn");
+        const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+        if (!video || !overlay) return;
+
+        // Show/hide overlay on hover
+        video.addEventListener("mouseenter", () => {
+          overlay.classList.add("show");
+        });
+
+        video.addEventListener("mouseleave", () => {
+          if (!video.paused) {
+            overlay.classList.remove("show");
+          }
+        });
+
+        // Play/Pause functionality
+        playPauseBtn.addEventListener("click", () => {
+          if (video.paused) {
+            video.play();
+            playPauseBtn.querySelector(".play-icon").textContent = "⏸️";
+            overlay.classList.remove("show");
+          } else {
+            video.pause();
+            playPauseBtn.querySelector(".play-icon").textContent = "▶️";
+          }
+        });
+
+        // Video click to play/pause
+        video.addEventListener("click", () => {
+          if (video.paused) {
+            video.play();
+            playPauseBtn.querySelector(".play-icon").textContent = "⏸️";
+            overlay.classList.remove("show");
+          } else {
+            video.pause();
+            playPauseBtn.querySelector(".play-icon").textContent = "▶️";
+          }
+        });
+
+        // Update progress bar
+        video.addEventListener("timeupdate", () => {
+          const progress = (video.currentTime / video.duration) * 100;
+          progressBar.style.width = progress + "%";
+          progressHandle.style.left = progress + "%";
+
+          currentTimeEl.textContent = formatTime(video.currentTime);
+        });
+
+        // Update duration
+        video.addEventListener("loadedmetadata", () => {
+          durationEl.textContent = formatTime(video.duration);
+        });
+
+        // Progress bar click to seek
+        const progressContainer = document.querySelector(".video-progress");
+        progressContainer.addEventListener("click", (e) => {
+          const rect = progressContainer.getBoundingClientRect();
+          const clickX = e.clientX - rect.left;
+          const percentage = clickX / rect.width;
+          video.currentTime = percentage * video.duration;
+        });
+
+        // Volume control
+        let isMuted = false;
+        volumeBtn.addEventListener("click", () => {
+          if (isMuted) {
+            video.muted = false;
+            volumeBtn.querySelector(".volume-icon").textContent = "🔊";
+            isMuted = false;
+          } else {
+            video.muted = true;
+            volumeBtn.querySelector(".volume-icon").textContent = "🔇";
+            isMuted = true;
+          }
+        });
+
+        // Fullscreen functionality
+        fullscreenBtn.addEventListener("click", () => {
+          if (video.requestFullscreen) {
+            video.requestFullscreen();
+          } else if (video.webkitRequestFullscreen) {
+            video.webkitRequestFullscreen();
+          } else if (video.msRequestFullscreen) {
+            video.msRequestFullscreen();
+          }
+        });
+
+        // Video state changes
+        video.addEventListener("play", () => {
+          playPauseBtn.querySelector(".play-icon").textContent = "⏸️";
+        });
+
+        video.addEventListener("pause", () => {
+          playPauseBtn.querySelector(".play-icon").textContent = "▶️";
+          overlay.classList.add("show");
+        });
+
+        video.addEventListener("ended", () => {
+          playPauseBtn.querySelector(".play-icon").textContent = "▶️";
+          overlay.classList.add("show");
+          progressBar.style.width = "0%";
+          progressHandle.style.left = "0%";
+          currentTimeEl.textContent = "0:00";
+        });
+
+        // Error handling
+        video.addEventListener("error", (e) => {
+          console.error("Video error:", e);
+          const errorDiv = document.createElement("div");
+          errorDiv.className = "video-error";
+          errorDiv.innerHTML = `
+            <h3>🎬 Oops! Video kunde inte laddas</h3>
+            <p>Kontrollera din internetanslutning och försök igen.</p>
+            <button class="btn btn-primary" onclick="location.reload()">Ladda om sidan</button>
+          `;
+          video.parentNode.appendChild(errorDiv);
+        });
+
+        // Loading state
+        video.addEventListener("loadstart", () => {
+          const loadingDiv = document.createElement("div");
+          loadingDiv.className = "video-loading";
+          loadingDiv.textContent = "🎬 Laddar magisk video...";
+          video.parentNode.appendChild(loadingDiv);
+        });
+
+        video.addEventListener("canplay", () => {
+          const loadingDiv = video.parentNode.querySelector(".video-loading");
+          if (loadingDiv) {
+            loadingDiv.remove();
+          }
+        });
+      }
+
+      function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, "0")}`;
+      }
+
       document.addEventListener("DOMContentLoaded", function () {
         console.log("Initializing Skogsmulle application...");
 
@@ -2923,6 +3474,7 @@
         setupFormListeners();
         setupLoginListener();
         setupModalListeners();
+        initializeVideoPlayer();
 
         // Load saved text size
         const savedSize = localStorage.getItem("skogsmulle_textSize");
