@@ -1926,6 +1926,50 @@
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
       }
 
+      /* Header Image Styles */
+      .header-image-container {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        padding: 40px;
+        justify-content: center;
+        z-index: 10;
+      }
+
+      .header-slide-image {
+        width: 300px;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        object-fit: cover;
+      }
+
+      .header-image-info {
+        flex: 1;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .header-image-title {
+        font-size: 1.8rem;
+        color: #ffffff;
+        font-family: "Fredericka the Great", "Mountains of Christmas", cursive;
+        font-weight: 400;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .header-image-description {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.5;
+        font-style: italic;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      }
+
       /* Breadcrumb styles */
       .breadcrumb-nav {
         font-family: var(--f);
@@ -2152,6 +2196,28 @@
           text-align: center;
         }
 
+        /* Header image mobile styles */
+        .header-image-container {
+          flex-direction: column;
+          gap: 20px;
+          padding: 15px;
+        }
+
+        .header-slide-image {
+          width: 100%;
+          max-width: 300px;
+        }
+
+        .header-image-title {
+          font-size: 1.4rem;
+          text-align: center;
+        }
+
+        .header-image-description {
+          font-size: 0.9rem;
+          text-align: center;
+        }
+
         .slide-navigation {
           bottom: 60px;
         }
@@ -2317,6 +2383,26 @@
             </div>
           </div>
         </div>
+
+        <!-- Slide 3: Image -->
+        <div class="header-slide" data-slide="2">
+          <div class="header-image-container">
+            <img
+              src="skogsmulleDoris2.png"
+              alt="Skogsmulle Doris"
+              class="header-slide-image"
+            />
+            <div class="header-image-info">
+              <h3 class="header-image-title">
+                <span class="header-magical-icon">🍄</span>
+                Skogsmulle Doris
+              </h3>
+              <p class="header-image-description">
+                En magisk skogsmulle i sin naturliga miljö
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Slide Navigation -->
@@ -2334,6 +2420,13 @@
           aria-label="Visa magisk video"
         >
           <span class="slide-icon">🎬</span>
+        </button>
+        <button
+          class="slide-nav-btn"
+          data-slide="2"
+          aria-label="Visa Skogsmulle Doris bild"
+        >
+          <span class="slide-icon">🍄</span>
         </button>
       </div>
 
