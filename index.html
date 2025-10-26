@@ -2547,7 +2547,7 @@
       let isAdmin = false;
       let currentUser = null;
       let allPosts = [];
-      let themeAudio = new Audio("Skogsmulle.mp3");
+      let themeAudio = new Audio("skogsmulleTheme.wav");
       let adventureAudio = new Audio("telegram_audio.mp3");
 
       // Magical Interactive Functions
@@ -3798,6 +3798,20 @@
               (document.getElementById("playAdventure").textContent =
                 "Spela äventyrslåt")
           );
+          
+          // Auto-play theme music in background
+          themeAudio.loop = true;
+          themeAudio.volume = 0.3; // Set to 30% volume for background playback
+          const playPromise = themeAudio.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(error => {
+              console.log("Theme music autoplay prevented by browser:", error);
+              // Try to play after a short delay in case user interaction happens
+              setTimeout(() => {
+                themeAudio.play().catch(err => console.log("Theme music could not play:", err));
+              }, 1000);
+            });
+          }
         } catch (error) {
           console.warn("Audio setup failed:", error);
         }
