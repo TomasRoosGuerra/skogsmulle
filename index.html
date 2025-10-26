@@ -3798,18 +3798,33 @@
               (document.getElementById("playAdventure").textContent =
                 "Spela äventyrslåt")
           );
-          
+
           // Auto-play theme music in background
           themeAudio.loop = true;
-          themeAudio.volume = 0.3; // Set to 30% volume for background playback
+          themeAudio.volume = 0; // Start muted to bypass browser autoplay restrictions
+          
+          // Unmute audio after first user interaction
+          let audioUnmuted = false;
+          const unmuteAudio = () => {
+            if (!audioUnmuted && themeAudio.volume === 0) {
+              themeAudio.volume = 0.3; // Set to 30% volume for background playback
+              audioUnmuted = true;
+              console.log("Theme music unmuted by user interaction");
+            }
+          };
+          
+          // Add event listeners to unmute on user interaction
+          document.addEventListener('click', unmuteAudio, { once: true });
+          document.addEventListener('keydown', unmuteAudio, { once: true });
+          document.addEventListener('touchstart', unmuteAudio, { once: true });
+          
+          // Try to play the audio (browsers allow muted autoplay)
           const playPromise = themeAudio.play();
           if (playPromise !== undefined) {
-            playPromise.catch(error => {
-              console.log("Theme music autoplay prevented by browser:", error);
-              // Try to play after a short delay in case user interaction happens
-              setTimeout(() => {
-                themeAudio.play().catch(err => console.log("Theme music could not play:", err));
-              }, 1000);
+            playPromise.then(() => {
+              console.log("Theme music started playing (muted until user interaction)");
+            }).catch((error) => {
+              console.log("Theme music autoplay prevented:", error);
             });
           }
         } catch (error) {
