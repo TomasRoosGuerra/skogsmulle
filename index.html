@@ -3802,7 +3802,7 @@
           // Auto-play theme music in background
           themeAudio.loop = true;
           themeAudio.volume = 0; // Start muted to bypass browser autoplay restrictions
-          
+
           // Unmute audio after first user interaction
           let audioUnmuted = false;
           const unmuteAudio = () => {
@@ -3812,20 +3812,24 @@
               console.log("Theme music unmuted by user interaction");
             }
           };
-          
+
           // Add event listeners to unmute on user interaction
-          document.addEventListener('click', unmuteAudio, { once: true });
-          document.addEventListener('keydown', unmuteAudio, { once: true });
-          document.addEventListener('touchstart', unmuteAudio, { once: true });
-          
+          document.addEventListener("click", unmuteAudio, { once: true });
+          document.addEventListener("keydown", unmuteAudio, { once: true });
+          document.addEventListener("touchstart", unmuteAudio, { once: true });
+
           // Try to play the audio (browsers allow muted autoplay)
           const playPromise = themeAudio.play();
           if (playPromise !== undefined) {
-            playPromise.then(() => {
-              console.log("Theme music started playing (muted until user interaction)");
-            }).catch((error) => {
-              console.log("Theme music autoplay prevented:", error);
-            });
+            playPromise
+              .then(() => {
+                console.log(
+                  "Theme music started playing (muted until user interaction)"
+                );
+              })
+              .catch((error) => {
+                console.log("Theme music autoplay prevented:", error);
+              });
           }
         } catch (error) {
           console.warn("Audio setup failed:", error);
