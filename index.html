@@ -243,7 +243,9 @@
         object-fit: cover;
         z-index: 0;
         pointer-events: none;
+        background: #2f4f2f; /* Fallback background color */
       }
+
 
       /* Video Toggle Button */
       .header-video-toggle-btn {
@@ -368,7 +370,7 @@
 
       .forest-layer-1 {
         background-image: url("igelkotten.png");
-        opacity: 1;
+        opacity: 0.2; /* Reduced opacity to allow video to show through */
         z-index: 1;
         animation-delay: 0s;
       }
@@ -2337,10 +2339,12 @@
         loop
         muted
         playsinline
+        preload="auto"
+        poster="igelkotten.png"
         aria-label="Skogsmulle bakgrundsvideo"
       >
+        <source src="introfilm.mp4" type="video/mp4" />
         <source src="introfilm.mov" type="video/quicktime" />
-        <source src="introfilm.mov" type="video/mp4" />
         Din webbläsare stöder inte video-elementet.
       </video>
       
@@ -2714,7 +2718,7 @@
       let themeAudio = new Audio("skogsmulleTheme.wav");
       let adventureAudio = new Audio("telegram_audio.mp3");
 
-      // Header Background Video Toggle
+      // Header Background Video Toggle with Error Handling
       document.addEventListener("DOMContentLoaded", function () {
         const headerVideo = document.getElementById("headerBackgroundVideo");
         const videoToggleBtn = document.getElementById("headerVideoToggle");
@@ -2730,22 +2734,69 @@
             }
           }
 
+          // Handle video loading errors
+          headerVideo.addEventListener("error", function(e) {
+            console.warn("Video loading error, using fallback:", e);
+            // Video will show poster image as fallback
+          });
+
+          // Try to play video (required for autoplay in some browsers)
+          headerVideo.addEventListener("loadeddata", function() {
+            const playPromise = headerVideo.play();
+            if (playPromise !== undefined) {
+              playPromise
+                .then(() => {
+                  console.log("Video autoplay started");
+                  updateIcon();
+                })
+                .catch((error) => {
+                  console.warn("Autoplay prevented, user interaction required:", error);
+                  // Show play button more prominently if autoplay fails
+                  videoToggleBtn.style.opacity = "1";
+                  videoToggleBtn.style.transform = "scale(1.1)";
+                });
+            }
+          });
+
           // Toggle play/pause
           videoToggleBtn.addEventListener("click", function () {
             if (headerVideo.paused) {
-              headerVideo.play();
+              const playPromise = headerVideo.play();
+              if (playPromise !== undefined) {
+                playPromise
+                  .then(() => {
+                    updateIcon();
+                  })
+                  .catch((error) => {
+                    console.error("Error playing video:", error);
+                  });
+              }
             } else {
               headerVideo.pause();
+              updateIcon();
             }
-            updateIcon();
           });
 
           // Update icon when video state changes
           headerVideo.addEventListener("play", updateIcon);
           headerVideo.addEventListener("pause", updateIcon);
+          headerVideo.addEventListener("ended", function() {
+            // Ensure looping works
+            headerVideo.currentTime = 0;
+            headerVideo.play();
+          });
 
           // Initial icon update
           updateIcon();
+
+          // Force play attempt after a short delay (for autoplay policies)
+          setTimeout(() => {
+            if (headerVideo.paused) {
+              headerVideo.play().catch(() => {
+                // Autoplay blocked, that's okay
+              });
+            }
+          }, 100);
         }
       });
 
