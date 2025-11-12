@@ -244,8 +244,23 @@
         z-index: 0;
         pointer-events: none;
         background: #2f4f2f; /* Fallback background color */
+        opacity: 1; /* Full visibility, no transparency */
       }
 
+      /* Hide all overlays on top of video */
+      .forest-layer,
+      .floating-particles,
+      .header-slides-container,
+      .skogsmulle-character,
+      .speech-bubble,
+      .slide-navigation {
+        display: none !important;
+      }
+
+      /* Hide audio player */
+      .header-audio-player {
+        display: none !important;
+      }
 
       /* Video Toggle Button */
       .header-video-toggle-btn {
@@ -2347,7 +2362,7 @@
         <source src="introfilm.mov" type="video/quicktime" />
         Din webbläsare stöder inte video-elementet.
       </video>
-      
+
       <!-- Video Pause/Play Button -->
       <button
         id="headerVideoToggle"
@@ -2722,7 +2737,8 @@
       document.addEventListener("DOMContentLoaded", function () {
         const headerVideo = document.getElementById("headerBackgroundVideo");
         const videoToggleBtn = document.getElementById("headerVideoToggle");
-        const videoToggleIcon = videoToggleBtn?.querySelector(".video-toggle-icon");
+        const videoToggleIcon =
+          videoToggleBtn?.querySelector(".video-toggle-icon");
 
         if (headerVideo && videoToggleBtn && videoToggleIcon) {
           // Update icon based on video state
@@ -2735,13 +2751,13 @@
           }
 
           // Handle video loading errors
-          headerVideo.addEventListener("error", function(e) {
+          headerVideo.addEventListener("error", function (e) {
             console.warn("Video loading error, using fallback:", e);
             // Video will show poster image as fallback
           });
 
           // Try to play video (required for autoplay in some browsers)
-          headerVideo.addEventListener("loadeddata", function() {
+          headerVideo.addEventListener("loadeddata", function () {
             const playPromise = headerVideo.play();
             if (playPromise !== undefined) {
               playPromise
@@ -2750,7 +2766,10 @@
                   updateIcon();
                 })
                 .catch((error) => {
-                  console.warn("Autoplay prevented, user interaction required:", error);
+                  console.warn(
+                    "Autoplay prevented, user interaction required:",
+                    error
+                  );
                   // Show play button more prominently if autoplay fails
                   videoToggleBtn.style.opacity = "1";
                   videoToggleBtn.style.transform = "scale(1.1)";
@@ -2780,7 +2799,7 @@
           // Update icon when video state changes
           headerVideo.addEventListener("play", updateIcon);
           headerVideo.addEventListener("pause", updateIcon);
-          headerVideo.addEventListener("ended", function() {
+          headerVideo.addEventListener("ended", function () {
             // Ensure looping works
             headerVideo.currentTime = 0;
             headerVideo.play();
