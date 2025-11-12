@@ -233,6 +233,52 @@
         background: transparent;
       }
 
+      /* Header Background Video */
+      .header-background-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      /* Video Toggle Button */
+      .header-video-toggle-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 20;
+        background: rgba(255, 255, 255, 0.9);
+        border: 2px solid var(--br);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .header-video-toggle-btn:hover {
+        background: rgba(255, 255, 255, 1);
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .header-video-toggle-btn:active {
+        transform: scale(0.95);
+      }
+
+      .video-toggle-icon {
+        font-size: 1.5rem;
+      }
+
       /* Header Slides System */
       .header-slides-container {
         position: relative;
@@ -2283,6 +2329,31 @@
 
     <!-- Magical Forest Header with Slides -->
     <header class="magical-header">
+      <!-- Background Video -->
+      <video
+        id="headerBackgroundVideo"
+        class="header-background-video"
+        autoplay
+        loop
+        muted
+        playsinline
+        aria-label="Skogsmulle bakgrundsvideo"
+      >
+        <source src="introfilm.mov" type="video/quicktime" />
+        <source src="introfilm.mov" type="video/mp4" />
+        Din webbläsare stöder inte video-elementet.
+      </video>
+      
+      <!-- Video Pause/Play Button -->
+      <button
+        id="headerVideoToggle"
+        class="header-video-toggle-btn"
+        aria-label="Pausa/Spela video"
+        title="Pausa/Spela video"
+      >
+        <span class="video-toggle-icon">⏸️</span>
+      </button>
+
       <div class="forest-layer forest-layer-1"></div>
       <div class="forest-layer forest-layer-2"></div>
       <div class="forest-layer forest-layer-3"></div>
@@ -2642,6 +2713,41 @@
       let allPosts = [];
       let themeAudio = new Audio("skogsmulleTheme.wav");
       let adventureAudio = new Audio("telegram_audio.mp3");
+
+      // Header Background Video Toggle
+      document.addEventListener("DOMContentLoaded", function () {
+        const headerVideo = document.getElementById("headerBackgroundVideo");
+        const videoToggleBtn = document.getElementById("headerVideoToggle");
+        const videoToggleIcon = videoToggleBtn?.querySelector(".video-toggle-icon");
+
+        if (headerVideo && videoToggleBtn && videoToggleIcon) {
+          // Update icon based on video state
+          function updateIcon() {
+            if (headerVideo.paused) {
+              videoToggleIcon.textContent = "▶️";
+            } else {
+              videoToggleIcon.textContent = "⏸️";
+            }
+          }
+
+          // Toggle play/pause
+          videoToggleBtn.addEventListener("click", function () {
+            if (headerVideo.paused) {
+              headerVideo.play();
+            } else {
+              headerVideo.pause();
+            }
+            updateIcon();
+          });
+
+          // Update icon when video state changes
+          headerVideo.addEventListener("play", updateIcon);
+          headerVideo.addEventListener("pause", updateIcon);
+
+          // Initial icon update
+          updateIcon();
+        }
+      });
 
       // Magical Interactive Functions
       function interactWithSkogsmulle() {
