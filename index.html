@@ -292,22 +292,149 @@
       .magical-header {
         position: relative;
         height: 500px;
-        overflow: hidden;
+        overflow: visible;
         background: transparent;
+        padding: var(--spacing-lg);
+      }
+
+      /* Children's Book Frame Container */
+      .header-frame-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        max-width: var(--wide-width);
+        margin: 0 auto;
+        padding: clamp(20px, 3vw, 40px);
+        z-index: 1;
+      }
+
+      /* Decorative Book Frame */
+      .book-frame {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: clamp(12px, 1.5vw, 20px) solid var(--p);
+        border-radius: clamp(15px, 2vw, 25px);
+        box-shadow: 0 0 0 clamp(3px, 0.5vw, 6px) var(--s),
+          0 0 0 clamp(6px, 0.75vw, 10px) var(--a),
+          inset 0 0 clamp(20px, 3vw, 40px) rgba(139, 69, 19, 0.3),
+          0 clamp(8px, 1vw, 15px) clamp(25px, 3vw, 50px) rgba(0, 0, 0, 0.4);
+        background: linear-gradient(
+          135deg,
+          rgba(139, 69, 19, 0.1),
+          rgba(160, 82, 45, 0.05)
+        );
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      /* Decorative Corner Elements */
+      .book-frame::before,
+      .book-frame::after {
+        content: "";
+        position: absolute;
+        width: clamp(40px, 6vw, 80px);
+        height: clamp(40px, 6vw, 80px);
+        border: clamp(4px, 0.6vw, 8px) solid var(--a);
+        pointer-events: none;
+        z-index: 3;
+      }
+
+      /* Top-left corner decoration */
+      .book-frame::before {
+        top: clamp(-15px, -2vw, -25px);
+        left: clamp(-15px, -2vw, -25px);
+        border-right: none;
+        border-bottom: none;
+        border-radius: clamp(10px, 1.5vw, 20px) 0 0 0;
+        background: radial-gradient(
+          circle at top left,
+          rgba(220, 20, 60, 0.3),
+          transparent
+        );
+      }
+
+      /* Bottom-right corner decoration */
+      .book-frame::after {
+        bottom: clamp(-15px, -2vw, -25px);
+        right: clamp(-15px, -2vw, -25px);
+        border-left: none;
+        border-top: none;
+        border-radius: 0 0 clamp(10px, 1.5vw, 20px) clamp(10px, 1.5vw, 20px);
+        background: radial-gradient(
+          circle at bottom right,
+          rgba(220, 20, 60, 0.3),
+          transparent
+        );
+      }
+
+      /* Decorative corner ornaments */
+      .corner-ornament {
+        position: absolute;
+        width: clamp(30px, 4vw, 60px);
+        height: clamp(30px, 4vw, 60px);
+        pointer-events: none;
+        z-index: 4;
+      }
+
+      .corner-ornament::before {
+        content: "🌿";
+        font-size: clamp(20px, 3vw, 40px);
+        filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+        animation: gentleSway 3s ease-in-out infinite;
+      }
+
+      .corner-ornament.top-left {
+        top: clamp(-25px, -3vw, -35px);
+        left: clamp(-25px, -3vw, -35px);
+      }
+
+      .corner-ornament.top-right {
+        top: clamp(-25px, -3vw, -35px);
+        right: clamp(-25px, -3vw, -35px);
+      }
+
+      .corner-ornament.top-right::before {
+        content: "🍄";
+        transform: scaleX(-1);
+      }
+
+      .corner-ornament.bottom-left {
+        bottom: clamp(-25px, -3vw, -35px);
+        left: clamp(-25px, -3vw, -35px);
+      }
+
+      .corner-ornament.bottom-left::before {
+        content: "🌺";
+      }
+
+      .corner-ornament.bottom-right {
+        bottom: clamp(-25px, -3vw, -35px);
+        right: clamp(-25px, -3vw, -35px);
+      }
+
+      .corner-ornament.bottom-right::before {
+        content: "🦔";
+        transform: scaleX(-1);
       }
 
       /* Header Background Video */
       .header-background-video {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        top: clamp(20px, 3vw, 40px);
+        left: clamp(20px, 3vw, 40px);
+        right: clamp(20px, 3vw, 40px);
+        bottom: clamp(20px, 3vw, 40px);
+        width: calc(100% - clamp(40px, 6vw, 80px));
+        height: calc(100% - clamp(40px, 6vw, 80px));
         object-fit: cover;
         z-index: 0;
         pointer-events: none;
         background: #2f4f2f; /* Fallback background color */
         opacity: 1; /* Full visibility, no transparency */
+        border-radius: clamp(8px, 1vw, 12px);
       }
 
       /* Hide all overlays on top of video */
@@ -773,6 +900,125 @@
         font-family: var(--f);
       }
 
+      /* Story Modal - Large Display */
+      .story-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 3000;
+        animation: fadeIn 0.3s ease;
+        padding: var(--spacing-lg);
+        overflow-y: auto;
+      }
+
+      .story-modal.show {
+        display: flex;
+      }
+
+      .story-modal-content {
+        background: var(--w);
+        padding: var(--spacing-xl);
+        border-radius: clamp(15px, 2vw, 25px);
+        border: clamp(3px, 0.5vw, 6px) solid var(--br);
+        max-width: 900px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 clamp(10px, 2vw, 25px) clamp(40px, 5vw, 80px)
+          rgba(0, 0, 0, 0.5);
+      }
+
+      .story-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: var(--spacing-lg);
+        padding-bottom: var(--spacing-md);
+        border-bottom: 3px solid var(--br);
+      }
+
+      .story-modal-title {
+        font-size: clamp(1.75rem, 1.6rem + 0.75vw, 2.75rem);
+        color: var(--p);
+        font-family: var(--f);
+        font-weight: 700;
+        line-height: 1.3;
+        flex: 1;
+        margin-right: var(--spacing-md);
+      }
+
+      .story-modal-close {
+        background: var(--a);
+        color: var(--w);
+        border: none;
+        border-radius: 50%;
+        width: clamp(35px, 4vw, 45px);
+        height: clamp(35px, 4vw, 45px);
+        font-size: clamp(1.2rem, 1rem + 1vw, 1.5rem);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+        font-weight: bold;
+        line-height: 1;
+      }
+
+      .story-modal-close:hover {
+        background: var(--p);
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      .story-modal-meta {
+        display: flex;
+        gap: var(--spacing-md);
+        flex-wrap: wrap;
+        margin-bottom: var(--spacing-lg);
+        font-size: var(--font-size-small);
+        color: var(--s);
+      }
+
+      .story-modal-body {
+        font-size: clamp(1.1rem, 1rem + 0.5vw, 1.3rem);
+        line-height: 1.8;
+        color: var(--txt);
+        font-family: var(--f);
+      }
+
+      .story-modal-body p {
+        margin-bottom: var(--spacing-md);
+      }
+
+      .story-modal-body h1,
+      .story-modal-body h2,
+      .story-modal-body h3 {
+        color: var(--p);
+        margin-top: var(--spacing-lg);
+        margin-bottom: var(--spacing-md);
+        font-weight: 700;
+      }
+
+      .story-modal-body h1 {
+        font-size: clamp(1.75rem, 1.6rem + 0.75vw, 2.5rem);
+      }
+
+      .story-modal-body h2 {
+        font-size: clamp(1.5rem, 1.4rem + 0.5vw, 2rem);
+      }
+
+      .story-modal-body h3 {
+        font-size: clamp(1.25rem, 1.2rem + 0.25vw, 1.75rem);
+      }
+
       .form-group {
         margin-bottom: 15px;
       }
@@ -1088,6 +1334,13 @@
         pointer-events: none;
       }
 
+      /* Disable hover flip when modal is open - keep card visible for click */
+      .story-modal.show ~ * .story-scene:hover .flip-card,
+      body:has(.story-modal.show) .story-scene:hover .flip-card {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
       /* Front of card */
       .card-front {
         background: linear-gradient(
@@ -1117,17 +1370,18 @@
         );
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-xl)
+        justify-content: flex-start;
+        padding: var(--spacing-md) var(--spacing-lg) var(--spacing-xl)
           var(--spacing-lg);
+        padding-top: var(--spacing-md);
         height: 300px;
         background: linear-gradient(to bottom, #a0522d, #8b4513);
         color: #ffffff;
       }
 
       .scene-illustration {
-        font-size: clamp(3rem, 2.5rem + 2.5vw, 5rem);
-        margin-bottom: var(--spacing-md);
+        font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem);
+        margin-bottom: var(--spacing-xs);
         animation: sceneFloat 3s ease-in-out infinite;
       }
 
@@ -2130,8 +2384,67 @@
         .container {
           padding: 0 15px;
         }
+
+        .magical-header {
+          padding: var(--spacing-sm);
+        }
+
+        .header-frame-container {
+          padding: clamp(10px, 2vw, 20px);
+        }
+
+        .book-frame {
+          border-width: clamp(8px, 1.2vw, 12px);
+        }
+
+        .corner-ornament {
+          width: clamp(20px, 3vw, 40px);
+          height: clamp(20px, 3vw, 40px);
+        }
+
+        .corner-ornament::before {
+          font-size: clamp(15px, 2.5vw, 30px);
+        }
+
         .magical-header {
           height: 400px;
+          padding: var(--spacing-sm);
+        }
+
+        .header-frame-container {
+          padding: clamp(10px, 2vw, 20px);
+        }
+
+        .book-frame {
+          border-width: clamp(8px, 1.2vw, 12px);
+        }
+
+        .corner-ornament {
+          width: clamp(20px, 3vw, 40px);
+          height: clamp(20px, 3vw, 40px);
+        }
+
+        .corner-ornament::before {
+          font-size: clamp(15px, 2.5vw, 30px);
+        }
+
+        .corner-ornament.top-left,
+        .corner-ornament.top-right,
+        .corner-ornament.bottom-left,
+        .corner-ornament.bottom-right {
+          top: clamp(-15px, -2vw, -20px);
+          left: clamp(-15px, -2vw, -20px);
+          right: clamp(-15px, -2vw, -20px);
+          bottom: clamp(-15px, -2vw, -20px);
+        }
+
+        .header-background-video {
+          top: clamp(10px, 2vw, 20px);
+          left: clamp(10px, 2vw, 20px);
+          right: clamp(10px, 2vw, 20px);
+          bottom: clamp(10px, 2vw, 20px);
+          width: calc(100% - clamp(20px, 4vw, 40px));
+          height: calc(100% - clamp(20px, 4vw, 40px));
         }
         .magical-welcome h1 {
           font-size: 4rem;
@@ -2411,24 +2724,54 @@
       </div>
     </div>
 
+    <!-- Story Modal - Large Display -->
+    <div id="storyModal" class="story-modal">
+      <div class="story-modal-content">
+        <div class="story-modal-header">
+          <h1 class="story-modal-title" id="storyModalTitle"></h1>
+          <button
+            class="story-modal-close"
+            onclick="closeStoryModal()"
+            aria-label="Stäng"
+          >
+            ×
+          </button>
+        </div>
+        <div class="story-modal-meta" id="storyModalMeta"></div>
+        <div class="story-modal-body" id="storyModalBody"></div>
+      </div>
+    </div>
+
     <!-- Magical Forest Header with Slides -->
     <header class="magical-header">
-      <!-- Background Video -->
-      <video
-        id="headerBackgroundVideo"
-        class="header-background-video"
-        autoplay
-        loop
-        muted
-        playsinline
-        preload="auto"
-        poster="igelkotten.png"
-        aria-label="Skogsmulle bakgrundsvideo"
-      >
-        <source src="introfilm.mp4" type="video/mp4" />
-        <source src="introfilm.mov" type="video/quicktime" />
-        Din webbläsare stöder inte video-elementet.
-      </video>
+      <!-- Children's Book Frame Container -->
+      <div class="header-frame-container">
+        <!-- Decorative Book Frame -->
+        <div class="book-frame">
+          <!-- Corner Ornaments -->
+          <div class="corner-ornament top-left"></div>
+          <div class="corner-ornament top-right"></div>
+          <div class="corner-ornament bottom-left"></div>
+          <div class="corner-ornament bottom-right"></div>
+        </div>
+
+        <!-- Background Video -->
+        <video
+          id="headerBackgroundVideo"
+          class="header-background-video"
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="auto"
+          poster="igelkotten.png"
+          aria-label="Skogsmulle bakgrundsvideo"
+        >
+          <source src="introfilm.mp4" type="video/mp4" />
+          <source src="introfilm.mov" type="video/quicktime" />
+          Din webbläsare stöder inte video-elementet.
+        </video>
+      </div>
 
       <div class="forest-layer forest-layer-1"></div>
       <div class="forest-layer forest-layer-2"></div>
@@ -3173,7 +3516,7 @@
 
             return `<div class="story-scene" data-id="${
               p.id || ""
-            }" data-slug="${slug}">
+            }" data-slug="${slug}" onclick="openStoryModal(${i})">
                 <div class="flip-card">
                   <div class="card-front">
                     <div class="card-front__tp">
@@ -3592,6 +3935,82 @@
       function closeLoginModal() {
         document.getElementById("loginModal").style.display = "none";
       }
+
+      // Story Modal Functions
+      function openStoryModal(index) {
+        if (!allPosts || index < 0 || index >= allPosts.length) {
+          console.error("Invalid story index:", index);
+          return;
+        }
+
+        const story = allPosts[index];
+        const modal = document.getElementById("storyModal");
+        const titleEl = document.getElementById("storyModalTitle");
+        const metaEl = document.getElementById("storyModalMeta");
+        const bodyEl = document.getElementById("storyModalBody");
+
+        if (!modal || !titleEl || !metaEl || !bodyEl) {
+          console.error("Story modal elements not found");
+          return;
+        }
+
+        // Set title
+        titleEl.textContent = story.title || "Untitled Story";
+
+        // Set metadata
+        let metaHTML = `<span class="post-date">📅 ${
+          story.date || "No date"
+        }</span>`;
+        if (story.category) {
+          metaHTML += `<span class="post-category">📂 ${story.category}</span>`;
+        }
+        if (story.age) {
+          metaHTML += `<span class="post-age">👶 ${story.age}</span>`;
+        }
+        metaEl.innerHTML = metaHTML;
+
+        // Set content - parse HTML and display with better formatting
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = story.content || "<p>No content available.</p>";
+        bodyEl.innerHTML = tempDiv.innerHTML;
+
+        // Show modal
+        modal.classList.add("show");
+        document.body.style.overflow = "hidden"; // Prevent background scrolling
+
+        // Scroll to top of modal content
+        modal.scrollTop = 0;
+      }
+
+      function closeStoryModal() {
+        const modal = document.getElementById("storyModal");
+        if (modal) {
+          modal.classList.remove("show");
+          document.body.style.overflow = ""; // Restore scrolling
+        }
+      }
+
+      // Close modal when clicking outside content
+      document.addEventListener("DOMContentLoaded", function () {
+        const storyModal = document.getElementById("storyModal");
+        if (storyModal) {
+          storyModal.addEventListener("click", function (e) {
+            if (e.target === storyModal) {
+              closeStoryModal();
+            }
+          });
+        }
+
+        // Close modal with Escape key
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") {
+            const modal = document.getElementById("storyModal");
+            if (modal && modal.classList.contains("show")) {
+              closeStoryModal();
+            }
+          }
+        });
+      });
 
       function showAuthorTools() {
         console.log("Showing author tools for user:", currentUser);
