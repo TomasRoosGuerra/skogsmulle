@@ -17,11 +17,28 @@
 
   /* Layout */
   --r: 8px; /* Border radius */
-  --max-width: 1200px; /* Container max width */
+  --content-width: 900px; /* Content width */
+  --wide-width: 1200px; /* Wide width */
+  --max-width: var(--wide-width); /* Container max width (for compatibility) */
 
-  /* Typography */
-  --f: "Fredoka", "Nunito", sans-serif; /* Font family */
-  --fu: "Fredoka", "Nunito", sans-serif; /* UI font family */
+  /* Typography - System sans-serif fonts */
+  --f: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  --fu: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+
+  /* Responsive typography using clamp() */
+  --font-size-small: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem); /* 12-14px */
+  --font-size-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem); /* 16-18px */
+  --font-size-heading: clamp(1.5rem, 1.4rem + 0.5vw, 2rem); /* 24-32px */
+  --font-size-display: clamp(2.5rem, 2rem + 2.5vw, 5rem); /* 40-80px */
+
+  /* Responsive spacing using clamp() */
+  --spacing-xs: clamp(0.25rem, 0.2rem + 0.25vw, 0.5rem); /* 4-8px */
+  --spacing-sm: clamp(0.5rem, 0.4rem + 0.5vw, 1rem); /* 8-16px */
+  --spacing-md: clamp(1rem, 0.8rem + 1vw, 1.5rem); /* 16-24px */
+  --spacing-lg: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem); /* 24-40px */
+  --spacing-xl: clamp(2rem, 1.6rem + 2vw, 3.5rem); /* 32-56px */
 
   /* Shadows */
   --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.1);
@@ -49,16 +66,64 @@ body {
   color: var(--txt);
   line-height: 1.7;
   font-family: var(--f);
+  font-size: var(--font-size-body);
   min-height: 100vh;
   font-weight: 400;
   position: relative;
 }
 
+/* Typography scale */
+small,
+.text-small {
+  font-size: var(--font-size-small);
+}
+
+p,
+body {
+  font-size: var(--font-size-body);
+}
+
+h1,
+.display-text {
+  font-size: var(--font-size-display);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-heading);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--p);
+}
+
+h2 {
+  font-size: clamp(1.75rem, 1.6rem + 0.75vw, 2.5rem); /* 28-40px */
+}
+
+h3 {
+  font-size: clamp(1.5rem, 1.4rem + 0.5vw, 2rem); /* 24-32px */
+}
+
+h4 {
+  font-size: clamp(1.25rem, 1.2rem + 0.25vw, 1.5rem); /* 20-24px */
+}
+
 /* ===== Utility Classes ===== */
 .container {
-  max-width: var(--max-width);
+  max-width: var(--content-width);
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 var(--spacing-md);
+}
+
+.container-wide {
+  max-width: var(--wide-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
 }
 
 .text-center {

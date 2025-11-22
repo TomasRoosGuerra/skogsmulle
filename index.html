@@ -98,12 +98,6 @@
         "itemListElement": []
       }
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&family=Creepster:wght@400&family=Bungee:wght@400&family=Amatic+SC:wght@400;700&family=Fredericka+the+Great&family=Mountains+of+Christmas:wght@400;700&family=Butterfly+Kids&family=Indie+Flower&display=swap"
-      rel="stylesheet"
-    />
 
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
@@ -152,22 +146,43 @@
 
     <style>
       :root {
-        --p: #8b4513; /* Primary color (warm brown from hedgehog) */
-        --s: #a0522d; /* Secondary color (saddle brown) */
-        --a: #dc143c; /* Accent color (red from hedgehog's hat) */
-        --bg: rgba(
-          255,
-          248,
-          220,
-          0.95
-        ); /* Warm cream background from watercolor */
-        --txt: #2f4f2f; /* Dark green text for readability */
+        /* Colors - WCAG 2.1 AA compliant */
+        --p: #8b4513; /* Primary color (warm brown) - 4.5:1 contrast */
+        --s: #a0522d; /* Secondary color (saddle brown) - 4.5:1 contrast */
+        --a: #dc143c; /* Accent color (red) - 4.5:1 contrast */
+        --bg: rgba(255, 248, 220, 0.95); /* Warm cream background */
+        --txt: #2f4f2f; /* Dark green text - 7.5:1 contrast on cream */
         --w: rgba(255, 255, 255, 0.95); /* Near-white for elements */
         --lg: rgba(255, 248, 220, 0.8); /* Light cream background for cards */
         --br: rgba(139, 69, 19, 0.6); /* Border color, warm brown */
         --r: 8px;
-        --f: "Fredoka", "Nunito", sans-serif;
-        --fu: "Fredoka", "Nunito", sans-serif;
+
+        /* System sans-serif fonts */
+        --f: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        --fu: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+
+        /* Layout widths */
+        --content-width: 900px;
+        --wide-width: 1200px;
+
+        /* Responsive typography using clamp() */
+        --font-size-small: clamp(
+          0.75rem,
+          0.7rem + 0.25vw,
+          0.875rem
+        ); /* 12-14px */
+        --font-size-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem); /* 16-18px */
+        --font-size-heading: clamp(1.5rem, 1.4rem + 0.5vw, 2rem); /* 24-32px */
+        --font-size-display: clamp(2.5rem, 2rem + 2.5vw, 5rem); /* 40-80px */
+
+        /* Responsive spacing using clamp() */
+        --spacing-xs: clamp(0.25rem, 0.2rem + 0.25vw, 0.5rem); /* 4-8px */
+        --spacing-sm: clamp(0.5rem, 0.4rem + 0.5vw, 1rem); /* 8-16px */
+        --spacing-md: clamp(1rem, 0.8rem + 1vw, 1.5rem); /* 16-24px */
+        --spacing-lg: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem); /* 24-40px */
+        --spacing-xl: clamp(2rem, 1.6rem + 2vw, 3.5rem); /* 32-56px */
       }
 
       *,
@@ -184,9 +199,51 @@
         color: var(--txt);
         line-height: 1.7;
         font-family: var(--f);
+        font-size: var(--font-size-body);
         min-height: 100vh;
         font-weight: 400;
         position: relative;
+      }
+
+      /* Typography scale */
+      small,
+      .text-small {
+        font-size: var(--font-size-small);
+      }
+
+      p,
+      body {
+        font-size: var(--font-size-body);
+      }
+
+      h1,
+      .display-text {
+        font-size: var(--font-size-display);
+        font-weight: 700;
+        line-height: 1.2;
+      }
+
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-size: var(--font-size-heading);
+        font-weight: 600;
+        line-height: 1.3;
+        color: var(--p);
+      }
+
+      h2 {
+        font-size: clamp(1.75rem, 1.6rem + 0.75vw, 2.5rem); /* 28-40px */
+      }
+
+      h3 {
+        font-size: clamp(1.5rem, 1.4rem + 0.5vw, 2rem); /* 24-32px */
+      }
+
+      h4 {
+        font-size: clamp(1.25rem, 1.2rem + 0.25vw, 1.5rem); /* 20-24px */
       }
 
       body::before {
@@ -220,9 +277,15 @@
       }
 
       .container {
-        max-width: 1200px;
+        max-width: var(--content-width);
         margin: 0 auto;
-        padding: 0 20px;
+        padding: 0 var(--spacing-md);
+      }
+
+      .container-wide {
+        max-width: var(--wide-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-md);
       }
 
       /* Magical Forest Header System with Slides */
@@ -260,40 +323,6 @@
       /* Hide audio player */
       .header-audio-player {
         display: none !important;
-      }
-
-      /* Video Toggle Button */
-      .header-video-toggle-btn {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        z-index: 20;
-        background: rgba(255, 255, 255, 0.9);
-        border: 2px solid var(--br);
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      }
-
-      .header-video-toggle-btn:hover {
-        background: rgba(255, 255, 255, 1);
-        transform: scale(1.1);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-      }
-
-      .header-video-toggle-btn:active {
-        transform: scale(0.95);
-      }
-
-      .video-toggle-icon {
-        font-size: 1.5rem;
       }
 
       /* Header Slides System */
@@ -608,16 +637,16 @@
       }
 
       .magical-welcome h1 {
-        font-size: 5.5rem;
-        font-family: "Fredericka the Great", "Mountains of Christmas", cursive;
-        font-weight: 400;
-        margin-bottom: 20px;
+        font-size: var(--font-size-display);
+        font-family: var(--f);
+        font-weight: 700;
+        margin-bottom: var(--spacing-md);
         animation: magicalGlow 2s ease-in-out infinite alternate;
-        text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4),
-          0 0 25px rgba(139, 69, 19, 0.6), 2px 2px 4px rgba(34, 139, 34, 0.3);
-        letter-spacing: 3px;
+        text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.6),
+          0 0 25px rgba(139, 69, 19, 0.8), 2px 2px 4px rgba(34, 139, 34, 0.4);
+        letter-spacing: clamp(0.125rem, 0.1rem + 0.125vw, 0.25rem);
         transform: perspective(500px) rotateX(15deg);
-        color: #8b4513;
+        color: #ffffff;
         -webkit-text-stroke: 2px solid #654321;
       }
 
@@ -774,10 +803,10 @@
       .form-group textarea,
       .form-group select {
         width: 100%;
-        padding: 10px;
+        padding: var(--spacing-sm);
         border: 2px solid var(--br);
         border-radius: var(--r);
-        font-size: 1rem;
+        font-size: var(--font-size-body);
         background: var(--w);
         color: var(--txt);
         transition: border-color 0.3s ease;
@@ -792,9 +821,9 @@
 
       .modal-buttons {
         display: flex;
-        gap: 10px;
+        gap: var(--spacing-sm);
         justify-content: flex-end;
-        margin-top: 20px;
+        margin-top: var(--spacing-md);
       }
 
       /* Unified Button System - DRY principle */
@@ -803,12 +832,12 @@
         color: var(--s);
         border: 2px solid var(--br);
         border-radius: var(--r);
-        padding: 10px 20px;
+        padding: var(--spacing-sm) var(--spacing-md);
         cursor: pointer;
         transition: all 0.3s ease;
         font-family: var(--f);
         font-weight: bold;
-        font-size: 0.9rem;
+        font-size: var(--font-size-small);
       }
 
       .btn:hover {
@@ -833,8 +862,8 @@
       }
 
       .btn-large {
-        padding: 12px 24px;
-        font-size: 1rem;
+        padding: var(--spacing-md) var(--spacing-lg);
+        font-size: var(--font-size-body);
         width: 100%;
       }
 
@@ -865,7 +894,7 @@
       .nav-menu {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: var(--spacing-sm);
         align-items: flex-end;
       }
 
@@ -1089,15 +1118,16 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 2rem 2rem 4rem 2rem;
+        padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-xl)
+          var(--spacing-lg);
         height: 300px;
         background: linear-gradient(to bottom, #a0522d, #8b4513);
-        color: #fafbfa;
+        color: #ffffff;
       }
 
       .scene-illustration {
-        font-size: 5rem;
-        margin-bottom: 1rem;
+        font-size: clamp(3rem, 2.5rem + 2.5vw, 5rem);
+        margin-bottom: var(--spacing-md);
         animation: sceneFloat 3s ease-in-out infinite;
       }
 
@@ -1111,17 +1141,12 @@
         }
       }
 
-      .card-front__heading {
-        font-size: 2rem;
-        margin-top: 1rem;
-        text-align: center;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-      }
-
       .card-front__text-date {
-        font-size: 1rem;
-        margin-top: 0.5rem;
-        opacity: 0.9;
+        font-size: var(--font-size-small);
+        margin-top: var(--spacing-xs);
+        opacity: 0.95;
+        color: #ffffff;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
       }
 
       .card-front__bt {
@@ -1129,11 +1154,11 @@
         display: flex;
         justify-content: center;
         flex: 1;
-        padding: 1rem;
+        padding: var(--spacing-md);
       }
 
       .card-front__text-view {
-        font-size: 1.3rem;
+        font-size: clamp(1.125rem, 1rem + 0.625vw, 1.5rem);
         font-weight: 700;
         color: var(--p);
         cursor: pointer;
@@ -1145,11 +1170,11 @@
         transform: scale(1.1);
       }
 
-      /* Inside page */
+      /* Inside page - Improved readability with WCAG contrast */
       .inside-page {
         background: #ffffff;
         height: 100%;
-        padding: 2rem;
+        padding: var(--spacing-lg);
         position: absolute;
         top: 0;
         left: 0;
@@ -1165,6 +1190,48 @@
       .story-scene:hover .inside-page {
         pointer-events: auto;
         opacity: 1;
+      }
+
+      /* Ensure readable text in story cards on hover */
+      .inside-page p,
+      .inside-page h1,
+      .inside-page h2,
+      .inside-page h3,
+      .inside-page h4,
+      .inside-page h5,
+      .inside-page h6,
+      .inside-page li,
+      .inside-page span,
+      .inside-page div {
+        color: var(--txt);
+        font-size: var(--font-size-body);
+        line-height: 1.7;
+      }
+
+      .inside-page h1,
+      .inside-page h2,
+      .inside-page h3 {
+        color: var(--p);
+        font-weight: 700;
+        margin-bottom: var(--spacing-md);
+      }
+
+      /* Story card titles - ensure high contrast */
+      .card-front__heading {
+        color: #ffffff;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8), 0 0 12px rgba(0, 0, 0, 0.6);
+        font-size: clamp(1.25rem, 1.2rem + 0.25vw, 2rem);
+        font-weight: 700;
+        margin-top: var(--spacing-md);
+        text-align: center;
+      }
+
+      .inside-page h1 {
+        font-size: clamp(1.5rem, 1.4rem + 0.5vw, 2.25rem);
+      }
+
+      .inside-page h2 {
+        font-size: clamp(1.25rem, 1.2rem + 0.25vw, 1.875rem);
       }
 
       .inside-page__container {
@@ -1616,16 +1683,16 @@
       }
 
       .video-title {
-        font-size: 2.5rem;
+        font-size: clamp(1.75rem, 1.6rem + 0.75vw, 2.5rem);
         color: var(--p);
-        font-family: "Fredericka the Great", "Mountains of Christmas", cursive;
-        font-weight: 400;
-        margin-bottom: 15px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        font-family: var(--f);
+        font-weight: 700;
+        margin-bottom: var(--spacing-md);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 15px;
+        gap: var(--spacing-md);
       }
 
       .magical-icon {
@@ -1965,15 +2032,15 @@
       }
 
       .header-video-title {
-        font-size: 1.8rem;
+        font-size: clamp(1.5rem, 1.4rem + 0.5vw, 1.875rem);
         color: #ffffff;
-        font-family: "Fredericka the Great", "Mountains of Christmas", cursive;
-        font-weight: 400;
-        margin-bottom: 10px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        font-family: var(--f);
+        font-weight: 700;
+        margin-bottom: var(--spacing-sm);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 0, 0, 0.5);
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: var(--spacing-sm);
       }
 
       .header-magical-icon {
@@ -2014,15 +2081,15 @@
       }
 
       .header-image-title {
-        font-size: 1.8rem;
+        font-size: clamp(1.5rem, 1.4rem + 0.5vw, 1.875rem);
         color: #ffffff;
-        font-family: "Fredericka the Great", "Mountains of Christmas", cursive;
-        font-weight: 400;
-        margin-bottom: 10px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        font-family: var(--f);
+        font-weight: 700;
+        margin-bottom: var(--spacing-sm);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 0, 0, 0.5);
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: var(--spacing-sm);
       }
 
       .header-image-description {
@@ -2362,16 +2429,6 @@
         <source src="introfilm.mov" type="video/quicktime" />
         Din webbläsare stöder inte video-elementet.
       </video>
-
-      <!-- Video Pause/Play Button -->
-      <button
-        id="headerVideoToggle"
-        class="header-video-toggle-btn"
-        aria-label="Pausa/Spela video"
-        title="Pausa/Spela video"
-      >
-        <span class="video-toggle-icon">⏸️</span>
-      </button>
 
       <div class="forest-layer forest-layer-1"></div>
       <div class="forest-layer forest-layer-2"></div>
@@ -2733,23 +2790,11 @@
       let themeAudio = new Audio("skogsmulleTheme.wav");
       let adventureAudio = new Audio("telegram_audio.mp3");
 
-      // Header Background Video Toggle with Error Handling
+      // Header Background Video with Error Handling
       document.addEventListener("DOMContentLoaded", function () {
         const headerVideo = document.getElementById("headerBackgroundVideo");
-        const videoToggleBtn = document.getElementById("headerVideoToggle");
-        const videoToggleIcon =
-          videoToggleBtn?.querySelector(".video-toggle-icon");
 
-        if (headerVideo && videoToggleBtn && videoToggleIcon) {
-          // Update icon based on video state
-          function updateIcon() {
-            if (headerVideo.paused) {
-              videoToggleIcon.textContent = "▶️";
-            } else {
-              videoToggleIcon.textContent = "⏸️";
-            }
-          }
-
+        if (headerVideo) {
           // Handle video loading errors
           headerVideo.addEventListener("error", function (e) {
             console.warn("Video loading error, using fallback:", e);
@@ -2763,50 +2808,21 @@
               playPromise
                 .then(() => {
                   console.log("Video autoplay started");
-                  updateIcon();
                 })
                 .catch((error) => {
                   console.warn(
                     "Autoplay prevented, user interaction required:",
                     error
                   );
-                  // Show play button more prominently if autoplay fails
-                  videoToggleBtn.style.opacity = "1";
-                  videoToggleBtn.style.transform = "scale(1.1)";
                 });
             }
           });
 
-          // Toggle play/pause
-          videoToggleBtn.addEventListener("click", function () {
-            if (headerVideo.paused) {
-              const playPromise = headerVideo.play();
-              if (playPromise !== undefined) {
-                playPromise
-                  .then(() => {
-                    updateIcon();
-                  })
-                  .catch((error) => {
-                    console.error("Error playing video:", error);
-                  });
-              }
-            } else {
-              headerVideo.pause();
-              updateIcon();
-            }
-          });
-
-          // Update icon when video state changes
-          headerVideo.addEventListener("play", updateIcon);
-          headerVideo.addEventListener("pause", updateIcon);
+          // Ensure looping works
           headerVideo.addEventListener("ended", function () {
-            // Ensure looping works
             headerVideo.currentTime = 0;
             headerVideo.play();
           });
-
-          // Initial icon update
-          updateIcon();
 
           // Force play attempt after a short delay (for autoplay policies)
           setTimeout(() => {
