@@ -335,9 +335,70 @@
         display: none;
       }
 
-      /* Decorative corner ornaments - Hidden */
-      .corner-ornament {
-        display: none;
+      /* Decorative green leaves around frame - Subtle and minimalistic */
+      .frame-leaves {
+        position: absolute;
+        pointer-events: none;
+        z-index: 3;
+        font-size: clamp(16px, 2vw, 24px);
+        opacity: 0.7;
+        animation: gentleSway 4s ease-in-out infinite;
+      }
+
+      .frame-leaves.top-left {
+        top: -12px;
+        left: clamp(20px, 4vw, 40px);
+        transform: rotate(-15deg);
+        animation-delay: 0s;
+      }
+
+      .frame-leaves.top-right {
+        top: -12px;
+        right: clamp(20px, 4vw, 40px);
+        transform: rotate(15deg);
+        animation-delay: 1s;
+      }
+
+      .frame-leaves.bottom-left {
+        bottom: -12px;
+        left: clamp(20px, 4vw, 40px);
+        transform: rotate(15deg);
+        animation-delay: 2s;
+      }
+
+      .frame-leaves.bottom-right {
+        bottom: -12px;
+        right: clamp(20px, 4vw, 40px);
+        transform: rotate(-15deg);
+        animation-delay: 0.5s;
+      }
+
+      .frame-leaves.mid-left {
+        top: 50%;
+        left: -12px;
+        transform: translateY(-50%) rotate(90deg);
+        animation-delay: 1.5s;
+      }
+
+      .frame-leaves.mid-right {
+        top: 50%;
+        right: -12px;
+        transform: translateY(-50%) rotate(-90deg);
+        animation-delay: 2.5s;
+      }
+
+      .frame-leaves.top-center {
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        animation-delay: 3s;
+      }
+
+      .frame-leaves.bottom-center {
+        bottom: -12px;
+        left: 50%;
+        transform: translateX(-50%) rotate(180deg);
+        animation-delay: 0.8s;
       }
 
       /* Header Background Video */
@@ -1008,7 +1069,8 @@
 
       .btn:hover {
         background: var(--w);
-        transform: translateY(-1px);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
       }
 
       .btn-primary {
@@ -1202,6 +1264,21 @@
       .main-content {
         display: block;
         margin: 40px 0;
+        position: relative;
+      }
+
+      /* Subtle decorative leaf accents for main content */
+      .main-content::before {
+        content: "🌱";
+        position: absolute;
+        top: -20px;
+        left: 2%;
+        font-size: clamp(16px, 2.5vw, 24px);
+        opacity: 0.2;
+        transform: rotate(-30deg);
+        animation: gentleSway 6s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
       }
 
       .blog-section {
@@ -1211,6 +1288,21 @@
         border: none;
         box-shadow: none;
         margin-bottom: 0;
+        position: relative;
+      }
+
+      /* Subtle decorative leaf for blog section */
+      .blog-section::before {
+        content: "🌿";
+        position: absolute;
+        top: -15px;
+        left: 50%;
+        transform: translateX(-50%) rotate(-15deg);
+        font-size: clamp(18px, 2.5vw, 28px);
+        opacity: 0.15;
+        animation: gentleSway 7s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
       }
 
       /* Posts Grid Layout */
@@ -1219,6 +1311,35 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 30px;
         padding: 20px 0;
+        position: relative;
+      }
+
+      /* Subtle decorative elements for content area */
+      #posts-container::before {
+        content: "🍃";
+        position: absolute;
+        top: -30px;
+        left: 5%;
+        font-size: clamp(20px, 3vw, 32px);
+        opacity: 0.15;
+        transform: rotate(-25deg);
+        animation: gentleSway 5s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      #posts-container::after {
+        content: "🌿";
+        position: absolute;
+        top: -30px;
+        right: 5%;
+        font-size: clamp(20px, 3vw, 32px);
+        opacity: 0.15;
+        transform: rotate(25deg);
+        animation: gentleSway 5s ease-in-out infinite;
+        animation-delay: 2.5s;
+        pointer-events: none;
+        z-index: 0;
       }
 
       /* Story Flip Card System */
@@ -1231,10 +1352,31 @@
         border-radius: 20px;
         overflow: visible;
         cursor: pointer;
+        transition: all 0.4s ease;
       }
 
       .story-scene:hover {
         box-shadow: -0.1rem 1.7rem 6.6rem -3.2rem rgba(0, 0, 0, 0.75);
+        transform: translateY(-4px);
+      }
+
+      /* Subtle decorative leaf on story cards */
+      .story-scene::before {
+        content: "🌿";
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        font-size: clamp(18px, 2.5vw, 28px);
+        opacity: 0;
+        transform: rotate(-20deg) scale(0.8);
+        transition: all 0.4s ease;
+        z-index: 15;
+        pointer-events: none;
+      }
+
+      .story-scene:hover::before {
+        opacity: 0.6;
+        transform: rotate(10deg) scale(1);
       }
 
       /* Flip card outer container */
@@ -1275,6 +1417,21 @@
         width: 100%;
         border-radius: 20px;
         overflow: hidden;
+        position: relative;
+      }
+
+      /* Subtle decorative pattern on card */
+      .card-front::after {
+        content: "";
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 60px;
+        height: 60px;
+        background: radial-gradient(circle, rgba(139, 69, 19, 0.05) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1;
       }
 
       .card-front__tp {
@@ -2314,16 +2471,12 @@
         }
 
         .book-frame {
-          border-width: clamp(8px, 1.2vw, 12px);
+          border-width: clamp(12px, 1.8vw, 20px);
         }
 
-        .corner-ornament {
-          width: clamp(20px, 3vw, 40px);
-          height: clamp(20px, 3vw, 40px);
-        }
-
-        .corner-ornament::before {
-          font-size: clamp(15px, 2.5vw, 30px);
+        .frame-leaves {
+          font-size: clamp(14px, 1.8vw, 20px);
+          opacity: 0.6;
         }
 
         .magical-header {
@@ -2648,7 +2801,17 @@
       <!-- Children's Book Frame Container -->
       <div class="header-frame-container">
         <!-- Decorative Book Frame -->
-        <div class="book-frame"></div>
+        <div class="book-frame">
+          <!-- Subtle green leaves around frame -->
+          <span class="frame-leaves top-left">🍃</span>
+          <span class="frame-leaves top-center">🌿</span>
+          <span class="frame-leaves top-right">🍃</span>
+          <span class="frame-leaves mid-left">🌱</span>
+          <span class="frame-leaves mid-right">🌱</span>
+          <span class="frame-leaves bottom-left">🍃</span>
+          <span class="frame-leaves bottom-center">🌿</span>
+          <span class="frame-leaves bottom-right">🍃</span>
+        </div>
 
         <!-- Background Video -->
         <video
