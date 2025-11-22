@@ -304,131 +304,51 @@
         height: 100%;
         max-width: var(--wide-width);
         margin: 0 auto;
-        padding: clamp(20px, 3vw, 40px);
+        padding: clamp(15px, 2.5vw, 30px);
         z-index: 1;
       }
 
-      /* Decorative Book Frame */
+      /* Decorative Book Frame - Cleaner, bigger, less distracting */
       .book-frame {
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        border: clamp(12px, 1.5vw, 20px) solid var(--p);
+        border: clamp(16px, 2vw, 28px) solid var(--p);
         border-radius: clamp(15px, 2vw, 25px);
-        box-shadow: 0 0 0 clamp(3px, 0.5vw, 6px) var(--s),
-          0 0 0 clamp(6px, 0.75vw, 10px) var(--a),
-          inset 0 0 clamp(20px, 3vw, 40px) rgba(139, 69, 19, 0.3),
-          0 clamp(8px, 1vw, 15px) clamp(25px, 3vw, 50px) rgba(0, 0, 0, 0.4);
+        box-shadow: 0 0 0 clamp(4px, 0.6vw, 8px) var(--s),
+          inset 0 0 clamp(15px, 2vw, 30px) rgba(139, 69, 19, 0.2),
+          0 clamp(4px, 0.8vw, 12px) clamp(20px, 2.5vw, 40px) rgba(0, 0, 0, 0.2);
         background: linear-gradient(
           135deg,
-          rgba(139, 69, 19, 0.1),
-          rgba(160, 82, 45, 0.05)
+          rgba(139, 69, 19, 0.08),
+          rgba(160, 82, 45, 0.03)
         );
         pointer-events: none;
         z-index: 2;
       }
 
-      /* Decorative Corner Elements */
+      /* Decorative Corner Elements - Removed */
       .book-frame::before,
       .book-frame::after {
-        content: "";
-        position: absolute;
-        width: clamp(40px, 6vw, 80px);
-        height: clamp(40px, 6vw, 80px);
-        border: clamp(4px, 0.6vw, 8px) solid var(--a);
-        pointer-events: none;
-        z-index: 3;
+        display: none;
       }
 
-      /* Top-left corner decoration */
-      .book-frame::before {
-        top: clamp(-15px, -2vw, -25px);
-        left: clamp(-15px, -2vw, -25px);
-        border-right: none;
-        border-bottom: none;
-        border-radius: clamp(10px, 1.5vw, 20px) 0 0 0;
-        background: radial-gradient(
-          circle at top left,
-          rgba(220, 20, 60, 0.3),
-          transparent
-        );
-      }
-
-      /* Bottom-right corner decoration */
-      .book-frame::after {
-        bottom: clamp(-15px, -2vw, -25px);
-        right: clamp(-15px, -2vw, -25px);
-        border-left: none;
-        border-top: none;
-        border-radius: 0 0 clamp(10px, 1.5vw, 20px) clamp(10px, 1.5vw, 20px);
-        background: radial-gradient(
-          circle at bottom right,
-          rgba(220, 20, 60, 0.3),
-          transparent
-        );
-      }
-
-      /* Decorative corner ornaments */
+      /* Decorative corner ornaments - Hidden */
       .corner-ornament {
-        position: absolute;
-        width: clamp(30px, 4vw, 60px);
-        height: clamp(30px, 4vw, 60px);
-        pointer-events: none;
-        z-index: 4;
-      }
-
-      .corner-ornament::before {
-        content: "🌿";
-        font-size: clamp(20px, 3vw, 40px);
-        filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
-        animation: gentleSway 3s ease-in-out infinite;
-      }
-
-      .corner-ornament.top-left {
-        top: clamp(-25px, -3vw, -35px);
-        left: clamp(-25px, -3vw, -35px);
-      }
-
-      .corner-ornament.top-right {
-        top: clamp(-25px, -3vw, -35px);
-        right: clamp(-25px, -3vw, -35px);
-      }
-
-      .corner-ornament.top-right::before {
-        content: "🍄";
-        transform: scaleX(-1);
-      }
-
-      .corner-ornament.bottom-left {
-        bottom: clamp(-25px, -3vw, -35px);
-        left: clamp(-25px, -3vw, -35px);
-      }
-
-      .corner-ornament.bottom-left::before {
-        content: "🌺";
-      }
-
-      .corner-ornament.bottom-right {
-        bottom: clamp(-25px, -3vw, -35px);
-        right: clamp(-25px, -3vw, -35px);
-      }
-
-      .corner-ornament.bottom-right::before {
-        content: "🦔";
-        transform: scaleX(-1);
+        display: none;
       }
 
       /* Header Background Video */
       .header-background-video {
         position: absolute;
-        top: clamp(20px, 3vw, 40px);
-        left: clamp(20px, 3vw, 40px);
-        right: clamp(20px, 3vw, 40px);
-        bottom: clamp(20px, 3vw, 40px);
-        width: calc(100% - clamp(40px, 6vw, 80px));
-        height: calc(100% - clamp(40px, 6vw, 80px));
+        top: clamp(15px, 2.5vw, 30px);
+        left: clamp(15px, 2.5vw, 30px);
+        right: clamp(15px, 2.5vw, 30px);
+        bottom: clamp(15px, 2.5vw, 30px);
+        width: calc(100% - clamp(30px, 5vw, 60px));
+        height: calc(100% - clamp(30px, 5vw, 60px));
         object-fit: cover;
         z-index: 0;
         pointer-events: none;
@@ -2416,26 +2336,7 @@
         }
 
         .book-frame {
-          border-width: clamp(8px, 1.2vw, 12px);
-        }
-
-        .corner-ornament {
-          width: clamp(20px, 3vw, 40px);
-          height: clamp(20px, 3vw, 40px);
-        }
-
-        .corner-ornament::before {
-          font-size: clamp(15px, 2.5vw, 30px);
-        }
-
-        .corner-ornament.top-left,
-        .corner-ornament.top-right,
-        .corner-ornament.bottom-left,
-        .corner-ornament.bottom-right {
-          top: clamp(-15px, -2vw, -20px);
-          left: clamp(-15px, -2vw, -20px);
-          right: clamp(-15px, -2vw, -20px);
-          bottom: clamp(-15px, -2vw, -20px);
+          border-width: clamp(12px, 1.8vw, 20px);
         }
 
         .header-background-video {
@@ -2747,13 +2648,7 @@
       <!-- Children's Book Frame Container -->
       <div class="header-frame-container">
         <!-- Decorative Book Frame -->
-        <div class="book-frame">
-          <!-- Corner Ornaments -->
-          <div class="corner-ornament top-left"></div>
-          <div class="corner-ornament top-right"></div>
-          <div class="corner-ornament bottom-left"></div>
-          <div class="corner-ornament bottom-right"></div>
-        </div>
+        <div class="book-frame"></div>
 
         <!-- Background Video -->
         <video
