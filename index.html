@@ -335,71 +335,6 @@
         display: none;
       }
 
-      /* Decorative green leaves around frame - Subtle and minimalistic */
-      .frame-leaves {
-        position: absolute;
-        pointer-events: none;
-        z-index: 3;
-        font-size: clamp(16px, 2vw, 24px);
-        opacity: 0.7;
-        animation: gentleSway 4s ease-in-out infinite;
-      }
-
-      .frame-leaves.top-left {
-        top: -12px;
-        left: clamp(20px, 4vw, 40px);
-        transform: rotate(-15deg);
-        animation-delay: 0s;
-      }
-
-      .frame-leaves.top-right {
-        top: -12px;
-        right: clamp(20px, 4vw, 40px);
-        transform: rotate(15deg);
-        animation-delay: 1s;
-      }
-
-      .frame-leaves.bottom-left {
-        bottom: -12px;
-        left: clamp(20px, 4vw, 40px);
-        transform: rotate(15deg);
-        animation-delay: 2s;
-      }
-
-      .frame-leaves.bottom-right {
-        bottom: -12px;
-        right: clamp(20px, 4vw, 40px);
-        transform: rotate(-15deg);
-        animation-delay: 0.5s;
-      }
-
-      .frame-leaves.mid-left {
-        top: 50%;
-        left: -12px;
-        transform: translateY(-50%) rotate(90deg);
-        animation-delay: 1.5s;
-      }
-
-      .frame-leaves.mid-right {
-        top: 50%;
-        right: -12px;
-        transform: translateY(-50%) rotate(-90deg);
-        animation-delay: 2.5s;
-      }
-
-      .frame-leaves.top-center {
-        top: -12px;
-        left: 50%;
-        transform: translateX(-50%);
-        animation-delay: 3s;
-      }
-
-      .frame-leaves.bottom-center {
-        bottom: -12px;
-        left: 50%;
-        transform: translateX(-50%) rotate(180deg);
-        animation-delay: 0.8s;
-      }
 
       /* Header Background Video */
       .header-background-video {
@@ -1428,7 +1363,11 @@
         right: 10px;
         width: 60px;
         height: 60px;
-        background: radial-gradient(circle, rgba(139, 69, 19, 0.05) 0%, transparent 70%);
+        background: radial-gradient(
+          circle,
+          rgba(139, 69, 19, 0.05) 0%,
+          transparent 70%
+        );
         border-radius: 50%;
         pointer-events: none;
         z-index: 1;
@@ -2474,11 +2413,6 @@
           border-width: clamp(12px, 1.8vw, 20px);
         }
 
-        .frame-leaves {
-          font-size: clamp(14px, 1.8vw, 20px);
-          opacity: 0.6;
-        }
-
         .magical-header {
           height: 400px;
           padding: var(--spacing-sm);
@@ -2801,17 +2735,7 @@
       <!-- Children's Book Frame Container -->
       <div class="header-frame-container">
         <!-- Decorative Book Frame -->
-        <div class="book-frame">
-          <!-- Subtle green leaves around frame -->
-          <span class="frame-leaves top-left">🍃</span>
-          <span class="frame-leaves top-center">🌿</span>
-          <span class="frame-leaves top-right">🍃</span>
-          <span class="frame-leaves mid-left">🌱</span>
-          <span class="frame-leaves mid-right">🌱</span>
-          <span class="frame-leaves bottom-left">🍃</span>
-          <span class="frame-leaves bottom-center">🌿</span>
-          <span class="frame-leaves bottom-right">🍃</span>
-        </div>
+        <div class="book-frame"></div>
 
         <!-- Background Video -->
         <video
