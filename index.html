@@ -145,2534 +145,890 @@
     </script>
 
     <style>
+      /* ===== DESIGN SYSTEM: Luminous Forest ===== */
       :root {
-        /* Colors - WCAG 2.1 AA compliant */
-        --p: #8b4513; /* Primary color (warm brown) - 4.5:1 contrast */
-        --s: #a0522d; /* Secondary color (saddle brown) - 4.5:1 contrast */
-        --a: #dc143c; /* Accent color (red) - 4.5:1 contrast */
-        --bg: rgba(255, 248, 220, 0.95); /* Warm cream background */
-        --txt: #2f4f2f; /* Dark green text - 7.5:1 contrast on cream */
-        --w: rgba(255, 255, 255, 0.95); /* Near-white for elements */
-        --lg: rgba(255, 248, 220, 0.8); /* Light cream background for cards */
-        --br: rgba(139, 69, 19, 0.6); /* Border color, warm brown */
-        --r: 8px;
+        /* Colors — luminous, harmonious, WCAG AA compliant */
+        --p: #1a6b5a;       /* Primary: deep teal-green */
+        --p-light: #238c76;  /* Primary hover */
+        --s: #c4922a;       /* Secondary: warm gold */
+        --s-light: #d4a43c;  /* Secondary hover */
+        --a: #c9506b;       /* Accent: soft berry */
+        --a-light: #d6687f;  /* Accent hover */
+        --bg: #faf8f4;      /* Background: warm white */
+        --surface: #ffffff;  /* Surface: pure white */
+        --txt: #2a2a2a;     /* Text: rich dark */
+        --txt-muted: #6b7280; /* Text muted */
+        --w: #ffffff;
+        --br: #e5e2dc;      /* Border: warm neutral */
+        --br-strong: #d1cdc5; /* Border strong */
+        --r: 12px;
+        --r-lg: 20px;
 
-        /* System sans-serif fonts */
-        --f: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          "Helvetica Neue", Arial, sans-serif;
-        --fu: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          "Helvetica Neue", Arial, sans-serif;
+        /* Typography */
+        --f: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        --fh: Georgia, 'Times New Roman', 'Palatino Linotype', serif;
 
-        /* Layout widths */
+        /* Layout */
         --content-width: 900px;
         --wide-width: 1200px;
 
-        /* Responsive typography using clamp() */
-        --font-size-small: clamp(
-          0.75rem,
-          0.7rem + 0.25vw,
-          0.875rem
-        ); /* 12-14px */
-        --font-size-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem); /* 16-18px */
-        --font-size-heading: clamp(1.5rem, 1.4rem + 0.5vw, 2rem); /* 24-32px */
-        --font-size-display: clamp(2.5rem, 2rem + 2.5vw, 5rem); /* 40-80px */
+        /* Responsive typography */
+        --font-size-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.8125rem);
+        --font-size-sm: clamp(0.8125rem, 0.78rem + 0.2vw, 0.875rem);
+        --font-size-body: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+        --font-size-lg: clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem);
+        --font-size-h4: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+        --font-size-h3: clamp(1.5rem, 1.35rem + 0.7vw, 1.875rem);
+        --font-size-h2: clamp(1.75rem, 1.55rem + 1vw, 2.25rem);
+        --font-size-h1: clamp(2rem, 1.7rem + 1.5vw, 3rem);
+        --font-size-display: clamp(2.5rem, 2rem + 2.5vw, 4.5rem);
 
-        /* Responsive spacing using clamp() */
-        --spacing-xs: clamp(0.25rem, 0.2rem + 0.25vw, 0.5rem); /* 4-8px */
-        --spacing-sm: clamp(0.5rem, 0.4rem + 0.5vw, 1rem); /* 8-16px */
-        --spacing-md: clamp(1rem, 0.8rem + 1vw, 1.5rem); /* 16-24px */
-        --spacing-lg: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem); /* 24-40px */
-        --spacing-xl: clamp(2rem, 1.6rem + 2vw, 3.5rem); /* 32-56px */
+        /* Spacing */
+        --sp-xs: clamp(0.25rem, 0.2rem + 0.25vw, 0.5rem);
+        --sp-sm: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
+        --sp-md: clamp(0.75rem, 0.6rem + 0.75vw, 1.25rem);
+        --sp-lg: clamp(1.25rem, 1rem + 1.25vw, 2rem);
+        --sp-xl: clamp(2rem, 1.6rem + 2vw, 3rem);
+        --sp-2xl: clamp(3rem, 2.4rem + 3vw, 5rem);
+
+        /* Shadows */
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+        --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+        --shadow-lg: 0 12px 32px rgba(0,0,0,0.1);
+        --shadow-xl: 0 20px 50px rgba(0,0,0,0.15);
+        --shadow-card: 0 2px 8px rgba(26,107,90,0.06), 0 1px 3px rgba(0,0,0,0.04);
+        --shadow-card-hover: 0 8px 24px rgba(26,107,90,0.12), 0 4px 8px rgba(0,0,0,0.06);
+
+        /* Transitions */
+        --ease: cubic-bezier(0.4, 0, 0.2, 1);
+        --duration: 0.2s;
       }
 
-      *,
-      *::before,
-      *::after {
+      /* ===== Reset ===== */
+      *, *::before, *::after {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: var(--fu);
       }
 
+      /* ===== Base ===== */
       body {
         background: var(--bg);
         color: var(--txt);
-        line-height: 1.7;
+        line-height: 1.75;
         font-family: var(--f);
         font-size: var(--font-size-body);
         min-height: 100vh;
         font-weight: 400;
-        position: relative;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
 
-      /* Typography scale */
-      small,
-      .text-small {
-        font-size: var(--font-size-small);
-      }
-
-      p,
-      body {
-        font-size: var(--font-size-body);
-      }
-
-      h1,
-      .display-text {
-        font-size: var(--font-size-display);
-        font-weight: 700;
-        line-height: 1.2;
-      }
-
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        font-size: var(--font-size-heading);
-        font-weight: 600;
-        line-height: 1.3;
+      /* ===== Typography ===== */
+      h1, h2, h3, h4, h5, h6 {
+        font-family: var(--fh);
         color: var(--p);
+        font-weight: 700;
+        line-height: 1.3;
       }
+      h1 { font-size: var(--font-size-h1); }
+      h2 { font-size: var(--font-size-h2); }
+      h3 { font-size: var(--font-size-h3); }
+      h4 { font-size: var(--font-size-h4); }
 
-      h2 {
-        font-size: clamp(1.75rem, 1.6rem + 0.75vw, 2.5rem); /* 28-40px */
+      p { margin-bottom: 1em; }
+      p:last-child { margin-bottom: 0; }
+
+      a {
+        color: var(--p);
+        text-decoration-color: var(--s);
+        text-underline-offset: 2px;
+        transition: color var(--duration) var(--ease);
       }
+      a:hover { color: var(--p-light); }
 
-      h3 {
-        font-size: clamp(1.5rem, 1.4rem + 0.5vw, 2rem); /* 24-32px */
-      }
-
-      h4 {
-        font-size: clamp(1.25rem, 1.2rem + 0.25vw, 1.5rem); /* 20-24px */
-      }
-
-      body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url("igelkotten.png") repeat;
-        background-size: cover;
-        background-position: center;
-        filter: blur(2px);
-        z-index: -1;
-        opacity: 0.3;
-      }
-
-
+      /* ===== Layout ===== */
       .container {
         max-width: var(--content-width);
         margin: 0 auto;
-        padding: 0 var(--spacing-md);
+        padding: 0 var(--sp-lg);
       }
-
       .container-wide {
         max-width: var(--wide-width);
         margin: 0 auto;
-        padding: 0 var(--spacing-md);
+        padding: 0 var(--sp-lg);
       }
 
-      /* Magical Forest Header System with Slides */
+      /* ===== Sticky Top Navigation ===== */
+      .site-nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(255,255,255,0.92);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--br);
+        padding: var(--sp-sm) var(--sp-lg);
+      }
+      .site-nav-inner {
+        max-width: var(--wide-width);
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--sp-md);
+      }
+      .site-nav-brand {
+        font-family: var(--fh);
+        font-size: var(--font-size-lg);
+        font-weight: 700;
+        color: var(--p);
+        text-decoration: none;
+        letter-spacing: 0.01em;
+      }
+      .site-nav-links {
+        display: flex;
+        align-items: center;
+        gap: var(--sp-sm);
+        list-style: none;
+      }
+      .site-nav-link {
+        font-size: var(--font-size-sm);
+        font-weight: 500;
+        color: var(--txt-muted);
+        text-decoration: none;
+        padding: 6px 14px;
+        border-radius: 8px;
+        transition: all var(--duration) var(--ease);
+      }
+      .site-nav-link:hover,
+      .site-nav-link.active {
+        color: var(--p);
+        background: rgba(26,107,90,0.06);
+      }
+      .site-nav-login {
+        font-size: var(--font-size-sm);
+        font-weight: 600;
+        color: var(--p);
+        background: transparent;
+        border: 1.5px solid var(--p);
+        border-radius: 8px;
+        padding: 6px 16px;
+        cursor: pointer;
+        font-family: var(--f);
+        transition: all var(--duration) var(--ease);
+      }
+      .site-nav-login:hover {
+        background: var(--p);
+        color: var(--w);
+      }
+      .site-nav-login.logged-in {
+        background: var(--p);
+        color: var(--w);
+        border-color: var(--p);
+      }
+      .site-nav-login.logged-in:hover {
+        background: var(--p-light);
+      }
+
+
+      /* ===== Hero Header ===== */
       .magical-header {
         position: relative;
-        height: 500px;
-        overflow: visible;
-        background: transparent;
-        padding: var(--spacing-lg);
+        height: clamp(300px, 45vw, 480px);
+        overflow: hidden;
+        background: var(--p);
       }
-
-      /* Children's Book Frame Container */
       .header-frame-container {
         position: relative;
         width: 100%;
         height: 100%;
-        max-width: var(--wide-width);
-        margin: 0 auto;
-        padding: clamp(15px, 2.5vw, 30px);
+        max-width: none;
+        margin: 0;
+        padding: 0;
         z-index: 1;
       }
-
-      /* Decorative Book Frame - Cleaner, bigger, less distracting */
-      .book-frame {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border: clamp(16px, 2vw, 28px) solid var(--p);
-        border-radius: clamp(15px, 2vw, 25px);
-        box-shadow: 0 0 0 clamp(4px, 0.6vw, 8px) var(--s),
-          inset 0 0 clamp(15px, 2vw, 30px) rgba(139, 69, 19, 0.2),
-          0 clamp(4px, 0.8vw, 12px) clamp(20px, 2.5vw, 40px) rgba(0, 0, 0, 0.2);
-        background: linear-gradient(
-          135deg,
-          rgba(139, 69, 19, 0.08),
-          rgba(160, 82, 45, 0.03)
-        );
-        pointer-events: none;
-        z-index: 2;
-      }
-
-      /* Decorative Corner Elements - Removed */
-      .book-frame::before,
-      .book-frame::after {
-        display: none;
-      }
-
-      /* Header Background Video */
       .header-background-video {
         position: absolute;
-        top: clamp(15px, 2.5vw, 30px);
-        left: clamp(15px, 2.5vw, 30px);
-        right: clamp(15px, 2.5vw, 30px);
-        bottom: clamp(15px, 2.5vw, 30px);
-        width: calc(100% - clamp(30px, 5vw, 60px));
-        height: calc(100% - clamp(30px, 5vw, 60px));
+        top: 0; left: 0;
+        width: 100%; height: 100%;
         object-fit: cover;
         z-index: 0;
         pointer-events: none;
-        background: #2f4f2f; /* Fallback background color */
-        opacity: 1; /* Full visibility, no transparency */
-        border-radius: clamp(8px, 1vw, 12px);
-      }
-
-      /* Hide all overlays on top of video */
-      .forest-layer,
-      .floating-particles,
-      .header-slides-container,
-      .skogsmulle-character,
-      .speech-bubble,
-      .slide-navigation {
-        display: none !important;
-      }
-
-      /* Hide audio player */
-      .header-audio-player {
-        display: none !important;
-      }
-
-      /* Header Slides System */
-      .header-slides-container {
-        position: relative;
-        width: 100%;
-        height: 100%;
-      }
-
-      .header-slide {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        transform: translateX(100%);
-        transition: all 0.6s ease-in-out;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 5;
-        pointer-events: none;
-      }
-
-      .header-slide.active {
-        opacity: 1;
-        transform: translateX(0);
-        pointer-events: auto;
-        z-index: 6;
-      }
-
-      .header-slide.prev {
-        transform: translateX(-100%);
-        z-index: 4;
-      }
-
-      /* Slide Navigation */
-      .slide-navigation {
-        position: absolute;
-        bottom: 80px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 10px;
-        z-index: 30;
-      }
-
-      .slide-nav-btn {
-        background: rgba(255, 255, 255, 0.2);
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-        color: white;
-        font-size: 1.2rem;
-      }
-
-      .slide-nav-btn:hover {
-        background: rgba(255, 255, 255, 0.3);
-        transform: scale(1.1);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-      }
-
-      .slide-nav-btn.active {
         background: var(--p);
-        border-color: var(--w);
-        box-shadow: 0 4px 15px rgba(139, 69, 19, 0.5);
+        border-radius: 0;
       }
-
-      .slide-icon {
-        font-size: 1.5rem;
-      }
-
-      .forest-layer {
+      .header-overlay {
         position: absolute;
-        width: 120%;
-        height: 120%;
-        background-size: cover;
-        background-position: center;
-        animation: gentleSway 12s ease-in-out infinite;
-      }
-
-      .forest-layer-1 {
-        background-image: url("igelkotten.png");
-        opacity: 0.2; /* Reduced opacity to allow video to show through */
-        z-index: 1;
-        animation-delay: 0s;
-      }
-
-      .forest-layer-2 {
-        background: radial-gradient(
-            circle at 20% 80%,
-            rgba(34, 139, 34, 0.3) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 80% 20%,
-            rgba(107, 142, 35, 0.2) 0%,
-            transparent 50%
-          );
-        z-index: 2;
-        animation-delay: -4s;
-      }
-
-      .forest-layer-3 {
-        background: radial-gradient(
-          circle at 60% 40%,
-          rgba(255, 255, 255, 0.1) 0%,
-          transparent 30%
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(26,107,90,0.25) 0%,
+          rgba(26,107,90,0.55) 100%
         );
-        z-index: 3;
-        animation-delay: -8s;
+        z-index: 1;
       }
-
-      @keyframes gentleSway {
-        0%,
-        100% {
-          transform: translateX(0px) translateY(0px);
-        }
-        25% {
-          transform: translateX(1px) translateY(-1px);
-        }
-        50% {
-          transform: translateX(-1px) translateY(1px);
-        }
-        75% {
-          transform: translateX(1px) translateY(0px);
-        }
-      }
-
-      /* Floating Particles */
-      .floating-particles {
+      .header-content {
         position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: 4;
-        pointer-events: none;
-      }
-
-      .particle {
-        position: absolute;
-        width: 4px;
-        height: 4px;
-        background: rgba(255, 255, 255, 0.6);
-        border-radius: 50%;
-        animation: float 8s linear infinite;
-      }
-
-      .particle:nth-child(1) {
-        left: 10%;
-        animation-delay: 0s;
-      }
-      .particle:nth-child(2) {
-        left: 20%;
-        animation-delay: -2s;
-      }
-      .particle:nth-child(3) {
-        left: 30%;
-        animation-delay: -4s;
-      }
-      .particle:nth-child(4) {
-        left: 40%;
-        animation-delay: -6s;
-      }
-      .particle:nth-child(5) {
-        left: 50%;
-        animation-delay: -1s;
-      }
-      .particle:nth-child(6) {
-        left: 60%;
-        animation-delay: -3s;
-      }
-      .particle:nth-child(7) {
-        left: 70%;
-        animation-delay: -5s;
-      }
-      .particle:nth-child(8) {
-        left: 80%;
-        animation-delay: -7s;
-      }
-      .particle:nth-child(9) {
-        left: 90%;
-        animation-delay: -2.5s;
-      }
-
-      @keyframes float {
-        0% {
-          transform: translateY(100vh) rotate(0deg);
-          opacity: 0;
-        }
-        10% {
-          opacity: 1;
-        }
-        90% {
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(-100px) rotate(360deg);
-          opacity: 0;
-        }
-      }
-
-      /* Interactive Skogsmulle Character */
-      .skogsmulle-character {
-        position: absolute;
-        bottom: 20px;
-        right: 30px;
-        width: 120px;
-        height: 120px;
-        background: url("mulle.png") center/contain no-repeat;
-        cursor: pointer;
-        z-index: 10;
-        transition: transform 0.3s ease;
-        animation: gentleBounce 3s ease-in-out infinite;
-      }
-
-      .skogsmulle-character:hover {
-        transform: scale(1.1) rotate(5deg);
-        animation-play-state: paused;
-      }
-
-      .skogsmulle-character:active {
-        transform: scale(0.95) rotate(-5deg);
-      }
-
-      @keyframes gentleBounce {
-        0%,
-        100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-
-      /* Magical Speech Bubble */
-      .speech-bubble {
-        position: absolute;
-        bottom: 150px;
-        right: 20px;
-        background: rgba(255, 255, 255, 0.95);
-        padding: 15px 20px;
-        border-radius: 20px;
-        border: 2px solid var(--p);
-        font-family: var(--f);
-        font-size: 1rem;
-        color: var(--txt);
-        max-width: 200px;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.3s ease;
-        z-index: 11;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .speech-bubble.show {
-        opacity: 1;
-        transform: translateY(0px);
-      }
-
-      .speech-bubble::after {
-        content: "";
-        position: absolute;
-        bottom: -10px;
-        right: 30px;
-        width: 0;
-        height: 0;
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-top: 10px solid var(--p);
-      }
-
-      /* Header Audio Player */
-      .header-audio-player {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        z-index: 15;
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 15px;
-        padding: 10px;
-        border: 2px solid var(--br);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        backdrop-filter: blur(10px);
-      }
-
-      .header-audio-player audio {
-        width: 200px;
-        height: 40px;
-      }
-
-      /* Magical Welcome Text */
-      .magical-welcome {
-        position: relative;
+        inset: 0;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         text-align: center;
-        z-index: 10;
-        color: #ffffff;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        padding: var(--sp-lg);
       }
-
-      .magical-welcome h1 {
+      .header-content h1 {
+        font-family: var(--fh);
         font-size: var(--font-size-display);
-        font-family: var(--f);
-        font-weight: 700;
-        margin-bottom: var(--spacing-md);
-        animation: magicalGlow 2s ease-in-out infinite alternate;
-        text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.6),
-          0 0 25px rgba(139, 69, 19, 0.8), 2px 2px 4px rgba(34, 139, 34, 0.4);
-        letter-spacing: clamp(0.125rem, 0.1rem + 0.125vw, 0.25rem);
-        transform: perspective(500px) rotateX(15deg);
         color: #ffffff;
-        -webkit-text-stroke: 2px solid #654321;
-      }
-
-      .magical-welcome p {
-        font-size: 2.5rem;
-        font-family: "Amatic SC", "Butterfly Kids", cursive;
         font-weight: 700;
-        margin-bottom: 30px;
-        opacity: 0.95;
-        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3),
-          0 0 15px rgba(139, 69, 19, 0.5);
-        letter-spacing: 2px;
-        color: #654321;
-        -webkit-text-stroke: 1px solid #8b4513;
+        letter-spacing: 0.02em;
+        margin-bottom: var(--sp-sm);
+        text-shadow: 0 2px 12px rgba(0,0,0,0.25);
       }
-
-      @keyframes magicalGlow {
-        from {
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5),
-            0 0 20px rgba(255, 255, 255, 0.3);
-        }
-        to {
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5),
-            0 0 30px rgba(255, 255, 255, 0.6);
-        }
-      }
-
-      .welcome-section {
-        margin-bottom: 30px;
-      }
-
-      .magical-title {
-        font-size: 2.2rem;
-        color: var(--p);
-        margin-bottom: 15px;
-        font-family: var(--f);
-        font-weight: 600;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-      }
-
-      .welcome-text {
-        font-size: 1.1rem;
-        color: var(--txt);
-        margin-bottom: 20px;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .discrete-login {
-        position: fixed;
-        top: 20px;
-        right: 70px;
-        background: var(--lg);
-        color: var(--s);
-        border: 2px solid var(--br);
-        border-radius: var(--r);
-        padding: 8px 16px;
-        font-size: 0.9rem;
-        cursor: pointer;
-        z-index: 1000;
-        font-family: var(--f);
-      }
-
-      /* Hamburger Menu Button */
-      .hamburger-menu {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: var(--p);
-        color: var(--w);
-        border: 2px solid var(--br);
-        border-radius: 50%;
-        width: 45px;
-        height: 45px;
-        cursor: pointer;
-        z-index: 1001;
-        font-family: var(--f);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-      }
-
-      .hamburger-menu:hover {
-        background: var(--s);
-        transform: scale(1.1);
-        box-shadow: 0 4px 16px rgba(139, 69, 19, 0.3);
-      }
-
-      .hamburger-menu.active {
-        background: var(--a);
-        transform: rotate(90deg);
-      }
-
-      .login-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.6);
-        display: none;
-        justify-content: center;
-        align-items: center;
-        z-index: 2500;
-        animation: fadeIn 0.3s ease;
-      }
-
-      .modal-content {
-        background: var(--w);
-        padding: 30px;
-        border-radius: var(--r);
-        border: 3px solid var(--br);
-        max-width: 400px;
-        width: 90%;
-      }
-
-      .modal-content h2 {
-        margin-bottom: 20px;
-        color: var(--p);
-        font-family: var(--f);
-      }
-
-      /* Story Modal - Large Display */
-      .story-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.8);
-        display: none;
-        justify-content: center;
-        align-items: center;
-        z-index: 3000;
-        animation: fadeIn 0.3s ease;
-        padding: var(--spacing-lg);
-        overflow-y: auto;
-      }
-
-      .story-modal.show {
-        display: flex;
-      }
-
-      .story-modal-content {
-        background: var(--w);
-        padding: var(--spacing-xl);
-        border-radius: clamp(15px, 2vw, 25px);
-        border: clamp(3px, 0.5vw, 6px) solid var(--br);
-        max-width: 900px;
-        width: 100%;
-        max-height: 90vh;
-        overflow-y: auto;
-        position: relative;
-        box-shadow: 0 clamp(10px, 2vw, 25px) clamp(40px, 5vw, 80px)
-          rgba(0, 0, 0, 0.5);
-      }
-
-      .story-modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: var(--spacing-lg);
-        padding-bottom: var(--spacing-md);
-        border-bottom: 3px solid var(--br);
-      }
-
-      .story-modal-title {
-        font-size: clamp(1.75rem, 1.6rem + 0.75vw, 2.75rem);
-        color: var(--p);
-        font-family: var(--f);
-        font-weight: 700;
-        line-height: 1.3;
-        flex: 1;
-        margin-right: var(--spacing-md);
-      }
-
-      .story-modal-close {
-        background: var(--a);
-        color: var(--w);
-        border: none;
-        border-radius: 50%;
-        width: clamp(35px, 4vw, 45px);
-        height: clamp(35px, 4vw, 45px);
-        font-size: clamp(1.2rem, 1rem + 1vw, 1.5rem);
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-        flex-shrink: 0;
-        font-weight: bold;
-        line-height: 1;
-      }
-
-      .story-modal-close:hover {
-        background: var(--p);
-        transform: scale(1.1);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      }
-
-      .story-modal-meta {
-        display: flex;
-        gap: var(--spacing-md);
-        flex-wrap: wrap;
-        margin-bottom: var(--spacing-lg);
-        font-size: var(--font-size-small);
-        color: var(--s);
-      }
-
-      .story-modal-body {
-        font-size: clamp(1.1rem, 1rem + 0.5vw, 1.3rem);
-        line-height: 1.8;
-        color: var(--txt);
-        font-family: var(--f);
-      }
-
-      .story-modal-body p {
-        margin-bottom: var(--spacing-md);
-      }
-
-      .story-modal-body h1,
-      .story-modal-body h2,
-      .story-modal-body h3 {
-        color: var(--p);
-        margin-top: var(--spacing-lg);
-        margin-bottom: var(--spacing-md);
-        font-weight: 700;
-      }
-
-      .story-modal-body h1 {
-        font-size: clamp(1.75rem, 1.6rem + 0.75vw, 2.5rem);
-      }
-
-      .story-modal-body h2 {
-        font-size: clamp(1.5rem, 1.4rem + 0.5vw, 2rem);
-      }
-
-      .story-modal-body h3 {
-        font-size: clamp(1.25rem, 1.2rem + 0.25vw, 1.75rem);
-      }
-
-      .form-group {
-        margin-bottom: 15px;
-      }
-
-      .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        color: var(--s);
-        font-weight: bold;
-      }
-
-      .form-group input {
-        width: 100%;
-        padding: 10px;
-        border: 2px solid var(--br);
-        border-radius: var(--r);
-        font-size: 1rem;
-        background: var(--w);
-        color: var(--txt);
-        transition: border-color 0.3s ease;
-      }
-
-      .form-group input:focus {
-        outline: none;
-        border-color: var(--p);
-      }
-
-      .form-group textarea,
-      .form-group select {
-        width: 100%;
-        padding: var(--spacing-sm);
-        border: 2px solid var(--br);
-        border-radius: var(--r);
-        font-size: var(--font-size-body);
-        background: var(--w);
-        color: var(--txt);
-        transition: border-color 0.3s ease;
-        font-family: var(--f);
-      }
-
-      .form-group textarea:focus,
-      .form-group select:focus {
-        outline: none;
-        border-color: var(--p);
-      }
-
-      .modal-buttons {
-        display: flex;
-        gap: var(--spacing-sm);
-        justify-content: flex-end;
-        margin-top: var(--spacing-md);
-      }
-
-      /* Unified Button System - DRY principle */
-      .btn {
-        background: var(--lg);
-        color: var(--s);
-        border: 2px solid var(--br);
-        border-radius: var(--r);
-        padding: var(--spacing-sm) var(--spacing-md);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-family: var(--f);
-        font-weight: bold;
-        font-size: var(--font-size-small);
-      }
-
-      .btn:hover {
-        background: var(--w);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
-      }
-
-      .btn-primary {
-        background: var(--p);
-        color: var(--w);
-      }
-
-      .btn-primary:hover {
-        background: var(--s);
-        box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
-      }
-
-      .btn-secondary {
-        /* Inherits from .btn - no additional styles needed */
-        background: var(--lg);
-        color: var(--s);
-      }
-
-      .btn-large {
-        padding: var(--spacing-md) var(--spacing-lg);
-        font-size: var(--font-size-body);
-        width: 100%;
-      }
-
-      /* Fixed Corner Navigation Menu */
-      .main-navigation {
-        position: fixed;
-        top: 80px;
-        right: -200px;
-        z-index: 1000;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        opacity: 0;
-        visibility: hidden;
-        transition: right 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
-      }
-
-      .main-navigation.show {
-        right: 20px;
-        opacity: 1;
-        visibility: visible;
-      }
-
-      .nav-container {
-        display: contents;
-      }
-
-      .nav-menu {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-sm);
-        align-items: flex-end;
-      }
-
-      .nav-item {
-        position: static;
-      }
-
-      .nav-button {
-        background: rgba(255, 248, 220, 0.95);
-        color: var(--p);
-        border: 2px solid var(--br);
-        border-radius: 50px;
-        padding: 10px 18px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        font-family: var(--f);
-        font-weight: 600;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        white-space: nowrap;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(10px);
-      }
-
-      .nav-button:hover {
-        background: var(--p);
-        color: var(--w);
-        transform: translateX(-5px) scale(1.05);
-        box-shadow: 0 4px 16px rgba(139, 69, 19, 0.3);
-      }
-
-      .nav-button.active {
-        background: var(--p);
-        color: var(--w);
-        transform: translateX(-5px);
-      }
-
-      .nav-icon {
-        font-size: 1.2rem;
-        line-height: 1;
-      }
-
-      .nav-dropdown {
-        position: fixed !important;
-        top: 50% !important;
-        left: 50% !important;
-        right: auto !important;
-        transform: translate(-50%, -50%) !important;
-        background: var(--w);
-        border: 3px solid var(--br);
-        border-radius: 15px;
-        padding: 25px;
-        min-width: 320px;
+      .header-content p {
+        font-size: var(--font-size-lg);
+        color: rgba(255,255,255,0.9);
+        font-weight: 400;
         max-width: 500px;
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
-        display: none;
-        z-index: 2000;
-        max-height: 80vh;
-        overflow-y: auto;
+        text-shadow: 0 1px 6px rgba(0,0,0,0.2);
       }
 
-      .nav-dropdown.show {
-        display: block !important;
-        animation: modalFadeIn 0.3s ease forwards;
-      }
 
-      @keyframes modalFadeIn {
-        from {
-          opacity: 0;
-          transform: translate(-50%, -50%) scale(0.9);
-        }
-        to {
-          opacity: 1;
-          transform: translate(-50%, -50%) scale(1);
-        }
-      }
-
-      /* Backdrop for dropdowns - removed */
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      .nav-dropdown h3 {
-        color: var(--p);
-        margin-bottom: 15px;
-        font-size: 1.2rem;
-        border-bottom: 2px solid var(--br);
-        padding-bottom: 10px;
-      }
-
-      .nav-dropdown .filter-controls,
-      .nav-dropdown .author-content {
-        margin-top: 10px;
-      }
-
-      .recent-story-item {
-        margin-bottom: 10px;
-        padding: 10px;
-        background: var(--lg);
-        border-radius: 6px;
-        border: 1px solid var(--br);
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .recent-story-item:hover {
-        background: var(--w);
-        transform: translateX(5px);
-        box-shadow: 0 2px 8px rgba(139, 69, 19, 0.2);
-      }
-
-      .recent-story-item strong {
-        color: var(--p);
-        font-size: 0.95rem;
-        display: block;
-        margin-bottom: 5px;
-      }
-
-      .recent-story-item small {
-        color: var(--a);
-        font-size: 0.85rem;
-      }
-
+      /* ===== Main Content ===== */
       .content {
-        display: block;
-        max-width: 1400px;
+        max-width: var(--wide-width);
         margin: 0 auto;
-        padding: 0 20px;
+        padding: 0 var(--sp-lg);
       }
-
       .main-content {
-        display: block;
-        margin: 40px 0;
-        position: relative;
-      }
-
-      /* Subtle decorative leaf accents for main content */
-      .main-content::before {
-        content: "🌱";
-        position: absolute;
-        top: -20px;
-        left: 2%;
-        font-size: clamp(16px, 2.5vw, 24px);
-        opacity: 0.2;
-        transform: rotate(-30deg);
-        animation: gentleSway 6s ease-in-out infinite;
-        pointer-events: none;
-        z-index: 0;
+        padding: var(--sp-xl) 0 var(--sp-2xl);
       }
 
       .blog-section {
         background: transparent;
-        border-radius: 0;
-        padding: 0;
         border: none;
         box-shadow: none;
-        margin-bottom: 0;
-        position: relative;
+        padding: 0;
+        margin: 0;
       }
 
-      /* Subtle decorative leaf for blog section */
-      .blog-section::before {
-        content: "🌿";
-        position: absolute;
-        top: -15px;
-        left: 50%;
-        transform: translateX(-50%) rotate(-15deg);
-        font-size: clamp(18px, 2.5vw, 28px);
-        opacity: 0.15;
-        animation: gentleSway 7s ease-in-out infinite;
-        pointer-events: none;
-        z-index: 0;
+      .section-header {
+        margin-bottom: var(--sp-lg);
+      }
+      .section-header h2 {
+        font-family: var(--fh);
+        font-size: var(--font-size-h2);
+        color: var(--p);
+        font-weight: 700;
       }
 
-      /* Posts Grid Layout */
+      /* ===== Story Cards Grid ===== */
       #posts-container {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 30px;
-        padding: 20px 0;
-        position: relative;
+        gap: var(--sp-lg);
+        padding: 0;
       }
 
-      /* Subtle decorative elements for content area */
-      #posts-container::before {
-        content: "🍃";
-        position: absolute;
-        top: -30px;
-        left: 5%;
-        font-size: clamp(20px, 3vw, 32px);
-        opacity: 0.15;
-        transform: rotate(-25deg);
-        animation: gentleSway 5s ease-in-out infinite;
-        pointer-events: none;
-        z-index: 0;
-      }
-
-      #posts-container::after {
-        content: "🌿";
-        position: absolute;
-        top: -30px;
-        right: 5%;
-        font-size: clamp(20px, 3vw, 32px);
-        opacity: 0.15;
-        transform: rotate(25deg);
-        animation: gentleSway 5s ease-in-out infinite;
-        animation-delay: 2.5s;
-        pointer-events: none;
-        z-index: 0;
-      }
-
-      /* Story Flip Card System */
-      .story-scene {
-        background-color: rgba(0, 0, 0, 0.05);
-        box-shadow: -0.1rem 1.7rem 6.6rem -3.2rem rgba(0, 0, 0, 0.5);
-        height: 450px;
-        position: relative;
-        width: 100%;
-        border-radius: 20px;
-        overflow: visible;
+      /* Story cards — clean design, no flip */
+      .story-card {
+        background: var(--surface);
+        border-radius: var(--r-lg);
+        border: 1px solid var(--br);
+        overflow: hidden;
         cursor: pointer;
-        transition: all 0.4s ease;
+        transition: transform var(--duration) var(--ease),
+                    box-shadow var(--duration) var(--ease);
+        box-shadow: var(--shadow-card);
+        display: flex;
+        flex-direction: column;
       }
-
-      .story-scene:hover {
-        box-shadow: -0.1rem 1.7rem 6.6rem -3.2rem rgba(0, 0, 0, 0.75);
+      .story-card:hover {
         transform: translateY(-4px);
+        box-shadow: var(--shadow-card-hover);
       }
-
-      /* Subtle decorative leaf on story cards */
-      .story-scene::before {
-        content: "🌿";
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        font-size: clamp(18px, 2.5vw, 28px);
-        opacity: 0;
-        transform: rotate(-20deg) scale(0.8);
-        transition: all 0.4s ease;
-        z-index: 15;
-        pointer-events: none;
+      .story-card-accent {
+        height: 6px;
+        background: linear-gradient(90deg, var(--p), var(--s));
       }
-
-      .story-scene:hover::before {
-        opacity: 0.6;
-        transform: rotate(10deg) scale(1);
-      }
-
-      /* Flip card outer container */
-      .flip-card {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 10;
-        transition: opacity 0.6s ease;
-        border-radius: 20px;
-      }
-
-      .story-scene:hover .flip-card {
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      /* Disable hover flip when modal is open - keep card visible for click */
-      .story-modal.show ~ * .story-scene:hover .flip-card,
-      body:has(.story-modal.show) .story-scene:hover .flip-card {
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      /* Front of card */
-      .card-front {
-        background: linear-gradient(
-          135deg,
-          #e6f3ff 0%,
-          #f0fff0 50%,
-          #fff8dc 100%
-        );
+      .story-card-body {
+        padding: var(--sp-lg);
         display: flex;
         flex-direction: column;
-        height: 100%;
-        width: 100%;
-        border-radius: 20px;
-        overflow: hidden;
-        position: relative;
-      }
-
-      /* Subtle decorative pattern on card */
-      .card-front::after {
-        content: "";
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 60px;
-        height: 60px;
-        background: radial-gradient(
-          circle,
-          rgba(139, 69, 19, 0.05) 0%,
-          transparent 70%
-        );
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 1;
-      }
-
-      .card-front__tp {
-        align-items: center;
-        clip-path: polygon(
-          0 0,
-          100% 0,
-          100% 85%,
-          57% 85%,
-          50% 95%,
-          43% 85%,
-          0 85%
-        );
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        padding: var(--spacing-md) var(--spacing-lg) var(--spacing-xl)
-          var(--spacing-lg);
-        padding-top: var(--spacing-md);
-        height: 300px;
-        background: linear-gradient(to bottom, #a0522d, #8b4513);
-        color: #ffffff;
-      }
-
-      .scene-illustration {
-        font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem);
-        margin-bottom: var(--spacing-xs);
-        animation: sceneFloat 3s ease-in-out infinite;
-      }
-
-      @keyframes sceneFloat {
-        0%,
-        100% {
-          transform: translateY(0px) scale(1);
-        }
-        50% {
-          transform: translateY(-10px) scale(1.05);
-        }
-      }
-
-      .card-front__text-date {
-        font-size: var(--font-size-small);
-        margin-top: var(--spacing-xs);
-        opacity: 0.95;
-        color: #ffffff;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
-      }
-
-      .card-front__bt {
-        align-items: center;
-        display: flex;
-        justify-content: center;
         flex: 1;
-        padding: var(--spacing-md);
       }
-
-      .card-front__text-view {
-        font-size: clamp(1.125rem, 1rem + 0.625vw, 1.5rem);
-        font-weight: 700;
-        color: var(--p);
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .card-front__text-view:hover {
-        color: var(--a);
-        transform: scale(1.1);
-      }
-
-      /* Inside page - Improved readability with WCAG contrast */
-      .inside-page {
-        background: #ffffff;
-        height: 100%;
-        padding: var(--spacing-lg);
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 5;
-        border-radius: 20px;
-        overflow-y: auto;
-        pointer-events: none;
-        opacity: 0;
-        transition: opacity 0.6s ease;
-      }
-
-      .story-scene:hover .inside-page {
-        pointer-events: auto;
-        opacity: 1;
-      }
-
-      /* Ensure readable text in story cards on hover */
-      .inside-page p,
-      .inside-page h1,
-      .inside-page h2,
-      .inside-page h3,
-      .inside-page h4,
-      .inside-page h5,
-      .inside-page h6,
-      .inside-page li,
-      .inside-page span,
-      .inside-page div {
-        color: var(--txt);
-        font-size: var(--font-size-body);
-        line-height: 1.7;
-      }
-
-      .inside-page h1,
-      .inside-page h2,
-      .inside-page h3 {
-        color: var(--p);
-        font-weight: 700;
-        margin-bottom: var(--spacing-md);
-      }
-
-      /* Story card titles - ensure high contrast */
-      .card-front__heading {
-        color: #ffffff;
-        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8), 0 0 12px rgba(0, 0, 0, 0.6);
-        font-size: clamp(1.25rem, 1.2rem + 0.25vw, 2rem);
-        font-weight: 700;
-        margin-top: var(--spacing-md);
-        text-align: center;
-      }
-
-      .inside-page h1 {
-        font-size: clamp(1.5rem, 1.4rem + 0.5vw, 2.25rem);
-      }
-
-      .inside-page h2 {
-        font-size: clamp(1.25rem, 1.2rem + 0.25vw, 1.875rem);
-      }
-
-      .inside-page__container {
-        height: 100%;
-        width: 100%;
-      }
-
-      /* Interactive Story Elements */
-      .story-interactive {
+      .story-card-badges {
         display: flex;
-        gap: 15px;
-        margin: 20px 0;
+        gap: 6px;
         flex-wrap: wrap;
+        margin-bottom: var(--sp-sm);
       }
-
-      .interactive-element {
-        background: rgba(255, 255, 255, 0.8);
-        border: 2px solid var(--p);
-        border-radius: 25px;
-        padding: 10px 20px;
-        cursor: pointer;
+      .badge {
+        font-size: var(--font-size-xs);
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 100px;
         font-family: var(--f);
-        font-weight: 500;
+      }
+      .badge-category {
+        background: rgba(26,107,90,0.08);
+        color: var(--p);
+      }
+      .badge-age {
+        background: rgba(196,146,42,0.1);
+        color: var(--s);
+      }
+      .story-card-title {
+        font-family: var(--fh);
+        font-size: var(--font-size-h4);
+        font-weight: 700;
         color: var(--txt);
-        transition: all 0.3s ease;
-        position: relative;
+        line-height: 1.35;
+        margin-bottom: var(--sp-sm);
+      }
+      .story-card-excerpt {
+        font-size: var(--font-size-sm);
+        color: var(--txt-muted);
+        line-height: 1.65;
+        flex: 1;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
         overflow: hidden;
       }
-
-      .interactive-element:hover {
-        background: var(--p);
-        color: var(--w);
-        transform: scale(1.05);
-        box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
-      }
-
-      .interactive-element::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.3),
-          transparent
-        );
-        transition: left 0.5s ease;
-      }
-
-      .interactive-element:hover::before {
-        left: 100%;
-      }
-
-      .post-header {
-        margin-bottom: 0;
-        border-bottom: none;
-        padding-bottom: 0;
-      }
-
-      .post-title {
-        font-size: 2.2rem;
-        color: var(--p);
-        margin-bottom: 20px;
-        font-family: var(--f);
-        font-weight: 600;
-        line-height: 1.2;
-        text-align: left;
-      }
-
-      .post-meta {
+      .story-card-footer {
         display: flex;
-        gap: 15px;
-        flex-wrap: wrap;
         align-items: center;
-        margin-bottom: 20px;
-        font-size: 0.9rem;
-        color: var(--s);
+        justify-content: space-between;
+        margin-top: var(--sp-md);
+        padding-top: var(--sp-sm);
+        border-top: 1px solid var(--br);
       }
-
-      .post-date {
-        color: var(--a);
-        font-size: 0.85rem;
+      .story-card-date {
+        font-size: var(--font-size-xs);
+        color: var(--txt-muted);
       }
-
-      .post-category,
-      .post-age {
-        background: var(--lg);
-        padding: 4px 10px;
-        border-radius: 12px;
-        font-size: 0.75rem;
-        color: var(--s);
-        border: 1px solid var(--br);
+      .story-card-cta {
+        font-size: var(--font-size-xs);
         font-weight: 600;
-      }
-
-      .post-content {
-        margin-bottom: 0;
-        color: var(--txt);
-        line-height: 1.8;
-        font-size: 1.2rem;
-        text-align: left;
-        max-width: none;
-      }
-
-      .post-actions {
+        color: var(--p);
         display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-top: 0;
-        padding-top: 0;
-        border-top: none;
+        align-items: center;
+        gap: 4px;
+        transition: gap var(--duration) var(--ease);
+      }
+      .story-card:hover .story-card-cta {
+        gap: 8px;
       }
 
-      /* Post button inherits from btn-primary */
-      .post-button {
+
+      /* ===== Story Modal ===== */
+      .story-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(4px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 3000;
+        padding: var(--sp-lg);
+        overflow-y: auto;
+      }
+      .story-modal.show {
+        display: flex;
+        animation: modalIn 0.25s var(--ease);
+      }
+      @keyframes modalIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      .story-modal-content {
+        background: var(--surface);
+        padding: var(--sp-xl) var(--sp-xl) var(--sp-lg);
+        border-radius: var(--r-lg);
+        border: none;
+        max-width: 700px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: var(--shadow-xl);
+        animation: modalContentIn 0.3s var(--ease);
+      }
+      @keyframes modalContentIn {
+        from { opacity: 0; transform: translateY(16px) scale(0.98); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      .story-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: var(--sp-md);
+        padding-bottom: var(--sp-md);
+        border-bottom: 1px solid var(--br);
+      }
+      .story-modal-title {
+        font-family: var(--fh);
+        font-size: var(--font-size-h2);
+        color: var(--p);
+        font-weight: 700;
+        line-height: 1.3;
+        flex: 1;
+        margin-right: var(--sp-md);
+      }
+      .story-modal-close {
+        background: none;
+        color: var(--txt-muted);
+        border: 1px solid var(--br);
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all var(--duration) var(--ease);
+        flex-shrink: 0;
+        font-weight: bold;
+        line-height: 1;
+      }
+      .story-modal-close:hover {
+        background: var(--a);
+        color: var(--w);
+        border-color: var(--a);
+      }
+      .story-modal-meta {
+        display: flex;
+        gap: var(--sp-sm);
+        flex-wrap: wrap;
+        margin-bottom: var(--sp-lg);
+      }
+      .story-modal-meta .post-date {
+        font-size: var(--font-size-xs);
+        color: var(--txt-muted);
+      }
+      .story-modal-meta .post-category,
+      .story-modal-meta .post-age {
+        font-size: var(--font-size-xs);
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 100px;
+        border: none;
+      }
+      .story-modal-meta .post-category {
+        background: rgba(26,107,90,0.08);
+        color: var(--p);
+      }
+      .story-modal-meta .post-age {
+        background: rgba(196,146,42,0.1);
+        color: var(--s);
+      }
+      .story-modal-body {
+        font-size: var(--font-size-lg);
+        line-height: 1.85;
+        color: var(--txt);
+        font-family: var(--f);
+      }
+      .story-modal-body p {
+        margin-bottom: 1.25em;
+      }
+      .story-modal-body h1,
+      .story-modal-body h2,
+      .story-modal-body h3 {
+        font-family: var(--fh);
+        color: var(--p);
+        margin-top: var(--sp-lg);
+        margin-bottom: var(--sp-md);
+      }
+      .story-modal-body h1 { font-size: var(--font-size-h2); }
+      .story-modal-body h2 { font-size: var(--font-size-h3); }
+      .story-modal-body h3 { font-size: var(--font-size-h4); }
+
+      /* ===== Login Modal ===== */
+      .login-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        backdrop-filter: blur(4px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 2500;
+      }
+      .login-modal.show-modal { display: flex; }
+
+      .modal-content {
+        background: var(--surface);
+        padding: var(--sp-xl);
+        border-radius: var(--r-lg);
+        border: none;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: var(--shadow-xl);
+      }
+      .modal-content h2 {
+        margin-bottom: var(--sp-md);
+        color: var(--p);
+        font-family: var(--fh);
+        font-size: var(--font-size-h3);
+      }
+      .modal-buttons {
+        display: flex;
+        gap: var(--sp-sm);
+        justify-content: flex-end;
+        margin-top: var(--sp-md);
+      }
+
+      /* ===== Buttons ===== */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-family: var(--f);
+        font-weight: 600;
+        font-size: var(--font-size-sm);
+        padding: 8px 18px;
+        border-radius: 8px;
+        border: 1.5px solid var(--br-strong);
+        background: var(--surface);
+        color: var(--txt);
+        cursor: pointer;
+        transition: all var(--duration) var(--ease);
+        text-decoration: none;
+      }
+      .btn:hover {
+        background: var(--bg);
+        border-color: var(--p);
+        color: var(--p);
+      }
+      .btn-primary {
         background: var(--p);
         color: var(--w);
-        border: 2px solid var(--br);
-        border-radius: var(--r);
-        padding: 8px 16px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        font-family: var(--f);
-        font-weight: 600;
-        transition: all 0.3s ease;
+        border-color: var(--p);
       }
-
-      .post-button:hover {
-        background: var(--s);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+      .btn-primary:hover {
+        background: var(--p-light);
+        border-color: var(--p-light);
+        color: var(--w);
       }
-
-      /* Sidebar styles removed - functionality consolidated into navigation */
-
-      .new-post-form {
-        display: block;
+      .btn-secondary {
+        background: var(--surface);
+        color: var(--txt-muted);
       }
-
-      .form-title {
-        color: var(--p);
-        margin-bottom: 20px;
-        font-size: 1.3rem;
-        font-family: var(--f);
-        font-style: italic;
-      }
-
-      .form-group textarea {
+      .btn-large {
+        padding: 12px 24px;
+        font-size: var(--font-size-body);
         width: 100%;
-        padding: 10px;
-        border: 1px solid var(--br);
-        border-radius: 6px;
-        font-size: 1rem;
-        resize: vertical;
-        min-height: 120px;
-        transition: border-color 0.3s ease;
-        font-family: var(--f);
       }
 
+      /* ===== Forms ===== */
+      .form-group {
+        margin-bottom: var(--sp-md);
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: var(--font-size-sm);
+        font-weight: 600;
+        color: var(--txt);
+      }
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1.5px solid var(--br);
+        border-radius: var(--r);
+        font-size: var(--font-size-body);
+        font-family: var(--f);
+        background: var(--surface);
+        color: var(--txt);
+        transition: border-color var(--duration) var(--ease),
+                    box-shadow var(--duration) var(--ease);
+      }
+      .form-group input:focus,
       .form-group textarea:focus,
       .form-group select:focus {
         outline: none;
         border-color: var(--p);
+        box-shadow: 0 0 0 3px rgba(26,107,90,0.1);
+      }
+      .form-group textarea {
+        resize: vertical;
+        min-height: 140px;
+        line-height: 1.7;
       }
 
-      .form-group select {
-        width: 100%;
-        padding: 10px;
+      /* ===== Author Form Section ===== */
+      .author-section {
+        background: var(--surface);
         border: 1px solid var(--br);
-        border-radius: 6px;
-        font-size: 1rem;
-        background: var(--w);
-        font-family: var(--f);
+        border-radius: var(--r-lg);
+        padding: var(--sp-xl);
+        margin-top: var(--sp-xl);
+      }
+      .author-section h2 {
+        font-family: var(--fh);
+        font-size: var(--font-size-h3);
+        color: var(--p);
+        margin-bottom: var(--sp-lg);
+      }
+      .author-info {
+        background: rgba(26,107,90,0.04);
+        padding: var(--sp-md);
+        border-radius: var(--r);
+        border: 1px solid rgba(26,107,90,0.1);
+        margin-bottom: var(--sp-lg);
+      }
+      .login-note {
+        font-size: var(--font-size-sm);
+        color: var(--txt-muted);
+        font-style: italic;
       }
 
       .editor-toolbar {
         display: flex;
-        gap: 5px;
-        margin-bottom: 10px;
-        padding: 8px;
-        background: var(--lg);
-        border-radius: 6px;
+        gap: 4px;
+        margin-bottom: 8px;
+        padding: 6px 8px;
+        background: var(--bg);
+        border-radius: 8px;
         border: 1px solid var(--br);
       }
-
       .editor-toolbar button {
-        background: var(--w);
+        background: var(--surface);
         border: 1px solid var(--br);
-        border-radius: 4px;
-        padding: 6px 10px;
+        border-radius: 6px;
+        padding: 5px 10px;
         cursor: pointer;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
+        font-size: var(--font-size-sm);
+        transition: all var(--duration) var(--ease);
         font-family: var(--f);
+        color: var(--txt);
       }
-
       .editor-toolbar button:hover {
         background: var(--p);
         color: var(--w);
-        transform: translateY(-1px);
+        border-color: var(--p);
       }
-
       .rich-editor {
-        min-height: 200px;
-        padding: 15px;
-        border: 2px solid var(--br);
+        min-height: 220px;
+        padding: var(--sp-md);
+        border: 1.5px solid var(--br);
         border-radius: var(--r);
-        font-size: 1rem;
-        line-height: 1.6;
-        background: var(--w);
+        font-size: var(--font-size-body);
+        line-height: 1.75;
+        background: var(--surface);
         color: var(--txt);
         font-family: var(--f);
         outline: none;
-        transition: border-color 0.3s ease;
+        transition: border-color var(--duration) var(--ease),
+                    box-shadow var(--duration) var(--ease);
       }
-
       .rich-editor:focus {
         border-color: var(--p);
+        box-shadow: 0 0 0 3px rgba(26,107,90,0.1);
       }
-
       .rich-editor:empty:before {
         content: attr(data-placeholder);
-        color: rgba(47, 79, 47, 0.6);
+        color: var(--txt-muted);
         font-style: italic;
       }
-
       .form-actions {
         display: flex;
-        gap: 10px;
-        margin-top: 20px;
+        gap: var(--sp-sm);
+        margin-top: var(--sp-lg);
       }
+      .form-actions .btn { flex: 1; }
 
-      .form-actions .btn {
-        flex: 1;
-      }
-
-      /* Author widget styles removed - consolidated into navigation dropdown */
-
-      .filter-controls {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .filter-group {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-      }
-
-      .filter-group label {
-        font-size: 0.9rem;
-        color: var(--s);
-        font-weight: bold;
-      }
-
-      .filter-group select {
-        padding: 8px;
-        border: 1px solid var(--br);
-        border-radius: 6px;
-        font-size: 0.9rem;
-        background: var(--w);
-        font-family: var(--f);
-      }
-
-      .stat-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 8px 0;
-        border-bottom: 1px solid var(--br);
-      }
-
-      .stat-item:last-child {
-        border-bottom: none;
-      }
-
-      .stat-label {
-        font-size: 0.9rem;
-        color: var(--s);
-      }
-
-      .stat-value {
-        font-weight: bold;
-        color: var(--p);
-        font-size: 0.9rem;
-      }
-
-      /* Submit button uses .btn .btn-primary .btn-large classes */
       .submit-button {
         background: var(--p);
         color: var(--w);
-        border: 2px solid var(--br);
+        border: none;
         border-radius: var(--r);
         padding: 12px 24px;
         cursor: pointer;
-        transition: all 0.3s ease;
-        font-size: 1rem;
+        transition: all var(--duration) var(--ease);
+        font-size: var(--font-size-body);
         font-family: var(--f);
-        font-weight: bold;
+        font-weight: 600;
         width: 100%;
       }
-
       .submit-button:hover {
-        background: var(--s);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+        background: var(--p-light);
+        box-shadow: var(--shadow-md);
       }
 
-      .character-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-        gap: 10px;
-      }
 
-      .character-card {
-        text-align: center;
-        cursor: pointer;
-        transition: transform 0.3s ease;
-      }
-
-      .character-card:hover {
-        transform: scale(1.05);
-      }
-
-      .character-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        margin: 0 auto 8px;
-        background: var(--lg);
-        border: 2px solid var(--br);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-      }
-
-      .author-info {
-        background: var(--lg);
-        padding: 15px;
-        border-radius: var(--r);
-        border: 2px solid var(--br);
-        margin-bottom: 15px;
-      }
-
-      .login-note {
-        font-size: 0.9rem;
-        color: var(--a);
-        font-style: italic;
-        margin-top: 10px;
-      }
-
+      /* ===== Footer ===== */
       .footer {
-        background: var(--lg);
-        border-radius: var(--r);
-        margin: 40px 20px 20px;
-        padding: 30px;
+        background: var(--surface);
+        border-top: 1px solid var(--br);
+        margin: 0;
+        padding: var(--sp-xl) var(--sp-lg);
         text-align: center;
-        border: 2px solid var(--br);
+        border-radius: 0;
       }
-
-      .audio-player {
-        background: var(--lg);
-        border-radius: var(--r);
-        padding: 15px;
-        margin: 20px;
-        text-align: center;
-        border: 2px solid var(--br);
-      }
-
-      .audio-player button {
-        background: var(--w);
-        color: var(--s);
-        border: 2px solid var(--br);
-        border-radius: var(--r);
-        padding: 10px 20px;
-        margin: 5px;
-        cursor: pointer;
-        font-family: var(--f);
-        font-weight: bold;
-      }
-
-      .audio-player button:hover {
-        background: var(--lg);
-      }
-
-      /* Slide-in animation for undo notification */
-      @keyframes slideIn {
-        from {
-          transform: translateX(400px);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-
-      /* ===== Magical Video Section Styles ===== */
-      .magical-video-section {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 248, 220, 0.9) 0%,
-          rgba(255, 255, 255, 0.8) 50%,
-          rgba(255, 248, 220, 0.9) 100%
-        );
-        border-radius: 20px;
-        padding: 30px;
-        margin: 40px 0;
-        border: 3px solid var(--br);
-        box-shadow: 0 10px 40px rgba(139, 69, 19, 0.2);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .magical-video-section::before {
-        content: "";
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(
-            circle at 30% 20%,
-            rgba(34, 139, 34, 0.1) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 70% 80%,
-            rgba(107, 142, 35, 0.1) 0%,
-            transparent 50%
-          );
-        animation: gentleSway 15s ease-in-out infinite;
-        z-index: -1;
-      }
-
-      .video-container {
-        position: relative;
-        z-index: 1;
-      }
-
-      .video-header {
-        text-align: center;
-        margin-bottom: 25px;
-      }
-
-      .video-title {
-        font-size: clamp(1.75rem, 1.6rem + 0.75vw, 2.5rem);
-        color: var(--p);
-        font-family: var(--f);
-        font-weight: 700;
-        margin-bottom: var(--spacing-md);
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: var(--spacing-md);
-      }
-
-      .magical-icon {
-        font-size: 3rem;
-        animation: gentleBounce 2s ease-in-out infinite;
-      }
-
-      .video-description {
-        font-size: 1.2rem;
-        color: var(--txt);
+      .footer p {
+        font-size: var(--font-size-sm);
+        color: var(--txt-muted);
         max-width: 600px;
         margin: 0 auto;
-        line-height: 1.6;
-        font-style: italic;
       }
-
-      .video-wrapper {
-        position: relative;
-        background: #000;
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-        margin-bottom: 20px;
-      }
-
-      .magical-video-player {
-        width: 100%;
-        height: auto;
-        min-height: 400px;
-        display: block;
-        border-radius: 15px;
-      }
-
-      .video-overlay {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(
-          to top,
-          rgba(0, 0, 0, 0.8) 0%,
-          rgba(0, 0, 0, 0.4) 50%,
-          transparent 100%
-        );
-        padding: 20px;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        z-index: 10;
-      }
-
-      .video-wrapper:hover .video-overlay,
-      .video-overlay.show {
-        opacity: 1;
-      }
-
-      .video-controls {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        color: white;
-      }
-
-      .play-pause-btn,
-      .volume-btn,
-      .fullscreen-btn {
-        background: rgba(255, 255, 255, 0.2);
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        width: 45px;
-        height: 45px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-      }
-
-      .play-pause-btn:hover,
-      .volume-btn:hover,
-      .fullscreen-btn:hover {
-        background: rgba(255, 255, 255, 0.3);
-        transform: scale(1.1);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-      }
-
-      .play-icon,
-      .volume-icon,
-      .fullscreen-icon {
-        font-size: 1.2rem;
-      }
-
-      .video-progress {
-        flex: 1;
-        height: 6px;
-        background: rgba(255, 255, 255, 0.3);
-        border-radius: 3px;
-        position: relative;
-        cursor: pointer;
-        margin: 0 10px;
-      }
-
-      .progress-bar {
-        height: 100%;
-        background: linear-gradient(90deg, var(--p), var(--a));
-        border-radius: 3px;
-        width: 0%;
-        transition: width 0.1s ease;
-      }
-
-      .progress-handle {
-        position: absolute;
-        top: 50%;
-        left: 0%;
-        width: 16px;
-        height: 16px;
-        background: white;
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-
-      .video-progress:hover .progress-handle {
-        opacity: 1;
-      }
-
-      .video-time {
-        font-size: 0.9rem;
-        font-weight: 600;
-        min-width: 80px;
-        text-align: center;
-      }
-
-      .video-info {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 15px;
-        margin-top: 20px;
-      }
-
-      .video-meta {
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
-      }
-
-      .video-meta span {
-        font-size: 0.9rem;
+      .footer-tip {
+        margin-top: var(--sp-sm);
+        font-size: var(--font-size-xs);
         color: var(--s);
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 5px;
+        font-weight: 500;
       }
 
-      .video-tags {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-
-      .video-tags .tag {
-        background: var(--lg);
-        color: var(--p);
-        border: 2px solid var(--br);
-        font-weight: 600;
-        transition: all 0.3s ease;
-      }
-
-      .video-tags .tag:hover {
-        background: var(--p);
-        color: var(--w);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
-      }
-
-      /* Video Loading Animation */
-      .video-loading {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        font-size: 2rem;
-        animation: gentleBounce 1s ease-in-out infinite;
-      }
-
-      /* Video Error State */
-      .video-error {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: var(--a);
-        text-align: center;
-        background: rgba(255, 255, 255, 0.9);
-        padding: 20px;
-        border-radius: 10px;
-        border: 2px solid var(--a);
-      }
-
-      /* ===== Header Video Styles ===== */
-      .header-video-container {
-        display: flex;
-        align-items: center;
-        gap: 30px;
-        max-width: 800px;
-        width: 100%;
-        padding: 20px;
-        position: relative;
-        z-index: 10;
-      }
-
-      .header-video-wrapper {
-        position: relative;
-        background: #000;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
-        flex-shrink: 0;
-      }
-
-      .header-video-player {
-        width: 280px;
-        height: 200px;
-        display: block;
-        border-radius: 12px;
-      }
-
-      .header-video-overlay {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(
-          to top,
-          rgba(0, 0, 0, 0.8) 0%,
-          rgba(0, 0, 0, 0.4) 50%,
-          transparent 100%
-        );
-        padding: 15px;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        z-index: 10;
-      }
-
-      .header-video-wrapper:hover .header-video-overlay,
-      .header-video-overlay.show {
-        opacity: 1;
-      }
-
-      .header-video-controls {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: white;
-      }
-
-      .header-play-pause-btn,
-      .header-volume-btn {
-        background: rgba(255, 255, 255, 0.2);
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        width: 35px;
-        height: 35px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-      }
-
-      .header-play-pause-btn:hover,
-      .header-volume-btn:hover {
-        background: rgba(255, 255, 255, 0.3);
-        transform: scale(1.1);
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
-      }
-
-      .header-play-icon,
-      .header-volume-icon {
-        font-size: 1rem;
-      }
-
-      .header-video-progress {
-        flex: 1;
-        height: 4px;
-        background: rgba(255, 255, 255, 0.3);
-        border-radius: 2px;
-        position: relative;
-        cursor: pointer;
-        margin: 0 8px;
-      }
-
-      .header-progress-bar {
-        height: 100%;
-        background: linear-gradient(90deg, var(--p), var(--a));
-        border-radius: 2px;
-        width: 0%;
-        transition: width 0.1s ease;
-      }
-
-      .header-progress-handle {
-        position: absolute;
-        top: 50%;
-        left: 0%;
-        width: 12px;
-        height: 12px;
-        background: white;
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-
-      .header-video-progress:hover .header-progress-handle {
-        opacity: 1;
-      }
-
-      .header-video-time {
-        font-size: 0.8rem;
-        font-weight: 600;
-        min-width: 60px;
-        text-align: center;
-      }
-
-      .header-video-info {
-        flex: 1;
-        color: white;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-      }
-
-      .header-video-title {
-        font-size: clamp(1.5rem, 1.4rem + 0.5vw, 1.875rem);
-        color: #ffffff;
-        font-family: var(--f);
-        font-weight: 700;
-        margin-bottom: var(--spacing-sm);
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-sm);
-      }
-
-      .header-magical-icon {
-        font-size: 2rem;
-        animation: gentleBounce 2s ease-in-out infinite;
-      }
-
-      .header-video-description {
-        font-size: 1rem;
-        color: rgba(255, 255, 255, 0.9);
-        line-height: 1.5;
-        font-style: italic;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-      }
-
-      /* Header Image Styles */
-      .header-image-container {
-        display: flex;
-        align-items: center;
-        gap: 30px;
-        padding: 40px;
-        justify-content: center;
-        z-index: 10;
-      }
-
-      .header-slide-image {
-        width: 300px;
-        height: auto;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        object-fit: cover;
-      }
-
-      .header-image-info {
-        flex: 1;
-        color: white;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-      }
-
-      .header-image-title {
-        font-size: clamp(1.5rem, 1.4rem + 0.5vw, 1.875rem);
-        color: #ffffff;
-        font-family: var(--f);
-        font-weight: 700;
-        margin-bottom: var(--spacing-sm);
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-sm);
-      }
-
-      .header-image-description {
-        font-size: 1rem;
-        color: rgba(255, 255, 255, 0.9);
-        line-height: 1.5;
-        font-style: italic;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-      }
-
-      /* Breadcrumb styles */
+      /* ===== Breadcrumb ===== */
       .breadcrumb-nav {
-        font-family: var(--f);
+        font-size: var(--font-size-sm);
+        color: var(--txt-muted);
+        padding: var(--sp-md) 0 0;
       }
-
       .breadcrumb-nav a {
         color: var(--p);
         text-decoration: none;
-        transition: color 0.3s ease;
       }
-
       .breadcrumb-nav a:hover {
-        color: var(--a);
         text-decoration: underline;
       }
 
+      /* ===== Post Actions (inside modal or admin) ===== */
+      .post-button {
+        background: var(--surface);
+        color: var(--txt);
+        border: 1.5px solid var(--br);
+        border-radius: 8px;
+        padding: 6px 14px;
+        cursor: pointer;
+        font-size: var(--font-size-xs);
+        font-family: var(--f);
+        font-weight: 600;
+        transition: all var(--duration) var(--ease);
+      }
+      .post-button:hover {
+        border-color: var(--p);
+        color: var(--p);
+      }
+
+      /* Tags */
+      .post-category,
+      .post-age {
+        font-size: var(--font-size-xs);
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 100px;
+        border: none;
+      }
+      .post-category {
+        background: rgba(26,107,90,0.08);
+        color: var(--p);
+      }
+      .post-age {
+        background: rgba(196,146,42,0.1);
+        color: var(--s);
+      }
+      .post-date {
+        color: var(--txt-muted);
+        font-size: var(--font-size-xs);
+      }
+
+      /* ===== Slide-in for undo ===== */
+      @keyframes slideIn {
+        from { transform: translateX(400px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      /* ===== Empty State ===== */
+      .empty-state {
+        text-align: center;
+        padding: var(--sp-2xl) var(--sp-lg);
+        color: var(--txt-muted);
+      }
+      .empty-state-icon {
+        font-size: 3rem;
+        margin-bottom: var(--sp-md);
+        opacity: 0.5;
+      }
+
+      /* ===== Responsive ===== */
       @media (max-width: 1024px) {
-        .content {
-          grid-template-columns: 1fr;
-          gap: 20px;
-        }
-        .sidebar {
-          order: -1;
+        #posts-container {
+          grid-template-columns: repeat(2, 1fr);
         }
       }
 
       @media (max-width: 768px) {
-        .container {
-          padding: 0 15px;
-        }
-
         .magical-header {
-          padding: var(--spacing-sm);
+          height: clamp(220px, 40vw, 350px);
         }
-
-        .header-frame-container {
-          padding: clamp(10px, 2vw, 20px);
-        }
-
-        .book-frame {
-          border-width: clamp(12px, 1.8vw, 20px);
-        }
-
-        .magical-header {
-          height: 400px;
-          padding: var(--spacing-sm);
-        }
-
-        .header-frame-container {
-          padding: clamp(10px, 2vw, 20px);
-        }
-
-        .book-frame {
-          border-width: clamp(12px, 1.8vw, 20px);
-        }
-
-        .header-background-video {
-          top: clamp(10px, 2vw, 20px);
-          left: clamp(10px, 2vw, 20px);
-          right: clamp(10px, 2vw, 20px);
-          bottom: clamp(10px, 2vw, 20px);
-          width: calc(100% - clamp(20px, 4vw, 40px));
-          height: calc(100% - clamp(20px, 4vw, 40px));
-        }
-        .magical-welcome h1 {
-          font-size: 4rem;
-          letter-spacing: 2px;
-        }
-        .magical-welcome p {
-          font-size: 2rem;
-          letter-spacing: 1px;
-        }
-        .skogsmulle-character {
-          width: 80px;
-          height: 80px;
-          bottom: 15px;
-          right: 20px;
-        }
-        .speech-bubble {
-          bottom: 100px;
-          right: 10px;
-          max-width: 150px;
-          font-size: 0.9rem;
-        }
-        .content {
-          margin: 0 0 20px 0;
-        }
-
-        /* Navbar mobile styles */
-        .main-navigation {
-          top: 70px;
-        }
-
-        .main-navigation.show {
-          right: 10px;
-        }
-
-        .nav-button {
-          padding: 8px 14px;
-          font-size: 0.85rem;
-        }
-
-        .nav-dropdown {
-          width: 90vw;
-          max-width: 350px;
-          padding: 20px;
-        }
-
-        /* Grid becomes 1 column on mobile */
         #posts-container {
           grid-template-columns: 1fr;
-          gap: 20px;
         }
-
-        .story-scene {
-          height: 400px;
+        .story-modal-content {
+          padding: var(--sp-lg);
+          margin: var(--sp-sm);
         }
-        .card-front__tp {
-          height: 250px;
-          padding: 1.5rem 1.5rem 3rem 1.5rem;
+        .story-modal-title {
+          font-size: var(--font-size-h3);
         }
-        .scene-illustration {
-          font-size: 3.5rem;
+        .story-modal-body {
+          font-size: var(--font-size-body);
         }
-        .card-front__heading {
-          font-size: 1.5rem;
+        .author-section {
+          padding: var(--sp-lg);
         }
-        .inside-page {
-          padding: 1.5rem;
+        .site-nav-links {
+          gap: 2px;
         }
-        .post-title {
-          font-size: 1.5rem;
-        }
-        .post-content {
-          font-size: 1rem;
-        }
-        .story-interactive {
-          gap: 8px;
-        }
-        .interactive-element {
-          padding: 6px 12px;
-          font-size: 0.85rem;
+        .site-nav-link {
+          padding: 6px 10px;
+          font-size: var(--font-size-xs);
         }
       }
 
       @media (max-width: 480px) {
-        .logo {
-          font-size: 2.2rem;
+        .site-nav-inner {
+          flex-wrap: wrap;
+          gap: var(--sp-xs);
         }
-        .magical-title {
-          font-size: 1.4rem;
-        }
-        .post-actions {
+        .site-nav-links {
+          order: 3;
+          width: 100%;
           justify-content: center;
         }
-        .character-grid {
-          grid-template-columns: repeat(3, 1fr);
-        }
-
-        /* Navbar extra small screens */
-        .nav-button {
-          padding: 6px 12px;
-          font-size: 0.8rem;
-        }
-
-        .nav-dropdown {
-          width: 95vw;
-          padding: 15px;
-        }
-
-        .nav-dropdown h3 {
-          font-size: 1rem;
-        }
-
-        /* Header audio player mobile styles */
-        .header-audio-player {
-          top: 15px;
-          left: 15px;
-          padding: 8px;
-        }
-
-        .header-audio-player audio {
-          width: 150px;
-          height: 35px;
-        }
-
-        /* Video section mobile styles */
-        .magical-video-section {
-          padding: 20px;
-          margin: 20px 0;
-        }
-
-        .video-title {
-          font-size: 2rem;
-          flex-direction: column;
-          gap: 10px;
-        }
-
-        .magical-icon {
-          font-size: 2.5rem;
-        }
-
-        .video-description {
-          font-size: 1rem;
-        }
-
-        .magical-video-player {
-          min-height: 250px;
-        }
-
-        .video-controls {
-          gap: 10px;
-        }
-
-        .play-pause-btn,
-        .volume-btn,
-        .fullscreen-btn {
-          width: 40px;
-          height: 40px;
-        }
-
-        .video-info {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
-        .video-meta {
-          gap: 15px;
-        }
-
-        .video-meta span {
-          font-size: 0.8rem;
-        }
-
-        /* Header slides mobile styles */
-        .header-video-container {
-          flex-direction: column;
-          gap: 20px;
-          padding: 15px;
-        }
-
-        .header-video-player {
-          width: 100%;
-          max-width: 300px;
-          height: 180px;
-        }
-
-        .header-video-title {
-          font-size: 1.4rem;
-          text-align: center;
-        }
-
-        .header-video-description {
-          font-size: 0.9rem;
-          text-align: center;
-        }
-
-        /* Header image mobile styles */
-        .header-image-container {
-          flex-direction: column;
-          gap: 20px;
-          padding: 15px;
-        }
-
-        .header-slide-image {
-          width: 100%;
-          max-width: 300px;
-        }
-
-        .header-image-title {
-          font-size: 1.4rem;
-          text-align: center;
-        }
-
-        .header-image-description {
-          font-size: 0.9rem;
-          text-align: center;
-        }
-
-        .slide-navigation {
-          bottom: 60px;
-        }
-
-        .slide-nav-btn {
-          width: 45px;
-          height: 45px;
-        }
-
-        .slide-icon {
-          font-size: 1.3rem;
+        .header-content h1 {
+          font-size: clamp(2rem, 1.6rem + 2vw, 3rem);
         }
       }
     </style>
   </head>
 
   <body>
-
-    <button
-      class="discrete-login"
-      onclick="toggleLoginModal()"
-      role="button"
-      tabindex="0"
-      aria-label="Logga in som författare"
-      onkeydown="if(event.key==='Enter') toggleLoginModal()"
-    >
-      Logga in
-    </button>
-
-    <button
-      class="hamburger-menu"
-      onclick="toggleMenu()"
-      role="button"
-      tabindex="0"
-      aria-label="Öppna meny"
-      id="hamburgerBtn"
-    >
-      ☰
-    </button>
+    <nav class="site-nav">
+      <div class="site-nav-inner">
+        <a href="/" class="site-nav-brand">Skogsmulle</a>
+        <ul class="site-nav-links">
+          <li><a href="#" class="site-nav-link active">Hem</a></li>
+          <li><a href="#stories" class="site-nav-link">Berättelser</a></li>
+          <li id="navWriteItem" style="display:none"><a href="#authorSection" class="site-nav-link">Skriv</a></li>
+        </ul>
+        <button class="site-nav-login" id="navLoginBtn" onclick="handleNavLogin()">Logga in</button>
+      </div>
+    </nav>
 
     <div id="loginModal" class="login-modal">
       <div class="modal-content">
@@ -2714,14 +1070,8 @@
       </div>
     </div>
 
-    <!-- Magical Forest Header with Slides -->
     <header class="magical-header">
-      <!-- Children's Book Frame Container -->
       <div class="header-frame-container">
-        <!-- Decorative Book Frame -->
-        <div class="book-frame"></div>
-
-        <!-- Background Video -->
         <video
           id="headerBackgroundVideo"
           class="header-background-video"
@@ -2735,538 +1085,99 @@
         >
           <source src="introfilm.mp4" type="video/mp4" />
           <source src="introfilm.mov" type="video/quicktime" />
-          Din webbläsare stöder inte video-elementet.
         </video>
       </div>
-
-      <div class="forest-layer forest-layer-1"></div>
-      <div class="forest-layer forest-layer-2"></div>
-      <div class="forest-layer forest-layer-3"></div>
-
-      <!-- Floating Particles -->
-      <div class="floating-particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-      </div>
-
-      <!-- Header Slides Container -->
-      <div class="header-slides-container">
-        <!-- Slide 1: Welcome -->
-        <div
-          class="header-slide active"
-          data-slide="0"
-          style="opacity: 1; transform: translateX(0); z-index: 6"
-        >
-          <div class="magical-welcome">
-            <h1>Skogsmulle</h1>
-            <p>Välkommen till den magiska skogen!</p>
-          </div>
-        </div>
-
-        <!-- Slide 2: Video -->
-        <div class="header-slide" data-slide="1">
-          <div class="header-video-container">
-            <div class="header-video-wrapper">
-              <video
-                id="headerVideo"
-                class="header-video-player"
-                controls
-                preload="metadata"
-                poster="igelkotten.png"
-                aria-label="Skogsmulles magiska äventyr video"
-              >
-                <source src="media.mp4" type="video/mp4" />
-                <track
-                  kind="captions"
-                  src=""
-                  label="Swedish"
-                  srclang="sv"
-                  default
-                />
-                Din webbläsare stöder inte video-elementet.
-              </video>
-
-              <!-- Header Video Controls Overlay -->
-              <div class="header-video-overlay" id="headerVideoOverlay">
-                <div class="header-video-controls">
-                  <button
-                    class="header-play-pause-btn"
-                    id="headerPlayPauseBtn"
-                    aria-label="Spela/Pausa video"
-                  >
-                    <span class="header-play-icon">▶️</span>
-                  </button>
-                  <div class="header-video-progress">
-                    <div
-                      class="header-progress-bar"
-                      id="headerProgressBar"
-                    ></div>
-                    <div
-                      class="header-progress-handle"
-                      id="headerProgressHandle"
-                    ></div>
-                  </div>
-                  <div class="header-video-time">
-                    <span id="headerCurrentTime">0:00</span> /
-                    <span id="headerDuration">0:00</span>
-                  </div>
-                  <button
-                    class="header-volume-btn"
-                    id="headerVolumeBtn"
-                    aria-label="Ljud på/av"
-                  >
-                    <span class="header-volume-icon">🔊</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="header-video-info">
-              <h3 class="header-video-title">
-                <span class="header-magical-icon">🎬</span>
-                Skogsmulles Magiska Äventyr
-              </h3>
-              <p class="header-video-description">
-                Följ med Skogsmulle på en fantastisk resa genom den magiska
-                skogen!
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Slide 3: Image -->
-        <div class="header-slide" data-slide="2">
-          <div class="header-image-container">
-            <img
-              src="skogsmulleDoris2.png"
-              alt="Skogsmulle Doris"
-              class="header-slide-image"
-            />
-            <div class="header-image-info">
-              <h3 class="header-image-title">
-                <span class="header-magical-icon">🍄</span>
-                Skogsmulle Doris
-              </h3>
-              <p class="header-image-description">
-                En magisk skogsmulle i sin naturliga miljö
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Slide Navigation -->
-      <div class="slide-navigation">
-        <button
-          class="slide-nav-btn active"
-          data-slide="0"
-          aria-label="Visa välkomstmeddelande"
-        >
-          <span class="slide-icon">🏠</span>
-        </button>
-        <button
-          class="slide-nav-btn"
-          data-slide="1"
-          aria-label="Visa magisk video"
-        >
-          <span class="slide-icon">🎬</span>
-        </button>
-        <button
-          class="slide-nav-btn"
-          data-slide="2"
-          aria-label="Visa Skogsmulle Doris bild"
-        >
-          <span class="slide-icon">🍄</span>
-        </button>
-      </div>
-
-      <!-- Interactive Skogsmulle Character -->
-      <div
-        class="skogsmulle-character"
-        onclick="interactWithSkogsmulle()"
-        title="Klicka på mig!"
-      ></div>
-
-      <!-- Speech Bubble -->
-      <div class="speech-bubble" id="speechBubble">
-        Hej! Jag är Skogsmulle! Klicka på mig för att säga hej!
-      </div>
-
-      <!-- Header Audio Player -->
-      <div class="header-audio-player">
-        <audio id="headerAudio" controls>
-          <source src="detblirbra.wav" type="audio/wav" />
-          Din webbläsare stöder inte audio-elementet.
-        </audio>
+      <div class="header-overlay"></div>
+      <div class="header-content">
+        <h1>Skogsmulle</h1>
+        <p>Magiska berättelser för barn</p>
       </div>
     </header>
 
-    <!-- Navigation Bar with Tools -->
-    <nav class="main-navigation">
-      <div class="nav-container">
-        <div class="nav-menu">
-          <!-- Author Tools -->
-          <div class="nav-item">
-            <button
-              class="nav-button"
-              onclick="toggleNavDropdown('authorTools')"
-            >
-              ✍️ Författarverktyg
-            </button>
-            <div id="authorTools" class="nav-dropdown">
-              <h3>Skriv ny berättelse</h3>
-              <div class="author-info" style="margin-bottom: 15px">
-                <div id="navUserInfo" style="display: none">
-                  <p><strong>Inloggad som:</strong></p>
-                  <p id="navUserEmail"></p>
-                </div>
-                <div id="navLoginSection">
-                  <p class="login-note">Logga in för att skriva berättelser.</p>
-                </div>
-              </div>
-              <div id="authorFormSection" style="display: none">
-                <form id="newPostForm" class="new-post-form">
-                  <div class="form-group">
-                    <label for="postTitle">Titel:</label>
-                    <input
-                      type="text"
-                      id="postTitle"
-                      required
-                      placeholder="T.ex. Skogsmulles stora äventyr"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="postCategory">Kategori:</label>
-                    <select id="postCategory">
-                      <option value="">Välj kategori</option>
-                      <option value="äventyr">Äventyr</option>
-                      <option value="vänskap">Vänskap</option>
-                      <option value="natur">Natur</option>
-                      <option value="magi">Magi</option>
-                      <option value="djur">Djur</option>
-                      <option value="lärdom">Lärdom</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="postAge">Åldersgrupp:</label>
-                    <select id="postAge">
-                      <option value="">Välj ålder</option>
-                      <option value="3-5 år">3-5 år</option>
-                      <option value="6-8 år">6-8 år</option>
-                      <option value="9-12 år">9-12 år</option>
-                      <option value="alla åldrar">Alla åldrar</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="postContent">Berättelse:</label>
-                    <div class="editor-toolbar">
-                      <button
-                        type="button"
-                        onclick="formatText('bold')"
-                        title="Fet text"
-                      >
-                        <strong>B</strong>
-                      </button>
-                      <button
-                        type="button"
-                        onclick="formatText('italic')"
-                        title="Kursiv text"
-                      >
-                        <em>I</em>
-                      </button>
-                      <button
-                        type="button"
-                        onclick="formatText('underline')"
-                        title="Understruken text"
-                      >
-                        <u>U</u>
-                      </button>
-                      <button
-                        type="button"
-                        onclick="insertImage()"
-                        title="Lägg till bild"
-                      >
-                        🖼️ Bild
-                      </button>
-                      <button
-                        type="button"
-                        onclick="formatText('insertUnorderedList')"
-                        title="Lista"
-                      >
-                        • Lista
-                      </button>
-                    </div>
-                    <div
-                      id="postContent"
-                      class="rich-editor"
-                      contenteditable="true"
-                      data-placeholder="Skriv din magiska berättelse här..."
-                    ></div>
-                  </div>
-                  <div class="form-actions">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      onclick="saveDraft()"
-                    >
-                      💾 Spara utkast
-                    </button>
-                    <button type="submit" class="submit-button">
-                      ✨ Publicera berättelse
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
 
     <main id="main-content" role="main">
       <div class="content">
-        <!-- Breadcrumb Navigation -->
-        <nav
-          class="breadcrumb-nav"
-          aria-label="Breadcrumb"
-          style="padding: 20px 0; font-size: 0.95rem; color: var(--s)"
-        >
-          <span style="color: var(--p); font-weight: 600">🏠 Hem</span> /
-          <span>Svenska Barnberättelser</span>
+        <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+          <a href="/">Hem</a> / <span>Berättelser</span>
         </nav>
 
         <div class="main-content">
           <section class="blog-section" aria-label="Berättelser" id="stories">
-            <h2
-              style="
-                color: var(--p);
-                margin-bottom: 30px;
-                font-family: var(--f);
-                font-style: italic;
-                font-size: 2rem;
-                font-weight: 600;
-              "
-            >
-              Alla Berättelser
-            </h2>
+            <div class="section-header">
+              <h2>Alla Berättelser</h2>
+            </div>
             <div id="posts-container"></div>
           </section>
 
-          <!-- Sidebar removed - all functionality moved to navigation dropdown to avoid duplication -->
+          <section class="author-section" id="authorSection" style="display:none">
+            <h2>Skriv ny berättelse</h2>
+            <div class="author-info" id="authorInfo">
+              <p>Inloggad som: <strong id="authorEmail"></strong></p>
+            </div>
+            <form id="newPostForm">
+              <div class="form-group">
+                <label for="postTitle">Titel</label>
+                <input type="text" id="postTitle" required placeholder="T.ex. Skogsmulles stora äventyr" />
+              </div>
+              <div class="form-group">
+                <label for="postCategory">Kategori</label>
+                <select id="postCategory">
+                  <option value="">Välj kategori</option>
+                  <option value="äventyr">Äventyr</option>
+                  <option value="vänskap">Vänskap</option>
+                  <option value="natur">Natur</option>
+                  <option value="magi">Magi</option>
+                  <option value="djur">Djur</option>
+                  <option value="lärdom">Lärdom</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="postAge">Åldersgrupp</label>
+                <select id="postAge">
+                  <option value="">Välj ålder</option>
+                  <option value="3-5 år">3-5 år</option>
+                  <option value="6-8 år">6-8 år</option>
+                  <option value="9-12 år">9-12 år</option>
+                  <option value="alla åldrar">Alla åldrar</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="postContent">Berättelse</label>
+                <div class="editor-toolbar">
+                  <button type="button" onclick="formatText('bold')" title="Fet text"><strong>B</strong></button>
+                  <button type="button" onclick="formatText('italic')" title="Kursiv text"><em>I</em></button>
+                  <button type="button" onclick="formatText('underline')" title="Understruken text"><u>U</u></button>
+                  <button type="button" onclick="formatText('insertUnorderedList')" title="Lista">Lista</button>
+                </div>
+                <div id="postContent" class="rich-editor" contenteditable="true" data-placeholder="Skriv din magiska berättelse här..."></div>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="saveDraft()">Spara utkast</button>
+                <button type="submit" class="submit-button">Publicera berättelse</button>
+              </div>
+            </form>
+          </section>
         </div>
       </div>
     </main>
 
-    <div class="audio-player">
-      <button
-        id="playTheme"
-        onclick="toggleThemeAudio()"
-        aria-label="Spela temalåt"
-      >
-        Spela temalåt
-      </button>
-      <button
-        id="playAdventure"
-        onclick="toggleAdventureAudio()"
-        aria-label="Spela äventyrslåt"
-      >
-        Spela äventyrslåt
-      </button>
-    </div>
-
     <footer class="footer">
-      <p>
-        &copy; 2024 Skogsmulle. Alla berättelser är skapade med kärlek för barn
-        och föräldrar.
-      </p>
-      <div style="margin-top: 15px; font-size: 0.9rem; color: var(--a)">
-        <strong>Läsningstips för föräldrar:</strong> Läs högt varje dag, ställ
-        frågor om berättelsen, och låt barnet berätta om bilderna.
-      </div>
+      <p>&copy; 2024 Skogsmulle. Alla berättelser är skapade med kärlek för barn och föräldrar.</p>
+      <p class="footer-tip">Läsningstips: Läs högt varje dag, ställ frågor om berättelsen, och låt barnet berätta om bilderna.</p>
     </footer>
 
     <script>
-      // Global variables
       let isAdmin = false;
       let currentUser = null;
       let allPosts = [];
-      let themeAudio = new Audio("skogsmulleTheme.wav");
-      let adventureAudio = new Audio("telegram_audio.mp3");
 
-      // Header Background Video with Error Handling
       document.addEventListener("DOMContentLoaded", function () {
         const headerVideo = document.getElementById("headerBackgroundVideo");
-
         if (headerVideo) {
-          // Handle video loading errors
-          headerVideo.addEventListener("error", function (e) {
-            console.warn("Video loading error, using fallback:", e);
-            // Video will show poster image as fallback
-          });
-
-          // Try to play video (required for autoplay in some browsers)
-          headerVideo.addEventListener("loadeddata", function () {
-            const playPromise = headerVideo.play();
-            if (playPromise !== undefined) {
-              playPromise
-                .then(() => {
-                  console.log("Video autoplay started");
-                })
-                .catch((error) => {
-                  console.warn(
-                    "Autoplay prevented, user interaction required:",
-                    error
-                  );
-                });
-            }
-          });
-
-          // Ensure looping works
-          headerVideo.addEventListener("ended", function () {
-            headerVideo.currentTime = 0;
-            headerVideo.play();
-          });
-
-          // Force play attempt after a short delay (for autoplay policies)
-          setTimeout(() => {
-            if (headerVideo.paused) {
-              headerVideo.play().catch(() => {
-                // Autoplay blocked, that's okay
-              });
-            }
-          }, 100);
+          headerVideo.play().catch(() => {});
         }
       });
 
-      // Magical Interactive Functions
-      function interactWithSkogsmulle() {
-        const bubble = document.getElementById("speechBubble");
-        const messages = [
-          "Hej! Jag är Skogsmulle!",
-          "Vill du höra en berättelse?",
-          "Låt oss utforska skogen tillsammans!",
-          "Jag har många vänner här i skogen!",
-          "Vad roligt att träffa dig!",
-          "Ska vi gå på äventyr?",
-        ];
-
-        const randomMessage =
-          messages[Math.floor(Math.random() * messages.length)];
-        bubble.textContent = randomMessage;
-        bubble.classList.add("show");
-
-        setTimeout(() => {
-          bubble.classList.remove("show");
-        }, 3000);
-
-        // Add magical sparkle effect
-        createSparkles();
-      }
-
-      function createSparkles() {
-        for (let i = 0; i < 10; i++) {
-          const sparkle = document.createElement("div");
-          sparkle.style.position = "absolute";
-          sparkle.style.width = "6px";
-          sparkle.style.height = "6px";
-          sparkle.style.background = "#FFD700";
-          sparkle.style.borderRadius = "50%";
-          sparkle.style.pointerEvents = "none";
-          sparkle.style.left = Math.random() * window.innerWidth + "px";
-          sparkle.style.top = Math.random() * 200 + "px";
-          sparkle.style.animation = "sparkle 2s ease-out forwards";
-          document.body.appendChild(sparkle);
-
-          setTimeout(() => {
-            sparkle.remove();
-          }, 2000);
-        }
-      }
-
-      function exploreStory(storyIndex) {
-        const story = allPosts[storyIndex];
-        alert(
-          `Utforskar berättelsen: "${story.title}"\n\nLåt oss gå på äventyr tillsammans!`
-        );
-
-        // Add exploration effect
-        const storyElement =
-          document.querySelectorAll(".story-scene")[storyIndex];
-        storyElement.style.transform = "scale(1.02)";
-        storyElement.style.boxShadow = "0 20px 40px rgba(139, 69, 19, 0.3)";
-
-        setTimeout(() => {
-          storyElement.style.transform = "";
-          storyElement.style.boxShadow = "";
-        }, 1000);
-      }
-
-      function meetCharacters(storyIndex) {
-        const characters = [
-          "Skogsmulle",
-          "Morris (ekorren)",
-          "Evert (ugglan)",
-          "Ron (räven)",
-        ];
-        const characterInfo = characters.map((char) => `• ${char}`).join("\n");
-
-        alert(
-          `Träffa karaktärerna i denna berättelse:\n\n${characterInfo}\n\nVilken karaktär vill du lära känna bättre?`
-        );
-      }
-
-      function playStorySounds(storyIndex) {
-        const story = allPosts[storyIndex];
-
-        // Play different sounds based on story category
-        const soundMap = {
-          äventyr: "Skogsmulle.mp3",
-          natur: "telegram_audio.mp3",
-          magi: "Skogsmulle.mp3",
-          vänskap: "telegram_audio.mp3",
-          djur: "Skogsmulle.mp3",
-        };
-
-        const soundFile = soundMap[story.category] || "Skogsmulle.mp3";
-        const audio = new Audio(soundFile);
-
-        audio.play().catch((e) => {
-          console.log("Audio play failed:", e);
-          alert(`Ljud för berättelsen "${story.title}" skulle spelas nu!`);
-        });
-
-        // Add visual feedback
-        const storyElement =
-          document.querySelectorAll(".story-scene")[storyIndex];
-        storyElement.style.animation = "storyPulse 1s ease-in-out";
-
-        setTimeout(() => {
-          storyElement.style.animation = "";
-        }, 1000);
-      }
-
-      // Add CSS animations for interactive effects
-      const style = document.createElement("style");
-      style.textContent = `
-        @keyframes sparkle {
-          0% { opacity: 1; transform: scale(0) rotate(0deg); }
-          50% { opacity: 1; transform: scale(1) rotate(180deg); }
-          100% { opacity: 0; transform: scale(0) rotate(360deg); }
-        }
-        
-        @keyframes storyPulse {
-          0% { transform: scale(1); }
-          50% { transform: scale(1.05); }
-          100% { transform: scale(1); }
-        }
-      `;
-      document.head.appendChild(style);
 
       // Story Page Generation System
       function generateStorySlug(title) {
@@ -3315,7 +1226,6 @@
           if (!window.firebaseDb) {
             allPosts = [];
             renderAllPosts();
-            updateRecentStories();
             return;
           }
           const r = window.firebaseCollection(window.firebaseDb, "posts");
@@ -3457,148 +1367,47 @@
 
       function renderAllPosts() {
         const c = document.getElementById("posts-container");
-        console.log("Rendering posts:", allPosts.length, "posts found");
-        console.log("Posts data:", allPosts);
 
         if (allPosts.length === 0) {
-          c.innerHTML =
-            '<p style="text-align:center;color:var(--a);font-style:italic;padding:40px">Inga berättelser ännu. Skapa den första!</p>';
+          c.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📚</div><p>Inga berättelser ännu. Skapa den första!</p></div>';
           return;
         }
 
-        // Sort posts by timestamp to ensure newest first
         const sortedPosts = [...allPosts].sort(
           (a, b) => (b.timestamp || 0) - (a.timestamp || 0)
         );
 
         c.innerHTML = sortedPosts
           .map((p, i) => {
-            // Ensure content is properly formatted
-            const content =
-              p.content && p.content.trim() ? p.content : `<p>${p.title}</p>`;
-            const slug = p.slug || generateStorySlug(p.title);
-            const storyUrl = `/stories/${slug}.html`;
-            const safeTitle = (p.title || "").replace(/'/g, "&apos;");
-
-            return `<div class="story-scene" data-id="${
-              p.id || ""
-            }" data-slug="${slug}" onclick="openStoryModal(${i})">
-                <div class="flip-card">
-                  <div class="card-front">
-                    <div class="card-front__tp">
-                      <div class="scene-illustration">🌲🦔</div>
-                      <h2 class="card-front__heading">${
-                        p.title || "Untitled Story"
-                      }</h2>
-                      <p class="card-front__text-date">${
-                        p.date || "No date"
-                      }</p>
-                    </div>
-                    <div class="card-front__bt">
-                      <p class="card-front__text-view">✨ Läs mig ✨</p>
-                    </div>
-                  </div>
+            const excerpt = getExcerpt(p.content, 120);
+            return `<article class="story-card" data-id="${p.id || ""}" onclick="openStoryModal(${i})">
+              <div class="story-card-accent"></div>
+              <div class="story-card-body">
+                <div class="story-card-badges">
+                  ${p.category ? `<span class="badge badge-category">${p.category}</span>` : ''}
+                  ${p.age ? `<span class="badge badge-age">${p.age}</span>` : ''}
                 </div>
-
-                <div class="inside-page">
-                  <div class="inside-page__container">
-                    <div class="post-header">
-                      <h3 class="post-title" style="color:var(--p);font-size:1.8rem;margin-bottom:1rem;">${
-                        p.title || "Untitled Story"
-                      }</h3>
-                      <div class="post-meta" style="margin-bottom:1.5rem;">
-                        <span class="post-date">${p.date || "No date"}</span>
-                        ${
-                          p.category
-                            ? `<span class="post-category">${p.category}</span>`
-                            : ""
-                        }
-                        ${p.age ? `<span class="post-age">${p.age}</span>` : ""}
-                      </div>
-                    </div>
-                    <div class="post-content" style="line-height:1.8;font-size:1.1rem;max-height:400px;overflow-y:auto;">${content}</div>
-                    <div class="story-interactive" style="margin-top:1.5rem;">
-                      <div class="interactive-element" onclick="exploreStory(${i})">🔍 Utforska</div>
-                      <div class="interactive-element" onclick="meetCharacters(${i})">👋 Karaktärer</div>
-                      <div class="interactive-element" onclick="playStorySounds(${i})">🎵 Ljud</div>
-                    </div>
-                    <div class="post-actions" style="margin-top:1.5rem;padding-top:1.5rem;border-top:2px solid rgba(139,69,19,0.2);">
-                      ${
-                        isAdmin
-                          ? `<button class="post-button" onclick="editPost(${i})">✏️ Redigera</button><button class="post-button" onclick="deletePost(${i})">🗑️ Ta bort</button>`
-                          : ""
-                      }
-                      <button class="post-button" onclick="markAsRead(${i})">✓ Markera som läst</button>
-                      <button class="post-button" onclick="shareStoryFromCard('${slug}', '${safeTitle}')">📤 Dela</button>
-                    </div>
-                  </div>
+                <h3 class="story-card-title">${p.title || 'Utan titel'}</h3>
+                <p class="story-card-excerpt">${excerpt}</p>
+                <div class="story-card-footer">
+                  <span class="story-card-date">${p.date || ''}</span>
+                  <span class="story-card-cta">Läs mer &rarr;</span>
                 </div>
-              </div>`;
+              </div>
+            </article>`;
           })
           .join("");
       }
 
-      function shareStoryFromCard(slug, title) {
-        const url = `https://skogsmulle.netlify.app/stories/${slug}.html`;
-        if (navigator.share) {
-          navigator
-            .share({
-              title: title,
-              text: `Läs berättelsen: ${title}`,
-              url: url,
-            })
-            .catch((err) => console.log("Share failed:", err));
-        } else {
-          navigator.clipboard.writeText(url);
-          alert("Länken har kopierats!");
-        }
+      function getExcerpt(html, maxLen) {
+        if (!html) return '';
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        const text = tmp.textContent || tmp.innerText || '';
+        return text.length > maxLen ? text.substring(0, maxLen) + '…' : text;
       }
 
-      // Toggle hamburger menu
-      function toggleMenu() {
-        const nav = document.querySelector(".main-navigation");
-        const hamburger = document.getElementById("hamburgerBtn");
 
-        nav.classList.toggle("show");
-        hamburger.classList.toggle("active");
-
-        // Close all dropdowns when closing menu
-        if (!nav.classList.contains("show")) {
-          closeAllDropdowns();
-        }
-      }
-
-      // Toggle navigation dropdowns
-      function toggleNavDropdown(dropdownId) {
-        const dropdown = document.getElementById(dropdownId);
-        const isOpen = dropdown.classList.contains("show");
-
-        // Close all dropdowns first
-        closeAllDropdowns();
-
-        // If it wasn't open, open this one
-        if (!isOpen) {
-          dropdown.classList.add("show");
-          event.target.classList.add("active");
-        }
-      }
-
-      // Close all dropdowns
-      function closeAllDropdowns() {
-        document.querySelectorAll(".nav-dropdown").forEach((dropdown) => {
-          dropdown.classList.remove("show");
-        });
-        document.querySelectorAll(".nav-button").forEach((btn) => {
-          btn.classList.remove("active");
-        });
-      }
-
-      // Recent stories functionality removed
-
-      function scrollToPost(i) {
-        const p = document.querySelectorAll(".story-scene")[i];
-        if (p) p.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
 
       async function editPost(i) {
         const p = allPosts[i];
@@ -3727,10 +1536,6 @@
         }
       }
 
-      function scrollToStory(id) {
-        const p = document.querySelector(`[data-id="${id}"]`);
-        if (p) p.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
 
       // Rich text editor functions
       function formatText(command) {
@@ -3773,30 +1578,6 @@
         }
       }
 
-      // Search functionality
-      function searchStories() {
-        const searchTerm = document
-          .getElementById("globalSearch")
-          .value.toLowerCase();
-        document.querySelectorAll(".blog-post").forEach((post) => {
-          const title = post
-            .querySelector(".post-title")
-            .textContent.toLowerCase();
-          const content = post
-            .querySelector(".post-content")
-            .textContent.toLowerCase();
-          const category = post.dataset.category?.toLowerCase() || "";
-          const age = post.dataset.age?.toLowerCase() || "";
-
-          const matches =
-            title.includes(searchTerm) ||
-            content.includes(searchTerm) ||
-            category.includes(searchTerm) ||
-            age.includes(searchTerm);
-
-          post.style.display = matches ? "block" : "none";
-        });
-      }
 
       // Text size controls
       function changeTextSize(delta) {
@@ -3887,19 +1668,35 @@
         }
       }
 
-      function updateDiscreteLogin(l) {
-        const b = document.querySelector(".discrete-login");
-        b.textContent = l ? currentUser.email.split("@")[0] : "Logga in";
-        b.style.background = l ? "var(--p)" : "var(--lg)";
-        b.style.color = l ? "var(--w)" : "var(--s)";
+      function handleNavLogin() {
+        if (isAdmin && currentUser) {
+          signOut();
+        } else {
+          document.getElementById("loginModal").classList.add("show-modal");
+        }
+      }
+
+      function updateNavLoginBtn() {
+        const btn = document.getElementById("navLoginBtn");
+        const writeItem = document.getElementById("navWriteItem");
+        if (!btn) return;
+        if (isAdmin && currentUser) {
+          btn.textContent = currentUser.email.split("@")[0];
+          btn.classList.add("logged-in");
+          if (writeItem) writeItem.style.display = '';
+        } else {
+          btn.textContent = "Logga in";
+          btn.classList.remove("logged-in");
+          if (writeItem) writeItem.style.display = 'none';
+        }
       }
 
       function toggleLoginModal() {
-        document.getElementById("loginModal").style.display = "flex";
+        document.getElementById("loginModal").classList.add("show-modal");
       }
 
       function closeLoginModal() {
-        document.getElementById("loginModal").style.display = "none";
+        document.getElementById("loginModal").classList.remove("show-modal");
       }
 
       // Story Modal Functions
@@ -3979,36 +1776,21 @@
       });
 
       function showAuthorTools() {
-        console.log("Showing author tools for user:", currentUser);
-        try {
-          // Update navbar elements
-          const navUserInfo = document.getElementById("navUserInfo");
-          const navLoginSection = document.getElementById("navLoginSection");
-          const navUserEmail = document.getElementById("navUserEmail");
-          const authorFormSection =
-            document.getElementById("authorFormSection");
-
-          if (navUserInfo) navUserInfo.style.display = "block";
-          if (navLoginSection) navLoginSection.style.display = "none";
-          if (navUserEmail && currentUser)
-            navUserEmail.textContent = currentUser.email;
-          if (authorFormSection) authorFormSection.style.display = "block";
-
-          updateDiscreteLogin(true);
-          console.log("Author tools displayed successfully");
-        } catch (error) {
-          console.error("Error showing author tools:", error);
-        }
+        const authorSection = document.getElementById("authorSection");
+        const authorEmail = document.getElementById("authorEmail");
+        if (authorSection) authorSection.style.display = '';
+        if (authorEmail && currentUser) authorEmail.textContent = currentUser.email;
+        updateNavLoginBtn();
       }
 
       function showLoginSection() {
-        // Sidebar removed - all login UI is in navigation dropdown
-        updateDiscreteLogin(false);
+        updateNavLoginBtn();
       }
 
       function hideAuthorTools() {
-        // Sidebar removed - all author UI is in navigation dropdown
-        updateDiscreteLogin(false);
+        const authorSection = document.getElementById("authorSection");
+        if (authorSection) authorSection.style.display = 'none';
+        updateNavLoginBtn();
       }
 
       // toggleAuthorTools function removed - sidebar functionality consolidated into navigation
@@ -4056,34 +1838,6 @@
         alert("Du har loggats ut.");
       }
 
-      function showCharacterInfo(c) {
-        const info = {
-          skogsmulle: {
-            name: "Skogsmulle",
-            description:
-              "En nyfiken och modig liten skogsman som älskar att utforska naturen och träffa nya vänner.",
-          },
-          morris: {
-            name: "Morris",
-            description:
-              "En klok och snäll grävling som alltid vet vad man ska göra när man är i skogen.",
-          },
-          evert: {
-            name: "Evert",
-            description:
-              "En gladlynt och hjälpsam igelkott som älskar att samla bär och hjälpa sina vänner.",
-          },
-          ron: {
-            name: "Ron",
-            description:
-              "En slug och vänlig räv som kan hitta vägen genom de mest komplicerade skogspassagerna.",
-          },
-        };
-        const char = info[c];
-        if (char) {
-          alert(`${char.name}\n\n${char.description}`);
-        }
-      }
 
       // Move form event listener inside DOMContentLoaded to prevent duplicates
       function setupFormListeners() {
@@ -4156,30 +1910,16 @@
               console.log("Story saved with ID:", pid);
 
               if (pid) {
-                // Clear form completely
                 this.reset();
                 document.getElementById("postContent").innerHTML = "";
                 localStorage.removeItem("skogsmulle_draft");
-
-                // Close modal
-                closeAuthorModal();
-
                 alert("Berättelsen har publicerats!");
-                console.log("Story published successfully");
 
-                // Force reload stories to ensure they appear
                 setTimeout(async () => {
                   try {
                     await C.load();
-                    if (allPosts.length > 0) {
-                      const firstStory = document.querySelector(".story-scene");
-                      if (firstStory) {
-                        firstStory.scrollIntoView({
-                          behavior: "smooth",
-                          block: "start",
-                        });
-                      }
-                    }
+                    const stories = document.getElementById("stories");
+                    if (stories) stories.scrollIntoView({ behavior: "smooth" });
                   } catch (error) {
                     console.error("Error reloading stories:", error);
                   }
@@ -4232,310 +1972,29 @@
         }
       }
 
-      function toggleThemeAudio() {
-        const b = document.getElementById("playTheme");
-        if (themeAudio.paused) {
-          themeAudio.play();
-          b.textContent = "Pausa";
-        } else {
-          themeAudio.pause();
-          b.textContent = "🎵 Spela temalåt";
-        }
-      }
-
-      function toggleAdventureAudio() {
-        const b = document.getElementById("playAdventure");
-        if (adventureAudio.paused) {
-          adventureAudio.play();
-          b.textContent = "Pausa";
-        } else {
-          adventureAudio.pause();
-          b.textContent = "Spela äventyrslåt";
-        }
-      }
-
-      // ===== Header Slide System =====
-      function initializeHeaderSlides() {
-        const slides = document.querySelectorAll(".header-slide");
-        const navButtons = document.querySelectorAll(".slide-nav-btn");
-        let currentSlide = 0;
-
-        console.log(
-          "Initializing header slides:",
-          slides.length,
-          "slides found"
-        );
-
-        function showSlide(index) {
-          console.log("Showing slide:", index);
-
-          // Remove active class from all slides and buttons
-          slides.forEach((slide) => {
-            slide.classList.remove("active", "prev");
-          });
-          navButtons.forEach((btn) => {
-            btn.classList.remove("active");
-          });
-
-          // Add active class to current slide and button
-          if (slides[index]) {
-            slides[index].classList.add("active");
-          }
-          if (navButtons[index]) {
-            navButtons[index].classList.add("active");
-          }
-
-          // Add prev class to previous slide for animation
-          if (index > 0 && slides[index - 1]) {
-            slides[index - 1].classList.add("prev");
-          }
-
-          currentSlide = index;
-        }
-
-        // Ensure first slide is visible on load
-        setTimeout(() => {
-          showSlide(0);
-        }, 100);
-
-        // Add click event listeners to navigation buttons
-        navButtons.forEach((btn, index) => {
-          btn.addEventListener("click", () => {
-            showSlide(index);
-          });
-        });
-
-        // Auto-advance slides every 8 seconds
-        setInterval(() => {
-          const nextSlide = (currentSlide + 1) % slides.length;
-          showSlide(nextSlide);
-        }, 8000);
-      }
-
-      // ===== Header Video Player Functionality =====
-      function initializeHeaderVideoPlayer() {
-        const video = document.getElementById("headerVideo");
-        const overlay = document.getElementById("headerVideoOverlay");
-        const playPauseBtn = document.getElementById("headerPlayPauseBtn");
-        const progressBar = document.getElementById("headerProgressBar");
-        const progressHandle = document.getElementById("headerProgressHandle");
-        const currentTimeEl = document.getElementById("headerCurrentTime");
-        const durationEl = document.getElementById("headerDuration");
-        const volumeBtn = document.getElementById("headerVolumeBtn");
-
-        if (!video || !overlay) return;
-
-        // Show/hide overlay on hover
-        video.addEventListener("mouseenter", () => {
-          overlay.classList.add("show");
-        });
-
-        video.addEventListener("mouseleave", () => {
-          if (!video.paused) {
-            overlay.classList.remove("show");
-          }
-        });
-
-        // Play/Pause functionality
-        playPauseBtn.addEventListener("click", () => {
-          if (video.paused) {
-            video.play();
-            playPauseBtn.querySelector(".header-play-icon").textContent = "⏸️";
-            overlay.classList.remove("show");
-          } else {
-            video.pause();
-            playPauseBtn.querySelector(".header-play-icon").textContent = "▶️";
-          }
-        });
-
-        // Video click to play/pause
-        video.addEventListener("click", () => {
-          if (video.paused) {
-            video.play();
-            playPauseBtn.querySelector(".header-play-icon").textContent = "⏸️";
-            overlay.classList.remove("show");
-          } else {
-            video.pause();
-            playPauseBtn.querySelector(".header-play-icon").textContent = "▶️";
-          }
-        });
-
-        // Update progress bar
-        video.addEventListener("timeupdate", () => {
-          const progress = (video.currentTime / video.duration) * 100;
-          progressBar.style.width = progress + "%";
-          progressHandle.style.left = progress + "%";
-
-          currentTimeEl.textContent = formatTime(video.currentTime);
-        });
-
-        // Update duration
-        video.addEventListener("loadedmetadata", () => {
-          durationEl.textContent = formatTime(video.duration);
-        });
-
-        // Progress bar click to seek
-        const progressContainer = document.querySelector(
-          ".header-video-progress"
-        );
-        progressContainer.addEventListener("click", (e) => {
-          const rect = progressContainer.getBoundingClientRect();
-          const clickX = e.clientX - rect.left;
-          const percentage = clickX / rect.width;
-          video.currentTime = percentage * video.duration;
-        });
-
-        // Volume control
-        let isMuted = false;
-        volumeBtn.addEventListener("click", () => {
-          if (isMuted) {
-            video.muted = false;
-            volumeBtn.querySelector(".header-volume-icon").textContent = "🔊";
-            isMuted = false;
-          } else {
-            video.muted = true;
-            volumeBtn.querySelector(".header-volume-icon").textContent = "🔇";
-            isMuted = true;
-          }
-        });
-
-        // Video state changes
-        video.addEventListener("play", () => {
-          playPauseBtn.querySelector(".header-play-icon").textContent = "⏸️";
-        });
-
-        video.addEventListener("pause", () => {
-          playPauseBtn.querySelector(".header-play-icon").textContent = "▶️";
-          overlay.classList.add("show");
-        });
-
-        video.addEventListener("ended", () => {
-          playPauseBtn.querySelector(".header-play-icon").textContent = "▶️";
-          overlay.classList.add("show");
-          progressBar.style.width = "0%";
-          progressHandle.style.left = "0%";
-          currentTimeEl.textContent = "0:00";
-        });
-
-        // Error handling
-        video.addEventListener("error", (e) => {
-          console.error("Header video error:", e);
-          const errorDiv = document.createElement("div");
-          errorDiv.className = "video-error";
-          errorDiv.innerHTML = `
-            <h3>🎬 Oops! Video kunde inte laddas</h3>
-            <p>Kontrollera din internetanslutning och försök igen.</p>
-          `;
-          video.parentNode.appendChild(errorDiv);
-        });
-
-        // Loading state
-        video.addEventListener("loadstart", () => {
-          const loadingDiv = document.createElement("div");
-          loadingDiv.className = "video-loading";
-          loadingDiv.textContent = "🎬 Laddar...";
-          video.parentNode.appendChild(loadingDiv);
-        });
-
-        video.addEventListener("canplay", () => {
-          const loadingDiv = video.parentNode.querySelector(".video-loading");
-          if (loadingDiv) {
-            loadingDiv.remove();
-          }
-        });
-      }
-
-      function formatTime(seconds) {
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${mins}:${secs.toString().padStart(2, "0")}`;
-      }
 
       document.addEventListener("DOMContentLoaded", function () {
-        console.log("Initializing Skogsmulle application...");
-
-        // Setup audio event listeners
-        try {
-          themeAudio.addEventListener(
-            "ended",
-            () =>
-              (document.getElementById("playTheme").textContent =
-                "🎵 Spela temalåt")
-          );
-          adventureAudio.addEventListener(
-            "ended",
-            () =>
-              (document.getElementById("playAdventure").textContent =
-                "Spela äventyrslåt")
-          );
-
-          // Auto-play theme music in background
-          themeAudio.loop = true;
-          themeAudio.volume = 0; // Start muted to bypass browser autoplay restrictions
-
-          // Unmute audio after first user interaction
-          let audioUnmuted = false;
-          const unmuteAudio = () => {
-            if (!audioUnmuted && themeAudio.volume === 0) {
-              themeAudio.volume = 0.3; // Set to 30% volume for background playback
-              audioUnmuted = true;
-              console.log("Theme music unmuted by user interaction");
-            }
-          };
-
-          // Add event listeners to unmute on user interaction
-          document.addEventListener("click", unmuteAudio, { once: true });
-          document.addEventListener("keydown", unmuteAudio, { once: true });
-          document.addEventListener("touchstart", unmuteAudio, { once: true });
-
-          // Try to play the audio (browsers allow muted autoplay)
-          const playPromise = themeAudio.play();
-          if (playPromise !== undefined) {
-            playPromise
-              .then(() => {
-                console.log(
-                  "Theme music started playing (muted until user interaction)"
-                );
-              })
-              .catch((error) => {
-                console.log("Theme music autoplay prevented:", error);
-              });
-          }
-        } catch (error) {
-          console.warn("Audio setup failed:", error);
-        }
-
         initAuth();
         setupFormListeners();
         setupLoginListener();
         setupModalListeners();
-        initializeHeaderSlides();
-        initializeHeaderVideoPlayer();
 
-        // Load saved text size
         const savedSize = localStorage.getItem("skogsmulle_textSize");
-        if (savedSize) {
-          document.body.style.fontSize = savedSize + "px";
-        }
+        if (savedSize) document.body.style.fontSize = savedSize + "px";
 
-        // Load draft if available
         loadDraft();
 
         setTimeout(async () => {
           if (window.firebaseDb) {
-            console.log("Firebase initialized, setting up real-time listener");
             try {
               setupRealtimeListener();
-              // Also try to load posts directly as fallback
               await C.load();
             } catch (error) {
               console.error("Firebase setup failed:", error);
-              console.log("Falling back to empty state");
               allPosts = [];
               renderAllPosts();
             }
           } else {
-            console.log("Firebase not available, falling back to empty state");
             allPosts = [];
             renderAllPosts();
           }
