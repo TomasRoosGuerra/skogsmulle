@@ -91,7 +91,7 @@
     <script src="/site-config.js"></script>
     
     <!-- DOMPurify för säker innehållsrengöring -->
-    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js" integrity="sha384-5FqjH2qvF8JC8+rP1j3qNnCXLkbFvGLKcCHxJQvH84CvK/1c9EKp9tP4xQOT8qPw" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js" integrity="sha384-cwS6YdhLI7XS60eoDiC+egV0qHp8zI+Cms46R0nbn8JrmoAzV9uFL60etMZhAnSu" crossorigin="anonymous"></script>
 
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
@@ -356,6 +356,13 @@
         background: var(--p);
         border-radius: 0;
       }
+      
+      /* Reduce video autoplay on mobile to save bandwidth */
+      @media (max-width: 768px) {
+        .header-background-video {
+          display: none;
+        }
+      }
       .header-overlay {
         position: absolute;
         inset: 0;
@@ -443,10 +450,18 @@
         box-shadow: var(--shadow-card);
         display: flex;
         flex-direction: column;
+        min-height: 44px; /* Minimum touch target size */
       }
-      .story-card:hover {
+      .story-card:hover,
+      .story-card:focus {
         transform: translateY(-4px);
         box-shadow: var(--shadow-card-hover);
+        outline: 2px solid var(--p);
+        outline-offset: 2px;
+      }
+      .story-card:focus {
+        outline: 2px solid var(--p);
+        outline-offset: 2px;
       }
       .story-card-accent {
         height: 6px;
@@ -970,31 +985,76 @@
       }
 
       @media (max-width: 768px) {
+        :root {
+          /* Ensure readable text on mobile */
+          --font-size-body: 1rem;
+          --font-size-sm: 0.875rem;
+        }
+        
+        body {
+          /* Prevent horizontal scroll */
+          overflow-x: hidden;
+          max-width: 100vw;
+        }
+        
         .magical-header {
           height: clamp(220px, 40vw, 350px);
         }
         #posts-container {
           grid-template-columns: 1fr;
+          gap: var(--sp-md);
         }
+        
+        /* Larger touch targets on mobile */
+        .story-card {
+          min-height: 44px;
+          padding: 4px; /* Add padding for easier tapping */
+        }
+        
+        .story-modal {
+          padding: var(--sp-sm); /* Reduce modal padding on mobile */
+        }
+        
         .story-modal-content {
           padding: var(--sp-lg);
           margin: var(--sp-sm);
+          max-height: 85vh; /* More space for content */
         }
         .story-modal-title {
           font-size: var(--font-size-h3);
+          margin-right: var(--sp-sm); /* Less margin */
+        }
+        .story-modal-close {
+          width: 44px; /* Larger touch target */
+          height: 44px;
+          font-size: 1.5rem;
         }
         .story-modal-body {
           font-size: var(--font-size-body);
+          line-height: 1.8; /* More readable line height */
         }
         .author-section {
           padding: var(--sp-lg);
+        }
+        .site-nav {
+          padding: var(--sp-xs) var(--sp-md);
         }
         .site-nav-links {
           gap: 2px;
         }
         .site-nav-link {
-          padding: 6px 10px;
-          font-size: var(--font-size-xs);
+          padding: 8px 12px; /* Larger touch target */
+          font-size: var(--font-size-sm);
+        }
+        .site-nav-login {
+          padding: 8px 16px; /* Larger touch target */
+          font-size: var(--font-size-sm);
+        }
+        
+        /* Ensure buttons are touch-friendly */
+        .btn {
+          min-height: 44px;
+          padding: 10px 18px;
         }
       }
 
@@ -1010,6 +1070,12 @@
         }
         .header-content h1 {
           font-size: clamp(2rem, 1.6rem + 2vw, 3rem);
+        }
+        
+        /* Stack badges vertically on very small screens */
+        .story-card-badges {
+          flex-direction: column;
+          align-items: flex-start;
         }
       }
     </style>
@@ -1465,8 +1531,18 @@
             safeCategory.textContent = p.category || '';
             const safeAge = document.createElement('div');
             safeAge.textContent = p.age || '';
+            const storyId = p.id || `story-${i}`;
             
-            return `<article class="story-card" data-id="${p.id || ""}" onclick="openStoryModal(${i})">
+            return `<article 
+              class="story-card" 
+              data-id="${p.id || ""}" 
+              data-index="${i}"
+              id="story-${storyId}"
+              tabindex="0"
+              role="button"
+              aria-label="Läs berättelsen: ${safeTitle.textContent}"
+              onclick="openStoryModal(${i})"
+              onkeydown="handleStoryCardKeydown(event, ${i})">
               <div class="story-card-accent"></div>
               <div class="story-card-body">
                 <div class="story-card-badges">
@@ -1483,6 +1559,9 @@
             </article>`;
           })
           .join("");
+        
+        // Handle hash navigation after rendering posts
+        handleHashNavigation();
       }
 
       function getExcerpt(html, maxLen) {
@@ -1491,6 +1570,39 @@
         tmp.innerHTML = html;
         const text = tmp.textContent || tmp.innerText || '';
         return text.length > maxLen ? text.substring(0, maxLen) + '…' : text;
+      }
+
+      // Keyboard navigation for story cards
+      function handleStoryCardKeydown(event, index) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openStoryModal(index);
+        }
+      }
+
+      // Handle hash-based direct links to stories
+      function handleHashNavigation() {
+        const hash = window.location.hash;
+        if (hash.startsWith('#story-')) {
+          const storyId = hash.substring(7); // Remove '#story-'
+          const storyIndex = allPosts.findIndex(p => p.id === storyId || `story-${allPosts.indexOf(p)}` === `story-${storyId}`);
+          if (storyIndex >= 0) {
+            setTimeout(() => openStoryModal(storyIndex), 500);
+          }
+        }
+      }
+
+      // Update URL hash when opening story
+      function updateStoryHash(story, index) {
+        const storyId = story.id || `story-${index}`;
+        history.pushState(null, '', `#story-${storyId}`);
+      }
+
+      // Clear hash when closing modal
+      function clearStoryHash() {
+        if (window.location.hash.startsWith('#story-')) {
+          history.pushState(null, '', window.location.pathname);
+        }
       }
 
 
@@ -1804,6 +1916,9 @@
           return;
         }
 
+        // Update URL hash for direct linking
+        updateStoryHash(story, index);
+
         // Använd textContent för titel (ingen HTML)
         titleEl.textContent = story.title || "Untitled Story";
 
@@ -1832,10 +1947,21 @@
         if (ageSpan) metaEl.appendChild(ageSpan);
 
         // Rengör innehåll med DOMPurify (tillåt endast säkra taggar)
-        const cleanContent = DOMPurify.sanitize(story.content || "<p>No content available.</p>", {
-          ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'ul', 'li', 'ol'],
-          ALLOWED_ATTR: []
-        });
+        const rawContent = story.content || "<p>No content available.</p>";
+        let cleanContent;
+        
+        if (typeof DOMPurify !== 'undefined') {
+          cleanContent = DOMPurify.sanitize(rawContent, {
+            ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'ul', 'li', 'ol', 'h1', 'h2', 'h3'],
+            ALLOWED_ATTR: []
+          });
+        } else {
+          // Fallback: basic sanitization if DOMPurify isn't available
+          console.warn('DOMPurify not available, using basic sanitization');
+          const tempDiv = document.createElement('div');
+          tempDiv.textContent = rawContent.replace(/<[^>]*>/g, ' ');
+          cleanContent = '<p>' + tempDiv.textContent + '</p>';
+        }
         bodyEl.innerHTML = cleanContent;
 
         // Show modal
@@ -1851,6 +1977,7 @@
         if (modal) {
           modal.classList.remove("show");
           document.body.style.overflow = ""; // Restore scrolling
+          clearStoryHash(); // Clear URL hash
         }
       }
 
@@ -2146,6 +2273,15 @@
         if (savedSize) document.body.style.fontSize = savedSize + "px";
 
         loadDraft();
+        
+        // Handle hash navigation for direct story links
+        window.addEventListener('hashchange', handleHashNavigation);
+        
+        // Show loading state
+        const postsContainer = document.getElementById("posts-container");
+        if (postsContainer) {
+          postsContainer.innerHTML = '<div class="loading-state" style="text-align: center; padding: 3rem; color: var(--txt-muted);"><div style="font-size: 2rem; margin-bottom: 1rem;">⏳</div><p>Laddar berättelser...</p></div>';
+        }
 
         // Använd endast realtime listener (ta bort dubbelhämtning)
         setTimeout(async () => {
@@ -2157,6 +2293,10 @@
               console.error("Firebase setup failed:", error);
               allPosts = [];
               renderAllPosts();
+              // Show error state
+              if (postsContainer) {
+                postsContainer.innerHTML = '<div class="error-state" style="text-align: center; padding: 3rem; color: var(--txt-muted);"><div style="font-size: 2rem; margin-bottom: 1rem;">⚠️</div><p>Kunde inte ladda berättelser. Försök igen senare.</p></div>';
+              }
             }
           } else {
             allPosts = [];
