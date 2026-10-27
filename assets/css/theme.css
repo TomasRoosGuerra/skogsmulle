@@ -286,3 +286,5 @@ body, p, input, textarea, select, button {
   color: var(--ink-muted);
   font-style: italic;
 }
+
+.topic-chip { justify-content: center; }
