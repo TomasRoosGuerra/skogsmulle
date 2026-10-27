@@ -59,10 +59,11 @@
       rel="sitemap"
       type="application/xml"
       title="Sitemap"
-      href="/sitemap.xml"
+      href="sitemap.xml"
     />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <meta name="theme-color" content="#FBF5E2" />
 
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json" id="schemaWebSite">
@@ -88,7 +89,7 @@
     </script>
 
     <!-- Site configuration -->
-    <script src="/site-config.js"></script>
+    <script src="site-config.js"></script>
     
     <!-- DOMPurify för säker innehållsrengöring -->
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js" integrity="sha384-cwS6YdhLI7XS60eoDiC+egV0qHp8zI+Cms46R0nbn8JrmoAzV9uFL60etMZhAnSu" crossorigin="anonymous"></script>
@@ -143,28 +144,47 @@
     </script>
 
     <style>
-      /* ===== DESIGN SYSTEM: Luminous Forest ===== */
+      /* ===== DESIGN SYSTEM: Luminous Forest (stilguide.md §4, akvarell-palett) ===== */
       :root {
-        /* Colors — luminous, harmonious, WCAG AA compliant */
-        --p: #1a6b5a;       /* Primary: deep teal-green */
-        --p-light: #238c76;  /* Primary hover */
-        --s: #c4922a;       /* Secondary: warm gold */
-        --s-light: #d4a43c;  /* Secondary hover */
-        --a: #c9506b;       /* Accent: soft berry */
-        --a-light: #d6687f;  /* Accent hover */
-        --bg: #faf8f4;      /* Background: warm white */
-        --surface: #ffffff;  /* Surface: pure white */
-        --txt: #2a2a2a;     /* Text: rich dark */
-        --txt-muted: #6b7280; /* Text muted */
+        /* Palett ur stilguide.md §4 — dämpade, varma gulgröna jordfärger */
+        --sky: #FBF293;
+        --haze: #EEE889;
+        --sea: #CCCE6B;
+        --grass: #C7C328;
+        --grass-deep: #C3BF21;
+        --sail: #E0D15E;
+        --wall: #89790D;
+        --roof: #B99712;
+        --trunk: #958D20;
+        --fur: #927B0F;
+        --accent: #A94A05; /* enda starka accenten: använd sparsamt, max ett element per vy */
+        --cream: #FBF5E2;  /* ikonbakgrund / varm pappersyta */
+        --paper: #FDFBF2;  /* ljusare pappersyta för kort/ytor */
+
+        /* Mörk bläckfärg härledd ur paletten, för text (WCAG AA mot --cream/--paper) */
+        --ink: #3A3306;
+        --ink-muted: #5C5210;
+
+        /* Primary/secondary/danger-roller — mörka, läsbara nyanser av paletten ovan */
+        --p: #6B5D0C;        /* Primary: mörk vägg/stam-ton, för länkar/rubriker/kant */
+        --p-light: #8A760F;  /* Primary hover */
+        --s: #73620B;        /* Secondary: mörk tak/päls-ton */
+        --s-light: #8B730E;  /* Secondary hover */
+        --a: var(--accent);  /* Danger/fel: återanvänder den enda accenten funktionellt */
+        --a-light: #C25D12;  /* Danger hover */
+        --bg: var(--cream);      /* Background: varm krämfärg */
+        --surface: var(--paper); /* Surface: ljusare pappersyta */
+        --txt: var(--ink);
+        --txt-muted: var(--ink-muted);
         --w: #ffffff;
-        --br: #e5e2dc;      /* Border: warm neutral */
-        --br-strong: #d1cdc5; /* Border strong */
+        --br: #E7DCAE;       /* Border: ljus sandton */
+        --br-strong: #D2C184; /* Border strong */
         --r: 12px;
         --r-lg: 20px;
 
-        /* Typography */
-        --f: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        --fh: Georgia, 'Times New Roman', 'Palatino Linotype', serif;
+        /* Typography — självhostade typsnitt (teckensnittsregler i theme.css) */
+        --f: var(--font-body, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif);
+        --fh: var(--font-display, Georgia, 'Times New Roman', 'Palatino Linotype', serif);
 
         /* Layout */
         --content-width: 900px;
@@ -189,13 +209,13 @@
         --sp-xl: clamp(2rem, 1.6rem + 2vw, 3rem);
         --sp-2xl: clamp(3rem, 2.4rem + 3vw, 5rem);
 
-        /* Shadows */
-        --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-        --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-        --shadow-lg: 0 12px 32px rgba(0,0,0,0.1);
-        --shadow-xl: 0 20px 50px rgba(0,0,0,0.15);
-        --shadow-card: 0 2px 8px rgba(26,107,90,0.06), 0 1px 3px rgba(0,0,0,0.04);
-        --shadow-card-hover: 0 8px 24px rgba(26,107,90,0.12), 0 4px 8px rgba(0,0,0,0.06);
+        /* Shadows — mjuka, varmt tonade, låg opacitet (ingen hård svart skugga) */
+        --shadow-sm: 0 1px 3px rgba(58,51,6,0.07), 0 1px 2px rgba(58,51,6,0.05);
+        --shadow-md: 0 4px 12px rgba(58,51,6,0.09);
+        --shadow-lg: 0 12px 32px rgba(58,51,6,0.11);
+        --shadow-xl: 0 20px 50px rgba(58,51,6,0.16);
+        --shadow-card: 0 2px 8px rgba(107,93,12,0.07), 0 1px 3px rgba(58,51,6,0.05);
+        --shadow-card-hover: 0 8px 24px rgba(107,93,12,0.13), 0 4px 8px rgba(58,51,6,0.07);
 
         /* Transitions */
         --ease: cubic-bezier(0.4, 0, 0.2, 1);
@@ -302,7 +322,7 @@
       .site-nav-link:hover,
       .site-nav-link.active {
         color: var(--p);
-        background: rgba(26,107,90,0.06);
+        background: rgba(107,93,12,0.06);
       }
       .site-nav-login {
         font-size: var(--font-size-sm);
@@ -330,76 +350,9 @@
       }
 
 
-      /* ===== Hero Header ===== */
-      .magical-header {
-        position: relative;
-        height: clamp(300px, 45vw, 480px);
-        overflow: hidden;
-        background: var(--p);
-      }
-      .header-frame-container {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        max-width: none;
-        margin: 0;
-        padding: 0;
-        z-index: 1;
-      }
-      .header-background-video {
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        object-fit: cover;
-        z-index: 0;
-        pointer-events: none;
-        background: var(--p);
-        border-radius: 0;
-      }
-      
-      /* Reduce video autoplay on mobile to save bandwidth */
-      @media (max-width: 768px) {
-        .header-background-video {
-          display: none;
-        }
-      }
-      .header-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          to bottom,
-          rgba(26,107,90,0.25) 0%,
-          rgba(26,107,90,0.55) 100%
-        );
-        z-index: 1;
-      }
-      .header-content {
-        position: absolute;
-        inset: 0;
-        z-index: 2;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: var(--sp-lg);
-      }
-      .header-content h1 {
-        font-family: var(--fh);
-        font-size: var(--font-size-display);
-        color: #ffffff;
-        font-weight: 700;
-        letter-spacing: 0.02em;
-        margin-bottom: var(--sp-sm);
-        text-shadow: 0 2px 12px rgba(0,0,0,0.25);
-      }
-      .header-content p {
-        font-size: var(--font-size-lg);
-        color: rgba(255,255,255,0.9);
-        font-weight: 400;
-        max-width: 500px;
-        text-shadow: 0 1px 6px rgba(0,0,0,0.2);
-      }
+      /* ===== Hero Header =====
+         New hero markup/styling (picture-based, no video) lives in
+         assets/css/theme.css (.hero, .hero-picture, .hero-text). */
 
 
       /* ===== Main Content ===== */
@@ -452,20 +405,18 @@
         flex-direction: column;
         min-height: 44px; /* Minimum touch target size */
       }
-      .story-card:hover,
-      .story-card:focus {
+      .story-card:hover {
         transform: translateY(-4px);
         box-shadow: var(--shadow-card-hover);
-        outline: 2px solid var(--p);
-        outline-offset: 2px;
       }
-      .story-card:focus {
-        outline: 2px solid var(--p);
-        outline-offset: 2px;
+      .story-card:focus,
+      .story-card:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 3px;
       }
       .story-card-accent {
         height: 6px;
-        background: linear-gradient(90deg, var(--p), var(--s));
+        background: var(--grass-deep);
       }
       .story-card-body {
         padding: var(--sp-lg);
@@ -487,11 +438,11 @@
         font-family: var(--f);
       }
       .badge-category {
-        background: rgba(26,107,90,0.08);
+        background: rgba(107,93,12,0.08);
         color: var(--p);
       }
       .badge-age {
-        background: rgba(196,146,42,0.1);
+        background: rgba(115,98,11,0.1);
         color: var(--s);
       }
       .story-card-title {
@@ -542,7 +493,7 @@
       .story-modal {
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.5);
+        background: rgba(58,51,6,0.45);
         backdrop-filter: blur(4px);
         display: none;
         justify-content: center;
@@ -634,11 +585,11 @@
         border: none;
       }
       .story-modal-meta .post-category {
-        background: rgba(26,107,90,0.08);
+        background: rgba(107,93,12,0.08);
         color: var(--p);
       }
       .story-modal-meta .post-age {
-        background: rgba(196,146,42,0.1);
+        background: rgba(115,98,11,0.1);
         color: var(--s);
       }
       .story-modal-body {
@@ -661,12 +612,26 @@
       .story-modal-body h1 { font-size: var(--font-size-h2); }
       .story-modal-body h2 { font-size: var(--font-size-h3); }
       .story-modal-body h3 { font-size: var(--font-size-h4); }
+      .story-modal-body img {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--r);
+        margin: var(--sp-md) 0;
+        display: block;
+      }
+      .story-modal-body blockquote {
+        border-left: 3px solid var(--p);
+        padding-left: var(--sp-md);
+        margin: var(--sp-md) 0;
+        color: var(--txt-muted);
+        font-style: italic;
+      }
 
       /* ===== Login Modal ===== */
       .login-modal {
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.4);
+        background: rgba(58,51,6,0.35);
         backdrop-filter: blur(4px);
         display: none;
         justify-content: center;
@@ -721,13 +686,13 @@
         color: var(--p);
       }
       .btn-primary {
-        background: var(--p);
+        background: var(--accent);
         color: var(--w);
-        border-color: var(--p);
+        border-color: var(--accent);
       }
       .btn-primary:hover {
-        background: var(--p-light);
-        border-color: var(--p-light);
+        background: var(--a-light);
+        border-color: var(--a-light);
         color: var(--w);
       }
       .btn-secondary {
@@ -768,9 +733,9 @@
       .form-group input:focus,
       .form-group textarea:focus,
       .form-group select:focus {
-        outline: none;
-        border-color: var(--p);
-        box-shadow: 0 0 0 3px rgba(26,107,90,0.1);
+        outline: 3px solid var(--accent);
+        outline-offset: 2px;
+        border-color: var(--accent);
       }
       .form-group textarea {
         resize: vertical;
@@ -793,10 +758,10 @@
         margin-bottom: var(--sp-lg);
       }
       .author-info {
-        background: rgba(26,107,90,0.04);
+        background: rgba(107,93,12,0.04);
         padding: var(--sp-md);
         border-radius: var(--r);
-        border: 1px solid rgba(26,107,90,0.1);
+        border: 1px solid rgba(107,93,12,0.1);
         margin-bottom: var(--sp-lg);
       }
       .login-note {
@@ -845,8 +810,9 @@
                     box-shadow var(--duration) var(--ease);
       }
       .rich-editor:focus {
-        border-color: var(--p);
-        box-shadow: 0 0 0 3px rgba(26,107,90,0.1);
+        outline: 3px solid var(--accent);
+        outline-offset: 2px;
+        border-color: var(--accent);
       }
       .rich-editor:empty:before {
         content: attr(data-placeholder);
@@ -861,7 +827,7 @@
       .form-actions .btn { flex: 1; }
 
       .submit-button {
-        background: var(--p);
+        background: var(--accent);
         color: var(--w);
         border: none;
         border-radius: var(--r);
@@ -874,7 +840,7 @@
         width: 100%;
       }
       .submit-button:hover {
-        background: var(--p-light);
+        background: var(--a-light);
         box-shadow: var(--shadow-md);
       }
 
@@ -943,11 +909,11 @@
         border: none;
       }
       .post-category {
-        background: rgba(26,107,90,0.08);
+        background: rgba(107,93,12,0.08);
         color: var(--p);
       }
       .post-age {
-        background: rgba(196,146,42,0.1);
+        background: rgba(115,98,11,0.1);
         color: var(--s);
       }
       .post-date {
@@ -997,9 +963,6 @@
           max-width: 100vw;
         }
         
-        .magical-header {
-          height: clamp(220px, 40vw, 350px);
-        }
         #posts-container {
           grid-template-columns: 1fr;
           gap: var(--sp-md);
@@ -1068,10 +1031,6 @@
           width: 100%;
           justify-content: center;
         }
-        .header-content h1 {
-          font-size: clamp(2rem, 1.6rem + 2vw, 3rem);
-        }
-        
         /* Stack badges vertically on very small screens */
         .story-card-badges {
           flex-direction: column;
@@ -1079,24 +1038,29 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="assets/css/theme.css" />
+    <link rel="stylesheet" href="assets/css/reader.css" />
+    <link rel="stylesheet" href="assets/css/author.css" />
   </head>
 
   <body>
+    <a href="#main-content" class="skip-link">Hoppa till innehållet</a>
     <nav class="site-nav">
       <div class="site-nav-inner">
-        <a href="/" class="site-nav-brand" id="navBrand">Skogsmulle</a>
+        <a href="index.html" class="site-nav-brand" id="navBrand">Skogsmulle</a>
         <ul class="site-nav-links">
           <li><a href="#" class="site-nav-link active">Hem</a></li>
           <li><a href="#stories" class="site-nav-link">Berättelser</a></li>
-          <li id="navWriteItem" style="display:none"><a href="#authorSection" class="site-nav-link">Skriv</a></li>
+          <li id="navWriteItem" style="display:none"><a href="#authorSection" class="site-nav-link">Skriv ny berättelse</a></li>
         </ul>
-        <button class="site-nav-login" id="navLoginBtn" onclick="handleNavLogin()">Logga in</button>
+        <button class="site-nav-login" id="navLoginBtn" onclick="handleNavLogin()">Författarlogin</button>
       </div>
     </nav>
 
     <div id="loginModal" class="login-modal">
-      <div class="modal-content">
-        <h2>Författarlogin</h2>
+      <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle" tabindex="-1">
+        <h2 id="loginModalTitle">Författarlogin</h2>
+        <p class="login-intro">Bara för författaren. Logga in för att skriva och publicera berättelser.</p>
         <form id="loginForm">
           <div class="form-group">
             <label for="emailInput">E-post:</label>
@@ -1104,9 +1068,12 @@
           </div>
           <div class="form-group">
             <label for="passwordInput">Lösenord:</label>
-            <input type="password" id="passwordInput" required autocomplete="current-password" />
+            <div class="password-field">
+              <input type="password" id="passwordInput" required autocomplete="current-password" />
+              <button type="button" class="password-toggle" id="passwordToggleBtn" aria-pressed="false" aria-label="Visa lösenord">👁</button>
+            </div>
           </div>
-          <div id="loginError" style="display: none; color: var(--a); font-size: 0.875rem; margin-bottom: 1rem;"></div>
+          <div id="loginError" role="alert" style="display: none; color: var(--a); font-size: 0.875rem; margin-bottom: 1rem;"></div>
           <div class="modal-buttons">
             <button type="submit" class="btn btn-primary" id="loginSubmitBtn">Logga in</button>
             <button
@@ -1123,7 +1090,7 @@
 
     <!-- Story Modal - Large Display -->
     <div id="storyModal" class="story-modal">
-      <div class="story-modal-content">
+      <div class="story-modal-content" role="dialog" aria-modal="true" aria-labelledby="storyModalTitle" tabindex="-1">
         <div class="story-modal-header">
           <h2 class="story-modal-title" id="storyModalTitle"></h2>
           <button
@@ -1136,28 +1103,37 @@
         </div>
         <div class="story-modal-meta" id="storyModalMeta"></div>
         <div class="story-modal-body" id="storyModalBody"></div>
+        <div class="story-modal-admin-actions" id="storyModalAdminActions" hidden>
+          <button type="button" class="btn btn-secondary" id="storyModalEditBtn" aria-label="Redigera berättelsen">Redigera</button>
+          <button type="button" class="btn btn-secondary" id="storyModalDeleteBtn">Ta bort</button>
+        </div>
       </div>
     </div>
 
-    <header class="magical-header">
-      <div class="header-frame-container">
-        <video
-          id="headerBackgroundVideo"
-          class="header-background-video"
-          autoplay
-          loop
-          muted
-          playsinline
-          preload="metadata"
-          poster="intro-poster.jpg"
-          aria-hidden="true"
-        >
-          <source src="intro-720p.webm" type="video/webm" />
-          <source src="intro-720p.mp4" type="video/mp4" />
-        </video>
-      </div>
-      <div class="header-overlay"></div>
-      <div class="header-content">
+    <header class="hero">
+      <picture class="hero-picture">
+        <source
+          media="(max-width: 600px)"
+          srcset="assets/images/hero/hero-kust-mobil-crop.webp"
+        />
+        <source
+          srcset="
+            assets/images/hero/hero-kust-480.webp 480w,
+            assets/images/hero/hero-kust-768.webp 768w,
+            assets/images/hero/hero-kust-1280.webp 1280w
+          "
+          sizes="100vw"
+        />
+        <img
+          src="assets/images/hero/hero-kust-1280.webp"
+          alt="Akvarell: stugor på en kulle vid havet med segelbåtar"
+          width="1280"
+          height="720"
+          fetchpriority="high"
+          class="hero-img"
+        />
+      </picture>
+      <div class="hero-text">
         <h1 id="heroTitle">Skogsmulle</h1>
         <p id="heroSubtitle">Magiska berättelser för barn</p>
       </div>
@@ -1167,65 +1143,22 @@
     <main id="main-content" role="main">
       <div class="content">
         <nav class="breadcrumb-nav" aria-label="Breadcrumb">
-          <a href="/">Hem</a> / <span>Berättelser</span>
+          <a href="index.html">Hem</a> / <span>Berättelser</span>
         </nav>
 
         <div class="main-content">
           <section class="blog-section" aria-label="Berättelser" id="stories">
+            <section class="topic-filter" aria-labelledby="topicFilterTitle">
+              <h2 id="topicFilterTitle">Välj ämne</h2>
+              <div class="topic-chips" id="topicChips" role="group" aria-label="Filtrera berättelser efter ämne"></div>
+            </section>
             <div class="section-header">
               <h2>Alla Berättelser</h2>
             </div>
             <div id="posts-container"></div>
           </section>
 
-          <section class="author-section" id="authorSection" style="display:none">
-            <h2>Skriv ny berättelse</h2>
-            <div class="author-info" id="authorInfo">
-              <p>Inloggad som: <strong id="authorEmail"></strong></p>
-            </div>
-            <form id="newPostForm">
-              <div class="form-group">
-                <label for="postTitle">Titel</label>
-                <input type="text" id="postTitle" required placeholder="T.ex. Skogsmulles stora äventyr" />
-              </div>
-              <div class="form-group">
-                <label for="postCategory">Kategori</label>
-                <select id="postCategory">
-                  <option value="">Välj kategori</option>
-                  <option value="äventyr">Äventyr</option>
-                  <option value="vänskap">Vänskap</option>
-                  <option value="natur">Natur</option>
-                  <option value="magi">Magi</option>
-                  <option value="djur">Djur</option>
-                  <option value="lärdom">Lärdom</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="postAge">Åldersgrupp</label>
-                <select id="postAge">
-                  <option value="">Välj ålder</option>
-                  <option value="3–5 år">3–5 år</option>
-                  <option value="6–8 år">6–8 år</option>
-                  <option value="9–12 år">9–12 år</option>
-                  <option value="3–12 år">3–12 år (alla)</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="postContent">Berättelse</label>
-                <div class="editor-toolbar">
-                  <button type="button" onclick="formatText('bold')" title="Fet text"><strong>B</strong></button>
-                  <button type="button" onclick="formatText('italic')" title="Kursiv text"><em>I</em></button>
-                  <button type="button" onclick="formatText('underline')" title="Understruken text"><u>U</u></button>
-                  <button type="button" onclick="formatText('insertUnorderedList')" title="Lista">Lista</button>
-                </div>
-                <div id="postContent" class="rich-editor" contenteditable="true" data-placeholder="Skriv din magiska berättelse här..."></div>
-              </div>
-              <div class="form-actions">
-                <button type="button" class="btn btn-secondary" onclick="saveDraft()">Spara utkast</button>
-                <button type="submit" class="submit-button">Publicera berättelse</button>
-              </div>
-            </form>
-          </section>
+          <section class="author-section" id="authorSection" style="display:none"></section>
         </div>
       </div>
     </main>
@@ -1234,7 +1167,7 @@
       <p>&copy; <span id="copyrightYear">2024</span> <span id="footerSiteName">Skogsmulle</span>. Alla berättelser är skapade med kärlek för barn och föräldrar.</p>
       
       <!-- Nyhetsbrev - AVSTÄNGT tills e-posttjänst är vald -->
-      <div style="max-width: 400px; margin: 2rem auto 1rem; padding: 1.5rem; background: rgba(26,107,90,0.04); border-radius: 12px; border: 1px solid var(--br);">
+      <div style="max-width: 400px; margin: 2rem auto 1rem; padding: 1.5rem; background: rgba(107,93,12,0.04); border-radius: 12px; border: 1px solid var(--br);">
         <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem; color: var(--p);">Nya berättelser i inkorgen</h3>
         <p style="font-size: 0.875rem; color: var(--txt-muted); margin-bottom: 1rem;">För föräldrar och vårdnadshavare. Få ett mejl när en ny berättelse finns att läsa tillsammans.</p>
         <p style="font-size: 0.875rem; color: var(--txt-muted); font-style: italic;">
@@ -1259,66 +1192,69 @@
           </div>
           <p style="font-size: 0.75rem; color: var(--txt-muted); margin-top: 0.5rem;">
             Endast för vuxna. Du får ett bekräftelsemejl innan anmälan slutförs. 
-            Läs mer i vår <a href="/integritet.html" style="color: var(--p);">integritetspolicy</a>.
+            Läs mer i vår <a href="integritet.html" style="color: var(--p);">integritetspolicy</a>.
           </p>
         </form>
         -->
       </div>
       
       <p class="footer-tip">Läsningstips: Läs högt varje dag, ställ frågor om berättelsen, och låt barnet berätta om bilderna.</p>
+      <p class="ai-note">Illustrationerna är akvarell skapade med hjälp av AI i stil med Tomas egna skisser.</p>
       <p style="margin-top: 1rem; font-size: 0.875rem;">
-        <a href="/integritet.html" style="color: var(--p);">Integritetspolicy</a>
+        <a href="integritet.html" style="color: var(--p);">Integritetspolicy</a>
       </p>
     </footer>
 
+    <script src="assets/js/reader.js"></script>
+    <script src="assets/js/author.js"></script>
     <script>
       let isAdmin = false;
       let currentUser = null;
       let allPosts = [];
-      
+      let selectedCategory = null; // null = "Alla" (no filter)
+
       // Firebase Authentication är nu aktiverat (27 okt 2026)
       const FIREBASE_AUTH_ENABLED = true;
 
-      // Initialisera sajtnamn från konfiguration
+      // Enda platsen för ett reservnamn om site-config.js inte kunde laddas
+      // (t.ex. vid file:// eller om filen 404:ar). Den riktiga källan är SITE_CONFIG.SITE_NAME.
+      const DEFAULT_SITE_NAME = "Skogsmulle";
+
+      // Initialisera sajtnamn från konfiguration (robust mot att SITE_CONFIG saknas)
       document.addEventListener("DOMContentLoaded", function () {
-        if (typeof SITE_CONFIG !== 'undefined') {
+        const cfg = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG) ? SITE_CONFIG : {};
+        if (typeof SITE_CONFIG === 'undefined') {
+          console.warn('SITE_CONFIG kunde inte laddas, använder standardvärden.');
+        }
+        const siteName = cfg.SITE_NAME || DEFAULT_SITE_NAME;
+        const targetAge = cfg.TARGET_AGE || '3–12 år';
+        const copyrightYear = cfg.COPYRIGHT_YEAR || new Date().getFullYear();
+
+        try {
           // Uppdatera alla element med sajtnamn
-          const siteName = SITE_CONFIG.SITE_NAME;
           document.getElementById('navBrand').textContent = siteName;
           document.getElementById('heroTitle').textContent = siteName;
           document.getElementById('footerSiteName').textContent = siteName;
-          
+
           // Uppdatera copyright-år
-          document.getElementById('copyrightYear').textContent = SITE_CONFIG.COPYRIGHT_YEAR;
-          
+          document.getElementById('copyrightYear').textContent = copyrightYear;
+
           // Uppdatera meta-taggar
-          document.getElementById('pageTitle').textContent = `${siteName} - Magiska barnberättelser för barn ${SITE_CONFIG.TARGET_AGE}`;
+          document.getElementById('pageTitle').textContent = `${siteName} - Magiska barnberättelser för barn ${targetAge}`;
           document.getElementById('ogSiteName').content = `${siteName} - Svenska Barnböcker`;
-          document.getElementById('ogTitle').content = `${siteName} - Magiska barnberättelser för barn ${SITE_CONFIG.TARGET_AGE}`;
-          document.getElementById('twitterTitle').content = `${siteName} - Magiska barnberättelser för barn ${SITE_CONFIG.TARGET_AGE}`;
-          
+          document.getElementById('ogTitle').content = `${siteName} - Magiska barnberättelser för barn ${targetAge}`;
+          document.getElementById('twitterTitle').content = `${siteName} - Magiska barnberättelser för barn ${targetAge}`;
+
           // Uppdatera Schema.org
           const schema = document.getElementById('schemaWebSite');
           if (schema) {
             const schemaData = JSON.parse(schema.textContent);
             schemaData.name = `${siteName} - Svenska Barnböcker`;
-            schemaData.description = `Svenska sagor och barnberättelser online för barn ${SITE_CONFIG.TARGET_AGE}`;
+            schemaData.description = `Svenska sagor och barnberättelser online för barn ${targetAge}`;
             schema.textContent = JSON.stringify(schemaData, null, 2);
           }
-        }
-        
-        // Hantera prefers-reduced-motion för video
-        const headerVideo = document.getElementById("headerBackgroundVideo");
-        if (headerVideo) {
-          const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          const saveData = navigator.connection?.saveData;
-          
-          if (prefersReducedMotion || saveData) {
-            headerVideo.pause();
-            headerVideo.removeAttribute('autoplay');
-          } else {
-            headerVideo.play().catch(() => {});
-          }
+        } catch (e) {
+          console.warn('Kunde inte uppdatera sajtnamn/metadata:', e);
         }
       });
 
@@ -1388,6 +1324,9 @@
               date: p.date,
               category: p.category || "",
               age: p.age || "",
+              language: p.language || "",
+              image: p.image || "",
+              imageAlt: p.imageAlt || "",
               slug: p.slug || generateStorySlug(p.title),
               timestamp: p.createdAt?.toMillis() || Date.now(),
               createdAt: p.createdAt,
@@ -1408,11 +1347,23 @@
             window.firebaseDoc(window.firebaseDb, "posts", id)
           ),
       };
+      // Exposed so author.js (loaded earlier in the document) can reach it
+      // from callbacks that only run after this script has finished setup.
+      window.C = C;
+
+      // Friendly error state shown in place of the story grid when Firestore can't be reached
+      function showStoriesError() {
+        const c = document.getElementById("posts-container");
+        if (c) {
+          c.innerHTML = '<div class="error-state" style="text-align: center; padding: 3rem; color: var(--txt-muted);"><div style="font-size: 2rem; margin-bottom: 1rem;">⚠️</div><p>Kunde inte ladda berättelser. Försök igen senare.</p></div>';
+        }
+      }
 
       function setupRealtimeListener() {
         try {
           if (!window.firebaseDb) {
-            console.error("Firebase not initialized");
+            console.warn("Firebase not initialized");
+            showStoriesError();
             return;
           }
           const r = window.firebaseCollection(window.firebaseDb, "posts");
@@ -1433,6 +1384,10 @@
                   date: p.date,
                   category: p.category || "",
                   age: p.age || "",
+                  language: p.language || "",
+                  image: p.image || "",
+                  imageAlt: p.imageAlt || "",
+                  slug: p.slug || generateStorySlug(p.title),
                   timestamp: p.createdAt?.toMillis() || Date.now(),
                   createdAt: p.createdAt,
                   updatedAt: p.updatedAt,
@@ -1441,10 +1396,14 @@
               console.log("Real-time update:", allPosts.length, "posts");
               renderAllPosts();
             },
-            (e) => console.error("Real-time listener error:", e)
+            (e) => {
+              console.error("Real-time listener error:", e);
+              showStoriesError();
+            }
           );
         } catch (e) {
           console.error("Setup error:", e);
+          showStoriesError();
         }
       }
 
@@ -1509,138 +1468,254 @@
         return xml;
       }
 
+      // Shared sanitize config so the reader modal and the author preview render
+      // identically (same allowed tags/attrs/URI scheme restrictions).
+      function sanitizeStoryHtml(html) {
+        if (typeof DOMPurify === 'undefined') {
+          console.warn('DOMPurify not available, using basic sanitization');
+          const tempDiv = document.createElement('div');
+          tempDiv.textContent = String(html || '').replace(/<[^>]*>/g, ' ');
+          return '<p>' + tempDiv.textContent + '</p>';
+        }
+        return DOMPurify.sanitize(html, {
+          ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'ul', 'li', 'ol', 'h1', 'h2', 'h3', 'blockquote', 'img'],
+          ALLOWED_ATTR: ['src', 'alt'],
+          // Allow only relative paths (no scheme, e.g. "images/x.jpg") or https:// URLs
+          ALLOWED_URI_REGEXP: /^(?:https:\/\/|(?!^[a-zA-Z][a-zA-Z0-9+.-]*:))/
+        });
+      }
+
+      // Escape dynamic text before interpolating it into an innerHTML template
+      function escapeHtml(value) {
+        return String(value ?? '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      // Toast notifications (replace alert()). type: 'success' | 'error' | 'info'
+      function showToast(message, type) {
+        let region = document.querySelector(".toast-region");
+        if (!region) {
+          region = document.createElement("div");
+          region.className = "toast-region";
+          region.setAttribute("aria-live", "polite");
+          document.body.appendChild(region);
+        }
+
+        const toast = document.createElement("div");
+        toast.className = "toast" + (type === "error" ? " toast-error" : "");
+        toast.setAttribute("role", type === "error" ? "alert" : "status");
+
+        const text = document.createElement("span");
+        text.textContent = message;
+        toast.appendChild(text);
+
+        const closeBtn = document.createElement("button");
+        closeBtn.type = "button";
+        closeBtn.className = "toast-close";
+        closeBtn.setAttribute("aria-label", "Stäng meddelande");
+        closeBtn.style.minWidth = "44px";
+        closeBtn.style.minHeight = "44px";
+        closeBtn.textContent = "×";
+        closeBtn.addEventListener("click", () => toast.remove());
+        toast.appendChild(closeBtn);
+
+        region.appendChild(toast);
+        setTimeout(() => toast.remove(), type === "error" ? 8000 : 5000);
+      }
+
+      // Stable identifier for a post, used for card <-> story matching and hash links
+      function getStoryIdentifier(post, index) {
+        return post && post.id != null ? String(post.id) : String(index);
+      }
+
+      // Find a post's current index in allPosts by its stable identifier
+      function findPostIndexByIdentifier(identifier) {
+        if (identifier == null) return -1;
+        const idx = allPosts.findIndex(
+          (p, i) => getStoryIdentifier(p, i) === String(identifier)
+        );
+        return idx;
+      }
+
+      // Icon file (without extension) for a story's category, with a safe fallback
+      function getCategoryIcon(category) {
+        const cfg = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG) ? SITE_CONFIG : {};
+        const icons = cfg.CATEGORY_ICONS || {};
+        const key = (category || '').toLowerCase();
+        return icons[key] || 'ikon-lov';
+      }
+
+      function getIconDir() {
+        const cfg = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG) ? SITE_CONFIG : {};
+        return cfg.ICON_DIR || 'assets/images/icons/';
+      }
+
       function renderAllPosts() {
         const c = document.getElementById("posts-container");
 
         if (allPosts.length === 0) {
-          c.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📚</div><p>Inga berättelser ännu. Skapa den första!</p></div>';
+          c.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📚</div><p>Här kommer det snart berättelser.</p></div>';
           return;
         }
 
-        const sortedPosts = [...allPosts].sort(
-          (a, b) => (b.timestamp || 0) - (a.timestamp || 0)
-        );
+        // Sort allPosts itself (not a copy) so card index always matches allPosts index
+        allPosts.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
-        c.innerHTML = sortedPosts
-          .map((p, i) => {
+        const visiblePosts = selectedCategory
+          ? allPosts.filter((p) => (p.category || '').toLowerCase() === selectedCategory)
+          : allPosts;
+
+        if (visiblePosts.length === 0) {
+          c.innerHTML = '<p class="empty-state" role="status">Inga berättelser i det här ämnet ännu.</p>';
+          return;
+        }
+
+        const iconDir = getIconDir();
+
+        c.innerHTML = visiblePosts
+          .map((p) => {
+            const i = allPosts.indexOf(p);
             const excerpt = getExcerpt(p.content, 120);
-            // Använd textContent för titel, kategori och ålder (ingen HTML)
-            const safeTitle = document.createElement('div');
-            safeTitle.textContent = p.title || 'Utan titel';
-            const safeCategory = document.createElement('div');
-            safeCategory.textContent = p.category || '';
-            const safeAge = document.createElement('div');
-            safeAge.textContent = p.age || '';
-            const storyId = p.id || `story-${i}`;
-            
-            return `<article 
-              class="story-card" 
-              data-id="${p.id || ""}" 
-              data-index="${i}"
-              id="story-${storyId}"
+            const title = p.title || 'Utan titel';
+            const storyId = getStoryIdentifier(p, i);
+            const iconSrc = iconDir + getCategoryIcon(p.category) + '.webp';
+
+            return `<article
+              class="story-card"
+              data-id="${escapeHtml(storyId)}"
+              id="story-${escapeHtml(storyId)}"
               tabindex="0"
               role="button"
-              aria-label="Läs berättelsen: ${safeTitle.textContent}"
-              onclick="openStoryModal(${i})"
-              onkeydown="handleStoryCardKeydown(event, ${i})">
+              aria-label="Läs berättelsen: ${escapeHtml(title)}">
               <div class="story-card-accent"></div>
               <div class="story-card-body">
+                <img class="story-card-icon" alt="" width="64" height="64" loading="lazy" src="${escapeHtml(iconSrc)}" />
                 <div class="story-card-badges">
-                  ${p.category ? `<span class="badge badge-category">${safeCategory.textContent}</span>` : ''}
-                  ${p.age ? `<span class="badge badge-age">${safeAge.textContent}</span>` : ''}
+                  ${p.category ? `<span class="badge badge-category">${escapeHtml(p.category)}</span>` : ''}
+                  ${p.age ? `<span class="badge badge-age">${escapeHtml(p.age)}</span>` : ''}
                 </div>
-                <h3 class="story-card-title">${safeTitle.textContent}</h3>
-                <p class="story-card-excerpt">${excerpt}</p>
+                <h3 class="story-card-title">${escapeHtml(title)}</h3>
+                <p class="story-card-excerpt">${escapeHtml(excerpt)}</p>
                 <div class="story-card-footer">
-                  <span class="story-card-date">${p.date || ''}</span>
+                  <span class="story-card-date">${escapeHtml(p.date || '')}</span>
                   <span class="story-card-cta">Läs mer &rarr;</span>
                 </div>
               </div>
             </article>`;
           })
           .join("");
-        
+
         // Handle hash navigation after rendering posts
         handleHashNavigation();
       }
 
+      // Build the "Välj ämne" chips from SITE_CONFIG.CATEGORY_ICONS and wire up filtering
+      function setupTopicChips() {
+        const container = document.getElementById("topicChips");
+        if (!container || container.hasAttribute("data-chips-added")) return;
+        container.setAttribute("data-chips-added", "true");
+
+        const cfg = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG) ? SITE_CONFIG : {};
+        const categoryIcons = cfg.CATEGORY_ICONS || {};
+        const iconDir = getIconDir();
+        const categories = Object.keys(categoryIcons);
+
+        const allChip = `<button type="button" class="topic-chip" aria-pressed="true" data-category="">
+          <span>Alla</span>
+        </button>`;
+
+        const categoryChips = categories
+          .map((category) => {
+            const icon = categoryIcons[category];
+            const label = category.charAt(0).toUpperCase() + category.slice(1);
+            return `<button type="button" class="topic-chip" aria-pressed="false" data-category="${escapeHtml(category)}">
+              <img src="${escapeHtml(iconDir + icon + '.webp')}" alt="" width="56" height="56" loading="lazy" />
+              <span>${escapeHtml(label)}</span>
+            </button>`;
+          })
+          .join("");
+
+        container.innerHTML = allChip + categoryChips;
+
+        container.addEventListener("click", function (e) {
+          const chip = e.target.closest(".topic-chip");
+          if (!chip) return;
+          const category = chip.dataset.category || null; // "" (Alla) becomes null
+
+          selectedCategory = selectedCategory === category ? null : category;
+
+          container.querySelectorAll(".topic-chip").forEach((el) => {
+            const isActive = selectedCategory
+              ? el.dataset.category === selectedCategory
+              : el.dataset.category === "";
+            el.setAttribute("aria-pressed", String(isActive));
+          });
+
+          renderAllPosts();
+        });
+      }
+
       function getExcerpt(html, maxLen) {
         if (!html) return '';
-        const tmp = document.createElement('div');
-        tmp.innerHTML = html;
-        const text = tmp.textContent || tmp.innerText || '';
+        // Parse via DOMParser (not a live document) so images never load and
+        // inline event handlers never execute, unlike assigning to .innerHTML.
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const text = (doc.body.textContent || '').replace(/\s+/g, ' ').trim();
         return text.length > maxLen ? text.substring(0, maxLen) + '…' : text;
       }
 
-      // Keyboard navigation for story cards
-      function handleStoryCardKeydown(event, index) {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          openStoryModal(index);
-        }
+      // Event delegation: card clicks/keydowns are handled on the container,
+      // so re-rendering #posts-container never needs to re-attach per-card handlers.
+      function setupStoryCardDelegation() {
+        const container = document.getElementById('posts-container');
+        if (!container || container.hasAttribute('data-delegation-added')) return;
+        container.setAttribute('data-delegation-added', 'true');
+
+        container.addEventListener('click', function (e) {
+          const card = e.target.closest('.story-card');
+          if (!card) return;
+          openStoryModalByIdentifier(card.dataset.id, card);
+        });
+
+        container.addEventListener('keydown', function (e) {
+          if (e.key !== 'Enter' && e.key !== ' ') return;
+          const card = e.target.closest('.story-card');
+          if (!card) return;
+          e.preventDefault();
+          openStoryModalByIdentifier(card.dataset.id, card);
+        });
       }
 
-      // Handle hash-based direct links to stories
+      function openStoryModalByIdentifier(identifier, triggerEl) {
+        const idx = findPostIndexByIdentifier(identifier);
+        if (idx === -1) {
+          console.warn("Story not found:", identifier);
+          return;
+        }
+        openStoryModal(idx, triggerEl);
+      }
+
+      // Handle hash-based direct links to stories (#story-<id>)
       function handleHashNavigation() {
         const hash = window.location.hash;
         if (hash.startsWith('#story-')) {
-          const storyId = hash.substring(7); // Remove '#story-'
-          const storyIndex = allPosts.findIndex(p => p.id === storyId || `story-${allPosts.indexOf(p)}` === `story-${storyId}`);
-          if (storyIndex >= 0) {
-            setTimeout(() => openStoryModal(storyIndex), 500);
-          }
-        }
-      }
-
-      // Update URL hash when opening story
-      function updateStoryHash(story, index) {
-        const storyId = story.id || `story-${index}`;
-        history.pushState(null, '', `#story-${storyId}`);
-      }
-
-      // Clear hash when closing modal
-      function clearStoryHash() {
-        if (window.location.hash.startsWith('#story-')) {
-          history.pushState(null, '', window.location.pathname);
+          const identifier = decodeURIComponent(hash.substring(7));
+          const idx = findPostIndexByIdentifier(identifier);
+          if (idx !== -1) openStoryModal(idx);
+        } else if (hash === '#login') {
+          // Login deep link: open the login modal (also when the hash changes after load).
+          const lm = document.getElementById("loginModal");
+          if (lm && !lm.classList.contains("show-modal")) openLoginModal();
+        } else {
+          closeStoryModal({ fromHistory: true });
         }
       }
 
 
-
-      async function editPost(i) {
-        const p = allPosts[i];
-        const t = prompt("Redigera titel:", p.title);
-        if (t === null) return;
-        if (!t.trim()) {
-          alert("Titel kan inte vara tom.");
-          return;
-        }
-        const d = document.createElement("div");
-        d.innerHTML = p.content;
-        const c = prompt(
-          "Redigera innehåll:",
-          d.textContent || d.innerText || ""
-        );
-        if (c === null) return;
-        if (!c.trim()) {
-          alert("Innehåll kan inte vara tomt.");
-          return;
-        }
-        try {
-          await C.update(p.id, {
-            title: t.trim(),
-            content: `<p>${c.trim().replace(/\n/g, "</p><p>")}</p>`,
-            date: p.date,
-            timestamp: p.timestamp,
-          });
-          alert("Berättelsen har uppdaterats!");
-        } catch (e) {
-          console.error("Update error:", e);
-          alert(
-            "Ett fel uppstod när berättelsen skulle uppdateras. Försök igen."
-          );
-        }
-      }
 
       // Improved Delete with Undo functionality
       let deletedStory = null;
@@ -1648,32 +1723,27 @@
 
       async function deletePost(i) {
         const p = allPosts[i];
-        if (
-          confirm(
-            `Är du säker på att du vill ta bort berättelsen "${p.title}"?\n\nDu kan ångra detta inom 10 sekunder.`
-          )
-        ) {
-          try {
-            // Store for undo
-            deletedStory = { ...p };
+        try {
+          // Store for undo
+          deletedStory = { ...p };
 
-            // Remove from Firebase
-            await C.delete(p.id);
+          // Remove from Firebase
+          await C.delete(p.id);
 
-            // Show undo notification
-            showUndoNotification(p.title);
+          // Show undo notification
+          showUndoNotification(p.title);
 
-            // Set timeout to remove story page file
-            deleteTimeout = setTimeout(() => {
-              deletedStory = null;
-              console.log("Delete confirmed, story permanently removed");
-            }, 10000);
-          } catch (e) {
-            console.error("Delete error:", e);
-            alert(
-              "Ett fel uppstod när berättelsen skulle tas bort. Försök igen."
-            );
-          }
+          // Set timeout to remove story page file
+          deleteTimeout = setTimeout(() => {
+            deletedStory = null;
+            console.log("Delete confirmed, story permanently removed");
+          }, 10000);
+        } catch (e) {
+          console.error("Delete error:", e);
+          showToast(
+            "Ett fel uppstod när berättelsen skulle tas bort. Försök igen.",
+            "error"
+          );
         }
       }
 
@@ -1687,7 +1757,7 @@
           color: var(--w);
           padding: 20px 30px;
           border-radius: 12px;
-          box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+          box-shadow: 0 8px 24px rgba(58,51,6,0.25);
           z-index: 3000;
           display: flex;
           gap: 15px;
@@ -1724,55 +1794,13 @@
           try {
             // Restore to Firebase
             await C.save(deletedStory);
-            alert(`Berättelsen "${deletedStory.title}" har återställts!`);
+            showToast(`Berättelsen "${deletedStory.title}" har återställts!`, "success");
             deletedStory = null;
             deleteTimeout = null;
           } catch (e) {
             console.error("Undo error:", e);
-            alert("Kunde inte återställa berättelsen. Försök igen.");
+            showToast("Kunde inte återställa berättelsen. Försök igen.", "error");
           }
-        }
-      }
-
-
-      // Rich text editor functions
-      function formatText(command) {
-        document.execCommand(command, false, null);
-        document.getElementById("postContent").focus();
-      }
-
-      function insertImage() {
-        const url = prompt("Ange bildens URL:");
-        if (url) {
-          document.execCommand("insertImage", false, url);
-        }
-      }
-
-      // Draft system
-      function saveDraft() {
-        const title = document.getElementById("postTitle").value;
-        const category = document.getElementById("postCategory").value;
-        const age = document.getElementById("postAge").value;
-        const content = document.getElementById("postContent").innerHTML;
-
-        if (!title && !content) {
-          alert("Inget att spara som utkast.");
-          return;
-        }
-
-        const draft = { title, category, age, content, timestamp: Date.now() };
-        localStorage.setItem("skogsmulle_draft", JSON.stringify(draft));
-        alert("Utkast sparat!");
-      }
-
-      function loadDraft() {
-        const draft = localStorage.getItem("skogsmulle_draft");
-        if (draft) {
-          const data = JSON.parse(draft);
-          document.getElementById("postTitle").value = data.title || "";
-          document.getElementById("postCategory").value = data.category || "";
-          document.getElementById("postAge").value = data.age || "";
-          document.getElementById("postContent").innerHTML = data.content || "";
         }
       }
 
@@ -1806,7 +1834,7 @@
           localStorage.setItem("skogsmulle_read", JSON.stringify(readPosts));
         }
 
-        alert(`Bra jobbat! Du har läst "${post.title}"`);
+        showToast(`Bra jobbat! Du har läst "${post.title}"`, "success");
       }
 
       // Reading stats functionality removed
@@ -1818,31 +1846,38 @@
           if (window.firebaseDb) {
             console.log("Attempting to load stories from Firebase...");
             await C.load();
-            alert(
-              `Berättelser laddade! Hittade ${allPosts.length} berättelser.`
+            showToast(
+              `Berättelser laddade! Hittade ${allPosts.length} berättelser.`,
+              "success"
             );
           } else {
-            alert(
-              "Firebase är inte tillgängligt. Kontrollera din internetanslutning."
+            showToast(
+              "Firebase är inte tillgängligt. Kontrollera din internetanslutning.",
+              "error"
             );
           }
         } catch (error) {
           console.error("Manual load failed:", error);
-          alert(
-            "Kunde inte ladda berättelser. Kontrollera konsolen för detaljer."
+          showToast(
+            "Kunde inte ladda berättelser. Kontrollera konsolen för detaljer.",
+            "error"
           );
         }
       }
 
+      // Set right before calling signInWithEmailAndPassword so the onAuthStateChanged
+      // handler below can tell "just signed in" apart from "session restored on load".
+      let justSignedIn = false;
+
       function initAuth() {
         console.log("Initializing Firebase Authentication...");
-        
+
         if (!FIREBASE_AUTH_ENABLED || !window.firebaseAuth) {
-          console.error("Firebase Authentication not available");
+          console.warn("Firebase Authentication not available");
           showLoginSection();
           return;
         }
-        
+
         // Lyssna på autentiseringsstatusändringar
         window.firebaseOnAuthStateChanged(window.firebaseAuth, (user) => {
           if (user) {
@@ -1854,6 +1889,14 @@
               name: user.email.split("@")[0]
             };
             showAuthorTools();
+            if (justSignedIn) {
+              justSignedIn = false;
+              showToast("Du är inloggad", "success");
+              const heading = document.getElementById("authorSectionHeading");
+              const section = document.getElementById("authorSection");
+              if (section) section.scrollIntoView({ behavior: "smooth" });
+              if (heading) heading.focus();
+            }
           } else {
             console.log("No user authenticated");
             isAdmin = false;
@@ -1867,7 +1910,7 @@
         if (isAdmin && currentUser) {
           signOut();
         } else {
-          document.getElementById("loginModal").classList.add("show-modal");
+          openLoginModal(document.getElementById("navLoginBtn"));
         }
       }
 
@@ -1876,138 +1919,262 @@
         const writeItem = document.getElementById("navWriteItem");
         if (!btn) return;
         if (isAdmin && currentUser) {
-          btn.textContent = currentUser.email.split("@")[0];
+          btn.textContent = `Inloggad: ${currentUser.name} · Logga ut`;
           btn.classList.add("logged-in");
           if (writeItem) writeItem.style.display = '';
         } else {
-          btn.textContent = "Logga in";
+          btn.textContent = "Författarlogin";
           btn.classList.remove("logged-in");
           if (writeItem) writeItem.style.display = 'none';
         }
       }
 
       function toggleLoginModal() {
-        document.getElementById("loginModal").classList.add("show-modal");
+        openLoginModal(document.getElementById("navLoginBtn"));
+      }
+
+      let loginModalTriggerEl = null;
+
+      function openLoginModal(triggerEl) {
+        const modal = document.getElementById("loginModal");
+        if (!modal) return;
+        loginModalTriggerEl = triggerEl || null;
+        modal.classList.add("show-modal");
+        const emailInput = document.getElementById("emailInput");
+        if (emailInput) emailInput.focus();
       }
 
       function closeLoginModal() {
-        document.getElementById("loginModal").classList.remove("show-modal");
+        const modal = document.getElementById("loginModal");
+        if (!modal || !modal.classList.contains("show-modal")) return;
+        modal.classList.remove("show-modal");
         hideLoginError();
-        // Clear password field
+        // Clear password field and reset the show/hide toggle
         const passwordInput = document.getElementById("passwordInput");
-        if (passwordInput) passwordInput.value = "";
+        if (passwordInput) {
+          passwordInput.value = "";
+          passwordInput.type = "password";
+        }
+        const toggleBtn = document.getElementById("passwordToggleBtn");
+        if (toggleBtn) {
+          toggleBtn.setAttribute("aria-pressed", "false");
+          toggleBtn.setAttribute("aria-label", "Visa lösenord");
+        }
+
+        if (window.location.hash === "#login") {
+          history.replaceState(null, "", window.location.pathname + window.location.search);
+        }
+
+        const restoreTo = (loginModalTriggerEl && document.contains(loginModalTriggerEl))
+          ? loginModalTriggerEl
+          : document.body;
+        restoreTo.focus();
+        loginModalTriggerEl = null;
       }
 
       // Story Modal Functions
-      function openStoryModal(index) {
+      let storyModalTriggerEl = null;
+      // True when the currently-open story added its own entry to browser history
+      // (so closing it via the UI should consume that entry with history.back()).
+      let storyModalPushedState = false;
+
+      function openStoryModal(index, triggerEl) {
         if (!allPosts || index < 0 || index >= allPosts.length) {
-          console.error("Invalid story index:", index);
+          console.warn("Invalid story index:", index);
           return;
         }
 
         const story = allPosts[index];
         const modal = document.getElementById("storyModal");
+        const dialogEl = modal ? modal.querySelector(".story-modal-content") : null;
         const titleEl = document.getElementById("storyModalTitle");
         const metaEl = document.getElementById("storyModalMeta");
         const bodyEl = document.getElementById("storyModalBody");
 
-        if (!modal || !titleEl || !metaEl || !bodyEl) {
-          console.error("Story modal elements not found");
+        if (!modal || !dialogEl || !titleEl || !metaEl || !bodyEl) {
+          console.warn("Story modal elements not found");
           return;
         }
 
-        // Update URL hash for direct linking
-        updateStoryHash(story, index);
+        // Update URL hash for direct linking, and make sure Back closes the modal.
+        const storyId = getStoryIdentifier(story, index);
+        const targetHash = `#story-${storyId}`;
+        if (window.location.hash !== targetHash) {
+          history.pushState({ skogsmulleStory: storyId }, '', targetHash);
+          storyModalPushedState = true;
+        } else {
+          history.replaceState({ skogsmulleStory: storyId }, '', targetHash);
+          storyModalPushedState = false;
+        }
 
         // Använd textContent för titel (ingen HTML)
-        titleEl.textContent = story.title || "Untitled Story";
+        titleEl.textContent = story.title || "Namnlös berättelse";
 
         // Använd textContent för metadata (ingen HTML)
         const dateSpan = document.createElement('span');
         dateSpan.className = 'post-date';
-        dateSpan.textContent = `📅 ${story.date || "No date"}`;
-        
+        dateSpan.textContent = `📅 ${story.date || "Inget datum"}`;
+
         const categorySpan = story.category ? (() => {
           const span = document.createElement('span');
           span.className = 'post-category';
           span.textContent = `📂 ${story.category}`;
           return span;
         })() : null;
-        
+
         const ageSpan = story.age ? (() => {
           const span = document.createElement('span');
           span.className = 'post-age';
           span.textContent = `👶 ${story.age}`;
           return span;
         })() : null;
-        
+
         metaEl.innerHTML = '';
         metaEl.appendChild(dateSpan);
         if (categorySpan) metaEl.appendChild(categorySpan);
         if (ageSpan) metaEl.appendChild(ageSpan);
 
-        // Rengör innehåll med DOMPurify (tillåt endast säkra taggar)
-        const rawContent = story.content || "<p>No content available.</p>";
-        let cleanContent;
-        
-        if (typeof DOMPurify !== 'undefined') {
-          cleanContent = DOMPurify.sanitize(rawContent, {
-            ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'ul', 'li', 'ol', 'h1', 'h2', 'h3'],
-            ALLOWED_ATTR: []
-          });
-        } else {
-          // Fallback: basic sanitization if DOMPurify isn't available
-          console.warn('DOMPurify not available, using basic sanitization');
-          const tempDiv = document.createElement('div');
-          tempDiv.textContent = rawContent.replace(/<[^>]*>/g, ' ');
-          cleanContent = '<p>' + tempDiv.textContent + '</p>';
-        }
-        bodyEl.innerHTML = cleanContent;
+        bodyEl.innerHTML = sanitizeStoryHtml(story.content || "<p>Inget innehåll tillgängligt.</p>");
 
-        // Show modal
+        // Harden images regardless of which sanitization path produced them above.
+        bodyEl.querySelectorAll('img').forEach((img) => {
+          img.loading = 'lazy';
+          img.decoding = 'async';
+          if (!img.hasAttribute('alt')) {
+            img.alt = '';
+            img.setAttribute('role', 'presentation');
+          }
+          img.addEventListener('error', function () {
+            this.style.display = 'none';
+          }, { once: true });
+        });
+
+        const adminActions = document.getElementById("storyModalAdminActions");
+        if (adminActions) {
+          adminActions.hidden = !isAdmin;
+          const editBtn = document.getElementById("storyModalEditBtn");
+          const deleteBtn = document.getElementById("storyModalDeleteBtn");
+          if (editBtn) editBtn.onclick = () => {
+            closeStoryModal();
+            if (window.Author) window.Author.open(story);
+          };
+          if (deleteBtn) deleteBtn.onclick = () => {
+            closeStoryModal();
+            deletePost(index);
+          };
+        }
+
+        const wasOpen = modal.classList.contains("show");
         modal.classList.add("show");
         document.body.style.overflow = "hidden"; // Prevent background scrolling
-
-        // Scroll to top of modal content
         modal.scrollTop = 0;
+
+        if (!wasOpen) {
+          storyModalTriggerEl = triggerEl || null;
+          const closeBtn = modal.querySelector(".story-modal-close");
+          (closeBtn || dialogEl).focus();
+        }
+
+        if (window.StoryReader) window.StoryReader.onOpen(story);
       }
 
-      function closeStoryModal() {
+      function closeStoryModal(opts) {
+        opts = opts || {};
         const modal = document.getElementById("storyModal");
-        if (modal) {
-          modal.classList.remove("show");
-          document.body.style.overflow = ""; // Restore scrolling
-          clearStoryHash(); // Clear URL hash
+        if (!modal || !modal.classList.contains("show")) return;
+
+        if (window.StoryReader) window.StoryReader.onClose();
+
+        modal.classList.remove("show");
+        document.body.style.overflow = ""; // Restore scrolling
+
+        if (!opts.fromHistory) {
+          if (storyModalPushedState) {
+            // Consume the history entry we added when opening, so Back works cleanly.
+            history.back();
+          } else if (window.location.hash.startsWith('#story-')) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+          }
+        }
+        storyModalPushedState = false;
+
+        const restoreTo = (storyModalTriggerEl && document.contains(storyModalTriggerEl))
+          ? storyModalTriggerEl
+          : document.body;
+        restoreTo.focus();
+        storyModalTriggerEl = null;
+      }
+
+      // Browser Back/Forward: open or close the story modal to match the URL hash.
+      window.addEventListener('popstate', function () {
+        handleHashNavigation();
+      });
+
+      function getFocusableElements(container) {
+        return Array.from(
+          container.querySelectorAll(
+            'a[href], button:not([disabled]), textarea, input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          )
+        ).filter((el) => el.offsetParent !== null);
+      }
+
+      function trapFocus(e, container) {
+        const focusables = getFocusableElements(container);
+        if (focusables.length === 0) {
+          e.preventDefault();
+          container.focus();
+          return;
+        }
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
         }
       }
 
-      // Close modal when clicking outside content
+      // Escape closes whichever dialog is open; Tab is trapped inside it.
       document.addEventListener("DOMContentLoaded", function () {
         const storyModal = document.getElementById("storyModal");
+        const loginModal = document.getElementById("loginModal");
+
         if (storyModal) {
           storyModal.addEventListener("click", function (e) {
-            if (e.target === storyModal) {
-              closeStoryModal();
-            }
+            if (e.target === storyModal) closeStoryModal();
+          });
+        }
+        if (loginModal) {
+          loginModal.addEventListener("click", function (e) {
+            if (e.target === loginModal) closeLoginModal();
           });
         }
 
-        // Close modal with Escape key
         document.addEventListener("keydown", function (e) {
+          const storyOpen = storyModal && storyModal.classList.contains("show");
+          const loginOpen = loginModal && loginModal.classList.contains("show-modal");
+          if (!storyOpen && !loginOpen) return;
+
           if (e.key === "Escape") {
-            const modal = document.getElementById("storyModal");
-            if (modal && modal.classList.contains("show")) {
-              closeStoryModal();
-            }
+            if (storyOpen) closeStoryModal();
+            else closeLoginModal();
+            return;
+          }
+
+          if (e.key === "Tab") {
+            const dialogEl = storyOpen
+              ? storyModal.querySelector(".story-modal-content")
+              : loginModal.querySelector(".modal-content");
+            if (dialogEl) trapFocus(e, dialogEl);
           }
         });
       });
 
       function showAuthorTools() {
         const authorSection = document.getElementById("authorSection");
-        const authorEmail = document.getElementById("authorEmail");
         if (authorSection) authorSection.style.display = '';
-        if (authorEmail && currentUser) authorEmail.textContent = currentUser.email;
         updateNavLoginBtn();
       }
 
@@ -2036,6 +2203,7 @@
         }
         
         try {
+          justSignedIn = true;
           const userCredential = await window.firebaseSignInWithEmailAndPassword(
             window.firebaseAuth,
             email,
@@ -2045,6 +2213,7 @@
           closeLoginModal();
           // onAuthStateChanged kommer att hantera resten
         } catch (error) {
+          justSignedIn = false;
           console.error("Sign in error:", error);
           let errorMessage = "Inloggningen misslyckades";
           
@@ -2078,7 +2247,7 @@
       function showLoginError(message) {
         const errorEl = document.getElementById("loginError");
         if (errorEl) {
-          errorEl.textContent = message;
+          errorEl.textContent = `⚠ ${message}`;
           errorEl.style.display = "block";
         }
       }
@@ -2092,7 +2261,7 @@
 
       function signOut() {
         if (!FIREBASE_AUTH_ENABLED || !window.firebaseAuth) {
-          console.error("Firebase Authentication not available");
+          console.warn("Firebase Authentication not available");
           return;
         }
         
@@ -2102,116 +2271,15 @@
             isAdmin = false;
             currentUser = null;
             hideAuthorTools();
-            alert("Du har loggats ut.");
+            showToast("Du har loggats ut.", "success");
           })
           .catch((error) => {
             console.error("Sign out error:", error);
-            alert("Kunde inte logga ut. Försök igen.");
+            showToast("Kunde inte logga ut. Försök igen.", "error");
           });
       }
 
 
-      // Move form event listener inside DOMContentLoaded to prevent duplicates
-      function setupFormListeners() {
-        const form = document.getElementById("newPostForm");
-        if (form && !form.hasAttribute("data-listener-added")) {
-          form.setAttribute("data-listener-added", "true");
-          form.addEventListener("submit", async function (e) {
-            e.preventDefault();
-
-            // Prevent multiple submissions
-            if (this.submitting) return;
-            this.submitting = true;
-
-            const submitButton = this.querySelector(".submit-button");
-            submitButton.disabled = true;
-            submitButton.textContent = "Publicerar...";
-
-            const t = document.getElementById("postTitle").value.trim();
-            const c = document.getElementById("postContent").innerHTML.trim();
-            const category =
-              document.getElementById("postCategory")?.value || "";
-            const age = document.getElementById("postAge")?.value || "";
-
-            if (!t || !c) {
-              alert("Vänligen fyll i både titel och berättelse.");
-              this.submitting = false;
-              submitButton.disabled = false;
-              submitButton.textContent = "Publicera berättelse";
-              return;
-            }
-
-            // Clean content to prevent duplicate formatting
-            const cleanContent = c
-              .replace(/<p><br><\/p>/g, "")
-              .replace(/<p><\/p>/g, "");
-
-            const today = new Date();
-            const ds =
-              today.getDate() +
-              " " +
-              [
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "Maj",
-                "Jun",
-                "Jul",
-                "Aug",
-                "Sep",
-                "Okt",
-                "Nov",
-                "Dec",
-              ][today.getMonth()] +
-              ", " +
-              today.getFullYear();
-
-            const np = {
-              title: t,
-              content: cleanContent || `<p>${t}</p>`,
-              date: ds,
-              category: category,
-              age: age,
-              timestamp: Date.now(),
-            };
-
-            try {
-              console.log("Attempting to save story:", np);
-              const pid = await C.save(np);
-              console.log("Story saved with ID:", pid);
-
-              if (pid) {
-                this.reset();
-                document.getElementById("postContent").innerHTML = "";
-                localStorage.removeItem("skogsmulle_draft");
-                alert("Berättelsen har publicerats!");
-
-                setTimeout(async () => {
-                  try {
-                    await C.load();
-                    const stories = document.getElementById("stories");
-                    if (stories) stories.scrollIntoView({ behavior: "smooth" });
-                  } catch (error) {
-                    console.error("Error reloading stories:", error);
-                  }
-                }, 500);
-              }
-            } catch (e) {
-              console.error("Publish error:", e);
-              alert(
-                "Ett fel uppstod när berättelsen skulle publiceras. Försök igen."
-              );
-            } finally {
-              this.submitting = false;
-              submitButton.disabled = false;
-              submitButton.textContent = "Publicera berättelse";
-            }
-          });
-        }
-      }
-
-      // Move login form listener inside setupFormListeners
       function setupLoginListener() {
         console.log("Setting up login listener...");
         const loginForm = document.getElementById("loginForm");
@@ -2251,29 +2319,32 @@
         }
       }
 
-      // Move modal listener inside setupFormListeners
-      function setupModalListeners() {
-        const loginModal = document.getElementById("loginModal");
-        if (loginModal && !loginModal.hasAttribute("data-listener-added")) {
-          loginModal.setAttribute("data-listener-added", "true");
-          loginModal.addEventListener("click", function (e) {
-            if (e.target === this) closeLoginModal();
-          });
-        }
+      function setupPasswordToggle() {
+        const toggleBtn = document.getElementById("passwordToggleBtn");
+        const passwordInput = document.getElementById("passwordInput");
+        if (!toggleBtn || !passwordInput || toggleBtn.hasAttribute("data-listener-added")) return;
+        toggleBtn.setAttribute("data-listener-added", "true");
+        toggleBtn.addEventListener("click", function () {
+          const isHidden = passwordInput.type === "password";
+          passwordInput.type = isHidden ? "text" : "password";
+          toggleBtn.setAttribute("aria-pressed", String(isHidden));
+          toggleBtn.setAttribute("aria-label", isHidden ? "Dölj lösenord" : "Visa lösenord");
+        });
       }
-
 
       document.addEventListener("DOMContentLoaded", function () {
         initAuth();
-        setupFormListeners();
         setupLoginListener();
-        setupModalListeners();
+        setupPasswordToggle();
+        setupStoryCardDelegation();
+        setupTopicChips();
 
         const savedSize = localStorage.getItem("skogsmulle_textSize");
         if (savedSize) document.body.style.fontSize = savedSize + "px";
 
-        loadDraft();
-        
+        // Deep link: index.html#login opens the author login modal directly
+        if (window.location.hash === "#login") openLoginModal();
+
         // Handle hash navigation for direct story links
         window.addEventListener('hashchange', handleHashNavigation);
         
@@ -2292,11 +2363,7 @@
             } catch (error) {
               console.error("Firebase setup failed:", error);
               allPosts = [];
-              renderAllPosts();
-              // Show error state
-              if (postsContainer) {
-                postsContainer.innerHTML = '<div class="error-state" style="text-align: center; padding: 3rem; color: var(--txt-muted);"><div style="font-size: 2rem; margin-bottom: 1rem;">⚠️</div><p>Kunde inte ladda berättelser. Försök igen senare.</p></div>';
-              }
+              showStoriesError();
             }
           } else {
             allPosts = [];

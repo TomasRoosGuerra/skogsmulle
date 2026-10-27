@@ -111,6 +111,15 @@ skogsmulle/
 - **Redigera**: Klicka "✏️ Redigera" på berättelseskortet
 - **Ta bort**: Klicka "🗑️ Ta bort" (10 sek ångrafönster)
 
+## 🧪 Design, bilder, utkast och tester (site-ux)
+
+- **Namn:** webbplatsnamnet står bara i `site-config.js` (`SITE_NAME`).
+- **Design:** `assets/css/theme.css` (färger exakt enligt stilguiden), `reader.css` (läsvyn), `author.css` (redigeraren). Typsnitten Andika och Patrick Hand ligger i `assets/fonts/` (OFL, ingen Google Fonts).
+- **Bilder:** alla platser för bilder beskrivs i `assets/images/README.md`. Byt en fil med samma namn så byts bilden. Kategoriikoner styrs av `CATEGORY_ICONS` i `site-config.js`.
+- **Läsvy:** textstorlek (A−/A/A+), extra luft, "Läs högt" (webbläsarens egen talsyntes) och valfri musik (av som standard).
+- **Författare:** logga in via "Författarlogin" (eller `#login`). Redigeraren har titel, språk, kategori, ålder, valfri bild (https-adress eller fil listad i `assets/images/story/manifest.json`), livförhandsvisning, utkast i webbläsaren (`localStorage`) samt export/import som JSON eller Markdown. Inget publiceras förrän du bekräftar.
+- **Tester:** `npm i playwright-core`, starta en lokal server (`python3 -m http.server 18433`) och kör `SHOTS=/sökväg node tests/e2e-reader.js`, `e2e-features.js`, `e2e-author.js`. Testerna blockerar alla Firestore-skrivningar.
+
 ## 🛠️ Utveckling
 
 ### Skript
