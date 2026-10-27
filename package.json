@@ -27,15 +27,24 @@
   "engines": {
     "node": ">=14.0.0"
   },
+  "optionalDependencies": {
+    "firebase-admin": "^11.0.0"
+  },
   "files": [
     "index.html",
+    "integritet.html",
     "styles.css",
     "utils.js",
+    "site-config.js",
     "generate-pages.js",
     "netlify.toml",
     "robots.txt",
     "sitemap.xml",
     "*.png",
+    "*.jpg",
+    "*.svg",
+    "*.mp4",
+    "*.webm",
     "*.mp3"
   ]
 }
