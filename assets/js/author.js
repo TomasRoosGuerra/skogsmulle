@@ -334,6 +334,8 @@
   }
 
   function loadImageManifest() {
+    // Browsers block fetch() on file:// pages; the URL field still works there.
+    if (location.protocol === "file:") { els.authorManifestHint.hidden = false; return; }
     fetch("assets/images/story/manifest.json")
       .then(function (r) { if (!r.ok) throw new Error("not ok"); return r.json(); })
       .then(function (data) {

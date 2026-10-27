@@ -1707,7 +1707,9 @@
           const idx = findPostIndexByIdentifier(identifier);
           if (idx !== -1) openStoryModal(idx);
         } else if (hash === '#login') {
-          // Handled separately by the login modal deep link; leave the story modal alone.
+          // Login deep link: open the login modal (also when the hash changes after load).
+          const lm = document.getElementById("loginModal");
+          if (lm && !lm.classList.contains("show-modal")) openLoginModal();
         } else {
           closeStoryModal({ fromHistory: true });
         }

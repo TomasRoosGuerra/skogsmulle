@@ -318,3 +318,16 @@
     transition: none;
   }
 }
+
+/* Comfortable touch targets for every editor button, on all screen sizes */
+#authorSection .btn,
+#authorSection button {
+  min-height: 44px;
+}
+
+.author-image-field {
+  border: 0;
+  padding: 0;
+  margin-inline: 0;
+  min-width: 0;
+}

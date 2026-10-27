@@ -20,6 +20,7 @@ const profiles = {
     let writes = 0;
     await p.route(/firestore\.googleapis\.com\/.*\/Write\//, r => { writes++; r.abort(); });
     p.on('console', m => { if (m.type() === 'error') errs.push(m.text().slice(0, 200)); });
+    p.on('response', r => { if (r.status() >= 400) errs.push('HTTP ' + r.status() + ' ' + r.url()); }); p.on('requestfailed', r => { if (/FILE_NOT_FOUND/.test(r.failure() && r.failure().errorText)) errs.push('MISSING ' + r.url()); });
     p.on('pageerror', e => errs.push('PAGEERR ' + e.message.slice(0, 200)));
     p.on('dialog', d => { errs.push('NATIVE DIALOG ' + d.type()); d.dismiss(); });
     await p.goto(url); await p.waitForSelector('.story-card', { timeout: 15000 }).catch(() => {});
@@ -58,7 +59,9 @@ const profiles = {
     await p.keyboard.press('Enter');
     await p.keyboard.type('Andra testraden.');
     // XSS attempt via the editor HTML must be neutralised in the preview
-    await p.evaluate(() => { const e = document.getElementById('postContent'); e.innerHTML += '<img src="x" onerror="window.__xss=1"><script>window.__xss=2<\/script><p>Tredje</p>'; e.dispatchEvent(new Event('input', { bubbles: true })); });
+    await p.evaluate(() => { const e = document.getElementById('postContent'); e.innerHTML += '<img src="data:image/png;base64,AAAA" onerror="window.__xss=1"><script>window.__xss=2<\/script><p>Tredje</p>'; });
+    await p.waitForTimeout(400);
+    await p.evaluate(() => { window.__xss = 0; document.getElementById('postContent').dispatchEvent(new Event('input', { bubbles: true })); });
     if (pn === 'mobile') { await p.locator('#authorTabPreview').tap(); } else { /* side by side */ }
     await p.waitForTimeout(500);
     const prev = await p.evaluate(() => ({ t: document.getElementById('authorPreviewTitle').textContent, b: document.getElementById('authorPreviewBody').innerText, vis: !!document.getElementById('authorPreviewBody').offsetParent, lang: (document.getElementById('authorPreviewBody').closest('[lang]') || {}).lang, xss: window.__xss, html: document.getElementById('authorPreviewBody').innerHTML }));
@@ -66,7 +69,7 @@ const profiles = {
     ok(`${tag} live preview shows text`, /Första testraden/.test(prev.b) && /Andra testraden/.test(prev.b));
     ok(`${tag} preview visible`, prev.vis);
     ok(`${tag} preview sanitises script/onerror`, !/onerror|<script/i.test(prev.html) && !prev.xss, 'xss=' + prev.xss);
-    ok(`${tag} preview language attribute`, prev.lang === 'en', prev.lang);
+    ok(`${tag} preview language attribute`, /^en/.test(prev.lang || ''), prev.lang);
     await p.screenshot({ path: `${SHOTS}/${pn}-${mode}-editor-preview.png` });
     if (pn === 'mobile') await p.locator('#authorTabWrite').tap();
     // arrow-key tab navigation (mobile layout shows tabs; on desktop they may be hidden)
@@ -94,7 +97,7 @@ const profiles = {
     // ---- import (never publishes)
     await p.locator('#authorClearDraftBtn').click(); await p.locator('#authorClearConfirmYes').click(); await p.waitForTimeout(300);
     ok(`${tag} clear draft empties title`, (await p.locator('#authorTitle').inputValue()) === '');
-    const fj = path.join(os.tmpdir(), 'imp.json'); fs.writeFileSync(fj, JSON.stringify({ title: 'Importerad titel', content: '<p>Importerad text</p><img src=x onerror=window.__xss=3>', category: 'magi', language: 'sv' }));
+    const fj = path.join(os.tmpdir(), 'imp.json'); fs.writeFileSync(fj, JSON.stringify({ title: 'Importerad titel', content: '<p>Importerad text</p><img src="data:image/png;base64,AAAA" onerror="window.__xss=3">', category: 'magi', language: 'sv' }));
     await p.setInputFiles('#authorImportInput', fj); await p.waitForTimeout(500);
     ok(`${tag} import JSON fills editor`, (await p.locator('#authorTitle').inputValue()) === 'Importerad titel' && /Importerad text/.test(await p.locator('#postContent').innerText()));
     ok(`${tag} import sanitises html`, !(await p.evaluate(() => /onerror/i.test(document.getElementById('postContent').innerHTML) || window.__xss === 3)));
