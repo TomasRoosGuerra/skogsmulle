@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sidan hittades inte</title>
+  <meta name="description" content="Sidan du letade efter finns inte. Gå tillbaka till startsidan och läs berättelserna." />
+  <meta name="robots" content="noindex,follow" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <script src="/site-config.js"></script>
+  <style>
+    :root {
+      --p: #1a6b5a;
+      --p-light: #238c76;
+      --bg: #faf8f4;
+      --surface: #ffffff;
+      --txt: #2a2a2a;
+      --txt-muted: #6b7280;
+      --br: #e5e2dc;
+      --f: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --fh: Georgia, 'Times New Roman', serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: var(--f);
+      font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+      line-height: 1.6;
+      color: var(--txt);
+      background: var(--bg);
+    }
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.25rem;
+    }
+    .card {
+      max-width: 34rem;
+      width: 100%;
+      text-align: center;
+      background: var(--surface);
+      border: 1px solid var(--br);
+      border-radius: 20px;
+      padding: clamp(1.5rem, 1rem + 3vw, 3rem);
+    }
+    .emoji { font-size: 3rem; line-height: 1; margin: 0 0 0.5rem; }
+    h1 {
+      font-family: var(--fh);
+      font-size: clamp(1.75rem, 1.5rem + 1.5vw, 2.5rem);
+      margin: 0 0 0.75rem;
+      color: var(--p);
+    }
+    p { margin: 0 0 1.25rem; }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px;
+      background: var(--p);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .btn:hover, .btn:focus-visible { background: var(--p-light); }
+    .btn:focus-visible { outline: 3px solid var(--p); outline-offset: 3px; }
+    .links { margin: 1.25rem 0 0; font-size: 0.9375rem; color: var(--txt-muted); }
+    .links a { color: var(--p); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="card">
+      <p class="emoji" aria-hidden="true">🌲</p>
+      <h1>Oj, här var det tomt!</h1>
+      <p>Sidan du letade efter finns inte, eller så har den flyttat. Ingen fara – berättelserna finns kvar.</p>
+      <a class="btn" href="/">Till startsidan</a>
+      <p class="links"><a href="/#stories">Läs berättelserna</a> · <a href="/integritet.html">Integritet</a></p>
+    </div>
+  </main>
+  <script>
+    // Sajtnamnet hämtas från konfigurationen (SITE_NAME) – hårdkoda det inte här.
+    if (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.SITE_NAME) {
+      document.title = 'Sidan hittades inte – ' + SITE_CONFIG.SITE_NAME;
+    }
+  </script>
+</body>
+</html>
