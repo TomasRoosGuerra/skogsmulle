@@ -1,0 +1,288 @@
+/* ===== Theme overrides: fonts, image slots, hero, skip-link, topic chips =====
+   Loaded after the inline <style> in index.html so rules here win. */
+
+@font-face {
+  font-family: 'Andika';
+  src: url('../fonts/andika-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Andika';
+  src: url('../fonts/andika-latin-700-normal.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Patrick Hand';
+  src: url('../fonts/patrick-hand-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-body: 'Andika', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Patrick Hand', 'Comic Sans MS', Chalkboard, 'Marker Felt', cursive, var(--font-body);
+
+  /* Image slots — swap the files on disk, not these paths (see assets/images/README.md) */
+  --img-hero: url('../images/hero/hero-kust-1280.webp');
+  --img-bg-paper: url('../images/backgrounds/bakgrund-papper-1280.webp');
+  --img-bg-forest-mobile: url('../images/backgrounds/bakgrund-skog-mobil-720.webp');
+}
+
+@media (max-width: 768px) {
+  :root {
+    --img-bg-paper: url('../images/backgrounds/bakgrund-papper-768.webp');
+    --img-bg-forest-mobile: url('../images/backgrounds/bakgrund-skog-mobil-405.webp');
+  }
+}
+
+/* ===== Body background: paper texture, cream fallback ===== */
+body {
+  background-color: var(--cream, #FBF5E2);
+  background-image: var(--img-bg-paper);
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  position: relative;
+}
+
+/* Soft forest layer on narrow screens, kept behind all content and never under text */
+@media (max-width: 600px) {
+  body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    background-image: var(--img-bg-forest-mobile);
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+/* Text always sits on solid/cream reading surfaces */
+.story-card,
+.story-modal-content,
+.modal-content,
+.author-section,
+.hero-text,
+.topic-filter,
+.topic-chip {
+  background-color: var(--surface, #FDFBF2);
+}
+
+/* ===== Handwritten display type ===== */
+h1, h2, h3, h4, h5, h6,
+.badge,
+.topic-chip span,
+.story-card-date,
+.site-nav-brand {
+  font-family: var(--font-display);
+  letter-spacing: 0.015em;
+}
+
+body, p, input, textarea, select, button {
+  font-family: var(--font-body);
+}
+
+/* ===== Universal focus ring ===== */
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ===== Skip link ===== */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  z-index: 5000;
+  background: var(--cream);
+  color: var(--ink);
+  padding: 10px 18px;
+  border-radius: 0 0 var(--r, 12px) 0;
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ===== Hero ===== */
+.hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.hero-picture,
+.hero-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
+  object-fit: cover;
+}
+.hero-text {
+  position: absolute;
+  top: var(--sp-lg, 1.25rem);
+  left: var(--sp-lg, 1.25rem);
+  max-width: 60%;
+  color: var(--ink);
+  padding: var(--sp-sm, 0.75rem) var(--sp-md, 1.25rem);
+  border-radius: var(--r-lg, 20px);
+}
+.hero-text h1 {
+  font-size: var(--font-size-h1, clamp(2rem, 1.7rem + 1.5vw, 3rem));
+  color: var(--ink);
+  margin-bottom: 0.2em;
+}
+.hero-text p {
+  font-size: var(--font-size-lg, 1.125rem);
+  color: var(--ink-muted);
+  margin-bottom: 0;
+}
+
+@media (max-width: 600px) {
+  .hero-text {
+    position: static;
+    max-width: none;
+    margin: var(--sp-md, 1rem);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--br);
+  }
+  .hero-img {
+    max-height: 45vh;
+  }
+}
+
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .story-card:hover {
+    transform: none;
+  }
+}
+
+/* Hover lift only when motion is welcome (base rule already in inline <style>;
+   this keeps the behavior explicit and overridable in one place) */
+@media (prefers-reduced-motion: no-preference) {
+  .story-card {
+    transition: transform var(--duration, 0.2s) var(--ease, ease),
+                box-shadow var(--duration, 0.2s) var(--ease, ease);
+  }
+  .story-card:hover {
+    transform: translateY(-4px);
+  }
+}
+
+/* ===== Cards: soft paper feel ===== */
+.story-card {
+  border-radius: 20px;
+  border-color: var(--br);
+  box-shadow: 0 6px 18px rgba(137, 121, 13, 0.1), 0 2px 6px rgba(58, 51, 6, 0.06);
+}
+.story-card-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  background: var(--cream);
+  object-fit: contain;
+  padding: 6px;
+  margin-bottom: var(--sp-sm, 0.75rem);
+}
+
+/* ===== Topic filter ("Välj ämne") ===== */
+.topic-filter {
+  border: 1px solid var(--br);
+  border-radius: 20px;
+  padding: var(--sp-lg, 1.25rem);
+  margin-bottom: var(--sp-xl, 2rem);
+  box-shadow: 0 2px 8px rgba(107, 93, 12, 0.07);
+}
+.topic-filter h2 {
+  font-size: var(--font-size-h4, 1.25rem);
+  margin-bottom: var(--sp-md, 1rem);
+}
+.topic-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-sm, 0.75rem);
+  max-width: 100%;
+}
+.topic-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 10px 14px;
+  background: var(--cream);
+  border: 2px solid var(--br);
+  border-radius: 14px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  color: var(--ink);
+  transition: border-color var(--duration, 0.2s) var(--ease, ease),
+              transform var(--duration, 0.2s) var(--ease, ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  .topic-chip {
+    transition: none;
+  }
+}
+.topic-chip img {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: var(--cream);
+  object-fit: contain;
+}
+.topic-chip span {
+  font-size: var(--font-size-sm, 0.875rem);
+  text-transform: capitalize;
+}
+.topic-chip:hover {
+  border-color: var(--accent);
+}
+.topic-chip[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: rgba(169, 74, 5, 0.08);
+}
+
+/* ===== Empty state ===== */
+.empty-state {
+  text-align: center;
+  padding: var(--sp-2xl, 3rem) var(--sp-lg, 1.25rem);
+  color: var(--ink-muted);
+  background: var(--surface);
+  border-radius: 20px;
+  border: 1px dashed var(--br-strong);
+}
+
+/* ===== Footer AI note ===== */
+.ai-note {
+  margin-top: var(--sp-md, 1rem);
+  font-size: var(--font-size-xs, 0.8125rem);
+  color: var(--ink-muted);
+  font-style: italic;
+}

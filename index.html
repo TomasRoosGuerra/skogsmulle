@@ -63,6 +63,7 @@
     />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <meta name="theme-color" content="#FBF5E2" />
 
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json" id="schemaWebSite">
@@ -1037,6 +1038,7 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="assets/css/theme.css" />
   </head>
 
   <body>
@@ -1136,6 +1138,10 @@
 
         <div class="main-content">
           <section class="blog-section" aria-label="Berättelser" id="stories">
+            <section class="topic-filter" aria-labelledby="topicFilterTitle">
+              <h2 id="topicFilterTitle">Välj ämne</h2>
+              <div class="topic-chips" id="topicChips" role="group" aria-label="Filtrera berättelser efter ämne"></div>
+            </section>
             <div class="section-header">
               <h2>Alla Berättelser</h2>
             </div>
@@ -1230,6 +1236,7 @@
       </div>
       
       <p class="footer-tip">Läsningstips: Läs högt varje dag, ställ frågor om berättelsen, och låt barnet berätta om bilderna.</p>
+      <p class="ai-note">Illustrationerna är akvarell skapade med hjälp av AI i stil med Tomas egna skisser.</p>
       <p style="margin-top: 1rem; font-size: 0.875rem;">
         <a href="integritet.html" style="color: var(--p);">Integritetspolicy</a>
       </p>
@@ -1239,6 +1246,7 @@
       let isAdmin = false;
       let currentUser = null;
       let allPosts = [];
+      let selectedCategory = null; // null = "Alla" (no filter)
 
       // Firebase Authentication är nu aktiverat (27 okt 2026)
       const FIREBASE_AUTH_ENABLED = true;
@@ -1282,20 +1290,6 @@
           }
         } catch (e) {
           console.warn('Kunde inte uppdatera sajtnamn/metadata:', e);
-        }
-
-        // Hantera prefers-reduced-motion för video
-        const headerVideo = document.getElementById("headerBackgroundVideo");
-        if (headerVideo) {
-          const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          const saveData = navigator.connection?.saveData;
-          
-          if (prefersReducedMotion || saveData) {
-            headerVideo.pause();
-            headerVideo.removeAttribute('autoplay');
-          } else {
-            headerVideo.play().catch(() => {});
-          }
         }
       });
 
@@ -1523,22 +1517,48 @@
         return idx;
       }
 
+      // Icon file (without extension) for a story's category, with a safe fallback
+      function getCategoryIcon(category) {
+        const cfg = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG) ? SITE_CONFIG : {};
+        const icons = cfg.CATEGORY_ICONS || {};
+        const key = (category || '').toLowerCase();
+        return icons[key] || 'ikon-lov';
+      }
+
+      function getIconDir() {
+        const cfg = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG) ? SITE_CONFIG : {};
+        return cfg.ICON_DIR || 'assets/images/icons/';
+      }
+
       function renderAllPosts() {
         const c = document.getElementById("posts-container");
 
         if (allPosts.length === 0) {
-          c.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📚</div><p>Inga berättelser ännu. Skapa den första!</p></div>';
+          c.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📚</div><p>Här kommer det snart berättelser.</p></div>';
           return;
         }
 
         // Sort allPosts itself (not a copy) so card index always matches allPosts index
         allPosts.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
-        c.innerHTML = allPosts
-          .map((p, i) => {
+        const visiblePosts = selectedCategory
+          ? allPosts.filter((p) => (p.category || '').toLowerCase() === selectedCategory)
+          : allPosts;
+
+        if (visiblePosts.length === 0) {
+          c.innerHTML = '<p class="empty-state" role="status">Inga berättelser i det här ämnet ännu.</p>';
+          return;
+        }
+
+        const iconDir = getIconDir();
+
+        c.innerHTML = visiblePosts
+          .map((p) => {
+            const i = allPosts.indexOf(p);
             const excerpt = getExcerpt(p.content, 120);
             const title = p.title || 'Utan titel';
             const storyId = getStoryIdentifier(p, i);
+            const iconSrc = iconDir + getCategoryIcon(p.category) + '.webp';
 
             return `<article
               class="story-card"
@@ -1549,6 +1569,7 @@
               aria-label="Läs berättelsen: ${escapeHtml(title)}">
               <div class="story-card-accent"></div>
               <div class="story-card-body">
+                <img class="story-card-icon" alt="" width="64" height="64" loading="lazy" src="${escapeHtml(iconSrc)}" />
                 <div class="story-card-badges">
                   ${p.category ? `<span class="badge badge-category">${escapeHtml(p.category)}</span>` : ''}
                   ${p.age ? `<span class="badge badge-age">${escapeHtml(p.age)}</span>` : ''}
@@ -1566,6 +1587,52 @@
 
         // Handle hash navigation after rendering posts
         handleHashNavigation();
+      }
+
+      // Build the "Välj ämne" chips from SITE_CONFIG.CATEGORY_ICONS and wire up filtering
+      function setupTopicChips() {
+        const container = document.getElementById("topicChips");
+        if (!container || container.hasAttribute("data-chips-added")) return;
+        container.setAttribute("data-chips-added", "true");
+
+        const cfg = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG) ? SITE_CONFIG : {};
+        const categoryIcons = cfg.CATEGORY_ICONS || {};
+        const iconDir = getIconDir();
+        const categories = Object.keys(categoryIcons);
+
+        const allChip = `<button type="button" class="topic-chip" aria-pressed="true" data-category="">
+          <span>Alla</span>
+        </button>`;
+
+        const categoryChips = categories
+          .map((category) => {
+            const icon = categoryIcons[category];
+            const label = category.charAt(0).toUpperCase() + category.slice(1);
+            return `<button type="button" class="topic-chip" aria-pressed="false" data-category="${escapeHtml(category)}">
+              <img src="${escapeHtml(iconDir + icon + '.webp')}" alt="" width="56" height="56" loading="lazy" />
+              <span>${escapeHtml(label)}</span>
+            </button>`;
+          })
+          .join("");
+
+        container.innerHTML = allChip + categoryChips;
+
+        container.addEventListener("click", function (e) {
+          const chip = e.target.closest(".topic-chip");
+          if (!chip) return;
+          const category = chip.dataset.category || null; // "" (Alla) becomes null
+
+          selectedCategory = selectedCategory === category ? null : category;
+
+          container.querySelectorAll(".topic-chip").forEach((el) => {
+            const isActive = selectedCategory
+              ? el.dataset.category === selectedCategory
+              : el.dataset.category === "";
+            el.setAttribute("aria-pressed", String(isActive));
+          });
+
+          renderAllPosts();
+        });
       }
 
       function getExcerpt(html, maxLen) {
@@ -2384,6 +2451,7 @@
         setupFormListeners();
         setupLoginListener();
         setupStoryCardDelegation();
+        setupTopicChips();
 
         const savedSize = localStorage.getItem("skogsmulle_textSize");
         if (savedSize) document.body.style.fontSize = savedSize + "px";
