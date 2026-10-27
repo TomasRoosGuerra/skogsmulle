@@ -3,17 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>
-      Skogsmulle - Svenska Sagor och Barnböcker Online | Magiska Berättelser för
-      Barn
-    </title>
+    <title id="pageTitle">Skogsmulle - Magiska barnberättelser för barn 3–12 år</title>
     <meta
       name="description"
-      content="Läs svenska sagor och barnberättelser gratis online med Skogsmulle. Perfekt för barn 3-12 år. Nya berättelser om äventyr, vänskap och naturens under. Bästa barnsagorna 2025."
-    />
-    <meta
-      name="keywords"
-      content="svenska sagor,barnböcker online,barnberättelser,sagor för barn,läsa sagor,Skogsmulle,svenska barnböcker,gratis sagor,godnattsagor,svenska folksagor,barnlitteratur,läsa för barn,svenska berättelser,sagor 3 år,sagor 5 år,sagor 8 år,barnsagor svenska,barnböcker gratis,svenska äventyr barn"
+      id="pageDescription"
+      content="Magiska svenska barnberättelser för barn 3–12 år. Nya berättelser om äventyr, vänskap och naturens under."
     />
     <meta name="author" content="Tomas Roos Guerra" />
     <meta
@@ -22,40 +16,44 @@
     />
     <meta property="og:locale" content="sv_SE" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Skogsmulle - Svenska Barnböcker" />
+    <meta property="og:site_name" id="ogSiteName" content="Skogsmulle - Svenska Barnböcker" />
     <meta
       property="og:title"
-      content="Skogsmulle - Svenska Sagor och Barnböcker Online | Magiska Berättelser för Barn"
+      id="ogTitle"
+      content="Skogsmulle - Magiska barnberättelser för barn 3–12 år"
     />
     <meta
       property="og:description"
-      content="Läs svenska sagor och barnberättelser gratis online. Perfekt för barn 3-12 år med nya magiska berättelser om äventyr och vänskap."
+      id="ogDescription"
+      content="Magiska svenska barnberättelser för barn 3–12 år. Nya berättelser om äventyr, vänskap och naturens under."
     />
     <meta property="og:url" content="https://skogsmulle.netlify.app" />
     <meta
       property="og:image"
-      content="https://skogsmulle.netlify.app/igelkotten.png"
+      content="https://skogsmulle.netlify.app/share-image.jpg"
     />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="Skogsmulle - Magiska svenska barnberättelser"
+      content="Akvarellmålning av en igelkott i röd spetsmössa vid en kust med trähus i svensk natur"
     />
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="Skogsmulle - Svenska Sagor och Barnböcker Online"
+      id="twitterTitle"
+      content="Skogsmulle - Magiska barnberättelser för barn 3–12 år"
     />
     <meta
       name="twitter:description"
-      content="Läs svenska sagor gratis online. Perfekt för barn 3-12 år. Nya berättelser om äventyr och vänskap."
+      id="twitterDescription"
+      content="Magiska svenska barnberättelser för barn 3–12 år."
     />
     <meta
       name="twitter:image"
-      content="https://skogsmulle.netlify.app/igelkotten.png"
+      content="https://skogsmulle.netlify.app/share-image.jpg"
     />
-    <meta name="twitter:image:alt" content="Skogsmulle barnberättelser" />
+    <meta name="twitter:image:alt" content="Akvarellmålning av en igelkott i röd spetsmössa vid en kust med trähus i svensk natur" />
     <link rel="canonical" href="https://skogsmulle.netlify.app" />
     <link
       rel="sitemap"
@@ -63,18 +61,17 @@
       title="Sitemap"
       href="/sitemap.xml"
     />
-    <meta name="language" content="Swedish" />
-    <meta name="geo.region" content="SE" />
-    <meta name="geo.placename" content="Sweden" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Schema.org Structured Data -->
-    <script type="application/ld+json">
+    <script type="application/ld+json" id="schemaWebSite">
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "Skogsmulle - Svenska Barnböcker",
         "url": "https://skogsmulle.netlify.app",
-        "description": "Svenska sagor och barnberättelser online för barn 3-12 år",
+        "description": "Svenska sagor och barnberättelser online för barn 3–12 år",
         "inLanguage": "sv-SE",
         "author": {
           "@type": "Person",
@@ -89,15 +86,12 @@
         }
       }
     </script>
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        "name": "Svenska Barnberättelser",
-        "description": "Samling av svenska sagor och berättelser för barn",
-        "itemListElement": []
-      }
-    </script>
+
+    <!-- Site configuration -->
+    <script src="/site-config.js"></script>
+    
+    <!-- DOMPurify för säker innehållsrengöring -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js" integrity="sha384-5FqjH2qvF8JC8+rP1j3qNnCXLkbFvGLKcCHxJQvH84CvK/1c9EKp9tP4xQOT8qPw" crossorigin="anonymous"></script>
 
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
@@ -114,23 +108,24 @@
         query,
         serverTimestamp,
       } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+      import {
+        getAuth,
+        signInWithEmailAndPassword,
+        signOut as firebaseSignOut,
+        onAuthStateChanged
+      } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
-      const firebaseConfig = {
-        apiKey: "AIzaSyAl4FKCAqrt_Vkw0jRddSnR1gn4BGby-rA",
-        authDomain: "skogsmulle-c601d.firebaseapp.com",
-        projectId: "skogsmulle-c601d",
-        storageBucket: "skogsmulle-c601d.firebasestorage.app",
-        messagingSenderId: "878822846379",
-        appId: "1:878822846379:web:b545d30bab52d19a5facee",
-        measurementId: "G-SV2RJXDS5S",
-      };
+      // Använd konfigurationen från site-config.js
+      const firebaseConfig = SITE_CONFIG.FIREBASE_CONFIG;
 
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
+      const auth = getAuth(app);
 
       Object.assign(window, {
         firebaseApp: app,
         firebaseDb: db,
+        firebaseAuth: auth,
         firebaseCollection: collection,
         firebaseAddDoc: addDoc,
         firebaseGetDocs: getDocs,
@@ -141,6 +136,9 @@
         firebaseOrderBy: orderBy,
         firebaseQuery: query,
         firebaseServerTimestamp: serverTimestamp,
+        firebaseSignInWithEmailAndPassword: signInWithEmailAndPassword,
+        firebaseSignOut: firebaseSignOut,
+        firebaseOnAuthStateChanged: onAuthStateChanged
       });
     </script>
 
@@ -1020,7 +1018,7 @@
   <body>
     <nav class="site-nav">
       <div class="site-nav-inner">
-        <a href="/" class="site-nav-brand">Skogsmulle</a>
+        <a href="/" class="site-nav-brand" id="navBrand">Skogsmulle</a>
         <ul class="site-nav-links">
           <li><a href="#" class="site-nav-link active">Hem</a></li>
           <li><a href="#stories" class="site-nav-link">Berättelser</a></li>
@@ -1035,11 +1033,16 @@
         <h2>Författarlogin</h2>
         <form id="loginForm">
           <div class="form-group">
-            <label for="emailInput">Email:</label>
-            <input type="email" id="emailInput" required />
+            <label for="emailInput">E-post:</label>
+            <input type="email" id="emailInput" required autocomplete="email" />
           </div>
+          <div class="form-group">
+            <label for="passwordInput">Lösenord:</label>
+            <input type="password" id="passwordInput" required autocomplete="current-password" />
+          </div>
+          <div id="loginError" style="display: none; color: var(--a); font-size: 0.875rem; margin-bottom: 1rem;"></div>
           <div class="modal-buttons">
-            <button type="submit" class="btn">Logga in</button>
+            <button type="submit" class="btn btn-primary" id="loginSubmitBtn">Logga in</button>
             <button
               type="button"
               class="btn btn-secondary"
@@ -1056,7 +1059,7 @@
     <div id="storyModal" class="story-modal">
       <div class="story-modal-content">
         <div class="story-modal-header">
-          <h1 class="story-modal-title" id="storyModalTitle"></h1>
+          <h2 class="story-modal-title" id="storyModalTitle"></h2>
           <button
             class="story-modal-close"
             onclick="closeStoryModal()"
@@ -1079,18 +1082,18 @@
           loop
           muted
           playsinline
-          preload="auto"
-          poster="igelkotten.png"
-          aria-label="Skogsmulle bakgrundsvideo"
+          preload="metadata"
+          poster="intro-poster.jpg"
+          aria-hidden="true"
         >
-          <source src="introfilm.mp4" type="video/mp4" />
-          <source src="introfilm.mov" type="video/quicktime" />
+          <source src="intro-720p.webm" type="video/webm" />
+          <source src="intro-720p.mp4" type="video/mp4" />
         </video>
       </div>
       <div class="header-overlay"></div>
       <div class="header-content">
-        <h1>Skogsmulle</h1>
-        <p>Magiska berättelser för barn</p>
+        <h1 id="heroTitle">Skogsmulle</h1>
+        <p id="heroSubtitle">Magiska berättelser för barn</p>
       </div>
     </header>
 
@@ -1135,10 +1138,10 @@
                 <label for="postAge">Åldersgrupp</label>
                 <select id="postAge">
                   <option value="">Välj ålder</option>
-                  <option value="3-5 år">3-5 år</option>
-                  <option value="6-8 år">6-8 år</option>
-                  <option value="9-12 år">9-12 år</option>
-                  <option value="alla åldrar">Alla åldrar</option>
+                  <option value="3–5 år">3–5 år</option>
+                  <option value="6–8 år">6–8 år</option>
+                  <option value="9–12 år">9–12 år</option>
+                  <option value="3–12 år">3–12 år (alla)</option>
                 </select>
               </div>
               <div class="form-group">
@@ -1162,19 +1165,94 @@
     </main>
 
     <footer class="footer">
-      <p>&copy; 2024 Skogsmulle. Alla berättelser är skapade med kärlek för barn och föräldrar.</p>
+      <p>&copy; <span id="copyrightYear">2024</span> <span id="footerSiteName">Skogsmulle</span>. Alla berättelser är skapade med kärlek för barn och föräldrar.</p>
+      
+      <!-- Nyhetsbrev - AVSTÄNGT tills e-posttjänst är vald -->
+      <div style="max-width: 400px; margin: 2rem auto 1rem; padding: 1.5rem; background: rgba(26,107,90,0.04); border-radius: 12px; border: 1px solid var(--br);">
+        <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem; color: var(--p);">Nya berättelser i inkorgen</h3>
+        <p style="font-size: 0.875rem; color: var(--txt-muted); margin-bottom: 1rem;">För föräldrar och vårdnadshavare. Få ett mejl när en ny berättelse finns att läsa tillsammans.</p>
+        <p style="font-size: 0.875rem; color: var(--txt-muted); font-style: italic;">
+          ⏳ Anmälan öppnar snart. Kom gärna tillbaka senare.
+        </p>
+        <!-- Formuläret är dolt tills en e-posttjänst har valts och konfigurerats
+        <form id="newsletterForm" style="display: none;">
+          <div style="display: flex; gap: 0.5rem;">
+            <input 
+              type="email" 
+              id="newsletterEmail" 
+              placeholder="Din e-postadress (vuxen)" 
+              required 
+              style="flex: 1; padding: 0.5rem; border: 1px solid var(--br); border-radius: 8px;"
+            />
+            <button 
+              type="submit" 
+              style="padding: 0.5rem 1rem; background: var(--p); color: white; border: none; border-radius: 8px; cursor: pointer;"
+            >
+              Anmäl mig
+            </button>
+          </div>
+          <p style="font-size: 0.75rem; color: var(--txt-muted); margin-top: 0.5rem;">
+            Endast för vuxna. Du får ett bekräftelsemejl innan anmälan slutförs. 
+            Läs mer i vår <a href="/integritet.html" style="color: var(--p);">integritetspolicy</a>.
+          </p>
+        </form>
+        -->
+      </div>
+      
       <p class="footer-tip">Läsningstips: Läs högt varje dag, ställ frågor om berättelsen, och låt barnet berätta om bilderna.</p>
+      <p style="margin-top: 1rem; font-size: 0.875rem;">
+        <a href="/integritet.html" style="color: var(--p);">Integritetspolicy</a>
+      </p>
     </footer>
 
     <script>
       let isAdmin = false;
       let currentUser = null;
       let allPosts = [];
+      
+      // Firebase Authentication är nu aktiverat (27 okt 2026)
+      const FIREBASE_AUTH_ENABLED = true;
 
+      // Initialisera sajtnamn från konfiguration
       document.addEventListener("DOMContentLoaded", function () {
+        if (typeof SITE_CONFIG !== 'undefined') {
+          // Uppdatera alla element med sajtnamn
+          const siteName = SITE_CONFIG.SITE_NAME;
+          document.getElementById('navBrand').textContent = siteName;
+          document.getElementById('heroTitle').textContent = siteName;
+          document.getElementById('footerSiteName').textContent = siteName;
+          
+          // Uppdatera copyright-år
+          document.getElementById('copyrightYear').textContent = SITE_CONFIG.COPYRIGHT_YEAR;
+          
+          // Uppdatera meta-taggar
+          document.getElementById('pageTitle').textContent = `${siteName} - Magiska barnberättelser för barn ${SITE_CONFIG.TARGET_AGE}`;
+          document.getElementById('ogSiteName').content = `${siteName} - Svenska Barnböcker`;
+          document.getElementById('ogTitle').content = `${siteName} - Magiska barnberättelser för barn ${SITE_CONFIG.TARGET_AGE}`;
+          document.getElementById('twitterTitle').content = `${siteName} - Magiska barnberättelser för barn ${SITE_CONFIG.TARGET_AGE}`;
+          
+          // Uppdatera Schema.org
+          const schema = document.getElementById('schemaWebSite');
+          if (schema) {
+            const schemaData = JSON.parse(schema.textContent);
+            schemaData.name = `${siteName} - Svenska Barnböcker`;
+            schemaData.description = `Svenska sagor och barnberättelser online för barn ${SITE_CONFIG.TARGET_AGE}`;
+            schema.textContent = JSON.stringify(schemaData, null, 2);
+          }
+        }
+        
+        // Hantera prefers-reduced-motion för video
         const headerVideo = document.getElementById("headerBackgroundVideo");
         if (headerVideo) {
-          headerVideo.play().catch(() => {});
+          const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          const saveData = navigator.connection?.saveData;
+          
+          if (prefersReducedMotion || saveData) {
+            headerVideo.pause();
+            headerVideo.removeAttribute('autoplay');
+          } else {
+            headerVideo.play().catch(() => {});
+          }
         }
       });
 
@@ -1380,14 +1458,22 @@
         c.innerHTML = sortedPosts
           .map((p, i) => {
             const excerpt = getExcerpt(p.content, 120);
+            // Använd textContent för titel, kategori och ålder (ingen HTML)
+            const safeTitle = document.createElement('div');
+            safeTitle.textContent = p.title || 'Utan titel';
+            const safeCategory = document.createElement('div');
+            safeCategory.textContent = p.category || '';
+            const safeAge = document.createElement('div');
+            safeAge.textContent = p.age || '';
+            
             return `<article class="story-card" data-id="${p.id || ""}" onclick="openStoryModal(${i})">
               <div class="story-card-accent"></div>
               <div class="story-card-body">
                 <div class="story-card-badges">
-                  ${p.category ? `<span class="badge badge-category">${p.category}</span>` : ''}
-                  ${p.age ? `<span class="badge badge-age">${p.age}</span>` : ''}
+                  ${p.category ? `<span class="badge badge-category">${safeCategory.textContent}</span>` : ''}
+                  ${p.age ? `<span class="badge badge-age">${safeAge.textContent}</span>` : ''}
                 </div>
-                <h3 class="story-card-title">${p.title || 'Utan titel'}</h3>
+                <h3 class="story-card-title">${safeTitle.textContent}</h3>
                 <p class="story-card-excerpt">${excerpt}</p>
                 <div class="story-card-footer">
                   <span class="story-card-date">${p.date || ''}</span>
@@ -1637,35 +1723,32 @@
       }
 
       function initAuth() {
-        console.log("Initializing authentication...");
-        try {
-          const saved = localStorage.getItem("skogsmulle_user");
-          console.log("Saved user data:", saved);
-
-          if (saved) {
-            const user = JSON.parse(saved);
-            console.log("Parsed user:", user);
-
-            if (
-              user.email === "tomas.roosguerra@gmail.com" ||
-              user.email === "tomasroosguerra@gmail.com"
-            ) {
-              console.log("Valid admin user found, logging in...");
-              isAdmin = true;
-              currentUser = user;
-              showAuthorTools();
-            } else {
-              console.log("Invalid user, showing login section");
-              showLoginSection();
-            }
-          } else {
-            console.log("No saved user, showing login section");
-            showLoginSection();
-          }
-        } catch (error) {
-          console.error("Auth initialization error:", error);
+        console.log("Initializing Firebase Authentication...");
+        
+        if (!FIREBASE_AUTH_ENABLED || !window.firebaseAuth) {
+          console.error("Firebase Authentication not available");
           showLoginSection();
+          return;
         }
+        
+        // Lyssna på autentiseringsstatusändringar
+        window.firebaseOnAuthStateChanged(window.firebaseAuth, (user) => {
+          if (user) {
+            console.log("User authenticated:", user.email);
+            isAdmin = true;
+            currentUser = {
+              uid: user.uid,
+              email: user.email,
+              name: user.email.split("@")[0]
+            };
+            showAuthorTools();
+          } else {
+            console.log("No user authenticated");
+            isAdmin = false;
+            currentUser = null;
+            hideAuthorTools();
+          }
+        });
       }
 
       function handleNavLogin() {
@@ -1697,6 +1780,10 @@
 
       function closeLoginModal() {
         document.getElementById("loginModal").classList.remove("show-modal");
+        hideLoginError();
+        // Clear password field
+        const passwordInput = document.getElementById("passwordInput");
+        if (passwordInput) passwordInput.value = "";
       }
 
       // Story Modal Functions
@@ -1717,25 +1804,39 @@
           return;
         }
 
-        // Set title
+        // Använd textContent för titel (ingen HTML)
         titleEl.textContent = story.title || "Untitled Story";
 
-        // Set metadata
-        let metaHTML = `<span class="post-date">📅 ${
-          story.date || "No date"
-        }</span>`;
-        if (story.category) {
-          metaHTML += `<span class="post-category">📂 ${story.category}</span>`;
-        }
-        if (story.age) {
-          metaHTML += `<span class="post-age">👶 ${story.age}</span>`;
-        }
-        metaEl.innerHTML = metaHTML;
+        // Använd textContent för metadata (ingen HTML)
+        const dateSpan = document.createElement('span');
+        dateSpan.className = 'post-date';
+        dateSpan.textContent = `📅 ${story.date || "No date"}`;
+        
+        const categorySpan = story.category ? (() => {
+          const span = document.createElement('span');
+          span.className = 'post-category';
+          span.textContent = `📂 ${story.category}`;
+          return span;
+        })() : null;
+        
+        const ageSpan = story.age ? (() => {
+          const span = document.createElement('span');
+          span.className = 'post-age';
+          span.textContent = `👶 ${story.age}`;
+          return span;
+        })() : null;
+        
+        metaEl.innerHTML = '';
+        metaEl.appendChild(dateSpan);
+        if (categorySpan) metaEl.appendChild(categorySpan);
+        if (ageSpan) metaEl.appendChild(ageSpan);
 
-        // Set content - parse HTML and display with better formatting
-        const tempDiv = document.createElement("div");
-        tempDiv.innerHTML = story.content || "<p>No content available.</p>";
-        bodyEl.innerHTML = tempDiv.innerHTML;
+        // Rengör innehåll med DOMPurify (tillåt endast säkra taggar)
+        const cleanContent = DOMPurify.sanitize(story.content || "<p>No content available.</p>", {
+          ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'ul', 'li', 'ol'],
+          ALLOWED_ATTR: []
+        });
+        bodyEl.innerHTML = cleanContent;
 
         // Show modal
         modal.classList.add("show");
@@ -1796,46 +1897,90 @@
       // toggleAuthorTools function removed - sidebar functionality consolidated into navigation
 
       function signInWithGoogle(e) {
-        console.log("Sign in attempt with email:", e);
-        const email = e.toLowerCase().trim();
-        console.log("Normalized email:", email);
-
-        if (
-          email === "tomas.roosguerra@gmail.com" ||
-          email === "tomasroosguerra@gmail.com"
-        ) {
-          console.log("Valid email, setting admin privileges...");
-          isAdmin = true;
-          currentUser = { email: email, name: email.split("@")[0] };
-
-          try {
-            localStorage.setItem(
-              "skogsmulle_user",
-              JSON.stringify(currentUser)
-            );
-            console.log("User saved to localStorage:", currentUser);
-
-            showAuthorTools();
-            closeLoginModal();
-            alert("Välkommen tillbaka, författare!");
-          } catch (error) {
-            console.error("Error saving user to localStorage:", error);
-            alert("Ett fel uppstod vid inloggning. Försök igen.");
+        // Denna funktion heter fortfarande "signInWithGoogle" men använder nu email/password
+        // Namnet behålls för bakåtkompatibilitet med befintlig kod
+        console.log("signInWithGoogle called (legacy name, now uses email/password)");
+      }
+      
+      async function signInWithEmailPassword(email, password) {
+        if (!FIREBASE_AUTH_ENABLED || !window.firebaseAuth) {
+          showLoginError("Firebase Authentication är inte aktiverat");
+          return;
+        }
+        
+        try {
+          const userCredential = await window.firebaseSignInWithEmailAndPassword(
+            window.firebaseAuth,
+            email,
+            password
+          );
+          console.log("Sign in successful:", userCredential.user.email);
+          closeLoginModal();
+          // onAuthStateChanged kommer att hantera resten
+        } catch (error) {
+          console.error("Sign in error:", error);
+          let errorMessage = "Inloggningen misslyckades";
+          
+          switch (error.code) {
+            case 'auth/invalid-email':
+              errorMessage = "Ogiltig e-postadress";
+              break;
+            case 'auth/user-disabled':
+              errorMessage = "Kontot är inaktiverat";
+              break;
+            case 'auth/user-not-found':
+              errorMessage = "Ingen användare med denna e-postadress";
+              break;
+            case 'auth/wrong-password':
+              errorMessage = "Felaktigt lösenord";
+              break;
+            case 'auth/invalid-credential':
+              errorMessage = "Felaktig e-postadress eller lösenord";
+              break;
+            case 'auth/too-many-requests':
+              errorMessage = "För många misslyckade försök. Försök igen senare.";
+              break;
+            default:
+              errorMessage = `Fel: ${error.message}`;
           }
-        } else {
-          console.log("Invalid email:", email);
-          isAdmin = false;
-          currentUser = null;
-          alert("Endast författaren kan logga in här.");
+          
+          showLoginError(errorMessage);
+        }
+      }
+      
+      function showLoginError(message) {
+        const errorEl = document.getElementById("loginError");
+        if (errorEl) {
+          errorEl.textContent = message;
+          errorEl.style.display = "block";
+        }
+      }
+      
+      function hideLoginError() {
+        const errorEl = document.getElementById("loginError");
+        if (errorEl) {
+          errorEl.style.display = "none";
         }
       }
 
       function signOut() {
-        isAdmin = false;
-        currentUser = null;
-        localStorage.removeItem("skogsmulle_user");
-        hideAuthorTools();
-        alert("Du har loggats ut.");
+        if (!FIREBASE_AUTH_ENABLED || !window.firebaseAuth) {
+          console.error("Firebase Authentication not available");
+          return;
+        }
+        
+        window.firebaseSignOut(window.firebaseAuth)
+          .then(() => {
+            console.log("Sign out successful");
+            isAdmin = false;
+            currentUser = null;
+            hideAuthorTools();
+            alert("Du har loggats ut.");
+          })
+          .catch((error) => {
+            console.error("Sign out error:", error);
+            alert("Kunde inte logga ut. Försök igen.");
+          });
       }
 
 
@@ -1948,12 +2093,30 @@
         if (loginForm && !loginForm.hasAttribute("data-listener-added")) {
           console.log("Adding login form event listener");
           loginForm.setAttribute("data-listener-added", "true");
-          loginForm.addEventListener("submit", function (e) {
+          loginForm.addEventListener("submit", async function (e) {
             e.preventDefault();
             console.log("Login form submitted");
-            const email = document.getElementById("emailInput").value;
+            hideLoginError();
+            
+            const email = document.getElementById("emailInput").value.trim();
+            const password = document.getElementById("passwordInput").value;
+            const submitBtn = document.getElementById("loginSubmitBtn");
+            
             console.log("Email from form:", email);
-            signInWithGoogle(email);
+            
+            // Disable submit button during login
+            if (submitBtn) {
+              submitBtn.disabled = true;
+              submitBtn.textContent = "Loggar in...";
+            }
+            
+            await signInWithEmailPassword(email, password);
+            
+            // Re-enable submit button
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = "Logga in";
+            }
           });
           console.log("Login form listener added successfully");
         } else {
@@ -1984,11 +2147,12 @@
 
         loadDraft();
 
+        // Använd endast realtime listener (ta bort dubbelhämtning)
         setTimeout(async () => {
           if (window.firebaseDb) {
             try {
               setupRealtimeListener();
-              await C.load();
+              // C.load() borttagen - använd bara onSnapshot för att undvika dubbelhämtning
             } catch (error) {
               console.error("Firebase setup failed:", error);
               allPosts = [];

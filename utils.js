@@ -195,16 +195,14 @@ export function isValidEmail(email) {
 }
 
 /**
- * Check if user is admin
- * @param {string} email - Email to check
- * @returns {boolean} True if admin
+ * Check if user is authenticated (now handled by Firebase Auth)
+ * This function is deprecated - use Firebase Authentication instead
+ * @deprecated Use Firebase Auth onAuthStateChanged
+ * @returns {boolean} Always returns false
  */
 export function isAdminEmail(email) {
-  const normalizedEmail = email.toLowerCase().trim();
-  return (
-    normalizedEmail === "tomas.roosguerra@gmail.com" ||
-    normalizedEmail === "tomasroosguerra@gmail.com"
-  );
+  console.warn('isAdminEmail is deprecated. Use Firebase Authentication instead.');
+  return false;
 }
 
 /**
