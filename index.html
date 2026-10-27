@@ -143,28 +143,47 @@
     </script>
 
     <style>
-      /* ===== DESIGN SYSTEM: Luminous Forest ===== */
+      /* ===== DESIGN SYSTEM: Luminous Forest (stilguide.md §4, akvarell-palett) ===== */
       :root {
-        /* Colors — luminous, harmonious, WCAG AA compliant */
-        --p: #1a6b5a;       /* Primary: deep teal-green */
-        --p-light: #238c76;  /* Primary hover */
-        --s: #c4922a;       /* Secondary: warm gold */
-        --s-light: #d4a43c;  /* Secondary hover */
-        --a: #c9506b;       /* Accent: soft berry */
-        --a-light: #d6687f;  /* Accent hover */
-        --bg: #faf8f4;      /* Background: warm white */
-        --surface: #ffffff;  /* Surface: pure white */
-        --txt: #2a2a2a;     /* Text: rich dark */
-        --txt-muted: #6b7280; /* Text muted */
+        /* Palett ur stilguide.md §4 — dämpade, varma gulgröna jordfärger */
+        --sky: #FBF293;
+        --haze: #EEE889;
+        --sea: #CCCE6B;
+        --grass: #C7C328;
+        --grass-deep: #C3BF21;
+        --sail: #E0D15E;
+        --wall: #89790D;
+        --roof: #B99712;
+        --trunk: #958D20;
+        --fur: #927B0F;
+        --accent: #A94A05; /* enda starka accenten: använd sparsamt, max ett element per vy */
+        --cream: #FBF5E2;  /* ikonbakgrund / varm pappersyta */
+        --paper: #FDFBF2;  /* ljusare pappersyta för kort/ytor */
+
+        /* Mörk bläckfärg härledd ur paletten, för text (WCAG AA mot --cream/--paper) */
+        --ink: #3A3306;
+        --ink-muted: #5C5210;
+
+        /* Primary/secondary/danger-roller — mörka, läsbara nyanser av paletten ovan */
+        --p: #6B5D0C;        /* Primary: mörk vägg/stam-ton, för länkar/rubriker/kant */
+        --p-light: #8A760F;  /* Primary hover */
+        --s: #73620B;        /* Secondary: mörk tak/päls-ton */
+        --s-light: #8B730E;  /* Secondary hover */
+        --a: var(--accent);  /* Danger/fel: återanvänder den enda accenten funktionellt */
+        --a-light: #C25D12;  /* Danger hover */
+        --bg: var(--cream);      /* Background: varm krämfärg */
+        --surface: var(--paper); /* Surface: ljusare pappersyta */
+        --txt: var(--ink);
+        --txt-muted: var(--ink-muted);
         --w: #ffffff;
-        --br: #e5e2dc;      /* Border: warm neutral */
-        --br-strong: #d1cdc5; /* Border strong */
+        --br: #E7DCAE;       /* Border: ljus sandton */
+        --br-strong: #D2C184; /* Border strong */
         --r: 12px;
         --r-lg: 20px;
 
-        /* Typography */
-        --f: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        --fh: Georgia, 'Times New Roman', 'Palatino Linotype', serif;
+        /* Typography — självhostade typsnitt (teckensnittsregler i theme.css) */
+        --f: var(--font-body, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif);
+        --fh: var(--font-display, Georgia, 'Times New Roman', 'Palatino Linotype', serif);
 
         /* Layout */
         --content-width: 900px;
@@ -189,13 +208,13 @@
         --sp-xl: clamp(2rem, 1.6rem + 2vw, 3rem);
         --sp-2xl: clamp(3rem, 2.4rem + 3vw, 5rem);
 
-        /* Shadows */
-        --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-        --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-        --shadow-lg: 0 12px 32px rgba(0,0,0,0.1);
-        --shadow-xl: 0 20px 50px rgba(0,0,0,0.15);
-        --shadow-card: 0 2px 8px rgba(26,107,90,0.06), 0 1px 3px rgba(0,0,0,0.04);
-        --shadow-card-hover: 0 8px 24px rgba(26,107,90,0.12), 0 4px 8px rgba(0,0,0,0.06);
+        /* Shadows — mjuka, varmt tonade, låg opacitet (ingen hård svart skugga) */
+        --shadow-sm: 0 1px 3px rgba(58,51,6,0.07), 0 1px 2px rgba(58,51,6,0.05);
+        --shadow-md: 0 4px 12px rgba(58,51,6,0.09);
+        --shadow-lg: 0 12px 32px rgba(58,51,6,0.11);
+        --shadow-xl: 0 20px 50px rgba(58,51,6,0.16);
+        --shadow-card: 0 2px 8px rgba(107,93,12,0.07), 0 1px 3px rgba(58,51,6,0.05);
+        --shadow-card-hover: 0 8px 24px rgba(107,93,12,0.13), 0 4px 8px rgba(58,51,6,0.07);
 
         /* Transitions */
         --ease: cubic-bezier(0.4, 0, 0.2, 1);
@@ -302,7 +321,7 @@
       .site-nav-link:hover,
       .site-nav-link.active {
         color: var(--p);
-        background: rgba(26,107,90,0.06);
+        background: rgba(107,93,12,0.06);
       }
       .site-nav-login {
         font-size: var(--font-size-sm);
@@ -330,76 +349,9 @@
       }
 
 
-      /* ===== Hero Header ===== */
-      .magical-header {
-        position: relative;
-        height: clamp(300px, 45vw, 480px);
-        overflow: hidden;
-        background: var(--p);
-      }
-      .header-frame-container {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        max-width: none;
-        margin: 0;
-        padding: 0;
-        z-index: 1;
-      }
-      .header-background-video {
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        object-fit: cover;
-        z-index: 0;
-        pointer-events: none;
-        background: var(--p);
-        border-radius: 0;
-      }
-      
-      /* Reduce video autoplay on mobile to save bandwidth */
-      @media (max-width: 768px) {
-        .header-background-video {
-          display: none;
-        }
-      }
-      .header-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          to bottom,
-          rgba(26,107,90,0.25) 0%,
-          rgba(26,107,90,0.55) 100%
-        );
-        z-index: 1;
-      }
-      .header-content {
-        position: absolute;
-        inset: 0;
-        z-index: 2;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: var(--sp-lg);
-      }
-      .header-content h1 {
-        font-family: var(--fh);
-        font-size: var(--font-size-display);
-        color: #ffffff;
-        font-weight: 700;
-        letter-spacing: 0.02em;
-        margin-bottom: var(--sp-sm);
-        text-shadow: 0 2px 12px rgba(0,0,0,0.25);
-      }
-      .header-content p {
-        font-size: var(--font-size-lg);
-        color: rgba(255,255,255,0.9);
-        font-weight: 400;
-        max-width: 500px;
-        text-shadow: 0 1px 6px rgba(0,0,0,0.2);
-      }
+      /* ===== Hero Header =====
+         New hero markup/styling (picture-based, no video) lives in
+         assets/css/theme.css (.hero, .hero-picture, .hero-text). */
 
 
       /* ===== Main Content ===== */
@@ -452,20 +404,18 @@
         flex-direction: column;
         min-height: 44px; /* Minimum touch target size */
       }
-      .story-card:hover,
-      .story-card:focus {
+      .story-card:hover {
         transform: translateY(-4px);
         box-shadow: var(--shadow-card-hover);
-        outline: 2px solid var(--p);
-        outline-offset: 2px;
       }
-      .story-card:focus {
-        outline: 2px solid var(--p);
-        outline-offset: 2px;
+      .story-card:focus,
+      .story-card:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 3px;
       }
       .story-card-accent {
         height: 6px;
-        background: linear-gradient(90deg, var(--p), var(--s));
+        background: var(--grass-deep);
       }
       .story-card-body {
         padding: var(--sp-lg);
@@ -487,11 +437,11 @@
         font-family: var(--f);
       }
       .badge-category {
-        background: rgba(26,107,90,0.08);
+        background: rgba(107,93,12,0.08);
         color: var(--p);
       }
       .badge-age {
-        background: rgba(196,146,42,0.1);
+        background: rgba(115,98,11,0.1);
         color: var(--s);
       }
       .story-card-title {
@@ -542,7 +492,7 @@
       .story-modal {
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.5);
+        background: rgba(58,51,6,0.45);
         backdrop-filter: blur(4px);
         display: none;
         justify-content: center;
@@ -634,11 +584,11 @@
         border: none;
       }
       .story-modal-meta .post-category {
-        background: rgba(26,107,90,0.08);
+        background: rgba(107,93,12,0.08);
         color: var(--p);
       }
       .story-modal-meta .post-age {
-        background: rgba(196,146,42,0.1);
+        background: rgba(115,98,11,0.1);
         color: var(--s);
       }
       .story-modal-body {
@@ -680,7 +630,7 @@
       .login-modal {
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.4);
+        background: rgba(58,51,6,0.35);
         backdrop-filter: blur(4px);
         display: none;
         justify-content: center;
@@ -735,13 +685,13 @@
         color: var(--p);
       }
       .btn-primary {
-        background: var(--p);
+        background: var(--accent);
         color: var(--w);
-        border-color: var(--p);
+        border-color: var(--accent);
       }
       .btn-primary:hover {
-        background: var(--p-light);
-        border-color: var(--p-light);
+        background: var(--a-light);
+        border-color: var(--a-light);
         color: var(--w);
       }
       .btn-secondary {
@@ -782,9 +732,9 @@
       .form-group input:focus,
       .form-group textarea:focus,
       .form-group select:focus {
-        outline: none;
-        border-color: var(--p);
-        box-shadow: 0 0 0 3px rgba(26,107,90,0.1);
+        outline: 3px solid var(--accent);
+        outline-offset: 2px;
+        border-color: var(--accent);
       }
       .form-group textarea {
         resize: vertical;
@@ -807,10 +757,10 @@
         margin-bottom: var(--sp-lg);
       }
       .author-info {
-        background: rgba(26,107,90,0.04);
+        background: rgba(107,93,12,0.04);
         padding: var(--sp-md);
         border-radius: var(--r);
-        border: 1px solid rgba(26,107,90,0.1);
+        border: 1px solid rgba(107,93,12,0.1);
         margin-bottom: var(--sp-lg);
       }
       .login-note {
@@ -859,8 +809,9 @@
                     box-shadow var(--duration) var(--ease);
       }
       .rich-editor:focus {
-        border-color: var(--p);
-        box-shadow: 0 0 0 3px rgba(26,107,90,0.1);
+        outline: 3px solid var(--accent);
+        outline-offset: 2px;
+        border-color: var(--accent);
       }
       .rich-editor:empty:before {
         content: attr(data-placeholder);
@@ -875,7 +826,7 @@
       .form-actions .btn { flex: 1; }
 
       .submit-button {
-        background: var(--p);
+        background: var(--accent);
         color: var(--w);
         border: none;
         border-radius: var(--r);
@@ -888,7 +839,7 @@
         width: 100%;
       }
       .submit-button:hover {
-        background: var(--p-light);
+        background: var(--a-light);
         box-shadow: var(--shadow-md);
       }
 
@@ -957,11 +908,11 @@
         border: none;
       }
       .post-category {
-        background: rgba(26,107,90,0.08);
+        background: rgba(107,93,12,0.08);
         color: var(--p);
       }
       .post-age {
-        background: rgba(196,146,42,0.1);
+        background: rgba(115,98,11,0.1);
         color: var(--s);
       }
       .post-date {
@@ -1011,9 +962,6 @@
           max-width: 100vw;
         }
         
-        .magical-header {
-          height: clamp(220px, 40vw, 350px);
-        }
         #posts-container {
           grid-template-columns: 1fr;
           gap: var(--sp-md);
@@ -1082,10 +1030,6 @@
           width: 100%;
           justify-content: center;
         }
-        .header-content h1 {
-          font-size: clamp(2rem, 1.6rem + 2vw, 3rem);
-        }
-        
         /* Stack badges vertically on very small screens */
         .story-card-badges {
           flex-direction: column;
@@ -1096,6 +1040,7 @@
   </head>
 
   <body>
+    <a href="#main-content" class="skip-link">Hoppa till innehållet</a>
     <nav class="site-nav">
       <div class="site-nav-inner">
         <a href="index.html" class="site-nav-brand" id="navBrand">Skogsmulle</a>
@@ -1153,25 +1098,30 @@
       </div>
     </div>
 
-    <header class="magical-header">
-      <div class="header-frame-container">
-        <video
-          id="headerBackgroundVideo"
-          class="header-background-video"
-          autoplay
-          loop
-          muted
-          playsinline
-          preload="metadata"
-          poster="intro-poster.jpg"
-          aria-hidden="true"
-        >
-          <source src="intro-720p.webm" type="video/webm" />
-          <source src="intro-720p.mp4" type="video/mp4" />
-        </video>
-      </div>
-      <div class="header-overlay"></div>
-      <div class="header-content">
+    <header class="hero">
+      <picture class="hero-picture">
+        <source
+          media="(max-width: 600px)"
+          srcset="assets/images/hero/hero-kust-mobil-crop.webp"
+        />
+        <source
+          srcset="
+            assets/images/hero/hero-kust-480.webp 480w,
+            assets/images/hero/hero-kust-768.webp 768w,
+            assets/images/hero/hero-kust-1280.webp 1280w
+          "
+          sizes="100vw"
+        />
+        <img
+          src="assets/images/hero/hero-kust-1280.webp"
+          alt="Akvarell: stugor på en kulle vid havet med segelbåtar"
+          width="1280"
+          height="720"
+          fetchpriority="high"
+          class="hero-img"
+        />
+      </picture>
+      <div class="hero-text">
         <h1 id="heroTitle">Skogsmulle</h1>
         <p id="heroSubtitle">Magiska berättelser för barn</p>
       </div>
@@ -1248,7 +1198,7 @@
       <p>&copy; <span id="copyrightYear">2024</span> <span id="footerSiteName">Skogsmulle</span>. Alla berättelser är skapade med kärlek för barn och föräldrar.</p>
       
       <!-- Nyhetsbrev - AVSTÄNGT tills e-posttjänst är vald -->
-      <div style="max-width: 400px; margin: 2rem auto 1rem; padding: 1.5rem; background: rgba(26,107,90,0.04); border-radius: 12px; border: 1px solid var(--br);">
+      <div style="max-width: 400px; margin: 2rem auto 1rem; padding: 1.5rem; background: rgba(107,93,12,0.04); border-radius: 12px; border: 1px solid var(--br);">
         <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem; color: var(--p);">Nya berättelser i inkorgen</h3>
         <p style="font-size: 0.875rem; color: var(--txt-muted); margin-bottom: 1rem;">För föräldrar och vårdnadshavare. Få ett mejl när en ny berättelse finns att läsa tillsammans.</p>
         <p style="font-size: 0.875rem; color: var(--txt-muted); font-style: italic;">
@@ -1752,7 +1702,7 @@
           color: var(--w);
           padding: 20px 30px;
           border-radius: 12px;
-          box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+          box-shadow: 0 8px 24px rgba(58,51,6,0.25);
           z-index: 3000;
           display: flex;
           gap: 15px;

@@ -16,7 +16,18 @@ const SITE_CONFIG = {
   DESCRIPTION: 'Magiska svenska barnberättelser',
   AUTHOR: 'Tomas Roos Guerra',
   COPYRIGHT_YEAR: new Date().getFullYear(),
-  
+
+  // Ämnesikoner för kategorifilter och berättelsekort (se assets/images/README.md)
+  ICON_DIR: 'assets/images/icons/',
+  CATEGORY_ICONS: {
+    äventyr: 'ikon-segelbat',
+    vänskap: 'ikon-stuga',
+    natur: 'ikon-lov',
+    magi: 'ikon-manen',
+    djur: 'ikon-ekollon',
+    lärdom: 'ikon-svamp',
+  },
+
   // Firebase-konfiguration (publik, ingen hemlighet)
   FIREBASE_CONFIG: {
     apiKey: "AIzaSyAl4FKCAqrt_Vkw0jRddSnR1gn4BGby-rA",
