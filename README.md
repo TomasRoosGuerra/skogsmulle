@@ -82,8 +82,10 @@ skogsmulle/
 ### Logga In (Författare)
 
 1. Klicka på "Logga in" i övre högra hörnet
-2. Ange e-post: `tomas.roosguerra@gmail.com` eller `tomasroosguerra@gmail.com`
-3. Endast dessa e-postadresser har admin-rättigheter
+2. Ange e-post och lösenord (Firebase Authentication)
+3. Endast författarens konto har admin-rättigheter
+
+**OBS:** Inloggning sker nu via Firebase Authentication med e-post och lösenord. Se `docs/SECURITY-TODO.md` för konfigurationsinstruktioner.
 
 ### Skriva Berättelser
 
@@ -233,8 +235,8 @@ service cloud.firestore {
 
 **Kan inte logga in**
 
-- Verifiera e-postadress är korrekt
-- Endast `tomas.roosguerra@gmail.com` eller `tomasroosguerra@gmail.com` har access
+- Kontrollera att Firebase Authentication är konfigurerat korrekt
+- Se `docs/SECURITY-TODO.md` för felsökning
 
 **Sidan laddas långsamt**
 

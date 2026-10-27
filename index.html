@@ -108,16 +108,24 @@
         query,
         serverTimestamp,
       } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+      import {
+        getAuth,
+        signInWithEmailAndPassword,
+        signOut as firebaseSignOut,
+        onAuthStateChanged
+      } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
       // Använd konfigurationen från site-config.js
       const firebaseConfig = SITE_CONFIG.FIREBASE_CONFIG;
 
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
+      const auth = getAuth(app);
 
       Object.assign(window, {
         firebaseApp: app,
         firebaseDb: db,
+        firebaseAuth: auth,
         firebaseCollection: collection,
         firebaseAddDoc: addDoc,
         firebaseGetDocs: getDocs,
@@ -128,6 +136,9 @@
         firebaseOrderBy: orderBy,
         firebaseQuery: query,
         firebaseServerTimestamp: serverTimestamp,
+        firebaseSignInWithEmailAndPassword: signInWithEmailAndPassword,
+        firebaseSignOut: firebaseSignOut,
+        firebaseOnAuthStateChanged: onAuthStateChanged
       });
     </script>
 
@@ -1022,11 +1033,16 @@
         <h2>Författarlogin</h2>
         <form id="loginForm">
           <div class="form-group">
-            <label for="emailInput">Email:</label>
-            <input type="email" id="emailInput" required />
+            <label for="emailInput">E-post:</label>
+            <input type="email" id="emailInput" required autocomplete="email" />
           </div>
+          <div class="form-group">
+            <label for="passwordInput">Lösenord:</label>
+            <input type="password" id="passwordInput" required autocomplete="current-password" />
+          </div>
+          <div id="loginError" style="display: none; color: var(--a); font-size: 0.875rem; margin-bottom: 1rem;"></div>
           <div class="modal-buttons">
-            <button type="submit" class="btn">Logga in</button>
+            <button type="submit" class="btn btn-primary" id="loginSubmitBtn">Logga in</button>
             <button
               type="button"
               class="btn btn-secondary"
@@ -1194,10 +1210,8 @@
       let currentUser = null;
       let allPosts = [];
       
-      // VIKTIGT: Hårdkodade e-postadresser har tagits bort från koden.
-      // Authentication ska ske via Firebase Authentication (se docs/SECURITY-TODO.md)
-      const FIREBASE_AUTH_ENABLED = false; // Sätt till true när Firebase Auth är konfigurerat
-      const ALLOWED_AUTHOR_EMAILS = []; // Används inte längre - Authentication via Firebase UID
+      // Firebase Authentication är nu aktiverat (27 okt 2026)
+      const FIREBASE_AUTH_ENABLED = true;
 
       // Initialisera sajtnamn från konfiguration
       document.addEventListener("DOMContentLoaded", function () {
@@ -1709,27 +1723,32 @@
       }
 
       function initAuth() {
-        console.log("Initializing authentication...");
+        console.log("Initializing Firebase Authentication...");
         
-        if (FIREBASE_AUTH_ENABLED) {
-          // TODO: Implementera riktig Firebase Authentication här
-          // Se docs/SECURITY-TODO.md för instruktioner
-          console.log("Firebase Authentication enabled but not implemented");
+        if (!FIREBASE_AUTH_ENABLED || !window.firebaseAuth) {
+          console.error("Firebase Authentication not available");
+          showLoginSection();
+          return;
         }
         
-        // Tillfällig fallback för lokal utveckling
-        try {
-          const saved = localStorage.getItem("skogsmulle_user");
-          if (saved && !FIREBASE_AUTH_ENABLED) {
-            console.log("Warning: Using insecure localStorage auth (dev only)");
+        // Lyssna på autentiseringsstatusändringar
+        window.firebaseOnAuthStateChanged(window.firebaseAuth, (user) => {
+          if (user) {
+            console.log("User authenticated:", user.email);
+            isAdmin = true;
+            currentUser = {
+              uid: user.uid,
+              email: user.email,
+              name: user.email.split("@")[0]
+            };
+            showAuthorTools();
+          } else {
+            console.log("No user authenticated");
+            isAdmin = false;
+            currentUser = null;
+            hideAuthorTools();
           }
-          
-          // För produktion ska detta ersättas med Firebase Auth check
-          showLoginSection();
-        } catch (error) {
-          console.error("Auth initialization error:", error);
-          showLoginSection();
-        }
+        });
       }
 
       function handleNavLogin() {
@@ -1761,6 +1780,10 @@
 
       function closeLoginModal() {
         document.getElementById("loginModal").classList.remove("show-modal");
+        hideLoginError();
+        // Clear password field
+        const passwordInput = document.getElementById("passwordInput");
+        if (passwordInput) passwordInput.value = "";
       }
 
       // Story Modal Functions
@@ -1874,28 +1897,90 @@
       // toggleAuthorTools function removed - sidebar functionality consolidated into navigation
 
       function signInWithGoogle(e) {
-        console.log("Sign in attempt with email:", e);
-        
-        // VARNING: Detta är INTE riktig säkerhet! Detta är endast för utveckling.
-        // För produktion: använd Firebase Authentication (se docs/SECURITY-TODO.md)
-        
-        if (FIREBASE_AUTH_ENABLED) {
-          alert("Firebase Authentication är inte konfigurerat än. Se docs/SECURITY-TODO.md");
+        // Denna funktion heter fortfarande "signInWithGoogle" men använder nu email/password
+        // Namnet behålls för bakåtkompatibilitet med befintlig kod
+        console.log("signInWithGoogle called (legacy name, now uses email/password)");
+      }
+      
+      async function signInWithEmailPassword(email, password) {
+        if (!FIREBASE_AUTH_ENABLED || !window.firebaseAuth) {
+          showLoginError("Firebase Authentication är inte aktiverat");
           return;
         }
         
-        // Tillfällig dev-inloggning (OSÄKER - endast för lokal testning)
-        // Hårdkodade e-postadresser har tagits bort. Konfigurera Firebase Auth istället.
-        console.log("Temporary login is disabled. Configure Firebase Authentication.");
-        alert("Inloggning via Firebase Authentication krävs. Se docs/SECURITY-TODO.md för instruktioner.");
+        try {
+          const userCredential = await window.firebaseSignInWithEmailAndPassword(
+            window.firebaseAuth,
+            email,
+            password
+          );
+          console.log("Sign in successful:", userCredential.user.email);
+          closeLoginModal();
+          // onAuthStateChanged kommer att hantera resten
+        } catch (error) {
+          console.error("Sign in error:", error);
+          let errorMessage = "Inloggningen misslyckades";
+          
+          switch (error.code) {
+            case 'auth/invalid-email':
+              errorMessage = "Ogiltig e-postadress";
+              break;
+            case 'auth/user-disabled':
+              errorMessage = "Kontot är inaktiverat";
+              break;
+            case 'auth/user-not-found':
+              errorMessage = "Ingen användare med denna e-postadress";
+              break;
+            case 'auth/wrong-password':
+              errorMessage = "Felaktigt lösenord";
+              break;
+            case 'auth/invalid-credential':
+              errorMessage = "Felaktig e-postadress eller lösenord";
+              break;
+            case 'auth/too-many-requests':
+              errorMessage = "För många misslyckade försök. Försök igen senare.";
+              break;
+            default:
+              errorMessage = `Fel: ${error.message}`;
+          }
+          
+          showLoginError(errorMessage);
+        }
+      }
+      
+      function showLoginError(message) {
+        const errorEl = document.getElementById("loginError");
+        if (errorEl) {
+          errorEl.textContent = message;
+          errorEl.style.display = "block";
+        }
+      }
+      
+      function hideLoginError() {
+        const errorEl = document.getElementById("loginError");
+        if (errorEl) {
+          errorEl.style.display = "none";
+        }
       }
 
       function signOut() {
-        isAdmin = false;
-        currentUser = null;
-        localStorage.removeItem("skogsmulle_user");
-        hideAuthorTools();
-        alert("Du har loggats ut.");
+        if (!FIREBASE_AUTH_ENABLED || !window.firebaseAuth) {
+          console.error("Firebase Authentication not available");
+          return;
+        }
+        
+        window.firebaseSignOut(window.firebaseAuth)
+          .then(() => {
+            console.log("Sign out successful");
+            isAdmin = false;
+            currentUser = null;
+            hideAuthorTools();
+            alert("Du har loggats ut.");
+          })
+          .catch((error) => {
+            console.error("Sign out error:", error);
+            alert("Kunde inte logga ut. Försök igen.");
+          });
       }
 
 
@@ -2008,12 +2093,30 @@
         if (loginForm && !loginForm.hasAttribute("data-listener-added")) {
           console.log("Adding login form event listener");
           loginForm.setAttribute("data-listener-added", "true");
-          loginForm.addEventListener("submit", function (e) {
+          loginForm.addEventListener("submit", async function (e) {
             e.preventDefault();
             console.log("Login form submitted");
-            const email = document.getElementById("emailInput").value;
+            hideLoginError();
+            
+            const email = document.getElementById("emailInput").value.trim();
+            const password = document.getElementById("passwordInput").value;
+            const submitBtn = document.getElementById("loginSubmitBtn");
+            
             console.log("Email from form:", email);
-            signInWithGoogle(email);
+            
+            // Disable submit button during login
+            if (submitBtn) {
+              submitBtn.disabled = true;
+              submitBtn.textContent = "Loggar in...";
+            }
+            
+            await signInWithEmailPassword(email, password);
+            
+            // Re-enable submit button
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = "Logga in";
+            }
           });
           console.log("Login form listener added successfully");
         } else {
