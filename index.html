@@ -59,10 +59,10 @@
       rel="sitemap"
       type="application/xml"
       title="Sitemap"
-      href="/sitemap.xml"
+      href="sitemap.xml"
     />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json" id="schemaWebSite">
@@ -88,7 +88,7 @@
     </script>
 
     <!-- Site configuration -->
-    <script src="/site-config.js"></script>
+    <script src="site-config.js"></script>
     
     <!-- DOMPurify för säker innehållsrengöring -->
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js" integrity="sha384-cwS6YdhLI7XS60eoDiC+egV0qHp8zI+Cms46R0nbn8JrmoAzV9uFL60etMZhAnSu" crossorigin="anonymous"></script>
@@ -661,6 +661,20 @@
       .story-modal-body h1 { font-size: var(--font-size-h2); }
       .story-modal-body h2 { font-size: var(--font-size-h3); }
       .story-modal-body h3 { font-size: var(--font-size-h4); }
+      .story-modal-body img {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--r);
+        margin: var(--sp-md) 0;
+        display: block;
+      }
+      .story-modal-body blockquote {
+        border-left: 3px solid var(--p);
+        padding-left: var(--sp-md);
+        margin: var(--sp-md) 0;
+        color: var(--txt-muted);
+        font-style: italic;
+      }
 
       /* ===== Login Modal ===== */
       .login-modal {
@@ -1084,7 +1098,7 @@
   <body>
     <nav class="site-nav">
       <div class="site-nav-inner">
-        <a href="/" class="site-nav-brand" id="navBrand">Skogsmulle</a>
+        <a href="index.html" class="site-nav-brand" id="navBrand">Skogsmulle</a>
         <ul class="site-nav-links">
           <li><a href="#" class="site-nav-link active">Hem</a></li>
           <li><a href="#stories" class="site-nav-link">Berättelser</a></li>
@@ -1095,8 +1109,8 @@
     </nav>
 
     <div id="loginModal" class="login-modal">
-      <div class="modal-content">
-        <h2>Författarlogin</h2>
+      <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle" tabindex="-1">
+        <h2 id="loginModalTitle">Författarlogin</h2>
         <form id="loginForm">
           <div class="form-group">
             <label for="emailInput">E-post:</label>
@@ -1123,7 +1137,7 @@
 
     <!-- Story Modal - Large Display -->
     <div id="storyModal" class="story-modal">
-      <div class="story-modal-content">
+      <div class="story-modal-content" role="dialog" aria-modal="true" aria-labelledby="storyModalTitle" tabindex="-1">
         <div class="story-modal-header">
           <h2 class="story-modal-title" id="storyModalTitle"></h2>
           <button
@@ -1167,7 +1181,7 @@
     <main id="main-content" role="main">
       <div class="content">
         <nav class="breadcrumb-nav" aria-label="Breadcrumb">
-          <a href="/">Hem</a> / <span>Berättelser</span>
+          <a href="index.html">Hem</a> / <span>Berättelser</span>
         </nav>
 
         <div class="main-content">
@@ -1259,7 +1273,7 @@
           </div>
           <p style="font-size: 0.75rem; color: var(--txt-muted); margin-top: 0.5rem;">
             Endast för vuxna. Du får ett bekräftelsemejl innan anmälan slutförs. 
-            Läs mer i vår <a href="/integritet.html" style="color: var(--p);">integritetspolicy</a>.
+            Läs mer i vår <a href="integritet.html" style="color: var(--p);">integritetspolicy</a>.
           </p>
         </form>
         -->
@@ -1267,7 +1281,7 @@
       
       <p class="footer-tip">Läsningstips: Läs högt varje dag, ställ frågor om berättelsen, och låt barnet berätta om bilderna.</p>
       <p style="margin-top: 1rem; font-size: 0.875rem;">
-        <a href="/integritet.html" style="color: var(--p);">Integritetspolicy</a>
+        <a href="integritet.html" style="color: var(--p);">Integritetspolicy</a>
       </p>
     </footer>
 
@@ -1275,38 +1289,51 @@
       let isAdmin = false;
       let currentUser = null;
       let allPosts = [];
-      
+
       // Firebase Authentication är nu aktiverat (27 okt 2026)
       const FIREBASE_AUTH_ENABLED = true;
 
-      // Initialisera sajtnamn från konfiguration
+      // Enda platsen för ett reservnamn om site-config.js inte kunde laddas
+      // (t.ex. vid file:// eller om filen 404:ar). Den riktiga källan är SITE_CONFIG.SITE_NAME.
+      const DEFAULT_SITE_NAME = "Skogsmulle";
+
+      // Initialisera sajtnamn från konfiguration (robust mot att SITE_CONFIG saknas)
       document.addEventListener("DOMContentLoaded", function () {
-        if (typeof SITE_CONFIG !== 'undefined') {
+        const cfg = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG) ? SITE_CONFIG : {};
+        if (typeof SITE_CONFIG === 'undefined') {
+          console.warn('SITE_CONFIG kunde inte laddas, använder standardvärden.');
+        }
+        const siteName = cfg.SITE_NAME || DEFAULT_SITE_NAME;
+        const targetAge = cfg.TARGET_AGE || '3–12 år';
+        const copyrightYear = cfg.COPYRIGHT_YEAR || new Date().getFullYear();
+
+        try {
           // Uppdatera alla element med sajtnamn
-          const siteName = SITE_CONFIG.SITE_NAME;
           document.getElementById('navBrand').textContent = siteName;
           document.getElementById('heroTitle').textContent = siteName;
           document.getElementById('footerSiteName').textContent = siteName;
-          
+
           // Uppdatera copyright-år
-          document.getElementById('copyrightYear').textContent = SITE_CONFIG.COPYRIGHT_YEAR;
-          
+          document.getElementById('copyrightYear').textContent = copyrightYear;
+
           // Uppdatera meta-taggar
-          document.getElementById('pageTitle').textContent = `${siteName} - Magiska barnberättelser för barn ${SITE_CONFIG.TARGET_AGE}`;
+          document.getElementById('pageTitle').textContent = `${siteName} - Magiska barnberättelser för barn ${targetAge}`;
           document.getElementById('ogSiteName').content = `${siteName} - Svenska Barnböcker`;
-          document.getElementById('ogTitle').content = `${siteName} - Magiska barnberättelser för barn ${SITE_CONFIG.TARGET_AGE}`;
-          document.getElementById('twitterTitle').content = `${siteName} - Magiska barnberättelser för barn ${SITE_CONFIG.TARGET_AGE}`;
-          
+          document.getElementById('ogTitle').content = `${siteName} - Magiska barnberättelser för barn ${targetAge}`;
+          document.getElementById('twitterTitle').content = `${siteName} - Magiska barnberättelser för barn ${targetAge}`;
+
           // Uppdatera Schema.org
           const schema = document.getElementById('schemaWebSite');
           if (schema) {
             const schemaData = JSON.parse(schema.textContent);
             schemaData.name = `${siteName} - Svenska Barnböcker`;
-            schemaData.description = `Svenska sagor och barnberättelser online för barn ${SITE_CONFIG.TARGET_AGE}`;
+            schemaData.description = `Svenska sagor och barnberättelser online för barn ${targetAge}`;
             schema.textContent = JSON.stringify(schemaData, null, 2);
           }
+        } catch (e) {
+          console.warn('Kunde inte uppdatera sajtnamn/metadata:', e);
         }
-        
+
         // Hantera prefers-reduced-motion för video
         const headerVideo = document.getElementById("headerBackgroundVideo");
         if (headerVideo) {
@@ -1409,10 +1436,19 @@
           ),
       };
 
+      // Friendly error state shown in place of the story grid when Firestore can't be reached
+      function showStoriesError() {
+        const c = document.getElementById("posts-container");
+        if (c) {
+          c.innerHTML = '<div class="error-state" style="text-align: center; padding: 3rem; color: var(--txt-muted);"><div style="font-size: 2rem; margin-bottom: 1rem;">⚠️</div><p>Kunde inte ladda berättelser. Försök igen senare.</p></div>';
+        }
+      }
+
       function setupRealtimeListener() {
         try {
           if (!window.firebaseDb) {
-            console.error("Firebase not initialized");
+            console.warn("Firebase not initialized");
+            showStoriesError();
             return;
           }
           const r = window.firebaseCollection(window.firebaseDb, "posts");
@@ -1441,10 +1477,14 @@
               console.log("Real-time update:", allPosts.length, "posts");
               renderAllPosts();
             },
-            (e) => console.error("Real-time listener error:", e)
+            (e) => {
+              console.error("Real-time listener error:", e);
+              showStoriesError();
+            }
           );
         } catch (e) {
           console.error("Setup error:", e);
+          showStoriesError();
         }
       }
 
@@ -1509,6 +1549,30 @@
         return xml;
       }
 
+      // Escape dynamic text before interpolating it into an innerHTML template
+      function escapeHtml(value) {
+        return String(value ?? '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      // Stable identifier for a post, used for card <-> story matching and hash links
+      function getStoryIdentifier(post, index) {
+        return post && post.id != null ? String(post.id) : String(index);
+      }
+
+      // Find a post's current index in allPosts by its stable identifier
+      function findPostIndexByIdentifier(identifier) {
+        if (identifier == null) return -1;
+        const idx = allPosts.findIndex(
+          (p, i) => getStoryIdentifier(p, i) === String(identifier)
+        );
+        return idx;
+      }
+
       function renderAllPosts() {
         const c = document.getElementById("posts-container");
 
@@ -1517,49 +1581,39 @@
           return;
         }
 
-        const sortedPosts = [...allPosts].sort(
-          (a, b) => (b.timestamp || 0) - (a.timestamp || 0)
-        );
+        // Sort allPosts itself (not a copy) so card index always matches allPosts index
+        allPosts.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
-        c.innerHTML = sortedPosts
+        c.innerHTML = allPosts
           .map((p, i) => {
             const excerpt = getExcerpt(p.content, 120);
-            // Använd textContent för titel, kategori och ålder (ingen HTML)
-            const safeTitle = document.createElement('div');
-            safeTitle.textContent = p.title || 'Utan titel';
-            const safeCategory = document.createElement('div');
-            safeCategory.textContent = p.category || '';
-            const safeAge = document.createElement('div');
-            safeAge.textContent = p.age || '';
-            const storyId = p.id || `story-${i}`;
-            
-            return `<article 
-              class="story-card" 
-              data-id="${p.id || ""}" 
-              data-index="${i}"
-              id="story-${storyId}"
+            const title = p.title || 'Utan titel';
+            const storyId = getStoryIdentifier(p, i);
+
+            return `<article
+              class="story-card"
+              data-id="${escapeHtml(storyId)}"
+              id="story-${escapeHtml(storyId)}"
               tabindex="0"
               role="button"
-              aria-label="Läs berättelsen: ${safeTitle.textContent}"
-              onclick="openStoryModal(${i})"
-              onkeydown="handleStoryCardKeydown(event, ${i})">
+              aria-label="Läs berättelsen: ${escapeHtml(title)}">
               <div class="story-card-accent"></div>
               <div class="story-card-body">
                 <div class="story-card-badges">
-                  ${p.category ? `<span class="badge badge-category">${safeCategory.textContent}</span>` : ''}
-                  ${p.age ? `<span class="badge badge-age">${safeAge.textContent}</span>` : ''}
+                  ${p.category ? `<span class="badge badge-category">${escapeHtml(p.category)}</span>` : ''}
+                  ${p.age ? `<span class="badge badge-age">${escapeHtml(p.age)}</span>` : ''}
                 </div>
-                <h3 class="story-card-title">${safeTitle.textContent}</h3>
-                <p class="story-card-excerpt">${excerpt}</p>
+                <h3 class="story-card-title">${escapeHtml(title)}</h3>
+                <p class="story-card-excerpt">${escapeHtml(excerpt)}</p>
                 <div class="story-card-footer">
-                  <span class="story-card-date">${p.date || ''}</span>
+                  <span class="story-card-date">${escapeHtml(p.date || '')}</span>
                   <span class="story-card-cta">Läs mer &rarr;</span>
                 </div>
               </div>
             </article>`;
           })
           .join("");
-        
+
         // Handle hash navigation after rendering posts
         handleHashNavigation();
       }
@@ -1572,36 +1626,46 @@
         return text.length > maxLen ? text.substring(0, maxLen) + '…' : text;
       }
 
-      // Keyboard navigation for story cards
-      function handleStoryCardKeydown(event, index) {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          openStoryModal(index);
-        }
+      // Event delegation: card clicks/keydowns are handled on the container,
+      // so re-rendering #posts-container never needs to re-attach per-card handlers.
+      function setupStoryCardDelegation() {
+        const container = document.getElementById('posts-container');
+        if (!container || container.hasAttribute('data-delegation-added')) return;
+        container.setAttribute('data-delegation-added', 'true');
+
+        container.addEventListener('click', function (e) {
+          const card = e.target.closest('.story-card');
+          if (!card) return;
+          openStoryModalByIdentifier(card.dataset.id, card);
+        });
+
+        container.addEventListener('keydown', function (e) {
+          if (e.key !== 'Enter' && e.key !== ' ') return;
+          const card = e.target.closest('.story-card');
+          if (!card) return;
+          e.preventDefault();
+          openStoryModalByIdentifier(card.dataset.id, card);
+        });
       }
 
-      // Handle hash-based direct links to stories
+      function openStoryModalByIdentifier(identifier, triggerEl) {
+        const idx = findPostIndexByIdentifier(identifier);
+        if (idx === -1) {
+          console.warn("Story not found:", identifier);
+          return;
+        }
+        openStoryModal(idx, triggerEl);
+      }
+
+      // Handle hash-based direct links to stories (#story-<id>)
       function handleHashNavigation() {
         const hash = window.location.hash;
         if (hash.startsWith('#story-')) {
-          const storyId = hash.substring(7); // Remove '#story-'
-          const storyIndex = allPosts.findIndex(p => p.id === storyId || `story-${allPosts.indexOf(p)}` === `story-${storyId}`);
-          if (storyIndex >= 0) {
-            setTimeout(() => openStoryModal(storyIndex), 500);
-          }
-        }
-      }
-
-      // Update URL hash when opening story
-      function updateStoryHash(story, index) {
-        const storyId = story.id || `story-${index}`;
-        history.pushState(null, '', `#story-${storyId}`);
-      }
-
-      // Clear hash when closing modal
-      function clearStoryHash() {
-        if (window.location.hash.startsWith('#story-')) {
-          history.pushState(null, '', window.location.pathname);
+          const identifier = decodeURIComponent(hash.substring(7));
+          const idx = findPostIndexByIdentifier(identifier);
+          if (idx !== -1) openStoryModal(idx);
+        } else {
+          closeStoryModal({ fromHistory: true });
         }
       }
 
@@ -1838,7 +1902,7 @@
         console.log("Initializing Firebase Authentication...");
         
         if (!FIREBASE_AUTH_ENABLED || !window.firebaseAuth) {
-          console.error("Firebase Authentication not available");
+          console.warn("Firebase Authentication not available");
           showLoginSection();
           return;
         }
@@ -1867,7 +1931,7 @@
         if (isAdmin && currentUser) {
           signOut();
         } else {
-          document.getElementById("loginModal").classList.add("show-modal");
+          openLoginModal(document.getElementById("navLoginBtn"));
         }
       }
 
@@ -1887,73 +1951,108 @@
       }
 
       function toggleLoginModal() {
-        document.getElementById("loginModal").classList.add("show-modal");
+        openLoginModal(document.getElementById("navLoginBtn"));
+      }
+
+      let loginModalTriggerEl = null;
+
+      function openLoginModal(triggerEl) {
+        const modal = document.getElementById("loginModal");
+        if (!modal) return;
+        loginModalTriggerEl = triggerEl || null;
+        modal.classList.add("show-modal");
+        const emailInput = document.getElementById("emailInput");
+        if (emailInput) emailInput.focus();
       }
 
       function closeLoginModal() {
-        document.getElementById("loginModal").classList.remove("show-modal");
+        const modal = document.getElementById("loginModal");
+        if (!modal || !modal.classList.contains("show-modal")) return;
+        modal.classList.remove("show-modal");
         hideLoginError();
         // Clear password field
         const passwordInput = document.getElementById("passwordInput");
         if (passwordInput) passwordInput.value = "";
+
+        const restoreTo = (loginModalTriggerEl && document.contains(loginModalTriggerEl))
+          ? loginModalTriggerEl
+          : document.body;
+        restoreTo.focus();
+        loginModalTriggerEl = null;
       }
 
       // Story Modal Functions
-      function openStoryModal(index) {
+      let storyModalTriggerEl = null;
+      // True when the currently-open story added its own entry to browser history
+      // (so closing it via the UI should consume that entry with history.back()).
+      let storyModalPushedState = false;
+
+      function openStoryModal(index, triggerEl) {
         if (!allPosts || index < 0 || index >= allPosts.length) {
-          console.error("Invalid story index:", index);
+          console.warn("Invalid story index:", index);
           return;
         }
 
         const story = allPosts[index];
         const modal = document.getElementById("storyModal");
+        const dialogEl = modal ? modal.querySelector(".story-modal-content") : null;
         const titleEl = document.getElementById("storyModalTitle");
         const metaEl = document.getElementById("storyModalMeta");
         const bodyEl = document.getElementById("storyModalBody");
 
-        if (!modal || !titleEl || !metaEl || !bodyEl) {
-          console.error("Story modal elements not found");
+        if (!modal || !dialogEl || !titleEl || !metaEl || !bodyEl) {
+          console.warn("Story modal elements not found");
           return;
         }
 
-        // Update URL hash for direct linking
-        updateStoryHash(story, index);
+        // Update URL hash for direct linking, and make sure Back closes the modal.
+        const storyId = getStoryIdentifier(story, index);
+        const targetHash = `#story-${storyId}`;
+        if (window.location.hash !== targetHash) {
+          history.pushState({ skogsmulleStory: storyId }, '', targetHash);
+          storyModalPushedState = true;
+        } else {
+          history.replaceState({ skogsmulleStory: storyId }, '', targetHash);
+          storyModalPushedState = false;
+        }
 
         // Använd textContent för titel (ingen HTML)
-        titleEl.textContent = story.title || "Untitled Story";
+        titleEl.textContent = story.title || "Namnlös berättelse";
 
         // Använd textContent för metadata (ingen HTML)
         const dateSpan = document.createElement('span');
         dateSpan.className = 'post-date';
-        dateSpan.textContent = `📅 ${story.date || "No date"}`;
-        
+        dateSpan.textContent = `📅 ${story.date || "Inget datum"}`;
+
         const categorySpan = story.category ? (() => {
           const span = document.createElement('span');
           span.className = 'post-category';
           span.textContent = `📂 ${story.category}`;
           return span;
         })() : null;
-        
+
         const ageSpan = story.age ? (() => {
           const span = document.createElement('span');
           span.className = 'post-age';
           span.textContent = `👶 ${story.age}`;
           return span;
         })() : null;
-        
+
         metaEl.innerHTML = '';
         metaEl.appendChild(dateSpan);
         if (categorySpan) metaEl.appendChild(categorySpan);
         if (ageSpan) metaEl.appendChild(ageSpan);
 
-        // Rengör innehåll med DOMPurify (tillåt endast säkra taggar)
-        const rawContent = story.content || "<p>No content available.</p>";
+        // Rengör innehåll med DOMPurify (tillåt endast säkra taggar, bilder begränsade till https/relativa källor)
+        const rawContent = story.content || "<p>Inget innehåll tillgängligt.</p>";
         let cleanContent;
-        
+
         if (typeof DOMPurify !== 'undefined') {
           cleanContent = DOMPurify.sanitize(rawContent, {
-            ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'ul', 'li', 'ol', 'h1', 'h2', 'h3'],
-            ALLOWED_ATTR: []
+            ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'ul', 'li', 'ol', 'h1', 'h2', 'h3', 'blockquote', 'img'],
+            ALLOWED_ATTR: ['src', 'alt'],
+            // Allow only relative paths (no scheme, e.g. "images/x.jpg") or https:// URLs
+            ALLOWED_URI_REGEXP: /^(?:https:\/\/|(?!^[a-zA-Z][a-zA-Z0-9+.-]*:))/
           });
         } else {
           // Fallback: basic sanitization if DOMPurify isn't available
@@ -1964,41 +2063,106 @@
         }
         bodyEl.innerHTML = cleanContent;
 
-        // Show modal
+        const wasOpen = modal.classList.contains("show");
         modal.classList.add("show");
         document.body.style.overflow = "hidden"; // Prevent background scrolling
-
-        // Scroll to top of modal content
         modal.scrollTop = 0;
-      }
 
-      function closeStoryModal() {
-        const modal = document.getElementById("storyModal");
-        if (modal) {
-          modal.classList.remove("show");
-          document.body.style.overflow = ""; // Restore scrolling
-          clearStoryHash(); // Clear URL hash
+        if (!wasOpen) {
+          storyModalTriggerEl = triggerEl || null;
+          const closeBtn = modal.querySelector(".story-modal-close");
+          (closeBtn || dialogEl).focus();
         }
       }
 
-      // Close modal when clicking outside content
+      function closeStoryModal(opts) {
+        opts = opts || {};
+        const modal = document.getElementById("storyModal");
+        if (!modal || !modal.classList.contains("show")) return;
+
+        modal.classList.remove("show");
+        document.body.style.overflow = ""; // Restore scrolling
+
+        if (!opts.fromHistory) {
+          if (storyModalPushedState) {
+            // Consume the history entry we added when opening, so Back works cleanly.
+            history.back();
+          } else if (window.location.hash.startsWith('#story-')) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+          }
+        }
+        storyModalPushedState = false;
+
+        const restoreTo = (storyModalTriggerEl && document.contains(storyModalTriggerEl))
+          ? storyModalTriggerEl
+          : document.body;
+        restoreTo.focus();
+        storyModalTriggerEl = null;
+      }
+
+      // Browser Back/Forward: open or close the story modal to match the URL hash.
+      window.addEventListener('popstate', function () {
+        handleHashNavigation();
+      });
+
+      function getFocusableElements(container) {
+        return Array.from(
+          container.querySelectorAll(
+            'a[href], button:not([disabled]), textarea, input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          )
+        ).filter((el) => el.offsetParent !== null);
+      }
+
+      function trapFocus(e, container) {
+        const focusables = getFocusableElements(container);
+        if (focusables.length === 0) {
+          e.preventDefault();
+          container.focus();
+          return;
+        }
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+
+      // Escape closes whichever dialog is open; Tab is trapped inside it.
       document.addEventListener("DOMContentLoaded", function () {
         const storyModal = document.getElementById("storyModal");
+        const loginModal = document.getElementById("loginModal");
+
         if (storyModal) {
           storyModal.addEventListener("click", function (e) {
-            if (e.target === storyModal) {
-              closeStoryModal();
-            }
+            if (e.target === storyModal) closeStoryModal();
+          });
+        }
+        if (loginModal) {
+          loginModal.addEventListener("click", function (e) {
+            if (e.target === loginModal) closeLoginModal();
           });
         }
 
-        // Close modal with Escape key
         document.addEventListener("keydown", function (e) {
+          const storyOpen = storyModal && storyModal.classList.contains("show");
+          const loginOpen = loginModal && loginModal.classList.contains("show-modal");
+          if (!storyOpen && !loginOpen) return;
+
           if (e.key === "Escape") {
-            const modal = document.getElementById("storyModal");
-            if (modal && modal.classList.contains("show")) {
-              closeStoryModal();
-            }
+            if (storyOpen) closeStoryModal();
+            else closeLoginModal();
+            return;
+          }
+
+          if (e.key === "Tab") {
+            const dialogEl = storyOpen
+              ? storyModal.querySelector(".story-modal-content")
+              : loginModal.querySelector(".modal-content");
+            if (dialogEl) trapFocus(e, dialogEl);
           }
         });
       });
@@ -2092,7 +2256,7 @@
 
       function signOut() {
         if (!FIREBASE_AUTH_ENABLED || !window.firebaseAuth) {
-          console.error("Firebase Authentication not available");
+          console.warn("Firebase Authentication not available");
           return;
         }
         
@@ -2251,23 +2415,11 @@
         }
       }
 
-      // Move modal listener inside setupFormListeners
-      function setupModalListeners() {
-        const loginModal = document.getElementById("loginModal");
-        if (loginModal && !loginModal.hasAttribute("data-listener-added")) {
-          loginModal.setAttribute("data-listener-added", "true");
-          loginModal.addEventListener("click", function (e) {
-            if (e.target === this) closeLoginModal();
-          });
-        }
-      }
-
-
       document.addEventListener("DOMContentLoaded", function () {
         initAuth();
         setupFormListeners();
         setupLoginListener();
-        setupModalListeners();
+        setupStoryCardDelegation();
 
         const savedSize = localStorage.getItem("skogsmulle_textSize");
         if (savedSize) document.body.style.fontSize = savedSize + "px";
@@ -2292,11 +2444,7 @@
             } catch (error) {
               console.error("Firebase setup failed:", error);
               allPosts = [];
-              renderAllPosts();
-              // Show error state
-              if (postsContainer) {
-                postsContainer.innerHTML = '<div class="error-state" style="text-align: center; padding: 3rem; color: var(--txt-muted);"><div style="font-size: 2rem; margin-bottom: 1rem;">⚠️</div><p>Kunde inte ladda berättelser. Försök igen senare.</p></div>';
-              }
+              showStoriesError();
             }
           } else {
             allPosts = [];
