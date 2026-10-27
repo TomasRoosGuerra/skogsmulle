@@ -6,6 +6,7 @@
   "scripts": {
     "generate-pages": "node generate-pages.js",
     "build": "npm run generate-pages",
+    "test:generator": "node tests/generate-pages.test.js",
     "dev": "npx serve .",
     "deploy": "npm run build && echo 'Ready for Netlify deployment'"
   },

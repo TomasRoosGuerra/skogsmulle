@@ -1,0 +1,33 @@
+[
+  {
+    "id": "fx1",
+    "title": "Testsida ett",
+    "content": "<p>Platshållartext för test.</p><p>Mer platshållartext.</p>",
+    "date": "2026-01-01",
+    "category": "Test",
+    "age": "3–12 år",
+    "timestamp": 1767225600000
+  },
+  {
+    "id": "fx2",
+    "title": "Testsida ett",
+    "content": "<p>Samma titel, ska få suffix.</p>",
+    "timestamp": 1767312000000
+  },
+  {
+    "id": "fx3",
+    "title": "Åsa & \"Örjan\" <b>test</b>",
+    "content": "<p>Specialtecken i titeln.</p>",
+    "category": "A\"><script>x</script>"
+  },
+  {
+    "id": "fx4",
+    "title": "",
+    "content": "<p>Tom titel ger id-slug.</p>"
+  },
+  {
+    "id": "fx5",
+    "title": "Farligt innehåll",
+    "content": "<p onclick=\"x()\">Text</p><script>alert(1)</script><iframe src=\"https://e.example\"></iframe><a href=\"javascript:alert(1)\">länk</a><img src=\"https://bilder.example.test/x.png\" onerror=\"y()\"><img src=\"data:image/png;base64,AAAA\">"
+  }
+]
