@@ -249,6 +249,11 @@ service cloud.firestore {
 - **E-post**: tomas.roosguerra@gmail.com
 - **GitHub**: [TomasRoosGuerra/skogsmulle](https://github.com/TomasRoosGuerra/skogsmulle)
 
+## Utvecklingsflöde
+
+Förbättringar av sajten görs via Claude Code på egna branches och pull requests.
+Dessa granskas och mergas av Agent Lead.
+
 ## 📄 Licens
 
 © 2025 Skogsmulle - Alla berättelser skapade med kärlek för barn och föräldrar.
