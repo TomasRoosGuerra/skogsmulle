@@ -1,0 +1,55 @@
+/* Nyhetsbrevsblock (föräldrar). Avstängt läge är tydligt men lugnt: dämpade färger, inget som ser klickbart ut. */
+.newsletter {
+  max-width: 440px;
+  margin: 2rem auto 1rem;
+  padding: 1.25rem 1.5rem;
+  background: rgba(107, 93, 12, 0.04);
+  border: 1px solid var(--br, #e5e2dc);
+  border-radius: 12px;
+  text-align: left;
+}
+.newsletter-title { font-size: 1.125rem; margin: 0 0 0.5rem; color: var(--p, #1a6b5a); }
+.newsletter-lead,
+.newsletter-note,
+.newsletter-inactive { font-size: 0.875rem; color: var(--txt-muted, #6b7280); }
+.newsletter-lead { margin: 0 0 1rem; }
+.newsletter-inactive { margin: 0 0 1rem; font-style: italic; }
+.newsletter-label { display: block; font-size: 0.875rem; font-weight: 700; margin-bottom: 0.35rem; }
+.newsletter-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.newsletter-row input[type="email"] {
+  flex: 1 1 200px;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  font: inherit;
+  border: 1px solid var(--br, #e5e2dc);
+  border-radius: 8px;
+  background: #fff;
+}
+.newsletter-btn {
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  background: var(--p, #1a6b5a);
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.newsletter-btn:focus-visible,
+.newsletter-row input:focus-visible { outline: 3px solid var(--p, #1a6b5a); outline-offset: 2px; }
+.newsletter-status { min-height: 1.25rem; margin: 0.5rem 0 0; font-size: 0.875rem; }
+.newsletter-status[data-kind="error"] { color: #9b1c1c; }
+.newsletter-status[data-kind="ok"] { color: var(--p, #1a6b5a); }
+.newsletter-note { margin: 0.5rem 0 0; font-size: 0.8125rem; }
+.newsletter-note a { color: var(--p, #1a6b5a); }
+
+/* Avstängt läge: grått, ingen pekare, tydligt otillgängligt */
+.newsletter[data-state="inactive"] .newsletter-form { opacity: 0.55; }
+.newsletter[data-state="inactive"] .newsletter-btn {
+  background: #8a8f98;
+  cursor: not-allowed;
+}
+.newsletter[data-state="inactive"] .newsletter-row input { background: #f1efe9; cursor: not-allowed; }
+/* Aktivt läge: dölj "öppnar snart"-texten */
+.newsletter[data-state="active"] .newsletter-inactive { display: none; }
