@@ -96,8 +96,12 @@
   to = "/#stories"
   status = 302
 
-# Catch-all redirect for SPA
+# Extensionslös länk till integritetssidan (statisk fil, ingen SPA-väg)
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/integritet"
+  to = "/integritet.html"
   status = 200
+
+# OBS: ingen catch-all "/* -> /index.html 200" längre. Appen använder hash-routing
+# (#story-<id>, #login, #stories) på "/", inga SPA-vägar. Okända adresser får därför
+# en riktig 404 med /404.html (Netlify serverar den automatiskt med status 404).
