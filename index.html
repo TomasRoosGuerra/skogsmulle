@@ -1041,6 +1041,7 @@
     <link rel="stylesheet" href="assets/css/theme.css" />
     <link rel="stylesheet" href="assets/css/reader.css" />
     <link rel="stylesheet" href="assets/css/author.css" />
+    <link rel="stylesheet" href="assets/css/newsletter.css" />
   </head>
 
   <body>
@@ -1166,38 +1167,28 @@
     <footer class="footer">
       <p>&copy; <span id="copyrightYear">2024</span> <span id="footerSiteName">Skogsmulle</span>. Alla berättelser är skapade med kärlek för barn och föräldrar.</p>
       
-      <!-- Nyhetsbrev - AVSTÄNGT tills e-posttjänst är vald -->
-      <div style="max-width: 400px; margin: 2rem auto 1rem; padding: 1.5rem; background: rgba(107,93,12,0.04); border-radius: 12px; border: 1px solid var(--br);">
-        <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem; color: var(--p);">Nya berättelser i inkorgen</h3>
-        <p style="font-size: 0.875rem; color: var(--txt-muted); margin-bottom: 1rem;">För föräldrar och vårdnadshavare. Få ett mejl när en ny berättelse finns att läsa tillsammans.</p>
-        <p style="font-size: 0.875rem; color: var(--txt-muted); font-style: italic;">
-          ⏳ Anmälan öppnar snart. Kom gärna tillbaka senare.
-        </p>
-        <!-- Formuläret är dolt tills en e-posttjänst har valts och konfigurerats
-        <form id="newsletterForm" style="display: none;">
-          <div style="display: flex; gap: 0.5rem;">
-            <input 
-              type="email" 
-              id="newsletterEmail" 
-              placeholder="Din e-postadress (vuxen)" 
-              required 
-              style="flex: 1; padding: 0.5rem; border: 1px solid var(--br); border-radius: 8px;"
-            />
-            <button 
-              type="submit" 
-              style="padding: 0.5rem 1rem; background: var(--p); color: white; border: none; border-radius: 8px; cursor: pointer;"
-            >
-              Anmäl mig
-            </button>
+      <!-- Nyhetsbrev (för föräldrar). Formuläret är AVSTÄNGT tills NEWSLETTER_ENDPOINT
+           är satt i site-config.js (se assets/js/newsletter.js). Inget tredjepartsskript. -->
+      <section class="newsletter" id="newsletter" aria-labelledby="newsletterTitle" data-state="inactive">
+        <h3 id="newsletterTitle" class="newsletter-title">Nya berättelser i inkorgen</h3>
+        <p class="newsletter-lead">För föräldrar och vårdnadshavare. Få ett mejl när en ny berättelse finns att läsa tillsammans.</p>
+        <p class="newsletter-inactive" id="newsletterInactive">⏳ Anmälan öppnar snart. Kom gärna tillbaka senare.</p>
+        <form class="newsletter-form" id="newsletterForm" method="post" novalidate aria-describedby="newsletterNote">
+          <label class="newsletter-label" for="newsletterEmail">Din e-postadress (vuxen)</label>
+          <div class="newsletter-row">
+            <input type="email" id="newsletterEmail" name="email" autocomplete="email" inputmode="email" required disabled aria-disabled="true" />
+            <button type="submit" id="newsletterSubmit" class="newsletter-btn" disabled aria-disabled="true">Anmäl mig</button>
           </div>
-          <p style="font-size: 0.75rem; color: var(--txt-muted); margin-top: 0.5rem;">
-            Endast för vuxna. Du får ett bekräftelsemejl innan anmälan slutförs. 
-            Läs mer i vår <a href="integritet.html" style="color: var(--p);">integritetspolicy</a>.
+          <p class="newsletter-status" id="newsletterStatus" role="status" aria-live="polite"></p>
+          <p class="newsletter-note" id="newsletterNote">
+            Du får först ett mejl där du bekräftar anmälan. Ingen adress läggs till förrän du har klickat på länken.
+            Vi samlar bara in din e-postadress, och du kan avsluta när som helst med länken i varje utskick.
+            Läs mer i vår <a href="integritet.html">integritetspolicy</a>.
+            Sajten är till för barn, men anmälan är bara för vuxna.
           </p>
         </form>
-        -->
-      </div>
-      
+      </section>
+
       <p class="footer-tip">Läsningstips: Läs högt varje dag, ställ frågor om berättelsen, och låt barnet berätta om bilderna.</p>
       <p class="ai-note">Illustrationerna är akvarell skapade med hjälp av AI i stil med Tomas egna skisser.</p>
       <p style="margin-top: 1rem; font-size: 0.875rem;">
@@ -1207,6 +1198,7 @@
 
     <script src="assets/js/reader.js"></script>
     <script src="assets/js/author.js"></script>
+    <script src="assets/js/newsletter.js"></script>
     <script>
       let isAdmin = false;
       let currentUser = null;

@@ -17,6 +17,12 @@ const SITE_CONFIG = {
   AUTHOR: 'Tomas Roos Guerra',
   COPYRIGHT_YEAR: new Date().getFullYear(),
 
+  // Nyhetsbrev (för föräldrar). Lämna tom sträng tills en e-posttjänst är vald och godkänd:
+  // formuläret är då synligt men avstängt. Sätt till tjänstens https-adress för formulärinskick
+  // (POST med fältet "email"). Tjänsten måste själv skicka bekräftelsemejl (double opt-in).
+  // Kom ihåg att lägga tjänstens domän i connect-src i netlify.toml när CSP skärps.
+  NEWSLETTER_ENDPOINT: '',
+
   // Ämnesikoner för kategorifilter och berättelsekort (se assets/images/README.md)
   ICON_DIR: 'assets/images/icons/',
   CATEGORY_ICONS: {
