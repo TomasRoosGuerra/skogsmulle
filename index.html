@@ -1620,9 +1620,10 @@
 
       function getExcerpt(html, maxLen) {
         if (!html) return '';
-        const tmp = document.createElement('div');
-        tmp.innerHTML = html;
-        const text = tmp.textContent || tmp.innerText || '';
+        // Parse via DOMParser (not a live document) so images never load and
+        // inline event handlers never execute, unlike assigning to .innerHTML.
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const text = (doc.body.textContent || '').replace(/\s+/g, ' ').trim();
         return text.length > maxLen ? text.substring(0, maxLen) + '…' : text;
       }
 
@@ -2062,6 +2063,19 @@
           cleanContent = '<p>' + tempDiv.textContent + '</p>';
         }
         bodyEl.innerHTML = cleanContent;
+
+        // Harden images regardless of which sanitization path produced them above.
+        bodyEl.querySelectorAll('img').forEach((img) => {
+          img.loading = 'lazy';
+          img.decoding = 'async';
+          if (!img.hasAttribute('alt')) {
+            img.alt = '';
+            img.setAttribute('role', 'presentation');
+          }
+          img.addEventListener('error', function () {
+            this.style.display = 'none';
+          }, { once: true });
+        });
 
         const wasOpen = modal.classList.contains("show");
         modal.classList.add("show");
