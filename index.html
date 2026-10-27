@@ -1039,6 +1039,7 @@
       }
     </style>
     <link rel="stylesheet" href="assets/css/theme.css" />
+    <link rel="stylesheet" href="assets/css/reader.css" />
   </head>
 
   <body>
@@ -1242,6 +1243,7 @@
       </p>
     </footer>
 
+    <script src="assets/js/reader.js"></script>
     <script>
       let isAdmin = false;
       let currentUser = null;
@@ -2104,12 +2106,16 @@
           const closeBtn = modal.querySelector(".story-modal-close");
           (closeBtn || dialogEl).focus();
         }
+
+        if (window.StoryReader) window.StoryReader.onOpen(story);
       }
 
       function closeStoryModal(opts) {
         opts = opts || {};
         const modal = document.getElementById("storyModal");
         if (!modal || !modal.classList.contains("show")) return;
+
+        if (window.StoryReader) window.StoryReader.onClose();
 
         modal.classList.remove("show");
         document.body.style.overflow = ""; // Restore scrolling
