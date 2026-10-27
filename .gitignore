@@ -42,3 +42,6 @@ logs/
 .backup
 index.html.backup
 
+
+# Genererade berättelsesidor (skapas av generate-pages.js vid bygget)
+stories/
