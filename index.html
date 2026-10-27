@@ -1040,6 +1040,7 @@
     </style>
     <link rel="stylesheet" href="assets/css/theme.css" />
     <link rel="stylesheet" href="assets/css/reader.css" />
+    <link rel="stylesheet" href="assets/css/author.css" />
   </head>
 
   <body>
@@ -1050,15 +1051,16 @@
         <ul class="site-nav-links">
           <li><a href="#" class="site-nav-link active">Hem</a></li>
           <li><a href="#stories" class="site-nav-link">Berättelser</a></li>
-          <li id="navWriteItem" style="display:none"><a href="#authorSection" class="site-nav-link">Skriv</a></li>
+          <li id="navWriteItem" style="display:none"><a href="#authorSection" class="site-nav-link">Skriv ny berättelse</a></li>
         </ul>
-        <button class="site-nav-login" id="navLoginBtn" onclick="handleNavLogin()">Logga in</button>
+        <button class="site-nav-login" id="navLoginBtn" onclick="handleNavLogin()">Författarlogin</button>
       </div>
     </nav>
 
     <div id="loginModal" class="login-modal">
       <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle" tabindex="-1">
         <h2 id="loginModalTitle">Författarlogin</h2>
+        <p class="login-intro">Bara för författaren. Logga in för att skriva och publicera berättelser.</p>
         <form id="loginForm">
           <div class="form-group">
             <label for="emailInput">E-post:</label>
@@ -1066,9 +1068,12 @@
           </div>
           <div class="form-group">
             <label for="passwordInput">Lösenord:</label>
-            <input type="password" id="passwordInput" required autocomplete="current-password" />
+            <div class="password-field">
+              <input type="password" id="passwordInput" required autocomplete="current-password" />
+              <button type="button" class="password-toggle" id="passwordToggleBtn" aria-pressed="false" aria-label="Visa lösenord">👁</button>
+            </div>
           </div>
-          <div id="loginError" style="display: none; color: var(--a); font-size: 0.875rem; margin-bottom: 1rem;"></div>
+          <div id="loginError" role="alert" style="display: none; color: var(--a); font-size: 0.875rem; margin-bottom: 1rem;"></div>
           <div class="modal-buttons">
             <button type="submit" class="btn btn-primary" id="loginSubmitBtn">Logga in</button>
             <button
@@ -1098,6 +1103,10 @@
         </div>
         <div class="story-modal-meta" id="storyModalMeta"></div>
         <div class="story-modal-body" id="storyModalBody"></div>
+        <div class="story-modal-admin-actions" id="storyModalAdminActions" hidden>
+          <button type="button" class="btn btn-secondary" id="storyModalEditBtn">Redigera</button>
+          <button type="button" class="btn btn-secondary" id="storyModalDeleteBtn">Ta bort</button>
+        </div>
       </div>
     </div>
 
@@ -1149,54 +1158,7 @@
             <div id="posts-container"></div>
           </section>
 
-          <section class="author-section" id="authorSection" style="display:none">
-            <h2>Skriv ny berättelse</h2>
-            <div class="author-info" id="authorInfo">
-              <p>Inloggad som: <strong id="authorEmail"></strong></p>
-            </div>
-            <form id="newPostForm">
-              <div class="form-group">
-                <label for="postTitle">Titel</label>
-                <input type="text" id="postTitle" required placeholder="T.ex. Skogsmulles stora äventyr" />
-              </div>
-              <div class="form-group">
-                <label for="postCategory">Kategori</label>
-                <select id="postCategory">
-                  <option value="">Välj kategori</option>
-                  <option value="äventyr">Äventyr</option>
-                  <option value="vänskap">Vänskap</option>
-                  <option value="natur">Natur</option>
-                  <option value="magi">Magi</option>
-                  <option value="djur">Djur</option>
-                  <option value="lärdom">Lärdom</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="postAge">Åldersgrupp</label>
-                <select id="postAge">
-                  <option value="">Välj ålder</option>
-                  <option value="3–5 år">3–5 år</option>
-                  <option value="6–8 år">6–8 år</option>
-                  <option value="9–12 år">9–12 år</option>
-                  <option value="3–12 år">3–12 år (alla)</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="postContent">Berättelse</label>
-                <div class="editor-toolbar">
-                  <button type="button" onclick="formatText('bold')" title="Fet text"><strong>B</strong></button>
-                  <button type="button" onclick="formatText('italic')" title="Kursiv text"><em>I</em></button>
-                  <button type="button" onclick="formatText('underline')" title="Understruken text"><u>U</u></button>
-                  <button type="button" onclick="formatText('insertUnorderedList')" title="Lista">Lista</button>
-                </div>
-                <div id="postContent" class="rich-editor" contenteditable="true" data-placeholder="Skriv din magiska berättelse här..."></div>
-              </div>
-              <div class="form-actions">
-                <button type="button" class="btn btn-secondary" onclick="saveDraft()">Spara utkast</button>
-                <button type="submit" class="submit-button">Publicera berättelse</button>
-              </div>
-            </form>
-          </section>
+          <section class="author-section" id="authorSection" style="display:none"></section>
         </div>
       </div>
     </main>
@@ -1244,6 +1206,7 @@
     </footer>
 
     <script src="assets/js/reader.js"></script>
+    <script src="assets/js/author.js"></script>
     <script>
       let isAdmin = false;
       let currentUser = null;
@@ -1361,6 +1324,9 @@
               date: p.date,
               category: p.category || "",
               age: p.age || "",
+              language: p.language || "",
+              image: p.image || "",
+              imageAlt: p.imageAlt || "",
               slug: p.slug || generateStorySlug(p.title),
               timestamp: p.createdAt?.toMillis() || Date.now(),
               createdAt: p.createdAt,
@@ -1381,6 +1347,9 @@
             window.firebaseDoc(window.firebaseDb, "posts", id)
           ),
       };
+      // Exposed so author.js (loaded earlier in the document) can reach it
+      // from callbacks that only run after this script has finished setup.
+      window.C = C;
 
       // Friendly error state shown in place of the story grid when Firestore can't be reached
       function showStoriesError() {
@@ -1415,6 +1384,10 @@
                   date: p.date,
                   category: p.category || "",
                   age: p.age || "",
+                  language: p.language || "",
+                  image: p.image || "",
+                  imageAlt: p.imageAlt || "",
+                  slug: p.slug || generateStorySlug(p.title),
                   timestamp: p.createdAt?.toMillis() || Date.now(),
                   createdAt: p.createdAt,
                   updatedAt: p.updatedAt,
@@ -1493,6 +1466,23 @@
 
         xml += `</urlset>`;
         return xml;
+      }
+
+      // Shared sanitize config so the reader modal and the author preview render
+      // identically (same allowed tags/attrs/URI scheme restrictions).
+      function sanitizeStoryHtml(html) {
+        if (typeof DOMPurify === 'undefined') {
+          console.warn('DOMPurify not available, using basic sanitization');
+          const tempDiv = document.createElement('div');
+          tempDiv.textContent = String(html || '').replace(/<[^>]*>/g, ' ');
+          return '<p>' + tempDiv.textContent + '</p>';
+        }
+        return DOMPurify.sanitize(html, {
+          ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'ul', 'li', 'ol', 'h1', 'h2', 'h3', 'blockquote', 'img'],
+          ALLOWED_ATTR: ['src', 'alt'],
+          // Allow only relative paths (no scheme, e.g. "images/x.jpg") or https:// URLs
+          ALLOWED_URI_REGEXP: /^(?:https:\/\/|(?!^[a-zA-Z][a-zA-Z0-9+.-]*:))/
+        });
       }
 
       // Escape dynamic text before interpolating it into an innerHTML template
@@ -1691,41 +1681,6 @@
 
 
 
-      async function editPost(i) {
-        const p = allPosts[i];
-        const t = prompt("Redigera titel:", p.title);
-        if (t === null) return;
-        if (!t.trim()) {
-          alert("Titel kan inte vara tom.");
-          return;
-        }
-        const d = document.createElement("div");
-        d.innerHTML = p.content;
-        const c = prompt(
-          "Redigera innehåll:",
-          d.textContent || d.innerText || ""
-        );
-        if (c === null) return;
-        if (!c.trim()) {
-          alert("Innehåll kan inte vara tomt.");
-          return;
-        }
-        try {
-          await C.update(p.id, {
-            title: t.trim(),
-            content: `<p>${c.trim().replace(/\n/g, "</p><p>")}</p>`,
-            date: p.date,
-            timestamp: p.timestamp,
-          });
-          alert("Berättelsen har uppdaterats!");
-        } catch (e) {
-          console.error("Update error:", e);
-          alert(
-            "Ett fel uppstod när berättelsen skulle uppdateras. Försök igen."
-          );
-        }
-      }
-
       // Improved Delete with Undo functionality
       let deletedStory = null;
       let deleteTimeout = null;
@@ -1754,8 +1709,9 @@
             }, 10000);
           } catch (e) {
             console.error("Delete error:", e);
-            alert(
-              "Ett fel uppstod när berättelsen skulle tas bort. Försök igen."
+            showToast(
+              "Ett fel uppstod när berättelsen skulle tas bort. Försök igen.",
+              "error"
             );
           }
         }
@@ -1808,55 +1764,13 @@
           try {
             // Restore to Firebase
             await C.save(deletedStory);
-            alert(`Berättelsen "${deletedStory.title}" har återställts!`);
+            showToast(`Berättelsen "${deletedStory.title}" har återställts!`, "success");
             deletedStory = null;
             deleteTimeout = null;
           } catch (e) {
             console.error("Undo error:", e);
-            alert("Kunde inte återställa berättelsen. Försök igen.");
+            showToast("Kunde inte återställa berättelsen. Försök igen.", "error");
           }
-        }
-      }
-
-
-      // Rich text editor functions
-      function formatText(command) {
-        document.execCommand(command, false, null);
-        document.getElementById("postContent").focus();
-      }
-
-      function insertImage() {
-        const url = prompt("Ange bildens URL:");
-        if (url) {
-          document.execCommand("insertImage", false, url);
-        }
-      }
-
-      // Draft system
-      function saveDraft() {
-        const title = document.getElementById("postTitle").value;
-        const category = document.getElementById("postCategory").value;
-        const age = document.getElementById("postAge").value;
-        const content = document.getElementById("postContent").innerHTML;
-
-        if (!title && !content) {
-          alert("Inget att spara som utkast.");
-          return;
-        }
-
-        const draft = { title, category, age, content, timestamp: Date.now() };
-        localStorage.setItem("skogsmulle_draft", JSON.stringify(draft));
-        alert("Utkast sparat!");
-      }
-
-      function loadDraft() {
-        const draft = localStorage.getItem("skogsmulle_draft");
-        if (draft) {
-          const data = JSON.parse(draft);
-          document.getElementById("postTitle").value = data.title || "";
-          document.getElementById("postCategory").value = data.category || "";
-          document.getElementById("postAge").value = data.age || "";
-          document.getElementById("postContent").innerHTML = data.content || "";
         }
       }
 
@@ -1890,7 +1804,7 @@
           localStorage.setItem("skogsmulle_read", JSON.stringify(readPosts));
         }
 
-        alert(`Bra jobbat! Du har läst "${post.title}"`);
+        showToast(`Bra jobbat! Du har läst "${post.title}"`, "success");
       }
 
       // Reading stats functionality removed
@@ -1902,31 +1816,38 @@
           if (window.firebaseDb) {
             console.log("Attempting to load stories from Firebase...");
             await C.load();
-            alert(
-              `Berättelser laddade! Hittade ${allPosts.length} berättelser.`
+            showToast(
+              `Berättelser laddade! Hittade ${allPosts.length} berättelser.`,
+              "success"
             );
           } else {
-            alert(
-              "Firebase är inte tillgängligt. Kontrollera din internetanslutning."
+            showToast(
+              "Firebase är inte tillgängligt. Kontrollera din internetanslutning.",
+              "error"
             );
           }
         } catch (error) {
           console.error("Manual load failed:", error);
-          alert(
-            "Kunde inte ladda berättelser. Kontrollera konsolen för detaljer."
+          showToast(
+            "Kunde inte ladda berättelser. Kontrollera konsolen för detaljer.",
+            "error"
           );
         }
       }
 
+      // Set right before calling signInWithEmailAndPassword so the onAuthStateChanged
+      // handler below can tell "just signed in" apart from "session restored on load".
+      let justSignedIn = false;
+
       function initAuth() {
         console.log("Initializing Firebase Authentication...");
-        
+
         if (!FIREBASE_AUTH_ENABLED || !window.firebaseAuth) {
           console.warn("Firebase Authentication not available");
           showLoginSection();
           return;
         }
-        
+
         // Lyssna på autentiseringsstatusändringar
         window.firebaseOnAuthStateChanged(window.firebaseAuth, (user) => {
           if (user) {
@@ -1938,6 +1859,14 @@
               name: user.email.split("@")[0]
             };
             showAuthorTools();
+            if (justSignedIn) {
+              justSignedIn = false;
+              showToast("Du är inloggad", "success");
+              const heading = document.getElementById("authorSectionHeading");
+              const section = document.getElementById("authorSection");
+              if (section) section.scrollIntoView({ behavior: "smooth" });
+              if (heading) heading.focus();
+            }
           } else {
             console.log("No user authenticated");
             isAdmin = false;
@@ -1960,11 +1889,11 @@
         const writeItem = document.getElementById("navWriteItem");
         if (!btn) return;
         if (isAdmin && currentUser) {
-          btn.textContent = currentUser.email.split("@")[0];
+          btn.textContent = `Inloggad: ${currentUser.name} · Logga ut`;
           btn.classList.add("logged-in");
           if (writeItem) writeItem.style.display = '';
         } else {
-          btn.textContent = "Logga in";
+          btn.textContent = "Författarlogin";
           btn.classList.remove("logged-in");
           if (writeItem) writeItem.style.display = 'none';
         }
@@ -2063,25 +1992,7 @@
         if (categorySpan) metaEl.appendChild(categorySpan);
         if (ageSpan) metaEl.appendChild(ageSpan);
 
-        // Rengör innehåll med DOMPurify (tillåt endast säkra taggar, bilder begränsade till https/relativa källor)
-        const rawContent = story.content || "<p>Inget innehåll tillgängligt.</p>";
-        let cleanContent;
-
-        if (typeof DOMPurify !== 'undefined') {
-          cleanContent = DOMPurify.sanitize(rawContent, {
-            ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'ul', 'li', 'ol', 'h1', 'h2', 'h3', 'blockquote', 'img'],
-            ALLOWED_ATTR: ['src', 'alt'],
-            // Allow only relative paths (no scheme, e.g. "images/x.jpg") or https:// URLs
-            ALLOWED_URI_REGEXP: /^(?:https:\/\/|(?!^[a-zA-Z][a-zA-Z0-9+.-]*:))/
-          });
-        } else {
-          // Fallback: basic sanitization if DOMPurify isn't available
-          console.warn('DOMPurify not available, using basic sanitization');
-          const tempDiv = document.createElement('div');
-          tempDiv.textContent = rawContent.replace(/<[^>]*>/g, ' ');
-          cleanContent = '<p>' + tempDiv.textContent + '</p>';
-        }
-        bodyEl.innerHTML = cleanContent;
+        bodyEl.innerHTML = sanitizeStoryHtml(story.content || "<p>Inget innehåll tillgängligt.</p>");
 
         // Harden images regardless of which sanitization path produced them above.
         bodyEl.querySelectorAll('img').forEach((img) => {
@@ -2095,6 +2006,21 @@
             this.style.display = 'none';
           }, { once: true });
         });
+
+        const adminActions = document.getElementById("storyModalAdminActions");
+        if (adminActions) {
+          adminActions.hidden = !isAdmin;
+          const editBtn = document.getElementById("storyModalEditBtn");
+          const deleteBtn = document.getElementById("storyModalDeleteBtn");
+          if (editBtn) editBtn.onclick = () => {
+            closeStoryModal();
+            if (window.Author) window.Author.open(story);
+          };
+          if (deleteBtn) deleteBtn.onclick = () => {
+            closeStoryModal();
+            deletePost(index);
+          };
+        }
 
         const wasOpen = modal.classList.contains("show");
         modal.classList.add("show");
@@ -2206,9 +2132,7 @@
 
       function showAuthorTools() {
         const authorSection = document.getElementById("authorSection");
-        const authorEmail = document.getElementById("authorEmail");
         if (authorSection) authorSection.style.display = '';
-        if (authorEmail && currentUser) authorEmail.textContent = currentUser.email;
         updateNavLoginBtn();
       }
 
@@ -2237,6 +2161,7 @@
         }
         
         try {
+          justSignedIn = true;
           const userCredential = await window.firebaseSignInWithEmailAndPassword(
             window.firebaseAuth,
             email,
@@ -2246,6 +2171,7 @@
           closeLoginModal();
           // onAuthStateChanged kommer att hantera resten
         } catch (error) {
+          justSignedIn = false;
           console.error("Sign in error:", error);
           let errorMessage = "Inloggningen misslyckades";
           
@@ -2279,7 +2205,7 @@
       function showLoginError(message) {
         const errorEl = document.getElementById("loginError");
         if (errorEl) {
-          errorEl.textContent = message;
+          errorEl.textContent = `⚠ ${message}`;
           errorEl.style.display = "block";
         }
       }
@@ -2303,11 +2229,11 @@
             isAdmin = false;
             currentUser = null;
             hideAuthorTools();
-            alert("Du har loggats ut.");
+            showToast("Du har loggats ut.", "success");
           })
           .catch((error) => {
             console.error("Sign out error:", error);
-            alert("Kunde inte logga ut. Försök igen.");
+            showToast("Kunde inte logga ut. Försök igen.", "error");
           });
       }
 
