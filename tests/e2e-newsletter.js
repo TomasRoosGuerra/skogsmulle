@@ -31,7 +31,7 @@ const ok = (n, c, d = '') => { if (!c) fails++; console.log((c ? 'PASS ' : 'FAIL
   ok('double opt-in note', /bekräftar anmälan/.test(await p.locator('#newsletterNote').innerText()));
   ok('link to integritet', await p.locator('#newsletterNote a[href="integritet.html"]').count() === 1);
   ok('label tied to input', await p.locator('label[for=newsletterEmail]').count() === 1);
-  ok('visibly inactive (opacity<1, button not-allowed)', await p.evaluate(() => getComputedStyle(document.getElementById('newsletterForm')).opacity < 1 && getComputedStyle(document.getElementById('newsletterSubmit')).cursor === 'not-allowed'));
+  ok('visibly inactive (opacity<1, button not-allowed)', await p.evaluate(() => getComputedStyle(document.querySelector('#newsletterForm .newsletter-row')).opacity < 1 /* only the controls are dimmed; the note keeps AA contrast */ && getComputedStyle(document.getElementById('newsletterSubmit')).cursor === 'not-allowed'));
   await p.evaluate(() => { const i = document.getElementById('newsletterEmail'); i.disabled = false; i.value = 'a@b.se'; document.getElementById('newsletterForm').requestSubmit(); });
   await p.waitForTimeout(300);
   ok('forced submit sends nothing', posts.length === 0);
