@@ -45,7 +45,7 @@
 .newsletter-note a { color: var(--p, #1a6b5a); }
 
 /* Avstängt läge: grått, ingen pekare, tydligt otillgängligt */
-.newsletter[data-state="inactive"] .newsletter-form { opacity: 0.55; }
+.newsletter[data-state="inactive"] .newsletter-row { opacity: 0.55; } /* only the disabled controls are dimmed, so the note text keeps AA contrast */
 .newsletter[data-state="inactive"] .newsletter-btn {
   background: #8a8f98;
   cursor: not-allowed;

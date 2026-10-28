@@ -288,3 +288,95 @@ body, p, input, textarea, select, button {
 }
 
 .topic-chip { justify-content: center; }
+
+/* ===== Reader polish (kids 3-12 and parents) =====
+   Bigger tap targets, calm entrance/hover, non-colour state cues. All motion lives in
+   no-preference blocks; the reduce block above already neutralises everything else. */
+
+/* Comfortable tap targets (>= 44px) on every screen size */
+.btn,
+.site-nav-link,
+.site-nav-login,
+.topic-chip,
+.reader-btn {
+  min-height: 44px;
+}
+.site-nav-link,
+.site-nav-login {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Selected topic is shown with a check mark as well as colour (WCAG 1.4.1) */
+.topic-chip {
+  position: relative;
+}
+.topic-chip[aria-pressed="true"]::after {
+  content: "\2713";
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: center;
+}
+
+/* Card text: easy line length and spacing */
+.story-card-excerpt {
+  line-height: 1.7;
+}
+.story-card-cta {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Empty state: friendly, calm */
+.empty-state p {
+  font-size: var(--font-size-body, 1.125rem);
+  margin: 0 0 var(--sp-md, 1rem);
+}
+.empty-state p:last-child {
+  margin-bottom: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Cards float in one after the other (first eight only, so long lists don't feel slow) */
+  @keyframes storyCardIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .story-card {
+    animation: storyCardIn 480ms var(--ease, ease) both;
+  }
+  .story-card:nth-child(2) { animation-delay: 60ms; }
+  .story-card:nth-child(3) { animation-delay: 120ms; }
+  .story-card:nth-child(4) { animation-delay: 180ms; }
+  .story-card:nth-child(5) { animation-delay: 240ms; }
+  .story-card:nth-child(6) { animation-delay: 300ms; }
+  .story-card:nth-child(7) { animation-delay: 360ms; }
+  .story-card:nth-child(n+8) { animation-delay: 420ms; }
+
+  /* The little picture tilts gently when a card is hovered or focused */
+  .story-card-icon {
+    transition: transform 250ms var(--ease, ease);
+  }
+  .story-card:hover .story-card-icon,
+  .story-card:focus-visible .story-card-icon {
+    transform: rotate(-4deg) scale(1.06);
+  }
+
+  /* The empty-state picture bobs very slowly */
+  @keyframes emptyBob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+  }
+  .empty-state-icon {
+    animation: emptyBob 4s ease-in-out infinite;
+  }
+}

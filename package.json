@@ -9,6 +9,8 @@
     "test:generator": "node tests/generate-pages.test.js",
     "test:e2e:writer": "node tests/e2e-writer.js",
     "dev": "npx serve .",
+    "test:a11y": "node tests/a11y-axe.js",
+    "test:e2e:reader-ux": "node tests/e2e-reader-ux.js",
     "deploy": "npm run build && echo 'Ready for Netlify deployment'"
   },
   "keywords": [
@@ -51,6 +53,7 @@
   ],
   "devDependencies": {
     "@playwright/test": "^1.64.1",
+    "axe-core": "^4.14.0",
     "playwright": "^1.64.1",
     "serve": "^14.2.6"
   }
