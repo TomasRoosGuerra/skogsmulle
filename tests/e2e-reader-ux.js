@@ -51,7 +51,7 @@ const px = (p, sel, prop) => p.evaluate(([s, pr]) => { const e = document.queryS
     await p.keyboard.press('Escape'); await p.waitForTimeout(300);
 
     // Läsbarhet: ingen text under 14px på startsidan
-    const tiny = await p.evaluate(() => { const out = []; const w = document.createTreeWalker(document.querySelector('main'), NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) { if (!n.textContent.trim()) continue; const e = n.parentElement; const cs = getComputedStyle(e); if (cs.display === 'none' || cs.visibility === 'hidden') continue; if (parseFloat(cs.fontSize) < 14) out.push(e.className + ':' + cs.fontSize); } return out; });
+    const tiny = await p.evaluate(() => { const out = []; const w = document.createTreeWalker(document.querySelector('main'), NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) { if (!n.textContent.trim()) continue; const e = n.parentElement; const cs = getComputedStyle(e); if (!e.getClientRects().length || cs.visibility === 'hidden') continue; if (parseFloat(cs.fontSize) < 14) out.push(e.className + ':' + cs.fontSize); } return out; });
     ok(`${t} no visible text under 14px in main`, tiny.length === 0, tiny.slice(0, 4).join(', '));
     ok(`${t} card excerpt >= 15px`, (await px(p, '.story-card-excerpt', 'fontSize')) >= 15);
     ok(`${t} card date + CTA >= 14px`, (await px(p, '.story-card-date', 'fontSize')) >= 14 && (await px(p, '.story-card-cta', 'fontSize')) >= 14);
