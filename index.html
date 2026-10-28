@@ -191,8 +191,8 @@
         --wide-width: 1200px;
 
         /* Responsive typography */
-        --font-size-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.8125rem);
-        --font-size-sm: clamp(0.8125rem, 0.78rem + 0.2vw, 0.875rem);
+        --font-size-xs: clamp(0.875rem, 0.84rem + 0.15vw, 0.9375rem); /* >= 14px: readable for kids and parents */
+        --font-size-sm: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
         --font-size-body: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
         --font-size-lg: clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem);
         --font-size-h4: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
@@ -938,9 +938,11 @@
         color: var(--txt-muted);
       }
       .empty-state-icon {
-        font-size: 3rem;
-        margin-bottom: var(--sp-md);
-        opacity: 0.5;
+        display: block;
+        width: 96px;
+        height: 96px;
+        margin: 0 auto var(--sp-md);
+        object-fit: contain;
       }
 
       /* ===== Responsive ===== */
@@ -954,7 +956,7 @@
         :root {
           /* Ensure readable text on mobile */
           --font-size-body: 1rem;
-          --font-size-sm: 0.875rem;
+          --font-size-sm: 0.9375rem;
         }
         
         body {
@@ -1555,7 +1557,7 @@
         const c = document.getElementById("posts-container");
 
         if (allPosts.length === 0) {
-          c.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📚</div><p>Här kommer det snart berättelser.</p></div>';
+          c.innerHTML = '<div class="empty-state" role="status"><img class="empty-state-icon" src="' + getIconDir() + 'ikon-svamp.webp" alt="" width="96" height="96" /><p>Här kommer det snart berättelser.</p></div>';
           return;
         }
 
@@ -1567,7 +1569,13 @@
           : allPosts;
 
         if (visiblePosts.length === 0) {
-          c.innerHTML = '<p class="empty-state" role="status">Inga berättelser i det här ämnet ännu.</p>';
+          c.innerHTML = '<div class="empty-state" role="status"><img class="empty-state-icon" src="' + getIconDir() + 'ikon-svamp.webp" alt="" width="96" height="96" /><p>Inga berättelser i det här ämnet ännu.</p><button type="button" class="btn empty-state-reset" id="emptyStateReset">Visa alla berättelser</button></div>';
+          const resetBtn = document.getElementById('emptyStateReset');
+          if (resetBtn) resetBtn.addEventListener('click', function () {
+            const all = document.querySelector('.topic-chip[data-category=""]');
+            if (all) all.click();
+            if (all) all.focus();
+          });
           return;
         }
 
@@ -1586,8 +1594,7 @@
               data-id="${escapeHtml(storyId)}"
               id="story-${escapeHtml(storyId)}"
               tabindex="0"
-              role="button"
-              aria-label="Läs berättelsen: ${escapeHtml(title)}">
+              role="button">
               <div class="story-card-accent"></div>
               <div class="story-card-body">
                 <img class="story-card-icon" alt="" width="64" height="64" loading="lazy" src="${escapeHtml(iconSrc)}" />
@@ -1599,7 +1606,7 @@
                 <p class="story-card-excerpt">${escapeHtml(excerpt)}</p>
                 <div class="story-card-footer">
                   <span class="story-card-date">${escapeHtml(p.date || '')}</span>
-                  <span class="story-card-cta">Läs mer &rarr;</span>
+                  <span class="story-card-cta">Läs mer <span aria-hidden="true">&rarr;</span></span>
                 </div>
               </div>
             </article>`;

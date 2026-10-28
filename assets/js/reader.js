@@ -217,9 +217,9 @@
 
     var sizeGroup = document.createElement("div");
     sizeGroup.className = "reader-toolbar-group";
-    var btnSmaller = makeButton("A−", "Mindre text");
-    var btnNormal = makeButton("A", "Normal text");
-    var btnLarger = makeButton("A+", "Större text");
+    var btnSmaller = makeButton("A−", "A− mindre text");
+    var btnNormal = makeButton("A", "A normal text");
+    var btnLarger = makeButton("A+", "A+ större text");
     btnSmaller.addEventListener("click", function () {
       setSize(state.sizeIndex - 1, refs.body);
     });
