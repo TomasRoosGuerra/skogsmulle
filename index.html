@@ -1108,6 +1108,11 @@
           <button type="button" class="btn btn-secondary" id="storyModalEditBtn" aria-label="Redigera berättelsen">Redigera</button>
           <button type="button" class="btn btn-secondary" id="storyModalDeleteBtn">Ta bort</button>
         </div>
+        <div class="author-confirm-panel" id="storyModalDeleteConfirm" role="group" aria-labelledby="storyModalDeleteConfirmText" hidden>
+          <p id="storyModalDeleteConfirmText" tabindex="-1">Ta bort berättelsen? Du kan ångra i 10 sekunder efteråt.</p>
+          <button type="button" class="btn btn-primary" id="storyModalDeleteYes">Ja, ta bort</button>
+          <button type="button" class="btn btn-secondary" id="storyModalDeleteNo">Avbryt</button>
+        </div>
       </div>
     </div>
 
@@ -1759,8 +1764,9 @@
           font-weight: 600;
         `;
 
+        notification.setAttribute("role", "status");
         notification.innerHTML = `
-          <span>Berättelsen "${title}" har tagits bort</span>
+          <span>Berättelsen "${escapeHtml(title)}" har tagits bort</span>
           <button onclick="undoDelete()" style="
             background: var(--w);
             color: var(--a);
@@ -2050,9 +2056,24 @@
             closeStoryModal();
             if (window.Author) window.Author.open(story);
           };
-          if (deleteBtn) deleteBtn.onclick = () => {
+          // Two-step delete: the first click only asks; deletePost() itself is unchanged.
+          const delPanel = document.getElementById("storyModalDeleteConfirm");
+          const delText = document.getElementById("storyModalDeleteConfirmText");
+          const delYes = document.getElementById("storyModalDeleteYes");
+          const delNo = document.getElementById("storyModalDeleteNo");
+          if (delPanel) delPanel.hidden = true;
+          if (deleteBtn && delPanel) deleteBtn.onclick = () => {
+            if (delText) delText.textContent = "Ta bort “" + (story.title || "Utan titel") + "”? Du kan ångra i 10 sekunder efteråt.";
+            delPanel.hidden = false;
+            if (delText) delText.focus();
+          };
+          if (delYes) delYes.onclick = () => {
             closeStoryModal();
             deletePost(index);
+          };
+          if (delNo) delNo.onclick = () => {
+            delPanel.hidden = true;
+            if (deleteBtn) deleteBtn.focus();
           };
         }
 
