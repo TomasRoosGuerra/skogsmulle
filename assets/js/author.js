@@ -17,8 +17,12 @@
     editingId: null,
     editingOriginal: null,
     imageSource: "none", // 'none' | 'manifest' | 'url'
-    imageManifestName: ""
+    imageManifestName: "",
+    unsaved: false, // text that exists only in the editor (not in localStorage, not published)
+    savedRange: null // caret position remembered while the inline image panel is open
   };
+
+  var WORDS_PER_MINUTE = 120; // aloud-reading pace for a children's story
 
   var els = {};
   var categoryKeys = [];
@@ -30,7 +34,7 @@
     try { return window.localStorage.getItem(key); } catch (e) { return null; }
   }
   function safeSet(key, value) {
-    try { window.localStorage.setItem(key, value); } catch (e) {}
+    try { window.localStorage.setItem(key, value); return true; } catch (e) { return false; }
   }
   function safeRemove(key) {
     try { window.localStorage.removeItem(key); } catch (e) {}
@@ -170,58 +174,80 @@
           '<div id="authorPanelWrite" class="is-active" role="tabpanel" aria-labelledby="authorTabWrite">' +
             '<div class="form-group">' +
               '<label for="authorTitle">Titel</label>' +
-              '<input type="text" id="authorTitle" required placeholder="T.ex. Skogsmulles stora äventyr" />' +
+              '<input type="text" id="authorTitle" required autocomplete="off" placeholder="T.ex. Skogsmulles stora äventyr" />' +
             "</div>" +
             '<div class="form-group">' +
-              '<label for="authorLanguage">Språk</label>' +
-              '<select id="authorLanguage">' +
-                '<option value="sv">Svenska</option>' +
-                '<option value="en">English</option>' +
-                '<option value="es">Español</option>' +
-                '<option value="other">Annat…</option>' +
-              "</select>" +
+              '<label id="authorContentLabel" for="postContent">Berättelse</label>' +
+              '<div class="editor-toolbar" role="toolbar" aria-label="Textformat" aria-controls="postContent">' +
+                '<button type="button" data-cmd="bold" aria-label="Fet text" title="Fet (Ctrl+B)" aria-pressed="false"><strong>Fet</strong></button>' +
+                '<button type="button" data-cmd="italic" aria-label="Kursiv text" title="Kursiv (Ctrl+I)" aria-pressed="false"><em>Kursiv</em></button>' +
+                '<button type="button" data-cmd="h2" aria-label="Rubrik" title="Rubrik">Rubrik</button>' +
+                '<button type="button" data-cmd="quote" aria-label="Citat" title="Citat">Citat</button>' +
+                '<button type="button" data-cmd="list" aria-label="Punktlista" title="Lista">Lista</button>' +
+                '<button type="button" data-cmd="image" aria-label="Infoga bild" title="Infoga bild från en adress" aria-expanded="false" aria-controls="authorInlineImagePanel">Bild</button>' +
+                '<button type="button" data-cmd="undo" aria-label="Ångra" title="Ångra (Ctrl+Z)">Ångra</button>' +
+                '<button type="button" data-cmd="redo" aria-label="Gör om" title="Gör om (Ctrl+Y)">Gör om</button>' +
+              "</div>" +
+              '<div class="author-inline-image" id="authorInlineImagePanel" role="group" aria-label="Infoga bild i texten" hidden>' +
+                '<label for="authorInlineImageUrl">Bildadress (https://…)</label>' +
+                '<input type="text" id="authorInlineImageUrl" inputmode="url" autocomplete="off" placeholder="https://exempel.se/bild.jpg" />' +
+                '<label for="authorInlineImageAlt">Bildbeskrivning (alt-text, krävs)</label>' +
+                '<input type="text" id="authorInlineImageAlt" autocomplete="off" placeholder="Beskriv bilden med ord…" />' +
+                '<p class="author-field-error" id="authorInlineImageError" role="alert" hidden></p>' +
+                '<div class="author-inline-image-actions">' +
+                  '<button type="button" class="btn btn-primary" id="authorInlineImageInsert">Infoga bilden</button>' +
+                  '<button type="button" class="btn btn-secondary" id="authorInlineImageCancel">Avbryt</button>' +
+                "</div>" +
+                '<p class="author-help-text">Bilder kan inte laddas upp här – klistra in en https-adress till en bild som redan finns på nätet.</p>' +
+              "</div>" +
+              '<div id="postContent" class="rich-editor" contenteditable="true" role="textbox" aria-multiline="true" aria-labelledby="authorContentLabel" aria-describedby="authorEditorHint" data-placeholder="Skriv din berättelse här…"></div>' +
+              '<div class="author-editor-meta">' +
+                '<p class="author-word-count" id="authorWordCount">0 ord</p>' +
+                '<p class="author-draft-status" id="authorDraftStatus" data-state="idle" role="status">Inget utkast sparat</p>' +
+              "</div>" +
+              '<p class="author-help-text" id="authorEditorHint">Utkastet sparas automatiskt i den här webbläsaren och är inte publicerat förrän du väljer Publicera. Genvägar: <kbd>Ctrl</kbd>+<kbd>S</kbd> sparar utkast, <kbd>Ctrl</kbd>+<kbd>Enter</kbd> öppnar publicera-frågan, <kbd>Ctrl</kbd>+<kbd>B</kbd> fet, <kbd>Ctrl</kbd>+<kbd>I</kbd> kursiv (Cmd på Mac).</p>' +
             "</div>" +
-            '<div class="form-group" id="authorLanguageOtherField" hidden>' +
-              '<label for="authorLanguageOther">Språkkod (2 bokstäver)</label>' +
-              '<input type="text" id="authorLanguageOther" maxlength="2" pattern="[a-zA-Z]{2}" placeholder="t.ex. de" />' +
-            "</div>" +
-            '<div class="form-group">' +
-              '<label for="authorCategory">Ämne</label>' +
-              '<select id="authorCategory">' + categoryOptions + "</select>" +
-            "</div>" +
-            '<div class="form-group">' +
-              '<label for="authorAge">Ålder</label>' +
-              '<select id="authorAge">' + ageOptions + "</select>" +
-            "</div>" +
+            '<fieldset class="form-group author-meta-field">' +
+              "<legend>Om berättelsen</legend>" +
+              '<div class="author-meta-grid">' +
+                '<div class="form-group">' +
+                  '<label for="authorLanguage">Språk</label>' +
+                  '<select id="authorLanguage">' +
+                    '<option value="sv">Svenska</option>' +
+                    '<option value="en">English</option>' +
+                    '<option value="es">Español</option>' +
+                    '<option value="other">Annat…</option>' +
+                  "</select>" +
+                "</div>" +
+                '<div class="form-group" id="authorLanguageOtherField" hidden>' +
+                  '<label for="authorLanguageOther">Språkkod (2 bokstäver)</label>' +
+                  '<input type="text" id="authorLanguageOther" maxlength="2" pattern="[a-zA-Z]{2}" placeholder="t.ex. de" />' +
+                "</div>" +
+                '<div class="form-group">' +
+                  '<label for="authorCategory">Ämne</label>' +
+                  '<select id="authorCategory">' + categoryOptions + "</select>" +
+                "</div>" +
+                '<div class="form-group">' +
+                  '<label for="authorAge">Ålder</label>' +
+                  '<select id="authorAge">' + ageOptions + "</select>" +
+                "</div>" +
+              "</div>" +
+            "</fieldset>" +
             '<fieldset class="form-group author-image-field">' +
-              "<legend>Bild (valfritt)</legend>" +
+              "<legend>Omslagsbild (valfritt)</legend>" +
               '<div class="author-image-options" id="authorImageOptions">' +
                 '<button type="button" class="author-image-opt" data-image-source="none" aria-pressed="true">Ingen bild</button>' +
               "</div>" +
               '<p class="author-help-text" id="authorManifestHint" hidden>Bildlistan kan inte läsas härifrån – ange en https-adress istället.</p>' +
               '<label for="authorImageUrl">Eller bildadress (https://…)</label>' +
-              '<input type="text" id="authorImageUrl" placeholder="https://exempel.se/bild.jpg" />' +
+              '<input type="text" id="authorImageUrl" inputmode="url" autocomplete="off" placeholder="https://exempel.se/bild.jpg" />' +
               '<p class="author-field-error" id="authorImageUrlError" hidden></p>' +
-              '<p class="author-help-text">Lägg bildfiler i mappen <code>assets/images/story/</code> och lägg till filnamnet i <code>manifest.json</code>.</p>' +
+              '<p class="author-help-text">Bilder inne i själva texten lägger du in med knappen <strong>Bild</strong> i verktygsraden. Lägg bildfiler i mappen <code>assets/images/story/</code> och lägg till filnamnet i <code>manifest.json</code>.</p>' +
               '<div class="form-group" id="authorImageAltField" hidden>' +
                 '<label for="authorImageAlt">Bildbeskrivning (alt-text)</label>' +
                 '<input type="text" id="authorImageAlt" placeholder="Beskriv bilden med ord…" />' +
               "</div>" +
             "</fieldset>" +
-            '<div class="form-group">' +
-              '<label id="authorContentLabel" for="postContent">Berättelse</label>' +
-              '<div class="editor-toolbar" role="toolbar" aria-label="Textformat">' +
-                '<button type="button" data-cmd="bold" aria-label="Fet text" title="Fet"><strong>Fet</strong></button>' +
-                '<button type="button" data-cmd="italic" aria-label="Kursiv text" title="Kursiv"><em>Kursiv</em></button>' +
-                '<button type="button" data-cmd="h2" aria-label="Rubrik" title="Rubrik">Rubrik</button>' +
-                '<button type="button" data-cmd="quote" aria-label="Citat" title="Citat">Citat</button>' +
-                '<button type="button" data-cmd="list" aria-label="Punktlista" title="Lista">Lista</button>' +
-                '<button type="button" data-cmd="undo" aria-label="Ångra" title="Ångra">Ångra</button>' +
-                '<button type="button" data-cmd="redo" aria-label="Gör om" title="Gör om">Gör om</button>' +
-              "</div>" +
-              '<div id="postContent" class="rich-editor" contenteditable="true" aria-labelledby="authorContentLabel" data-placeholder="Skriv din berättelse här…"></div>' +
-            "</div>" +
-            '<p class="author-draft-status" id="authorDraftStatus" aria-live="polite">Ej sparat</p>' +
             '<div class="author-toolbar-row">' +
               '<button type="button" class="btn btn-secondary" id="authorSaveDraftBtn">Spara utkast nu</button>' +
               '<button type="button" class="btn btn-secondary" id="authorExportJsonBtn">Exportera som JSON</button>' +
@@ -237,13 +263,16 @@
               '<button type="button" class="btn btn-primary" id="authorClearConfirmYes">Rensa</button>' +
               '<button type="button" class="btn btn-secondary" id="authorClearConfirmNo">Avbryt</button>' +
             "</div>" +
-            '<div class="author-publish-row">' +
-              '<button type="button" class="btn btn-primary author-publish-btn" id="authorPublishBtn">Publicera</button>' +
-            "</div>" +
-            '<div class="author-confirm-panel" id="authorPublishConfirm" hidden role="group" aria-label="Bekräfta publicering">' +
-              "<p>Är du säker? Berättelsen publiceras direkt på sajten.</p>" +
+            '<p class="author-publish-error" id="authorPublishError" role="alert" hidden></p>' +
+            '<div class="author-confirm-panel" id="authorPublishConfirm" hidden role="group" aria-labelledby="authorPublishConfirmText">' +
+              '<p id="authorPublishConfirmText" tabindex="-1">Är du säker? Berättelsen publiceras direkt på sajten.</p>' +
               '<button type="button" class="btn btn-primary" id="authorPublishYes">Publicera</button>' +
+              '<button type="button" class="btn btn-secondary" id="authorPublishPreview">Förhandsgranska först</button>' +
               '<button type="button" class="btn btn-secondary" id="authorPublishNo">Avbryt</button>' +
+            "</div>" +
+            '<div class="author-publish-row">' +
+              '<button type="button" class="btn btn-secondary author-preview-btn" id="authorPreviewBtn">Förhandsgranska</button>' +
+              '<button type="button" class="btn btn-primary author-publish-btn" id="authorPublishBtn">Publicera</button>' +
             "</div>" +
             '<div class="author-success-banner" id="authorSuccessBanner" role="status" hidden>' +
               '<p id="authorSuccessText"></p>' +
@@ -252,6 +281,7 @@
           "</div>" +
         "</div>" +
         '<div class="author-preview-pane" id="authorPanelPreview" role="tabpanel" aria-labelledby="authorTabPreview">' +
+          '<button type="button" class="btn btn-secondary author-preview-back" id="authorPreviewBack">← Tillbaka till texten</button>' +
           '<div class="story-modal-meta" id="authorPreviewMeta"></div>' +
           '<h3 class="story-modal-title" id="authorPreviewTitle"></h3>' +
           '<div class="story-modal-body author-preview-body" id="authorPreviewBody"></div>' +
@@ -267,14 +297,38 @@
       "authorDraftStatus", "authorSaveDraftBtn", "authorExportJsonBtn", "authorExportMdBtn",
       "authorImportInput", "authorImportError", "authorClearDraftBtn", "authorClearConfirm",
       "authorClearConfirmYes", "authorClearConfirmNo", "authorPublishBtn", "authorPublishConfirm",
-      "authorPublishYes", "authorPublishNo", "authorSuccessBanner", "authorSuccessText",
+      "authorPublishYes", "authorPublishNo", "authorPublishPreview", "authorPublishError", "authorPublishConfirmText", "authorPreviewBtn", "authorPreviewBack", "authorWordCount",
+      "authorInlineImagePanel", "authorInlineImageUrl", "authorInlineImageAlt", "authorInlineImageError", "authorInlineImageInsert", "authorInlineImageCancel", "authorSuccessBanner", "authorSuccessText",
       "authorViewStoryBtn", "authorPreviewMeta", "authorPreviewTitle", "authorPreviewBody"
     ].forEach(function (id) { els[id] = document.getElementById(id); });
+    els.section = section;
     els.postContent = document.getElementById("postContent");
     els.toolbar = section.querySelector(".editor-toolbar");
   }
 
-  function setDraftStatus(text) { if (els.authorDraftStatus) els.authorDraftStatus.textContent = text; }
+  // state: 'idle' | 'dirty' | 'saved' | 'error' – shown as an icon + text (never colour alone)
+  function setDraftStatus(text, status) {
+    var el = els.authorDraftStatus;
+    if (!el) return;
+    if (el.textContent !== text) el.textContent = text;
+    el.setAttribute("data-state", status || "idle");
+  }
+
+  function countWords(text) {
+    var t = (text || "").replace(/\u00a0/g, " ").trim();
+    return t ? t.split(/\s+/).length : 0;
+  }
+
+  function updateWordCount() {
+    if (!els.authorWordCount) return;
+    var words = countWords(els.postContent.innerText || els.postContent.textContent);
+    var label = words + " ord";
+    if (words > 0) {
+      var minutes = Math.max(1, Math.round(words / WORDS_PER_MINUTE));
+      label += " · ca " + minutes + " min högläsning";
+    }
+    if (els.authorWordCount.textContent !== label) els.authorWordCount.textContent = label;
+  }
 
   function updateImageAltVisibility() {
     var hasImage = state.imageSource !== "none";
@@ -428,14 +482,31 @@
       if (opts.explicit) showToast("Inget att spara som utkast.", "error");
       return;
     }
-    safeSet(DRAFT_KEY, JSON.stringify(draft));
-    setDraftStatus("Utkast sparat " + formatTimeHHMM(new Date()));
+    if (state.editingId) {
+      // Editing a published story must never overwrite the separate new-story draft.
+      if (opts.explicit) showToast("Du redigerar en publicerad berättelse. Välj Uppdatera för att spara ändringarna.", "info");
+      return;
+    }
+    if (safeSet(DRAFT_KEY, JSON.stringify(draft))) {
+      state.unsaved = false;
+      setDraftStatus("Utkast sparat " + formatTimeHHMM(new Date()), "saved");
+      if (opts.explicit) showToast("Utkastet är sparat i den här webbläsaren.", "success");
+    } else {
+      setDraftStatus("Kunde inte spara utkast – kopiera din text eller exportera den", "error");
+    }
   }
 
   function scheduleAutosave() {
     els.authorSuccessBanner.hidden = true;
+    els.authorPublishError.hidden = true;
+    state.unsaved = true;
+    updateWordCount();
     clearTimeout(autosaveTimer);
-    setDraftStatus("Ej sparat");
+    if (state.editingId) {
+      setDraftStatus("Ändringar ej uppdaterade – välj Uppdatera för att spara", "dirty");
+      return;
+    }
+    setDraftStatus("Sparar…", "dirty");
     autosaveTimer = setTimeout(saveDraftNow, 800);
   }
 
@@ -446,6 +517,7 @@
     if (AGE_OPTIONS.indexOf(d.age) !== -1) els.authorAge.value = d.age;
     setLanguageValue(d.language || "sv");
     els.postContent.innerHTML = opts.stripImage ? stripLeadingImage(d.content || "") : (d.content || "");
+    updateWordCount();
     if (d.image) {
       selectImageFromUrl(d.image);
       els.authorImageAlt.value = d.imageAlt || "";
@@ -460,7 +532,8 @@
     try {
       var d = JSON.parse(raw);
       fillFromDraftLike(d);
-      setDraftStatus("Utkast återställt");
+      setDraftStatus("Utkast återställt", "saved");
+      state.unsaved = false;
       updatePreview();
     } catch (e) { /* corrupt draft, ignore */ }
   }
@@ -479,6 +552,12 @@
     els.authorClearConfirm.hidden = true;
     els.authorSuccessBanner.hidden = true;
     els.authorEditBanner.hidden = true;
+    els.authorPublishError.hidden = true;
+    closeInlineImagePanel();
+    clearTimeout(autosaveTimer);
+    state.unsaved = false;
+    setDraftStatus("Inget utkast sparat", "idle");
+    updateWordCount();
     updatePreview();
   }
 
@@ -495,6 +574,52 @@
       else if (!els.authorImageAlt.value.trim()) errors.push("Bildbeskrivning (alt-text) krävs när en bild är vald.");
     }
     return errors;
+  }
+
+  // Put the keyboard focus on the field that the first validation message is about.
+  function focusFirstProblem(message) {
+    var target = els.authorTitle;
+    if (/Berättelsen är tom/.test(message)) target = els.postContent;
+    else if (/språkkod/.test(message)) target = els.authorLanguageOther;
+    else if (/alt-text/.test(message)) target = els.authorImageAlt;
+    else if (/Bildadressen/.test(message)) target = els.authorImageUrl;
+    switchTab("write");
+    target.focus();
+  }
+
+  function showPublishProblems(errors) {
+    els.authorPublishConfirm.hidden = true;
+    els.authorPublishError.textContent = "⚠ " + errors.join(" ");
+    els.authorPublishError.hidden = false;
+    focusFirstProblem(errors[0]);
+  }
+
+  function openPublishConfirm() {
+    var errors = validateForPublish();
+    if (errors.length) { showPublishProblems(errors); return; }
+    var isEdit = !!state.editingId;
+    var words = countWords(els.postContent.innerText || els.postContent.textContent);
+    var title = els.authorTitle.value.trim();
+    els.authorPublishConfirmText.textContent =
+      (isEdit ? "Uppdatera “" : "Publicera “") + title + "” (" + words + " ord)? " +
+      (isEdit ? "Ändringarna syns direkt på sajten." : "Berättelsen syns direkt på sajten.");
+    els.authorPublishYes.textContent = isEdit ? "Ja, uppdatera" : "Ja, publicera";
+    els.authorPublishError.hidden = true;
+    els.authorPublishConfirm.hidden = false;
+    els.authorPublishConfirmText.focus();
+  }
+
+  function closePublishConfirm(returnFocus) {
+    els.authorPublishConfirm.hidden = true;
+    if (returnFocus) els.authorPublishBtn.focus();
+  }
+
+  function showPreview() {
+    updatePreview();
+    switchTab("preview");
+    var target = window.matchMedia("(min-width: 900px)").matches ? els.authorPanelPreview : els.authorTabPreview;
+    if (target.scrollIntoView) target.scrollIntoView({ block: "nearest" });
+    if (!window.matchMedia("(min-width: 900px)").matches) els.authorTabPreview.focus();
   }
 
   function tryOpenStory(id, attempt) {
@@ -515,16 +640,20 @@
     els.authorSuccessText.textContent = message;
     els.authorSuccessBanner.hidden = false;
     els.authorViewStoryBtn.onclick = function () { tryOpenStory(id); };
+    if (els.authorSuccessBanner.scrollIntoView) els.authorSuccessBanner.scrollIntoView({ block: "nearest" });
+    els.authorViewStoryBtn.focus();
   }
 
   function doPublish() {
     var errors = validateForPublish();
     if (errors.length) {
       showToast(errors[0], "error");
-      els.authorPublishConfirm.hidden = true;
+      showPublishProblems(errors);
       return;
     }
     els.authorPublishYes.disabled = true;
+    els.authorPublishYes.textContent = "Sparar…";
+    els.authorPublishConfirm.setAttribute("aria-busy", "true");
     var isEdit = !!state.editingId;
     var post = {
       title: els.authorTitle.value.trim(),
@@ -545,16 +674,26 @@
     Promise.resolve(task)
       .then(function (result) {
         var id = isEdit ? state.editingId : result;
-        safeRemove(DRAFT_KEY);
-        showSuccessBanner(isEdit ? "Berättelsen har uppdaterats!" : "Berättelsen har publicerats!", id);
+        // Only a published *new* story consumes the draft; editing must leave a pending draft alone.
+        if (!isEdit) safeRemove(DRAFT_KEY);
         resetEditor();
+        if (isEdit) restoreDraftIfAny();
+        showSuccessBanner(isEdit ? "Berättelsen har uppdaterats!" : "Berättelsen har publicerats!", id);
       })
       .catch(function (e) {
         console.error("Publish error:", e);
+        // Nothing is cleared: the text stays in the editor and is also kept as a draft.
+        saveDraftNow();
         showToast("Ett fel uppstod. Försök igen.", "error");
+        els.authorPublishError.textContent = "⚠ Det gick inte att publicera just nu. Din text är kvar" +
+          (isEdit ? "" : " och sparad som utkast") + ". Kontrollera uppkopplingen och försök igen.";
+        els.authorPublishError.hidden = false;
+        if (els.authorPublishError.scrollIntoView) els.authorPublishError.scrollIntoView({ block: "nearest" });
+        els.authorPublishBtn.focus();
       })
       .finally(function () {
         els.authorPublishYes.disabled = false;
+        els.authorPublishConfirm.removeAttribute("aria-busy");
         els.authorPublishConfirm.hidden = true;
       });
   }
@@ -619,6 +758,81 @@
     els.authorTabPreview.setAttribute("aria-selected", String(!writeActive));
     els.authorPanelWrite.classList.toggle("is-active", writeActive);
     els.authorPanelPreview.classList.toggle("is-active", !writeActive);
+    els.authorTabWrite.tabIndex = writeActive ? 0 : -1;
+    els.authorTabPreview.tabIndex = writeActive ? -1 : 0;
+    if (!writeActive) updatePreview();
+  }
+
+  // ---- Inline image (by URL) ----
+  function isInlineImagePanelOpen() { return !els.authorInlineImagePanel.hidden; }
+
+  function rememberSelection() {
+    var sel = window.getSelection && window.getSelection();
+    if (sel && sel.rangeCount && els.postContent.contains(sel.anchorNode)) {
+      state.savedRange = sel.getRangeAt(0).cloneRange();
+    }
+  }
+
+  function openInlineImagePanel(prefillUrl) {
+    rememberSelection();
+    els.authorInlineImagePanel.hidden = false;
+    var btn = els.toolbar.querySelector('[data-cmd="image"]');
+    if (btn) btn.setAttribute("aria-expanded", "true");
+    els.authorInlineImageError.hidden = true;
+    if (prefillUrl) els.authorInlineImageUrl.value = prefillUrl;
+    (prefillUrl ? els.authorInlineImageAlt : els.authorInlineImageUrl).focus();
+  }
+
+  function closeInlineImagePanel(returnFocus) {
+    if (!els.authorInlineImagePanel || els.authorInlineImagePanel.hidden) return;
+    els.authorInlineImagePanel.hidden = true;
+    els.authorInlineImageUrl.value = "";
+    els.authorInlineImageAlt.value = "";
+    els.authorInlineImageError.hidden = true;
+    var btn = els.toolbar.querySelector('[data-cmd="image"]');
+    if (btn) btn.setAttribute("aria-expanded", "false");
+    if (returnFocus) (btn || els.postContent).focus();
+  }
+
+  function insertInlineImage() {
+    var url = els.authorInlineImageUrl.value.trim();
+    var alt = els.authorInlineImageAlt.value.trim();
+    var problem = "";
+    if (!url || !isSafeImageUrl(url)) problem = "Ange en bildadress som börjar med https://";
+    else if (!alt) problem = "Beskriv bilden med ord (alt-text) så att alla kan ta del av den.";
+    if (problem) {
+      els.authorInlineImageError.textContent = "⚠ " + problem;
+      els.authorInlineImageError.hidden = false;
+      (!url || !isSafeImageUrl(url) ? els.authorInlineImageUrl : els.authorInlineImageAlt).focus();
+      return;
+    }
+    els.postContent.focus();
+    if (state.savedRange) {
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(state.savedRange);
+    }
+    document.execCommand("insertHTML", false, '<img src="' + escapeHtml(url) + '" alt="' + escapeHtml(alt) + '">');
+    state.savedRange = null;
+    closeInlineImagePanel(false);
+    els.postContent.focus();
+    scheduleAutosave();
+    schedulePreview();
+  }
+
+  var IMAGE_URL_RE = /^https:\/\/\S+\.(?:png|jpe?g|gif|webp|avif|svg)(?:\?\S*)?$/i;
+
+  function refreshToolbarState() {
+    if (!els.toolbar) return;
+    ["bold", "italic"].forEach(function (cmd) {
+      var btn = els.toolbar.querySelector('[data-cmd="' + cmd + '"]');
+      var on = false;
+      try {
+        var sel = window.getSelection();
+        on = !!(sel && sel.anchorNode && els.postContent.contains(sel.anchorNode) && document.queryCommandState(cmd));
+      } catch (e) { on = false; }
+      if (btn) btn.setAttribute("aria-pressed", String(on));
+    });
   }
 
   function bindEvents() {
@@ -635,13 +849,43 @@
     els.postContent.addEventListener("input", function () { scheduleAutosave(); schedulePreview(); });
     els.postContent.addEventListener("paste", function (e) {
       e.preventDefault();
-      var text = (e.clipboardData || window.clipboardData).getData("text/plain");
+      var cd = e.clipboardData || window.clipboardData;
+      var files = cd && cd.files ? cd.files : [];
+      var text = cd.getData("text/plain");
+      if (!text && files.length && /^image\//.test(files[0].type)) {
+        // No Storage/upload on purpose: guide the writer to the URL route instead of silently dropping it.
+        showToast("Bilder kan inte klistras in som fil. Ange en bildadress i stället.", "info");
+        openInlineImagePanel();
+        return;
+      }
+      var trimmed = (text || "").trim();
+      if (IMAGE_URL_RE.test(trimmed)) {
+        // A pasted image address becomes an image (after the writer adds alt text), not a loose link.
+        openInlineImagePanel(trimmed);
+        return;
+      }
       document.execCommand("insertText", false, text);
     });
+    els.postContent.addEventListener("drop", function (e) {
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
+        e.preventDefault();
+        showToast("Bilder kan inte släppas in som fil. Ange en bildadress i stället.", "info");
+      }
+    });
+    els.postContent.addEventListener("keyup", refreshToolbarState);
+    els.postContent.addEventListener("mouseup", refreshToolbarState);
+    els.postContent.addEventListener("focus", refreshToolbarState);
+    els.postContent.addEventListener("blur", function () { saveDraftNow(); });
+    document.getElementById("authorContentLabel").addEventListener("click", function () { els.postContent.focus(); });
 
     els.toolbar.addEventListener("click", function (e) {
       var btn = e.target.closest("button[data-cmd]");
       if (!btn) return;
+      if (btn.dataset.cmd === "image") {
+        if (isInlineImagePanelOpen()) closeInlineImagePanel(true);
+        else openInlineImagePanel();
+        return;
+      }
       els.postContent.focus();
       switch (btn.dataset.cmd) {
         case "bold": document.execCommand("bold"); break;
@@ -652,8 +896,18 @@
         case "undo": document.execCommand("undo"); break;
         case "redo": document.execCommand("redo"); break;
       }
+      refreshToolbarState();
       scheduleAutosave();
       schedulePreview();
+    });
+
+    els.authorInlineImageInsert.addEventListener("click", insertInlineImage);
+    els.authorInlineImageCancel.addEventListener("click", function () { closeInlineImagePanel(true); });
+    [els.authorInlineImageUrl, els.authorInlineImageAlt].forEach(function (input) {
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") { e.preventDefault(); insertInlineImage(); }
+        else if (e.key === "Escape") { e.stopPropagation(); closeInlineImagePanel(true); }
+      });
     });
 
     els.authorImageOptions.addEventListener("click", function (e) {
@@ -704,32 +958,73 @@
       els.authorImportInput.value = "";
     });
 
-    els.authorClearDraftBtn.addEventListener("click", function () { els.authorClearConfirm.hidden = false; });
-    els.authorClearConfirmNo.addEventListener("click", function () { els.authorClearConfirm.hidden = true; });
+    els.authorClearDraftBtn.addEventListener("click", function () {
+      els.authorClearConfirm.hidden = false;
+      els.authorClearConfirmNo.focus();
+    });
+    els.authorClearConfirmNo.addEventListener("click", function () {
+      els.authorClearConfirm.hidden = true;
+      els.authorClearDraftBtn.focus();
+    });
     els.authorClearConfirmYes.addEventListener("click", function () {
       safeRemove(DRAFT_KEY);
       resetEditor();
-      setDraftStatus("Ej sparat");
       els.authorClearConfirm.hidden = true;
       showToast("Utkastet har rensats.", "success");
+      els.authorTitle.focus();
     });
 
-    els.authorPublishBtn.addEventListener("click", function () { els.authorPublishConfirm.hidden = false; });
-    els.authorPublishNo.addEventListener("click", function () { els.authorPublishConfirm.hidden = true; });
+    els.authorPublishBtn.addEventListener("click", openPublishConfirm);
+    els.authorPublishNo.addEventListener("click", function () { closePublishConfirm(true); });
     els.authorPublishYes.addEventListener("click", doPublish);
+    els.authorPublishPreview.addEventListener("click", function () { closePublishConfirm(false); showPreview(); });
+    els.authorPreviewBtn.addEventListener("click", showPreview);
+    els.authorPreviewBack.addEventListener("click", function () { switchTab("write"); els.postContent.focus(); });
 
-    els.authorCancelEditBtn.addEventListener("click", resetEditor);
+    els.authorCancelEditBtn.addEventListener("click", function () {
+      resetEditor();
+      restoreDraftIfAny(); // bring back the unpublished draft that was set aside while editing
+    });
 
     els.authorTabWrite.addEventListener("click", function () { switchTab("write"); });
     els.authorTabPreview.addEventListener("click", function () { switchTab("preview"); });
+    switchTab("write");
     [els.authorTabWrite, els.authorTabPreview].forEach(function (tab) {
       tab.addEventListener("keydown", function (e) {
-        if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+        var key = e.key;
+        if (key !== "ArrowLeft" && key !== "ArrowRight" && key !== "Home" && key !== "End") return;
         e.preventDefault();
-        var toPreview = document.activeElement === els.authorTabWrite;
+        var toPreview = key === "End" || (key !== "Home" && document.activeElement === els.authorTabWrite);
         switchTab(toPreview ? "preview" : "write");
         (toPreview ? els.authorTabPreview : els.authorTabWrite).focus();
       });
+    });
+
+    // Keyboard shortcuts while the writer is inside the editor section.
+    els.section.addEventListener("keydown", function (e) {
+      var mod = e.ctrlKey || e.metaKey;
+      if (e.key === "Escape") {
+        if (!els.authorPublishConfirm.hidden) { e.preventDefault(); closePublishConfirm(true); }
+        else if (!els.authorClearConfirm.hidden) { e.preventDefault(); els.authorClearConfirm.hidden = true; els.authorClearDraftBtn.focus(); }
+        else if (isInlineImagePanelOpen()) { e.preventDefault(); closeInlineImagePanel(true); }
+        return;
+      }
+      if (!mod || e.altKey) return;
+      var k = (e.key || "").toLowerCase();
+      if (k === "s") { e.preventDefault(); saveDraftNow({ explicit: true }); }
+      else if (k === "enter") { e.preventDefault(); openPublishConfirm(); } // only opens the question; never publishes
+    });
+
+    // Don't silently lose text that exists nowhere else.
+    window.addEventListener("beforeunload", function (e) {
+      if (!built || !state.unsaved) return;
+      var hasText = els.authorTitle.value.trim() || els.postContent.textContent.trim();
+      if (!hasText) return;
+      e.preventDefault();
+      e.returnValue = "";
+    });
+    document.addEventListener("selectionchange", function () {
+      if (document.activeElement === els.postContent) refreshToolbarState();
     });
   }
 
@@ -752,14 +1047,26 @@
       els.authorPublishBtn.textContent = "Uppdatera berättelsen";
       els.authorEditBanner.hidden = false;
       els.authorEditingTitle.textContent = post.title || "";
+      setDraftStatus("Redigerar publicerad berättelse", "idle");
     }
     updatePreview();
     var section = document.getElementById("authorSection");
-    if (section) section.scrollIntoView({ behavior: "smooth" });
-    if (els.authorSectionHeading) els.authorSectionHeading.focus();
+    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (section) section.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+    if (els.authorSectionHeading) els.authorSectionHeading.focus({ preventScroll: true });
   }
 
-  document.addEventListener("DOMContentLoaded", ensureBuilt);
+  /* Keep the sticky toolbar/preview just under the (sticky) site navigation, whatever its height. */
+  function syncNavHeight() {
+    var nav = document.querySelector(".site-nav");
+    if (nav) document.documentElement.style.setProperty("--site-nav-h", Math.ceil(nav.getBoundingClientRect().height) + "px");
+  }
+  window.addEventListener("resize", syncNavHeight);
+
+  document.addEventListener("DOMContentLoaded", function () {
+    ensureBuilt();
+    syncNavHeight();
+  });
 
   window.Author = { open: open };
 })();
