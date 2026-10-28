@@ -183,7 +183,7 @@
                 '<button type="button" data-cmd="italic" aria-label="Kursiv text" title="Kursiv (Ctrl+I)" aria-pressed="false"><em>Kursiv</em></button>' +
                 '<button type="button" data-cmd="h2" aria-label="Rubrik" title="Rubrik">Rubrik</button>' +
                 '<button type="button" data-cmd="quote" aria-label="Citat" title="Citat">Citat</button>' +
-                '<button type="button" data-cmd="list" aria-label="Punktlista" title="Lista">Lista</button>' +
+                '<button type="button" data-cmd="list" aria-label="Lista (punktlista)" title="Lista">Lista</button>' +
                 '<button type="button" data-cmd="image" aria-label="Infoga bild" title="Infoga bild från en adress" aria-expanded="false" aria-controls="authorInlineImagePanel">Bild</button>' +
                 '<button type="button" data-cmd="undo" aria-label="Ångra" title="Ångra (Ctrl+Z)">Ångra</button>' +
                 '<button type="button" data-cmd="redo" aria-label="Gör om" title="Gör om (Ctrl+Y)">Gör om</button>' +
