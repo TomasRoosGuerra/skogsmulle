@@ -115,6 +115,24 @@ function findExternalImages(html) {
   return [...hosts];
 }
 
+// Delningsbild: berättelsens egen bild (story.image eller första <img> i innehållet), annars standardbild.
+// Bara https-URL:er eller sajtrelativa sökvägar godtas; relativa görs absoluta mot BASE_URL.
+function pickShareImage(story) {
+  const fallback = `${SITE_CONFIG.BASE_URL}/share-image.jpg`;
+  const candidates = [];
+  if (story && typeof story.image === 'string') candidates.push(story.image.trim());
+  const m = String((story && story.content) || '').match(/<img\b[^>]*\bsrc\s*=\s*("|')([^"']+)\1/i);
+  if (m) candidates.push(m[2].trim());
+  for (const c of candidates) {
+    if (!c) continue;
+    if (/^https:\/\//i.test(c)) return c;
+    if (/^\/?[\w\-./]+\.(png|jpe?g|webp|avif|gif)$/i.test(c) && !c.startsWith('//')) {
+      return `${SITE_CONFIG.BASE_URL}/${c.replace(/^\//, '')}`;
+    }
+  }
+  return fallback;
+}
+
 // Generera HTML för en berättelsesida
 function generateStoryHTML(story) {
   const slug = story.slug || generateSlug(story.title) || 'berattelse';
@@ -125,7 +143,8 @@ function generateStoryHTML(story) {
   const ellipsis = plain.length > 150 ? '...' : '';
   const siteName = escapeHtml(SITE_CONFIG.SITE_NAME);
   const canonical = escapeHtml(`${SITE_CONFIG.BASE_URL}${storyUrl}`);
-  const image = escapeHtml(`${SITE_CONFIG.BASE_URL}/share-image.jpg`);
+  const image = escapeHtml(pickShareImage(story));
+  const description = `${excerpt}${ellipsis}`;
 
   return `<!DOCTYPE html>
 ${GENERATED_MARKER}
@@ -140,6 +159,12 @@ ${GENERATED_MARKER}
   <meta property="og:description" content="${excerpt}${ellipsis}" />
   <meta property="og:url" content="${canonical}" />
   <meta property="og:image" content="${image}" />
+  <meta property="og:site_name" content="${siteName}" />
+  <meta property="og:locale" content="sv_SE" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${title}" />
+  <meta name="twitter:description" content="${description}" />
+  <meta name="twitter:image" content="${image}" />
   <link rel="canonical" href="${canonical}" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <script src="/site-config.js"></script>
@@ -360,4 +385,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { generateStoryHTML, generateSlug, generateSitemap, assignSlugs, sanitizeContent, escapeHtml, findExternalImages, loadStoriesFromFixture, main };
+module.exports = { generateStoryHTML, pickShareImage, generateSlug, generateSitemap, assignSlugs, sanitizeContent, escapeHtml, findExternalImages, loadStoriesFromFixture, main };

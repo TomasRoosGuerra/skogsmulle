@@ -65,6 +65,15 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <meta name="theme-color" content="#FBF5E2" />
 
+    <!-- Prestanda: tidiga anslutningar till värdar som redan används (CSP tillåter dem) -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
+    <link rel="dns-prefetch" href="https://identitytoolkit.googleapis.com" />
+    <!-- LCP-bilden (hero) laddas tidigt -->
+    <link rel="preload" as="image" href="assets/images/hero/hero-kust-mobil-crop.webp" media="(max-width: 600px)" fetchpriority="high" />
+    <link rel="preload" as="image" imagesrcset="assets/images/hero/hero-kust-480.webp 480w, assets/images/hero/hero-kust-768.webp 768w, assets/images/hero/hero-kust-1280.webp 1280w" imagesizes="100vw" media="(min-width: 601px)" fetchpriority="high" />
+
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json" id="schemaWebSite">
       {
@@ -92,7 +101,7 @@
     <script src="site-config.js"></script>
     
     <!-- DOMPurify för säker innehållsrengöring -->
-    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js" integrity="sha384-cwS6YdhLI7XS60eoDiC+egV0qHp8zI+Cms46R0nbn8JrmoAzV9uFL60etMZhAnSu" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js" integrity="sha384-cwS6YdhLI7XS60eoDiC+egV0qHp8zI+Cms46R0nbn8JrmoAzV9uFL60etMZhAnSu" crossorigin="anonymous"></script>
 
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
@@ -1123,6 +1132,8 @@
         <source
           media="(max-width: 600px)"
           srcset="assets/images/hero/hero-kust-mobil-crop.webp"
+          width="547"
+          height="684"
         />
         <source
           srcset="
@@ -1138,6 +1149,7 @@
           width="1280"
           height="720"
           fetchpriority="high"
+          decoding="async"
           class="hero-img"
         />
       </picture>
@@ -1557,7 +1569,7 @@
         const c = document.getElementById("posts-container");
 
         if (allPosts.length === 0) {
-          c.innerHTML = '<div class="empty-state" role="status"><img class="empty-state-icon" src="' + getIconDir() + 'ikon-svamp.webp" alt="" width="96" height="96" /><p>Här kommer det snart berättelser.</p></div>';
+          c.innerHTML = '<div class="empty-state" role="status"><img class="empty-state-icon" src="' + getIconDir() + 'ikon-svamp.webp" alt="" width="96" height="96" loading="lazy" decoding="async" /><p>Här kommer det snart berättelser.</p></div>';
           return;
         }
 
@@ -1569,7 +1581,7 @@
           : allPosts;
 
         if (visiblePosts.length === 0) {
-          c.innerHTML = '<div class="empty-state" role="status"><img class="empty-state-icon" src="' + getIconDir() + 'ikon-svamp.webp" alt="" width="96" height="96" /><p>Inga berättelser i det här ämnet ännu.</p><button type="button" class="btn empty-state-reset" id="emptyStateReset">Visa alla berättelser</button></div>';
+          c.innerHTML = '<div class="empty-state" role="status"><img class="empty-state-icon" src="' + getIconDir() + 'ikon-svamp.webp" alt="" width="96" height="96" loading="lazy" decoding="async" /><p>Inga berättelser i det här ämnet ännu.</p><button type="button" class="btn empty-state-reset" id="emptyStateReset">Visa alla berättelser</button></div>';
           const resetBtn = document.getElementById('emptyStateReset');
           if (resetBtn) resetBtn.addEventListener('click', function () {
             const all = document.querySelector('.topic-chip[data-category=""]');
@@ -1597,7 +1609,7 @@
               role="button">
               <div class="story-card-accent"></div>
               <div class="story-card-body">
-                <img class="story-card-icon" alt="" width="64" height="64" loading="lazy" src="${escapeHtml(iconSrc)}" />
+                <img class="story-card-icon" alt="" width="64" height="64" loading="lazy" decoding="async" src="${escapeHtml(iconSrc)}" />
                 <div class="story-card-badges">
                   ${p.category ? `<span class="badge badge-category">${escapeHtml(p.category)}</span>` : ''}
                   ${p.age ? `<span class="badge badge-age">${escapeHtml(p.age)}</span>` : ''}
@@ -1637,7 +1649,7 @@
             const icon = categoryIcons[category];
             const label = category.charAt(0).toUpperCase() + category.slice(1);
             return `<button type="button" class="topic-chip" aria-pressed="false" data-category="${escapeHtml(category)}">
-              <img src="${escapeHtml(iconDir + icon + '.webp')}" alt="" width="56" height="56" loading="lazy" />
+              <img src="${escapeHtml(iconDir + icon + '.webp')}" alt="" width="56" height="56" loading="lazy" decoding="async" />
               <span>${escapeHtml(label)}</span>
             </button>`;
           })
