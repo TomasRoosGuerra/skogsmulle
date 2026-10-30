@@ -1578,6 +1578,13 @@
         return cfg.ICON_DIR || 'assets/images/icons/';
       }
 
+      // Berättelserna som listan visar just nu (respekterar aktivt ämnesfilter).
+      function getVisiblePosts() {
+        return selectedCategory
+          ? allPosts.filter((p) => (p.category || '').toLowerCase() === selectedCategory)
+          : allPosts;
+      }
+
       function renderAllPosts() {
         const c = document.getElementById("posts-container");
 
@@ -1589,9 +1596,7 @@
         // Sort allPosts itself (not a copy) so card index always matches allPosts index
         allPosts.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
-        const visiblePosts = selectedCategory
-          ? allPosts.filter((p) => (p.category || '').toLowerCase() === selectedCategory)
-          : allPosts;
+        const visiblePosts = getVisiblePosts();
 
         if (visiblePosts.length === 0) {
           c.innerHTML = '<div class="empty-state" role="status"><img class="empty-state-icon" src="' + getIconDir() + 'ikon-svamp.webp" alt="" width="96" height="96" loading="lazy" decoding="async" /><p>Inga berättelser i det här ämnet ännu.</p><button type="button" class="btn empty-state-reset" id="emptyStateReset">Visa alla berättelser</button></div>';
@@ -2131,7 +2136,7 @@
         const back = document.getElementById("storyNavBack");
         if (!prev || !next || !back) return;
         const wire = (btn, titleId, i) => {
-          const s = allPosts[i];
+          const s = i >= 0 ? allPosts[i] : null;
           btn.hidden = !s;
           const t = document.getElementById(titleId);
           if (t) t.textContent = s ? (s.title || "Namnlös berättelse") : "";
@@ -2151,8 +2156,14 @@
             if (title) { title.setAttribute("tabindex", "-1"); title.focus({ preventScroll: true }); }
           } : null;
         };
-        wire(prev, "storyNavPrevTitle", index - 1);
-        wire(next, "storyNavNextTitle", index + 1);
+        // Följ det aktiva filtret; om berättelsen inte ingår i det (t.ex. direktlänk) används hela listan.
+        const visible = getVisiblePosts();
+        const pos = visible.indexOf(allPosts[index]);
+        const list = pos === -1 ? allPosts : visible;
+        const at = pos === -1 ? index : pos;
+        const idxOf = (k) => (k >= 0 && k < list.length ? allPosts.indexOf(list[k]) : -1);
+        wire(prev, "storyNavPrevTitle", idxOf(at - 1));
+        wire(next, "storyNavNextTitle", idxOf(at + 1));
         back.onclick = () => {
           closeStoryModal();
           const list = document.getElementById("stories") || document.querySelector(".stories-section, main");

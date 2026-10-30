@@ -14,7 +14,8 @@ const MOCK = (withSv) => {
     speaking: false, paused: false,
     getVoices: () => voices,
     speak(u) { log.spoken.push(u.text); log.utter.push({ rate: u.rate, lang: u.lang, voice: u.voice && u.voice.name }); log.current = u; },
-    cancel() { log.cancel++; log.current = null; },
+    cancel() { log.cancel++; const u = log.current; log.current = null; if (u && u.onerror) u.onerror({ error: 'interrupted' }); },
+    // Som Chrome Android: pause/resume gör ingenting.
     pause() { log.pause++; }, resume() { log.resume++; },
     addEventListener() {}, removeEventListener() {},
   };
@@ -49,15 +50,18 @@ const MOCK = (withSv) => {
   ok('rate 0,9 och sv-SE-röst', s.utter[0].rate === 0.9 && s.utter[0].voice === 'Alva' && /^sv/.test(s.utter[0].lang), JSON.stringify(s.utter[0]));
   await p.evaluate(() => window.__finish());
   ok('första stycket markeras', (await p.locator('#storyModalBody p.reader-reading').count()) === 1);
-  ok('knappen visar Pausa och Stoppa syns', /Pausa/.test(await btn.textContent()) && await stop.isVisible());
+  const beforePause = await p.evaluate(() => ({ n: window.__ss.spoken.length, last: window.__ss.spoken[window.__ss.spoken.length - 1], c: window.__ss.cancel }));
   await btn.click();
   s = await p.evaluate(() => window.__ss);
-  ok('Pausa anropar speechSynthesis.pause()', s.pause === 1 && /Fortsätt/.test(await btn.textContent()));
+  ok('Pausa = cancel (inte trasiga pause())', s.cancel > beforePause.c && s.pause === 0 && /Fortsätt/.test(await btn.textContent()));
+  ok('markeringen ligger kvar under paus', (await p.locator('#storyModalBody p.reader-reading').count()) === 1);
+  await p.evaluate(() => window.__finish()); await p.waitForTimeout(50);
+  ok('inget läses under paus', (await p.evaluate(() => window.__ss.spoken.length)) === beforePause.n);
   await btn.click();
   s = await p.evaluate(() => window.__ss);
-  ok('Fortsätt anropar resume()', s.resume === 1 && /Pausa/.test(await btn.textContent()));
+  ok('Fortsätt startar om från samma bit (utan resume())', s.resume === 0 && s.spoken.length === beforePause.n + 1 && s.spoken[s.spoken.length - 1] === beforePause.last && /Pausa/.test(await btn.textContent()));
   await p.evaluate(() => window.__finish());
-  ok('går vidare till nästa stycke', (await p.evaluate(() => window.__ss.spoken.length)) === 3);
+  ok('går vidare till nästa bit efter Fortsätt', (await p.evaluate(() => window.__ss.spoken.length)) === beforePause.n + 2);
   const c0 = await p.evaluate(() => window.__ss.cancel);
   await stop.click();
   ok('Stoppa avbryter, tar bort markering och återställer knappen', (await p.evaluate(() => window.__ss.cancel)) > c0 && (await p.locator('#storyModalBody p.reader-reading').count()) === 0 && /Läs högt/.test(await btn.textContent()) && !(await stop.isVisible()));
@@ -96,6 +100,46 @@ const MOCK = (withSv) => {
   await back.click(); await p.waitForTimeout(300);
   ok('Tillbaka till alla berättelser stänger läsvyn', !(await p.locator('#storyModal.show').count()) && !/#story-/.test(await p.evaluate(() => location.hash)));
   ok('admin-knappar dolda för besökare', await p.evaluate(() => { const a = document.getElementById('storyModalAdminActions'); return !a || getComputedStyle(a).display === 'none'; }));
+
+  // ---- Långa stycken delas i meningar (Chrome klipper ~15 s)
+  await openStory(p, 0);
+  await p.evaluate(() => {
+    const b = document.getElementById('storyModalBody');
+    b.innerHTML = '<p>Första meningen är kort. Andra meningen är också ganska kort! Är detta den tredje?</p><p>' +
+      'Ord '.repeat(120) + 'slut.</p>';
+  });
+  const n0 = await p.evaluate(() => window.__ss.spoken.length);
+  await btn.click();
+  for (let k = 0; k < 12; k++) await p.evaluate(() => window.__finish());
+  const sp = await p.evaluate((k) => window.__ss.spoken.slice(k), n0);
+  const ti = (await p.textContent('#storyModalTitle')).trim();
+  const body = sp.filter(t => t !== ti);
+  ok('stycke delas i meningar', body[0] === 'Första meningen är kort.' && body[1] === 'Andra meningen är också ganska kort!' && body[2] === 'Är detta den tredje?', JSON.stringify(body.slice(0, 3)));
+  ok('lång mening delas i bitar ≤160 tecken', body.length >= 6 && body.slice(3).every(t => t.length <= 161), body.slice(3).map(t => t.length).join(','));
+  ok('ingen text tappas vid delning', body.slice(3).join(' ').replace(/\s+/g, ' ') === ('Ord '.repeat(120) + 'slut.').trim());
+  await p.keyboard.press('Escape'); await p.waitForTimeout(200);
+
+  // ---- Föregående/Nästa följer aktivt ämnesfilter
+  const cats = await p.evaluate(() => { const m = {}; document.querySelectorAll('.story-card .badge-category').forEach(e => { const k = e.textContent.trim().toLowerCase(); m[k] = (m[k] || 0) + 1; }); return m; });
+  const chips = await p.evaluate(() => [...document.querySelectorAll('.topic-chip[data-category]')].map(c => c.dataset.category).filter(Boolean));
+  const cat = chips.filter(c => cats[c]).sort((a, b2) => cats[b2] - cats[a])[0];
+  if (cat) {
+    await p.locator(`.topic-chip[data-category="${cat}"]`).click(); await p.waitForTimeout(300);
+    const vis = await p.$$eval('.story-card .story-card-title', e => e.map(x => x.textContent.trim()));
+    ok(`filter "${cat}" visar färre kort`, vis.length >= 1 && vis.length < cards, `${vis.length}/${cards}`);
+    await openStory(p, 0);
+    ok('filtrerat: ingen Föregående på första', !(await prev.isVisible()));
+    if (vis.length > 1) {
+      ok('filtrerat: Nästa = nästa kort i filtret', await next.isVisible() && (await p.textContent('#storyNavNextTitle')) === vis[1], `${await p.textContent('#storyNavNextTitle')} vs ${vis[1]}`);
+      await next.click(); await p.waitForTimeout(300);
+      ok('filtrerat: Nästa öppnar rätt berättelse', (await p.textContent('#storyModalTitle')).trim() === vis[1]);
+    }
+    await p.keyboard.press('Escape'); await p.waitForTimeout(200);
+    await openStory(p, vis.length - 1);
+    ok('filtrerat: ingen Nästa på sista', !(await next.isVisible()));
+    await p.keyboard.press('Escape'); await p.waitForTimeout(200);
+    await p.locator('.topic-chip[data-category=""]').click(); await p.waitForTimeout(300);
+  } else ok('det finns ett ämne att filtrera på', false, JSON.stringify(cats));
 
   // ---- A+/A− sparas
   await openStory(p, 0);

@@ -15,6 +15,8 @@
     speaking: false,
     paused: false,
     runId: 0,
+    chunks: [],
+    pos: 0,
     music: false,
     audio: null,
     paragraphs: [],
@@ -146,66 +148,116 @@
     }
   }
 
+  // Chrome klipper långa yttranden (~15 s): dela i meningar och längre meningar vid komma/mellanslag.
+  var MAX_CHUNK = 160;
+  function splitText(text) {
+    text = String(text || "").replace(/\s+/g, " ").trim();
+    if (!text) return [];
+    var sentences = text.match(/[^.!?…]+(?:[.!?…]+["”’»)]*|$)/g) || [text];
+    var out = [];
+    sentences.forEach(function (sen) {
+      sen = sen.trim();
+      while (sen.length > MAX_CHUNK) {
+        var cut = sen.lastIndexOf(", ", MAX_CHUNK);
+        if (cut < MAX_CHUNK / 3) cut = sen.lastIndexOf(" ", MAX_CHUNK);
+        if (cut < 1) cut = MAX_CHUNK;
+        out.push(sen.slice(0, cut + 1).trim());
+        sen = sen.slice(cut + 1).trim();
+      }
+      if (sen) out.push(sen);
+    });
+    return out;
+  }
+
+  function buildChunks(refs) {
+    var chunks = [];
+    var titleEl = document.getElementById("storyModalTitle");
+    splitText(titleEl && titleEl.textContent).forEach(function (t) {
+      chunks.push({ p: null, text: t });
+    });
+    var paragraphs = Array.prototype.slice.call(refs.body.querySelectorAll("p"))
+      .filter(function (p) { return !p.closest(".reader-end") && p.textContent.trim(); });
+    state.paragraphs = paragraphs;
+    paragraphs.forEach(function (p) {
+      splitText(p.textContent).forEach(function (t) {
+        chunks.push({ p: p, text: t });
+      });
+    });
+    return chunks;
+  }
+
   function stopSpeech() {
     var wasActive = state.speaking;
     state.speaking = false;
     state.paused = false;
+    state.runId++;
+    state.chunks = [];
+    state.pos = 0;
     if (window.speechSynthesis) window.speechSynthesis.cancel();
     if (wasActive) setStatus("Uppläsning stoppad");
     clearHighlight();
     resetSpeechButton();
   }
 
-  function startSpeech(refs) {
-    if (!window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
-
-    var paragraphs = Array.prototype.slice.call(refs.body.querySelectorAll("p"))
-      .filter(function (p) { return !p.closest(".reader-end") && p.textContent.trim(); });
-    state.paragraphs = paragraphs;
+  // Läser från state.pos. Paus = cancel + spara position; Fortsätt = starta om från samma bit.
+  // Det fungerar även där speechSynthesis.pause/resume är trasigt (t.ex. Chrome Android).
+  function speakFrom() {
+    var ss = window.speechSynthesis;
+    if (!ss) return;
+    var runId = ++state.runId;
+    ss.cancel();
     var lang = resolveLang(state.currentStory);
     var voice = pickVoice(lang);
-    var queue = paragraphs.slice();
-    var runId = (state.runId = (state.runId || 0) + 1);
+    var lastP = null;
 
-    state.speaking = true;
-    state.paused = false;
-    renderSpeechUi();
-    setStatus("Läser högt");
-
-    function speakOne(text, onDone) {
-      var utter = new SpeechSynthesisUtterance(text);
-      utter.lang = voice && voice.lang ? voice.lang : lang;
-      if (voice) utter.voice = voice;
-      utter.rate = SPEECH_RATE;
-      utter.pitch = 1;
-      var done = function () { if (runId === state.runId) onDone(); };
-      utter.onend = done;
-      utter.onerror = done;
-      window.speechSynthesis.speak(utter);
-    }
-
-    function speakNext() {
-      clearHighlight();
-      if (!state.speaking) return;
-      if (queue.length === 0) {
+    function next() {
+      if (runId !== state.runId || !state.speaking || state.paused) return;
+      if (state.pos >= state.chunks.length) {
         state.speaking = false;
+        clearHighlight();
         resetSpeechButton();
         setStatus("Slut på berättelsen");
         return;
       }
-      var p = queue.shift();
-      p.classList.add("reader-reading");
-      p.scrollIntoView({ behavior: reduceMotion() ? "auto" : "smooth", block: "center" });
-      speakOne(p.textContent, speakNext);
+      var chunk = state.chunks[state.pos];
+      if (chunk.p !== lastP) {
+        clearHighlight();
+        if (chunk.p) {
+          chunk.p.classList.add("reader-reading");
+          chunk.p.scrollIntoView({ behavior: reduceMotion() ? "auto" : "smooth", block: "center" });
+        }
+        lastP = chunk.p;
+      }
+      var utter = new SpeechSynthesisUtterance(chunk.text);
+      utter.lang = voice && voice.lang ? voice.lang : lang;
+      if (voice) utter.voice = voice;
+      utter.rate = SPEECH_RATE;
+      utter.pitch = 1;
+      var done = function () {
+        if (runId !== state.runId) return;
+        state.pos++;
+        next();
+      };
+      utter.onend = done;
+      utter.onerror = function (e) {
+        // "interrupted"/"canceled" kommer från vår egen cancel: gå inte vidare.
+        if (e && (e.error === "interrupted" || e.error === "canceled")) return;
+        done();
+      };
+      ss.speak(utter);
     }
+    next();
+  }
 
-    var titleEl = document.getElementById("storyModalTitle");
-    if (titleEl && titleEl.textContent) {
-      speakOne(titleEl.textContent, speakNext);
-    } else {
-      speakNext();
-    }
+  function startSpeech(refs) {
+    if (!window.speechSynthesis) return;
+    state.chunks = buildChunks(refs);
+    state.pos = 0;
+    state.speaking = true;
+    state.paused = false;
+    renderSpeechUi();
+    setStatus("Läser högt");
+    speakFrom();
   }
 
   function toggleSpeech(refs) {
@@ -214,14 +266,15 @@
       startSpeech(refs);
     } else if (!state.paused) {
       state.paused = true;
-      if (ss) ss.pause();
+      state.runId++;
+      if (ss) ss.cancel();
       renderSpeechUi();
       setStatus("Pausad");
     } else {
       state.paused = false;
-      if (ss) ss.resume();
       renderSpeechUi();
       setStatus("Läser högt");
+      speakFrom();
     }
   }
 
