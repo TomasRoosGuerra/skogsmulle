@@ -19,6 +19,8 @@ function ratio(a, b) { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); re
     const tag = pn;
     const ctx = await b.newContext(prof); const p = await ctx.newPage(); const errs = [];
     await p.route(/firestore\.googleapis\.com\/.*\/Write\//, r => r.abort());
+    // Testar speechSynthesis-vägen: inget inspelat ljud här (mp3-vägen testas i e2e-read-aloud).
+    await p.route(/\/audio\//, r => r.fulfill({ status: 200, contentType: "application/json", body: "{}" }));
     p.on('console', m => { if (m.type() === 'error') errs.push(m.text().slice(0, 200)); });
     p.on('pageerror', e => errs.push('PAGEERR ' + e.message.slice(0, 200)));
     p.on('requestfailed', r => { if (!/google|gstatic|firebase|ORB/.test(r.url() + (r.failure() || {}).errorText)) errs.push('REQFAIL ' + r.url().slice(-80)); });

@@ -1,0 +1,105 @@
+{
+  "id": "5RqJfnE9eEfOy47NBUmS",
+  "slug": "flytt-till-bjornen-och-saknad",
+  "title": "Flytt till Björnen och Saknad",
+  "voice": "sv-SE-SofieNeural",
+  "hash": "1a4cc8c8",
+  "count": 19,
+  "chunks": [
+    {
+      "n": 0,
+      "h": "a94de287b00b",
+      "bytes": 12908
+    },
+    {
+      "n": 1,
+      "h": "d1b67178e07f",
+      "bytes": 14828
+    },
+    {
+      "n": 2,
+      "h": "e702d7a6b0a8",
+      "bytes": 25676
+    },
+    {
+      "n": 3,
+      "h": "ecf12912d3c2",
+      "bytes": 24332
+    },
+    {
+      "n": 4,
+      "h": "2a13bb46b49a",
+      "bytes": 17708
+    },
+    {
+      "n": 5,
+      "h": "4f8ad1566187",
+      "bytes": 15020
+    },
+    {
+      "n": 6,
+      "h": "c9dc6f52ed40",
+      "bytes": 14636
+    },
+    {
+      "n": 7,
+      "h": "a728a4366240",
+      "bytes": 23756
+    },
+    {
+      "n": 8,
+      "h": "5105226c9ddf",
+      "bytes": 18188
+    },
+    {
+      "n": 9,
+      "h": "93a6f658f9c5",
+      "bytes": 9644
+    },
+    {
+      "n": 10,
+      "h": "80dbff48c91f",
+      "bytes": 10220
+    },
+    {
+      "n": 11,
+      "h": "d5c634904d86",
+      "bytes": 24524
+    },
+    {
+      "n": 12,
+      "h": "f1a82d19da87",
+      "bytes": 15500
+    },
+    {
+      "n": 13,
+      "h": "6339d1a15df2",
+      "bytes": 24428
+    },
+    {
+      "n": 14,
+      "h": "7c79e745cee7",
+      "bytes": 21548
+    },
+    {
+      "n": 15,
+      "h": "79e7db9647ba",
+      "bytes": 20396
+    },
+    {
+      "n": 16,
+      "h": "d0f6b9c9b897",
+      "bytes": 17036
+    },
+    {
+      "n": 17,
+      "h": "09f059b2d49f",
+      "bytes": 24908
+    },
+    {
+      "n": 18,
+      "h": "f4583a5252b6",
+      "bytes": 15596
+    }
+  ]
+}
