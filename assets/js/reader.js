@@ -13,6 +13,8 @@
     sizeIndex: DEFAULT_SIZE_INDEX,
     spacing: false,
     speaking: false,
+    paused: false,
+    runId: 0,
     music: false,
     audio: null,
     paragraphs: [],
@@ -103,16 +105,53 @@
     return null;
   }
 
-  function resetSpeechButton() {
+  var SPEECH_RATE = 0.9;
+
+  function setSpeechLabel(btn, icon, text) {
+    btn.textContent = "";
+    var i = document.createElement("span");
+    i.className = "reader-speech-icon";
+    i.setAttribute("aria-hidden", "true");
+    i.textContent = icon;
+    btn.appendChild(i);
+    btn.appendChild(document.createTextNode(" " + text));
+  }
+
+  function renderSpeechUi() {
     if (!els.speechBtn) return;
-    els.speechBtn.setAttribute("aria-pressed", "false");
-    els.speechBtn.textContent = "Läs högt";
+    var active = state.speaking;
+    if (!active) setSpeechLabel(els.speechBtn, "▶", "Läs högt");
+    else if (state.paused) setSpeechLabel(els.speechBtn, "▶", "Fortsätt");
+    else setSpeechLabel(els.speechBtn, "⏸", "Pausa");
+    els.speechBtn.setAttribute("aria-pressed", String(active && !state.paused));
+    if (els.speechStopBtn) els.speechStopBtn.hidden = !active;
+  }
+
+  function resetSpeechButton() {
+    state.paused = false;
+    renderSpeechUi();
+  }
+
+  function updateVoiceNote() {
+    if (!els.voiceNote) return;
+    var lang = resolveLang(state.currentStory);
+    var voices = window.speechSynthesis ? window.speechSynthesis.getVoices() || [] : [];
+    // Om listan är tom har webbläsaren kanske inte laddat rösterna ännu: säg inget då.
+    var missing = voices.length > 0 && !pickVoice(lang);
+    els.voiceNote.hidden = !missing;
+    if (missing) {
+      els.voiceNote.textContent = /^sv/.test(lang)
+        ? "Den här enheten har ingen svensk röst, så uppläsningen kan låta lite annorlunda."
+        : "Den här enheten saknar en röst för berättelsens språk, så uppläsningen kan låta lite annorlunda.";
+    }
   }
 
   function stopSpeech() {
-    if (window.speechSynthesis) window.speechSynthesis.cancel();
-    if (state.speaking) setStatus("Uppläsning stoppad");
+    var wasActive = state.speaking;
     state.speaking = false;
+    state.paused = false;
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    if (wasActive) setStatus("Uppläsning stoppad");
     clearHighlight();
     resetSpeechButton();
   }
@@ -121,23 +160,28 @@
     if (!window.speechSynthesis) return;
     window.speechSynthesis.cancel();
 
-    var paragraphs = Array.prototype.slice.call(refs.body.querySelectorAll("p"));
+    var paragraphs = Array.prototype.slice.call(refs.body.querySelectorAll("p"))
+      .filter(function (p) { return !p.closest(".reader-end") && p.textContent.trim(); });
     state.paragraphs = paragraphs;
     var lang = resolveLang(state.currentStory);
     var voice = pickVoice(lang);
     var queue = paragraphs.slice();
+    var runId = (state.runId = (state.runId || 0) + 1);
 
     state.speaking = true;
-    els.speechBtn.setAttribute("aria-pressed", "true");
-    els.speechBtn.textContent = "Stoppa";
+    state.paused = false;
+    renderSpeechUi();
     setStatus("Läser högt");
 
     function speakOne(text, onDone) {
       var utter = new SpeechSynthesisUtterance(text);
-      utter.lang = lang;
+      utter.lang = voice && voice.lang ? voice.lang : lang;
       if (voice) utter.voice = voice;
-      utter.onend = onDone;
-      utter.onerror = onDone;
+      utter.rate = SPEECH_RATE;
+      utter.pitch = 1;
+      var done = function () { if (runId === state.runId) onDone(); };
+      utter.onend = done;
+      utter.onerror = done;
       window.speechSynthesis.speak(utter);
     }
 
@@ -147,7 +191,7 @@
       if (queue.length === 0) {
         state.speaking = false;
         resetSpeechButton();
-        setStatus("Uppläsning stoppad");
+        setStatus("Slut på berättelsen");
         return;
       }
       var p = queue.shift();
@@ -165,11 +209,19 @@
   }
 
   function toggleSpeech(refs) {
-    if (state.speaking) {
-      stopSpeech();
-      setStatus("Uppläsning stoppad");
-    } else {
+    var ss = window.speechSynthesis;
+    if (!state.speaking) {
       startSpeech(refs);
+    } else if (!state.paused) {
+      state.paused = true;
+      if (ss) ss.pause();
+      renderSpeechUi();
+      setStatus("Pausad");
+    } else {
+      state.paused = false;
+      if (ss) ss.resume();
+      renderSpeechUi();
+      setStatus("Läser högt");
     }
   }
 
@@ -244,13 +296,36 @@
     toolbar.appendChild(spacingBtn);
     els.spacingBtn = spacingBtn;
 
-    if (window.speechSynthesis) {
+    if (window.speechSynthesis && typeof window.SpeechSynthesisUtterance === "function") {
+      var speechGroup = document.createElement("div");
+      speechGroup.className = "reader-speech";
       var speechBtn = makeButton("Läs högt", null, true);
+      speechBtn.classList.add("reader-btn-speech");
       speechBtn.addEventListener("click", function () {
         toggleSpeech(refs);
       });
-      toolbar.appendChild(speechBtn);
+      var stopBtn = makeButton("", null, false);
+      stopBtn.classList.add("reader-btn-stop");
+      setSpeechLabel(stopBtn, "■", "Stoppa");
+      stopBtn.hidden = true;
+      stopBtn.addEventListener("click", function () {
+        stopSpeech();
+        speechBtn.focus();
+      });
+      speechGroup.appendChild(speechBtn);
+      speechGroup.appendChild(stopBtn);
+      var note = document.createElement("p");
+      note.className = "reader-voice-note";
+      note.hidden = true;
+      speechGroup.appendChild(note);
+      refs.dialog.insertBefore(speechGroup, refs.body);
       els.speechBtn = speechBtn;
+      els.speechStopBtn = stopBtn;
+      els.voiceNote = note;
+      renderSpeechUi();
+      if (typeof window.speechSynthesis.addEventListener === "function") {
+        window.speechSynthesis.addEventListener("voiceschanged", updateVoiceNote);
+      }
     }
 
     var musicBtn = makeButton("Spela mysig musik", null, true);
@@ -264,7 +339,8 @@
     toolbar.appendChild(status);
     els.status = status;
 
-    refs.dialog.insertBefore(toolbar, refs.body);
+    var speechEl = refs.dialog.querySelector(".reader-speech");
+    refs.dialog.insertBefore(toolbar, speechEl || refs.body);
     return toolbar;
   }
 
@@ -371,6 +447,7 @@
     ensureProgressBar(refs.dialog);
     attachScrollListener(refs.dialog);
     restorePrefs(refs);
+    updateVoiceNote();
     updateProgress(refs.dialog);
 
     appendEndOrnament(refs.body);
@@ -389,6 +466,9 @@
       stopSpeech();
       pauseMusic();
     }
+  });
+  window.addEventListener("hashchange", function () {
+    if (state.speaking && !/^#story-/.test(window.location.hash)) stopSpeech();
   });
   window.addEventListener("pagehide", function () {
     stopSpeech();

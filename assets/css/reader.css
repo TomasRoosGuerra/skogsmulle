@@ -161,3 +161,105 @@
     gap: var(--sp-xs, 0.5rem);
   }
 }
+
+/* ----- Läs högt: stor och tydlig (barn 3–6 som inte läser själva) ----- */
+.reader-speech {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-sm, 0.75rem);
+  margin-bottom: var(--sp-md, 1rem);
+}
+.reader-btn.reader-btn-speech {
+  min-height: 56px;
+  padding: 12px 24px;
+  font-size: 1.25rem;
+  background: var(--accent, #A94A05);
+  border-color: var(--accent, #A94A05);
+  color: #fff;
+  border-radius: 999px;
+}
+.reader-btn.reader-btn-speech[aria-pressed="true"] {
+  background: #7d3604;
+  border-color: #7d3604;
+}
+.reader-btn.reader-btn-stop {
+  min-height: 56px;
+  padding: 12px 20px;
+  font-size: 1.125rem;
+  border-radius: 999px;
+}
+.reader-btn[hidden] { display: none; }
+.reader-speech-icon { display: inline-block; min-width: 1em; }
+.reader-voice-note {
+  flex: 1 0 100%;
+  margin: 0;
+  font-size: var(--font-size-sm, 0.9rem);
+  color: var(--ink-muted, #5C5210);
+}
+.reader-voice-note[hidden] { display: none; }
+.reader-btn:focus-visible,
+.story-nav-btn:focus-visible {
+  outline: 3px solid var(--accent, #A94A05);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  #storyModalBody p.reader-reading {
+    transition: background-color 0.3s ease;
+  }
+}
+
+/* ----- Föregående / Nästa / Tillbaka ----- */
+.story-nav {
+  margin-top: var(--sp-xl, 2rem);
+  padding-top: var(--sp-lg, 1.25rem);
+  border-top: 1px dashed var(--br, #E7DCAE);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm, 0.75rem);
+}
+.story-nav-row {
+  display: flex;
+  gap: var(--sp-sm, 0.75rem);
+}
+.story-nav-btn {
+  flex: 1 1 0;
+  min-height: 56px;
+  min-width: 44px;
+  padding: 12px 16px;
+  background: var(--cream, #FBF5E2);
+  color: var(--ink, #3A3306);
+  border: 2px solid var(--br, #E7DCAE);
+  border-radius: var(--r, 12px);
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  line-height: 1.3;
+  cursor: pointer;
+  text-align: left;
+}
+.story-nav-btn[hidden] { display: none; }
+.story-nav-next { text-align: right; margin-left: auto; }
+.story-nav-title {
+  display: block;
+  font-family: var(--font-body, inherit);
+  font-size: 0.9375rem;
+  color: var(--ink-muted, #5C5210);
+  overflow-wrap: anywhere;
+}
+.story-nav-back {
+  text-align: center;
+  background: var(--accent, #A94A05);
+  border-color: var(--accent, #A94A05);
+  color: #fff;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .story-nav-btn { transition: border-color 0.15s ease, transform 0.1s ease; }
+  .story-nav-btn:active { transform: scale(0.97); }
+}
+@media (max-width: 600px) {
+  .story-nav-row { flex-direction: column; }
+  .story-nav-next { text-align: left; margin-left: 0; }
+}
+
+/* Admin-knapparna har [hidden] för besökare; en display-regel fick dem att synas ändå. */
+.story-modal-admin-actions[hidden] { display: none; }
