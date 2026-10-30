@@ -380,3 +380,21 @@ body, p, input, textarea, select, button {
     animation: emptyBob 4s ease-in-out infinite;
   }
 }
+
+/* ===== Åldersmärke (målgrupp) ===== */
+.hero-text p.age-badge {
+  display: inline-block;
+  margin-top: 0.5em;
+  padding: 0.25em 0.8em;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 600;
+  color: #1f3d22;
+  background: #e3efd9;
+  border: 1px solid #9bbf8a;
+  border-radius: 999px;
+}
+.footer-age {
+  font-size: 0.9375rem;
+  margin: 0.25em 0 0.75em;
+}

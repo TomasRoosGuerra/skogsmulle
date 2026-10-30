@@ -1169,6 +1169,8 @@
       <div class="hero-text">
         <h1 id="heroTitle">Skogsmulle</h1>
         <p id="heroSubtitle">Magiska berättelser för barn</p>
+        <!-- Statisk text för no-JS; uppdateras från SITE_CONFIG.TARGET_AGE -->
+        <p class="age-badge"><span aria-hidden="true">🌱 </span>För barn <span class="js-target-age">3–12 år</span></p>
       </div>
     </header>
 
@@ -1198,6 +1200,7 @@
 
     <footer class="footer">
       <p>&copy; <span id="copyrightYear">2024</span> <span id="footerSiteName">Skogsmulle</span>. Alla berättelser är skapade med kärlek för barn och föräldrar.</p>
+      <p class="footer-age">För barn <span class="js-target-age">3–12 år</span></p>
       
       <!-- Nyhetsbrev (för föräldrar). Formuläret är AVSTÄNGT tills NEWSLETTER_ENDPOINT
            är satt i site-config.js (se assets/js/newsletter.js). Inget tredjepartsskript. -->
@@ -1259,6 +1262,9 @@
           document.getElementById('navBrand').textContent = siteName;
           document.getElementById('heroTitle').textContent = siteName;
           document.getElementById('footerSiteName').textContent = siteName;
+
+          // Målgrupp (åldersmärke i hero och sidfot)
+          document.querySelectorAll('.js-target-age').forEach(el => { el.textContent = targetAge; });
 
           // Uppdatera copyright-år
           document.getElementById('copyrightYear').textContent = copyrightYear;
