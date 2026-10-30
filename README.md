@@ -271,3 +271,23 @@ MIT License - se LICENSE fil för detaljer.
 _Skapad med ❤️ för svenska barn och deras familjer_
 
 _Version 2.0.0 | Oktober 2025_
+
+## Inspelad uppläsning (rösten Sofie)
+
+Läs högt spelar upp förinspelade mp3-filer (Edge-rösten Sofie, sv-SE) från `audio/<berättelse-id>/`.
+Om ljud saknas för en berättelse, eller om texten har ändrats sedan ljudet gjordes (hashen i
+`manifest.json` stämmer inte), används webbläsarens egen röst (speechSynthesis) som förut.
+
+**När en ny berättelse har publicerats eller en text har ändrats** körs skriptet på boxen (inte i Netlify-bygget):
+
+```bash
+npm install                       # första gången (playwright)
+node scripts/generate-audio.js    # läser live-sajten som anonym besökare
+git add audio && git commit -m "Uppläsning: uppdatera ljud" # och öppna en PR
+```
+
+- Skriptet läser bara (som en anonym besökare) och använder samma meningsuppdelning som `assets/js/reader.js`.
+- Det är idempotent: bara ändrade eller saknade bitar genereras om, och ljud för borttagna berättelser tas bort.
+- `--base http://localhost:5077/` kör mot en lokal server, och `--force` gör om allt.
+- Kräver box-TTS (`/workspace/tools/tts/tts`, eller `TTS_BIN`) och `ffmpeg`. Ljudet är mono med 32 kbit/s.
+- Nya berättelser läses upp med webbläsarens röst tills skriptet har körts och ändringen är deployad.

@@ -17,6 +17,9 @@
     runId: 0,
     chunks: [],
     pos: 0,
+    mode: "speech",
+    voiceAudio: null,
+    nextAudio: null,
     music: false,
     audio: null,
     paragraphs: [],
@@ -107,6 +110,7 @@
     return null;
   }
 
+  var AUDIO_BASE = "/audio/";
   var SPEECH_RATE = 0.9;
 
   function setSpeechLabel(btn, icon, text) {
@@ -186,6 +190,98 @@
     return chunks;
   }
 
+  // Samma hash som scripts/generate-audio.js skriver i manifest.json (FNV-1a 32 bit över bitarna).
+  function hashChunks(texts) {
+    var str = texts.join("\n");
+    var h = 0x811c9dc5;
+    for (var i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 0x01000193) >>> 0;
+    }
+    return ("0000000" + h.toString(16)).slice(-8);
+  }
+
+  function chunkInfo() {
+    var refs = getDialogEls();
+    if (!refs) return null;
+    var texts = buildChunks(refs).map(function (c) { return c.text; });
+    var st = state.currentStory || {};
+    return { id: st.id || null, slug: st.slug || null, title: st.title || "", chunks: texts, hash: hashChunks(texts) };
+  }
+
+  function audioDir(story) {
+    var id = story && story.id;
+    if (!id || !/^[A-Za-z0-9_-]+$/.test(String(id))) return null;
+    return AUDIO_BASE + id + "/";
+  }
+
+  function stopVoiceAudio() {
+    [state.voiceAudio, state.nextAudio].forEach(function (a) {
+      if (!a) return;
+      a.onended = a.onerror = null;
+      try { a.pause(); a.removeAttribute("src"); a.load && a.load(); } catch (e) {}
+    });
+    state.voiceAudio = state.nextAudio = null;
+  }
+
+  function highlightChunk(chunk) {
+    var cur = state.paragraphs.filter(function (p) { return p.classList.contains("reader-reading"); })[0] || null;
+    if (chunk.p === cur) return;
+    clearHighlight();
+    if (chunk.p) {
+      chunk.p.classList.add("reader-reading");
+      chunk.p.scrollIntoView({ behavior: reduceMotion() ? "auto" : "smooth", block: "center" });
+    }
+  }
+
+  // Inspelad röst: spela bit för bit med HTMLAudioElement. Bara nästa bit laddas i förväg.
+  function playAudioFrom() {
+    var runId = ++state.runId;
+    var dir = state.audioDir;
+    function fallback() {
+      if (runId !== state.runId) return;
+      stopVoiceAudio();
+      state.mode = "speech";
+      if (window.speechSynthesis) speakFrom();
+      else stopSpeech();
+    }
+    function play() {
+      if (runId !== state.runId || !state.speaking || state.paused) return;
+      if (state.pos >= state.chunks.length) {
+        stopVoiceAudio();
+        state.speaking = false;
+        clearHighlight();
+        resetSpeechButton();
+        setStatus("Slut på berättelsen");
+        return;
+      }
+      highlightChunk(state.chunks[state.pos]);
+      var a = state.nextAudio && state.nextAudio.dataset.pos === String(state.pos) ? state.nextAudio : null;
+      if (!a) { a = new Audio(dir + state.pos + ".mp3"); }
+      state.nextAudio = null;
+      state.voiceAudio = a;
+      a.onended = function () {
+        if (runId !== state.runId) return;
+        state.pos++;
+        play();
+      };
+      a.onerror = fallback;
+      var pr = a.play();
+      if (pr && typeof pr.catch === "function") pr.catch(function (e) {
+        if (e && e.name === "AbortError") return;
+        fallback();
+      });
+      if (state.pos + 1 < state.chunks.length) {
+        var n = new Audio();
+        n.preload = "auto";
+        n.dataset.pos = String(state.pos + 1);
+        n.src = dir + (state.pos + 1) + ".mp3";
+        state.nextAudio = n;
+      }
+    }
+    play();
+  }
+
   function stopSpeech() {
     var wasActive = state.speaking;
     state.speaking = false;
@@ -193,6 +289,8 @@
     state.runId++;
     state.chunks = [];
     state.pos = 0;
+    state.mode = "speech";
+    stopVoiceAudio();
     if (window.speechSynthesis) window.speechSynthesis.cancel();
     if (wasActive) setStatus("Uppläsning stoppad");
     clearHighlight();
@@ -250,14 +348,33 @@
   }
 
   function startSpeech(refs) {
-    if (!window.speechSynthesis) return;
     state.chunks = buildChunks(refs);
     state.pos = 0;
     state.speaking = true;
     state.paused = false;
+    state.mode = "speech";
     renderSpeechUi();
     setStatus("Läser högt");
-    speakFrom();
+    var dir = audioDir(state.currentStory);
+    var runId = ++state.runId;
+    var useSpeech = function () {
+      if (runId !== state.runId || !state.speaking) return;
+      state.mode = "speech";
+      if (window.speechSynthesis) speakFrom();
+      else stopSpeech();
+    };
+    if (!dir || typeof window.Audio !== "function" || typeof window.fetch !== "function") return useSpeech();
+    var hash = hashChunks(state.chunks.map(function (c) { return c.text; }));
+    window.fetch(dir + "manifest.json", { cache: "no-cache" })
+      .then(function (r) { if (!r.ok) throw new Error("no manifest"); return r.json(); })
+      .then(function (m) {
+        if (runId !== state.runId || !state.speaking) return;
+        if (!m || m.hash !== hash || m.count !== state.chunks.length) return useSpeech();
+        state.mode = "audio";
+        state.audioDir = dir;
+        if (!state.paused) playAudioFrom();
+      })
+      .catch(useSpeech);
   }
 
   function toggleSpeech(refs) {
@@ -266,15 +383,26 @@
       startSpeech(refs);
     } else if (!state.paused) {
       state.paused = true;
-      state.runId++;
-      if (ss) ss.cancel();
+      if (state.mode === "audio") {
+        if (state.voiceAudio) state.voiceAudio.pause();
+      } else {
+        state.runId++;
+        if (ss) ss.cancel();
+      }
       renderSpeechUi();
       setStatus("Pausad");
     } else {
       state.paused = false;
       renderSpeechUi();
       setStatus("Läser högt");
-      speakFrom();
+      if (state.mode === "audio") {
+        var a = state.voiceAudio;
+        var pr = a && a.play();
+        if (!a) playAudioFrom();
+        else if (pr && typeof pr.catch === "function") pr.catch(function () { state.mode = "speech"; stopVoiceAudio(); speakFrom(); });
+      } else {
+        speakFrom();
+      }
     }
   }
 
@@ -376,7 +504,7 @@
       els.speechStopBtn = stopBtn;
       els.voiceNote = note;
       renderSpeechUi();
-      if (typeof window.speechSynthesis.addEventListener === "function") {
+      if (window.speechSynthesis && typeof window.speechSynthesis.addEventListener === "function") {
         window.speechSynthesis.addEventListener("voiceschanged", updateVoiceNote);
       }
     }
@@ -528,5 +656,5 @@
     pauseMusic();
   });
 
-  window.StoryReader = { onOpen: onOpen, onClose: onClose };
+  window.StoryReader = { onOpen: onOpen, onClose: onClose, chunkInfo: chunkInfo, splitText: splitText, hashChunks: hashChunks };
 })();

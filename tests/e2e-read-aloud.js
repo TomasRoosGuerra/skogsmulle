@@ -26,10 +26,12 @@ const MOCK = (withSv) => {
 
 (async () => {
   const b = await chromium.launch({ executablePath: CHROME, args: ['--no-sandbox'] });
-  const mk = async (init, arg, extra = {}) => {
+  const mk = async (init, arg, extra = {}, audio = null) => {
     const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, ...extra });
     const p = await ctx.newPage();
     await p.route(/firestore\.googleapis\.com\/.*\/Write\//, r => r.abort());
+    // Standard: inget inspelat ljud (testar speechSynthesis-vägen). audio = route-hanterare för /audio/.
+    await p.route(/\/audio\//, audio || (r => r.fulfill({ status: 404, body: '' })));
     if (init) await p.addInitScript(init, arg);
     await p.goto(BASE); await p.waitForSelector('.story-card', { timeout: 20000 });
     return [ctx, p];
@@ -44,20 +46,20 @@ const MOCK = (withSv) => {
   ok('Läs högt-knapp syns och är stor (≥56px hög)', await btn.isVisible() && (await btn.boundingBox()).height >= 55.5);
   ok('Stoppa dold innan uppläsning', !(await stop.isVisible()));
   ok('ingen röstvarning när svensk röst finns', !(await p.locator('.reader-voice-note').isVisible()));
-  await btn.click();
+  await btn.click(); await p.waitForTimeout(150);
   let s = await p.evaluate(() => window.__ss);
   ok('läser titeln först', s.spoken.length === 1 && s.spoken[0] === (await p.textContent('#storyModalTitle')));
   ok('rate 0,9 och sv-SE-röst', s.utter[0].rate === 0.9 && s.utter[0].voice === 'Alva' && /^sv/.test(s.utter[0].lang), JSON.stringify(s.utter[0]));
   await p.evaluate(() => window.__finish());
   ok('första stycket markeras', (await p.locator('#storyModalBody p.reader-reading').count()) === 1);
   const beforePause = await p.evaluate(() => ({ n: window.__ss.spoken.length, last: window.__ss.spoken[window.__ss.spoken.length - 1], c: window.__ss.cancel }));
-  await btn.click();
+  await btn.click(); await p.waitForTimeout(150);
   s = await p.evaluate(() => window.__ss);
   ok('Pausa = cancel (inte trasiga pause())', s.cancel > beforePause.c && s.pause === 0 && /Fortsätt/.test(await btn.textContent()));
   ok('markeringen ligger kvar under paus', (await p.locator('#storyModalBody p.reader-reading').count()) === 1);
   await p.evaluate(() => window.__finish()); await p.waitForTimeout(50);
   ok('inget läses under paus', (await p.evaluate(() => window.__ss.spoken.length)) === beforePause.n);
-  await btn.click();
+  await btn.click(); await p.waitForTimeout(150);
   s = await p.evaluate(() => window.__ss);
   ok('Fortsätt startar om från samma bit (utan resume())', s.resume === 0 && s.spoken.length === beforePause.n + 1 && s.spoken[s.spoken.length - 1] === beforePause.last && /Pausa/.test(await btn.textContent()));
   await p.evaluate(() => window.__finish());
@@ -65,7 +67,7 @@ const MOCK = (withSv) => {
   const c0 = await p.evaluate(() => window.__ss.cancel);
   await stop.click();
   ok('Stoppa avbryter, tar bort markering och återställer knappen', (await p.evaluate(() => window.__ss.cancel)) > c0 && (await p.locator('#storyModalBody p.reader-reading').count()) === 0 && /Läs högt/.test(await btn.textContent()) && !(await stop.isVisible()));
-  await btn.click(); await p.evaluate(() => window.__finish());
+  await btn.click(); await p.waitForTimeout(150); await p.evaluate(() => window.__finish());
   const c1 = await p.evaluate(() => window.__ss.cancel);
   await p.keyboard.press('Escape'); await p.waitForTimeout(200);
   ok('talet stoppas när man lämnar berättelsen', (await p.evaluate(() => window.__ss.cancel)) > c1);
@@ -82,7 +84,7 @@ const MOCK = (withSv) => {
     ok('Nästa syns med nästa titel', await next.isVisible() && (await p.textContent('#storyNavNextTitle')).length > 0);
     const want = await p.textContent('#storyNavNextTitle');
     const hashLen = await p.evaluate(() => history.length);
-    await btn.click();
+    await btn.click(); await p.waitForTimeout(150);
     await next.click(); await p.waitForTimeout(300);
     ok('Nästa öppnar nästa berättelse', (await p.textContent('#storyModalTitle')) === want);
     ok('byte stoppar uppläsningen', /Läs högt/.test(await btn.textContent()) && (await p.locator('#storyModalBody p.reader-reading').count()) === 0);
@@ -109,7 +111,7 @@ const MOCK = (withSv) => {
       'Ord '.repeat(120) + 'slut.</p>';
   });
   const n0 = await p.evaluate(() => window.__ss.spoken.length);
-  await btn.click();
+  await btn.click(); await p.waitForTimeout(150);
   for (let k = 0; k < 12; k++) await p.evaluate(() => window.__finish());
   const sp = await p.evaluate((k) => window.__ss.spoken.slice(k), n0);
   const ti = (await p.textContent('#storyModalTitle')).trim();
@@ -174,6 +176,79 @@ const MOCK = (withSv) => {
   const anim = await p.evaluate(() => [...document.querySelectorAll('.reader-speech *, .story-nav *, .story-nav')].map(e => getComputedStyle(e)).filter(s => parseFloat(s.transitionDuration) > 0.01 || (s.animationName !== 'none' && parseFloat(s.animationDuration) > 0.01)).length);
   ok('reduced-motion: inga övergångar', anim === 0, anim + '');
   await ctx.close();
+
+  // ---- Inspelad röst (mp3 + manifest), mockad Audio
+  const AUDIO_MOCK = (opts) => {
+    MOCK_SS();
+    const au = window.__au = { played: [], made: [], pauses: 0, cur: null };
+    window.Audio = function (src) {
+      const a = { dataset: {}, preload: '', paused: true, onended: null, onerror: null,
+        removeAttribute() { this.src = ''; }, load() {},
+        play() { au.played.push(this.src); au.cur = this; this.paused = false;
+          return opts.fail ? Promise.reject(Object.assign(new Error('x'), { name: 'NotSupportedError' })) : Promise.resolve(); },
+        pause() { au.pauses++; this.paused = true; } };
+      a.src = src || ''; au.made.push(a); return a;
+    };
+    window.__auEnd = () => { const a = au.cur; au.cur = null; if (a && a.onended) a.onended({}); };
+  };
+  const MOCK_SRC = MOCK.toString();
+  const audioInit = (fail) => `(${AUDIO_MOCK.toString().replace('MOCK_SS();', '(' + MOCK_SRC + ')(true);')})({fail:${fail}})`;
+  const reqs = [];
+  const serve = (patch) => async (r) => {
+    reqs.push(r.request().url());
+    const resp = await r.fetch();
+    if (patch && /manifest\.json/.test(r.request().url())) {
+      const m = await resp.json(); patch(m); return r.fulfill({ response: resp, json: m });
+    }
+    return r.fulfill({ response: resp });
+  };
+  const ctxA = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true });
+  const pa = await ctxA.newPage();
+  await pa.route(/firestore\.googleapis\.com\/.*\/Write\//, r => r.abort());
+  await pa.route(/\/audio\//, serve(null));
+  await pa.addInitScript(audioInit(false));
+  await pa.goto(BASE); await pa.waitForSelector('.story-card', { timeout: 20000 });
+  ok('mp3: inget ljud hämtas vid sidladdning', reqs.length === 0, reqs.join(','));
+  await openStory(pa, 1);
+  ok('mp3: inget ljud hämtas när berättelsen öppnas', reqs.length === 0);
+  const abtn = pa.locator('.reader-btn-speech');
+  await abtn.click(); await pa.waitForTimeout(400);
+  let A = await pa.evaluate(() => ({ played: window.__au.played, made: window.__au.made.map(a => a.src), spoken: window.__ss.spoken.length }));
+  ok('mp3: manifest matchar → spelar 0.mp3, ingen speechSynthesis', A.played.length === 1 && /\/audio\/[\w-]+\/0\.mp3$/.test(A.played[0]) && A.spoken === 0, JSON.stringify(A));
+  ok('mp3: laddar bara nästa bit i förväg', A.made.length === 2 && /\/1\.mp3$/.test(A.made[1]));
+  await pa.evaluate(() => window.__auEnd());
+  A = await pa.evaluate(() => window.__au.played);
+  ok('mp3: går vidare till 1.mp3 och markerar stycket', /\/1\.mp3$/.test(A[A.length - 1]) && (await pa.locator('#storyModalBody p.reader-reading').count()) === 1);
+  await abtn.click();
+  ok('mp3: Pausa = audio.pause()', (await pa.evaluate(() => window.__au.pauses)) >= 1 && /Fortsätt/.test(await abtn.textContent()) && (await pa.locator('#storyModalBody p.reader-reading').count()) === 1);
+  await abtn.click();
+  A = await pa.evaluate(() => window.__au.played);
+  ok('mp3: Fortsätt spelar samma bit vidare', /\/1\.mp3$/.test(A[A.length - 1]) && /Pausa/.test(await abtn.textContent()));
+  const pz = await pa.evaluate(() => window.__au.pauses);
+  await pa.keyboard.press('Escape'); await pa.waitForTimeout(200);
+  const nPlayed = await pa.evaluate(() => window.__au.played.length);
+  await pa.evaluate(() => window.__auEnd()); await pa.waitForTimeout(100);
+  ok('mp3: stoppas när man lämnar', (await pa.evaluate(() => window.__au.pauses)) > pz && (await pa.evaluate(() => window.__au.played.length)) === nPlayed);
+  await ctxA.close();
+
+  const fallbackCase = async (name, route, fail) => {
+    const c = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true });
+    const q = await c.newPage();
+    await q.route(/firestore\.googleapis\.com\/.*\/Write\//, r => r.abort());
+    await q.route(/\/audio\//, route);
+    await q.addInitScript(audioInit(fail));
+    await q.goto(BASE); await q.waitForSelector('.story-card', { timeout: 20000 });
+    await openStory(q, 1);
+    await q.locator('.reader-btn-speech').click(); await q.waitForTimeout(400);
+    const r = await q.evaluate(() => ({ spoken: window.__ss.spoken, played: window.__au.played.length }));
+    ok(name, r.spoken.length === 1 && r.spoken[0] === (await q.textContent('#storyModalTitle')), JSON.stringify(r));
+    await c.close();
+    return r;
+  };
+  await fallbackCase('reserv: manifest saknas → speechSynthesis', r => r.fulfill({ status: 404, body: '' }), false);
+  const hm = await fallbackCase('reserv: hash matchar inte → speechSynthesis', serve(m => { m.hash = 'deadbeef'; }), false);
+  ok('reserv: inget mp3 spelas vid fel hash', hm.played === 0);
+  await fallbackCase('reserv: ljudet misslyckas → speechSynthesis från samma bit', serve(null), true);
 
   await b.close();
   console.log(`\n${n - fails}/${n} passed`);
