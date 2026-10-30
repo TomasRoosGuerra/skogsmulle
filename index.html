@@ -1115,6 +1115,19 @@
         </div>
         <div class="story-modal-meta" id="storyModalMeta"></div>
         <div class="story-modal-body" id="storyModalBody"></div>
+        <nav class="story-nav" id="storyModalNav" aria-label="Fler berättelser">
+          <div class="story-nav-row">
+            <button type="button" class="story-nav-btn story-nav-prev" id="storyNavPrev" hidden>
+              <span aria-hidden="true">←</span> <span class="story-nav-label">Föregående berättelse</span><span class="story-nav-title" id="storyNavPrevTitle"></span>
+            </button>
+            <button type="button" class="story-nav-btn story-nav-next" id="storyNavNext" hidden>
+              <span class="story-nav-label">Nästa berättelse</span> <span aria-hidden="true">→</span><span class="story-nav-title" id="storyNavNextTitle"></span>
+            </button>
+          </div>
+          <button type="button" class="story-nav-btn story-nav-back" id="storyNavBack">
+            <span aria-hidden="true">⌂</span> Tillbaka till alla berättelser
+          </button>
+        </nav>
         <div class="story-modal-admin-actions" id="storyModalAdminActions" hidden>
           <button type="button" class="btn btn-secondary" id="storyModalEditBtn" aria-label="Redigera berättelsen">Redigera</button>
           <button type="button" class="btn btn-secondary" id="storyModalDeleteBtn">Ta bort</button>
@@ -2107,7 +2120,44 @@
           (closeBtn || dialogEl).focus();
         }
 
+        setupStoryNav(index);
         if (window.StoryReader) window.StoryReader.onOpen(story);
+      }
+
+      // Föregående / Nästa / Tillbaka längst ned i läsvyn (samma ordning som listan).
+      function setupStoryNav(index) {
+        const prev = document.getElementById("storyNavPrev");
+        const next = document.getElementById("storyNavNext");
+        const back = document.getElementById("storyNavBack");
+        if (!prev || !next || !back) return;
+        const wire = (btn, titleId, i) => {
+          const s = allPosts[i];
+          btn.hidden = !s;
+          const t = document.getElementById(titleId);
+          if (t) t.textContent = s ? (s.title || "Namnlös berättelse") : "";
+          btn.onclick = s ? () => {
+            if (window.StoryReader) window.StoryReader.onClose();
+            // Byt berättelse utan att stapla historikposter: Tillbaka stänger fortfarande läsvyn.
+            const pushed = storyModalPushedState;
+            const id = getStoryIdentifier(s, i);
+            history.replaceState({ skogsmulleStory: id }, '', `#story-${id}`);
+            openStoryModal(i);
+            storyModalPushedState = pushed;
+            const m = document.querySelector("#storyModal .story-modal-content");
+            if (m) m.scrollTop = 0;
+            const modalEl = document.getElementById("storyModal");
+            if (modalEl) modalEl.scrollTop = 0;
+            const title = document.getElementById("storyModalTitle");
+            if (title) { title.setAttribute("tabindex", "-1"); title.focus({ preventScroll: true }); }
+          } : null;
+        };
+        wire(prev, "storyNavPrevTitle", index - 1);
+        wire(next, "storyNavNextTitle", index + 1);
+        back.onclick = () => {
+          closeStoryModal();
+          const list = document.getElementById("stories") || document.querySelector(".stories-section, main");
+          if (list && list.scrollIntoView) list.scrollIntoView({ block: "start" });
+        };
       }
 
       function closeStoryModal(opts) {
