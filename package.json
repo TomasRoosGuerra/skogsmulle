@@ -7,6 +7,7 @@
     "generate-pages": "node generate-pages.js",
     "build": "npm run generate-pages",
     "test:generator": "node tests/generate-pages.test.js",
+    "test:og": "node tests/og-tags.test.js",
     "test:e2e:writer": "node tests/e2e-writer.js",
     "dev": "npx serve .",
     "test:a11y": "node tests/a11y-axe.js",

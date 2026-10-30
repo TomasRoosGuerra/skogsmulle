@@ -396,7 +396,7 @@
         var images = (data && Array.isArray(data.images)) ? data.images : [];
         var thumbs = images.map(function (filename) {
           return '<button type="button" class="author-image-opt" data-image-source="manifest" data-filename="' +
-            escapeHtml(filename) + '" aria-pressed="false"><img src="' + escapeHtml(IMAGE_DIR + filename) +
+            escapeHtml(filename) + '" aria-pressed="false"><img loading="lazy" decoding="async" src="' + escapeHtml(IMAGE_DIR + filename) +
             '" alt="" loading="lazy" /><span>' + escapeHtml(filename) + "</span></button>";
         }).join("");
         els.authorImageOptions.insertAdjacentHTML("beforeend", thumbs);
@@ -434,7 +434,7 @@
     var imgUrl = getSelectedImageUrl();
     if (imgUrl) {
       var alt = escapeHtml(els.authorImageAlt.value.trim());
-      return '<img src="' + escapeHtml(imgUrl) + '" alt="' + alt + '">' + body;
+      return '<img loading="lazy" decoding="async" src="' + escapeHtml(imgUrl) + '" alt="' + alt + '">' + body;
     }
     return body;
   }
@@ -447,7 +447,7 @@
     var clean = sanitizeStoryHtml(buildContentHtml() || "<p>Inget innehåll ännu.</p>");
     var iconDir = getIconDir();
     var catChip = category
-      ? '<span class="post-category"><img src="' + escapeHtml(iconDir + getCategoryIcon(category) + ".webp") +
+      ? '<span class="post-category"><img loading="lazy" decoding="async" src="' + escapeHtml(iconDir + getCategoryIcon(category) + ".webp") +
         '" alt="" width="20" height="20" loading="lazy" style="vertical-align:middle;border-radius:4px" /> ' + escapeHtml(category) + "</span>"
       : "";
     var ageChip = age ? '<span class="post-age">' + escapeHtml(age) + "</span>" : "";
