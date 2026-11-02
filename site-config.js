@@ -15,6 +15,11 @@ const SITE_CONFIG = {
   TARGET_AGE: '3–12 år',
   DESCRIPTION: 'Magiska svenska barnberättelser',
   AUTHOR: 'Tomas Roos Guerra',
+
+  // Författarens e-post (samma adress som kontaktadressen i integritet.html). Används av klienten för att
+  // bara visa redigeraren för författaren. Själva skyddet ligger i firestore.rules/storage.rules, som måste
+  // ha samma adress. Ändra på båda ställena om adressen byts.
+  AUTHOR_EMAIL: 'tomas.roosguerra@gmail.com',
   COPYRIGHT_YEAR: new Date().getFullYear(),
 
   // Nyhetsbrev (för föräldrar). Lämna tom sträng tills en e-posttjänst är vald och godkänd:

@@ -113,7 +113,11 @@
         getAuth,
         signInWithEmailAndPassword,
         signOut as firebaseSignOut,
-        onAuthStateChanged
+        onAuthStateChanged,
+        GoogleAuthProvider,
+        signInWithPopup,
+        signInWithRedirect,
+        getRedirectResult
       } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
       // Använd konfigurationen från site-config.js
@@ -139,7 +143,16 @@
         firebaseServerTimestamp: serverTimestamp,
         firebaseSignInWithEmailAndPassword: signInWithEmailAndPassword,
         firebaseSignOut: firebaseSignOut,
-        firebaseOnAuthStateChanged: onAuthStateChanged
+        firebaseOnAuthStateChanged: onAuthStateChanged,
+        // Google-inloggning (popup först, redirect som reserv). Samtliga går via window.* så att tester kan ersätta dem.
+        firebaseCreateGoogleProvider: function () {
+          const provider = new GoogleAuthProvider();
+          provider.setCustomParameters({ prompt: "select_account" });
+          return provider;
+        },
+        firebaseSignInWithPopup: signInWithPopup,
+        firebaseSignInWithRedirect: signInWithRedirect,
+        firebaseGetRedirectResult: getRedirectResult
       });
     </script>
 
@@ -662,6 +675,15 @@
         margin-top: var(--sp-md);
       }
 
+      /* Google-inloggning + avdelare i inloggningsrutan */
+      .btn-google { margin-bottom: var(--sp-md); min-height: 44px; }
+      .btn-google[disabled] { opacity: 0.6; cursor: wait; }
+      .login-divider {
+        display: flex; align-items: center; gap: var(--sp-sm);
+        margin: 0 0 var(--sp-md); color: var(--txt-muted); font-size: var(--font-size-sm);
+      }
+      .login-divider::before, .login-divider::after { content: ""; flex: 1; height: 1px; background: var(--br); }
+
       /* ===== Buttons ===== */
       .btn {
         display: inline-flex;
@@ -1062,6 +1084,11 @@
       <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle" tabindex="-1">
         <h2 id="loginModalTitle">Författarlogin</h2>
         <p class="login-intro">Bara för författaren. Logga in för att skriva och publicera berättelser.</p>
+        <button type="button" class="btn btn-google btn-large" id="googleSignInBtn">
+          <svg class="google-g" width="18" height="18" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          <span id="googleSignInLabel">Logga in med Google</span>
+        </button>
+        <div class="login-divider" aria-hidden="true"><span>eller med e-post</span></div>
         <form id="loginForm">
           <div class="form-group">
             <label for="emailInput">E-post:</label>
@@ -1871,31 +1898,79 @@
         }
 
         // Lyssna på autentiseringsstatusändringar
-        window.firebaseOnAuthStateChanged(window.firebaseAuth, (user) => {
-          if (user) {
-            console.log("User authenticated:", user.email);
-            isAdmin = true;
-            currentUser = {
-              uid: user.uid,
-              email: user.email,
-              name: user.email.split("@")[0]
-            };
-            showAuthorTools();
-            if (justSignedIn) {
-              justSignedIn = false;
+        window.firebaseOnAuthStateChanged(window.firebaseAuth, handleAuthUser);
+
+        // Efter signInWithRedirect (reserv när popup blockeras) kommer användaren tillbaka hit.
+        if (typeof window.firebaseGetRedirectResult === "function") {
+          Promise.resolve(window.firebaseGetRedirectResult(window.firebaseAuth)).then((result) => {
+            if (!result || !result.user) return;
+            if (isOwnerUser(result.user)) {
               showToast("Du är inloggad", "success");
-              const heading = document.getElementById("authorSectionHeading");
-              const section = document.getElementById("authorSection");
-              if (section) section.scrollIntoView({ behavior: "smooth" });
-              if (heading) heading.focus();
+            } else {
+              openLoginModal();
+              showLoginError("Kontot " + (result.user.email || "") + " har inte behörighet att skriva berättelser. Välj författarens Google-konto.");
             }
-          } else {
-            console.log("No user authenticated");
-            isAdmin = false;
-            currentUser = null;
-            hideAuthorTools();
+          }).catch((error) => {
+            console.error("Redirect sign-in error:", error);
+            openLoginModal();
+            showLoginError(googleErrorMessage(error));
+          });
+        }
+      }
+
+      // Är användaren författaren? Enda sanningen är Firestore-reglerna (firestore.rules); den här
+      // kontrollen styr bara vad som visas. Måste motsvara reglerna: samma e-post, och för Google
+      // krävs verifierad e-post (e-post/lösenord-kontot är skapat av ägaren, sign-up är avstängt).
+      function ownerEmail() {
+        const cfg = (typeof SITE_CONFIG !== "undefined" && SITE_CONFIG) ? SITE_CONFIG : {};
+        return String(cfg.AUTHOR_EMAIL || "").trim().toLowerCase();
+      }
+
+      function isOwnerUser(user) {
+        if (!user || !user.email) return false;
+        const owner = ownerEmail();
+        if (!owner || String(user.email).trim().toLowerCase() !== owner) return false;
+        const providers = Array.isArray(user.providerData) ? user.providerData : [];
+        const hasPassword = providers.some((p) => p && p.providerId === "password");
+        return user.emailVerified === true || hasPassword;
+      }
+
+      // Anropas av onAuthStateChanged (och av tester). Visar redigeraren bara för författaren.
+      function handleAuthUser(user) {
+        if (user && isOwnerUser(user)) {
+          console.log("Owner authenticated:", user.email);
+          isAdmin = true;
+          currentUser = {
+            uid: user.uid,
+            email: user.email,
+            name: user.email.split("@")[0]
+          };
+          showAuthorTools();
+          if (justSignedIn) {
+            justSignedIn = false;
+            showToast("Du är inloggad", "success");
+            const heading = document.getElementById("authorSectionHeading");
+            const section = document.getElementById("authorSection");
+            if (section) section.scrollIntoView({ behavior: "smooth" });
+            if (heading) heading.focus();
           }
-        });
+        } else if (user) {
+          // Inloggad, men inte författaren: ingen redigerare, och sessionen avslutas.
+          console.warn("Signed-in user is not the author; signing out.");
+          isAdmin = false;
+          currentUser = null;
+          hideAuthorTools();
+          if (justSignedIn) {
+            justSignedIn = false;
+            showToast("Det här kontot har inte behörighet att skriva berättelser. Du har loggats ut.", "error");
+          }
+          try { window.firebaseSignOut(window.firebaseAuth); } catch (e) { /* ignorera */ }
+        } else {
+          console.log("No user authenticated");
+          isAdmin = false;
+          currentUser = null;
+          hideAuthorTools();
+        }
       }
 
       function handleNavLogin() {
@@ -2182,12 +2257,88 @@
 
       // toggleAuthorTools function removed - sidebar functionality consolidated into navigation
 
-      function signInWithGoogle(e) {
-        // Denna funktion heter fortfarande "signInWithGoogle" men använder nu email/password
-        // Namnet behålls för bakåtkompatibilitet med befintlig kod
-        console.log("signInWithGoogle called (legacy name, now uses email/password)");
+      // Svenska felmeddelanden för Google-inloggning.
+      function googleErrorMessage(error) {
+        switch (error && error.code) {
+          case "auth/popup-blocked":
+            return "Webbläsaren blockerade Google-fönstret. Tillåt popup-fönster för sajten och försök igen.";
+          case "auth/popup-closed-by-user":
+          case "auth/cancelled-popup-request":
+          case "auth/user-cancelled":
+            return "Inloggningen avbröts. Försök igen när du är redo.";
+          case "auth/operation-not-allowed":
+            return "Google-inloggning är inte aktiverad i Firebase ännu. Använd e-post och lösenord så länge.";
+          case "auth/unauthorized-domain":
+            return "Den här adressen är inte godkänd för inloggning i Firebase (Authorized domains). Öppna sajten via skogsmulle.netlify.app.";
+          case "auth/operation-not-supported-in-this-environment":
+            return "Google-inloggning fungerar inte i den här miljön (t.ex. fil-läge). Öppna sajten via https.";
+          case "auth/account-exists-with-different-credential":
+            return "Det finns redan ett konto med den e-postadressen via en annan inloggningsmetod. Logga in med e-post och lösenord.";
+          case "auth/network-request-failed":
+            return "Nätverksfel. Kontrollera anslutningen och försök igen.";
+          case "auth/user-disabled":
+            return "Kontot är inaktiverat.";
+          case "auth/too-many-requests":
+            return "För många försök. Försök igen senare.";
+          default:
+            return "Google-inloggningen misslyckades" + (error && error.message ? ": " + error.message : ".");
+        }
       }
-      
+
+      async function signInWithGoogle(e) {
+        if (e && e.preventDefault) e.preventDefault();
+        hideLoginError();
+        if (!FIREBASE_AUTH_ENABLED || !window.firebaseAuth || typeof window.firebaseSignInWithPopup !== "function") {
+          showLoginError("Firebase Authentication är inte tillgängligt just nu.");
+          return;
+        }
+        const btn = document.getElementById("googleSignInBtn");
+        const label = document.getElementById("googleSignInLabel");
+        if (btn) btn.disabled = true;
+        if (label) label.textContent = "Öppnar Google…";
+        const provider = window.firebaseCreateGoogleProvider();
+        try {
+          justSignedIn = true;
+          const result = await window.firebaseSignInWithPopup(window.firebaseAuth, provider);
+          if (result && result.user && !isOwnerUser(result.user)) {
+            // Fel konto valt: handleAuthUser loggar ut sessionen, här förklarar vi i rutan.
+            justSignedIn = false;
+            showLoginError("Kontot " + (result.user.email || "") + " har inte behörighet att skriva berättelser. Välj författarens Google-konto.");
+            return;
+          }
+          closeLoginModal();
+          // onAuthStateChanged (handleAuthUser) visar redigeraren
+        } catch (error) {
+          justSignedIn = false;
+          console.error("Google sign-in error:", error);
+          if (error && error.code === "auth/popup-blocked" && typeof window.firebaseSignInWithRedirect === "function") {
+            // Reserv: hel sidas omdirigering. Resultatet hanteras av getRedirectResult vid nästa sidladdning.
+            showLoginError("Webbläsaren blockerade Google-fönstret. Skickar dig vidare till Google…");
+            try {
+              justSignedIn = true;
+              await window.firebaseSignInWithRedirect(window.firebaseAuth, provider);
+              return;
+            } catch (redirectError) {
+              justSignedIn = false;
+              console.error("Google redirect error:", redirectError);
+              showLoginError(googleErrorMessage(redirectError));
+            }
+          } else {
+            showLoginError(googleErrorMessage(error));
+          }
+        } finally {
+          if (btn) btn.disabled = false;
+          if (label) label.textContent = "Logga in med Google";
+        }
+      }
+
+      function setupGoogleSignIn() {
+        const btn = document.getElementById("googleSignInBtn");
+        if (!btn || btn.hasAttribute("data-listener-added")) return;
+        btn.setAttribute("data-listener-added", "true");
+        btn.addEventListener("click", signInWithGoogle);
+      }
+
       async function signInWithEmailPassword(email, password) {
         if (!FIREBASE_AUTH_ENABLED || !window.firebaseAuth) {
           showLoginError("Firebase Authentication är inte aktiverat");
@@ -2327,6 +2478,7 @@
       document.addEventListener("DOMContentLoaded", function () {
         initAuth();
         setupLoginListener();
+        setupGoogleSignIn();
         setupPasswordToggle();
         setupStoryCardDelegation();
         setupTopicChips();
