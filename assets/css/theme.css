@@ -398,3 +398,55 @@ body, p, input, textarea, select, button {
   font-size: 0.9375rem;
   margin: 0.25em 0 0.75em;
 }
+
+/* ===== UX-pass: laddning, fel, tryckytor ===== */
+#posts-container > .loading-state {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: var(--sp-lg, 1.25rem);
+}
+.sr-only-text {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+.skeleton-card {
+  display: flex; flex-direction: column; gap: 0.75rem;
+  min-height: 240px; padding: 1.25rem;
+  background: var(--surface, #FDFBF2);
+  border: 1px solid var(--br, #e6dfc2);
+  border-radius: var(--r-lg, 20px);
+}
+.sk { display: block; border-radius: 8px; background: #ece5cb; }
+.sk-icon { width: 44px; height: 44px; border-radius: 12px; }
+.sk-title { height: 1.4rem; width: 70%; }
+.sk-line { height: 0.9rem; width: 100%; }
+.sk-short { width: 55%; }
+@media (prefers-reduced-motion: no-preference) {
+  .sk { animation: sk-pulse 1.4s ease-in-out infinite; }
+  @keyframes sk-pulse { 50% { opacity: 0.55; } }
+}
+#posts-container > .error-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--ink, #2f2a14);
+}
+.error-state-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+.error-state p { margin-bottom: 1rem; }
+
+/* Tryckytor minst 44px */
+a.site-nav-brand {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.25rem;
+}
+.breadcrumb-nav a {
+  display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; padding: 0 0.25rem;
+}
+.story-modal-header .story-modal-close,
+button.story-modal-close {
+  width: 44px; height: 44px; min-width: 44px;
+}
+a.footer-link {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.5rem;
+  color: var(--p);
+}

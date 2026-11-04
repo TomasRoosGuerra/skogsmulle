@@ -1190,7 +1190,7 @@
             <div class="section-header">
               <h2>Alla Berättelser</h2>
             </div>
-            <div id="posts-container"></div>
+            <div id="posts-container" aria-busy="true"><div class="loading-state" role="status" aria-live="polite"><span class="sr-only-text">Laddar berättelser…</span><div class="skeleton-card" aria-hidden="true"><span class="sk sk-icon"></span><span class="sk sk-title"></span><span class="sk sk-line"></span><span class="sk sk-line sk-short"></span></div><div class="skeleton-card" aria-hidden="true"><span class="sk sk-icon"></span><span class="sk sk-title"></span><span class="sk sk-line"></span><span class="sk sk-line sk-short"></span></div><div class="skeleton-card" aria-hidden="true"><span class="sk sk-icon"></span><span class="sk sk-title"></span><span class="sk sk-line"></span><span class="sk sk-line sk-short"></span></div></div></div>
           </section>
 
           <section class="author-section" id="authorSection" style="display:none"></section>
@@ -1227,7 +1227,7 @@
       <p class="footer-tip">Läsningstips: Läs högt varje dag, ställ frågor om berättelsen, och låt barnet berätta om bilderna.</p>
       <p class="ai-note">Illustrationerna är akvarell skapade med hjälp av AI i stil med Tomas egna skisser.</p>
       <p style="margin-top: 1rem; font-size: 0.875rem;">
-        <a href="integritet.html" style="color: var(--p);">Integritetspolicy</a>
+        <a href="integritet.html" class="footer-link">Integritetspolicy</a>
       </p>
     </footer>
 
@@ -1385,7 +1385,10 @@
       function showStoriesError() {
         const c = document.getElementById("posts-container");
         if (c) {
-          c.innerHTML = '<div class="error-state" style="text-align: center; padding: 3rem; color: var(--txt-muted);"><div style="font-size: 2rem; margin-bottom: 1rem;">⚠️</div><p>Kunde inte ladda berättelser. Försök igen senare.</p></div>';
+          c.removeAttribute('aria-busy');
+          c.innerHTML = '<div class="error-state" role="alert"><div class="error-state-icon" aria-hidden="true">⚠️</div><p>Kunde inte ladda berättelserna just nu. Kontrollera uppkopplingen och försök igen.</p><button type="button" class="btn empty-state-reset" id="storiesRetry">Försök igen</button></div>';
+          const retry = document.getElementById('storiesRetry');
+          if (retry) retry.addEventListener('click', () => window.location.reload());
         }
       }
 
@@ -1593,6 +1596,7 @@
 
       function renderAllPosts() {
         const c = document.getElementById("posts-container");
+        c.removeAttribute("aria-busy");
 
         if (allPosts.length === 0) {
           c.innerHTML = '<div class="empty-state" role="status"><img class="empty-state-icon" src="' + getIconDir() + 'ikon-svamp.webp" alt="" width="96" height="96" loading="lazy" decoding="async" /><p>Här kommer det snart berättelser.</p></div>';
@@ -2450,7 +2454,8 @@
         // Show loading state
         const postsContainer = document.getElementById("posts-container");
         if (postsContainer) {
-          postsContainer.innerHTML = '<div class="loading-state" style="text-align: center; padding: 3rem; color: var(--txt-muted);"><div style="font-size: 2rem; margin-bottom: 1rem;">⏳</div><p>Laddar berättelser...</p></div>';
+          if (!postsContainer.querySelector('.loading-state')) postsContainer.innerHTML = '<div class="loading-state" role="status" aria-live="polite"><span class="sr-only-text">Laddar berättelser…</span><div class="skeleton-card" aria-hidden="true"><span class="sk sk-icon"></span><span class="sk sk-title"></span><span class="sk sk-line"></span><span class="sk sk-line sk-short"></span></div><div class="skeleton-card" aria-hidden="true"><span class="sk sk-icon"></span><span class="sk sk-title"></span><span class="sk sk-line"></span><span class="sk sk-line sk-short"></span></div><div class="skeleton-card" aria-hidden="true"><span class="sk sk-icon"></span><span class="sk sk-title"></span><span class="sk sk-line"></span><span class="sk sk-line sk-short"></span></div></div>';
+          postsContainer.setAttribute('aria-busy', 'true');
         }
 
         // Använd endast realtime listener (ta bort dubbelhämtning)

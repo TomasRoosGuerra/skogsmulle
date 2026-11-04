@@ -13,6 +13,7 @@
     "test:a11y": "node tests/a11y-axe.js",
     "test:e2e:read-aloud": "node tests/e2e-read-aloud.js",
     "test:e2e:reader-ux": "node tests/e2e-reader-ux.js",
+    "test:ux": "node tests/ux-polish.test.js",
     "deploy": "npm run build && echo 'Ready for Netlify deployment'"
   },
   "keywords": [
