@@ -11,7 +11,7 @@ const AUTH_HINT_KEY = "skogsmulle_authHint";
 
 // Enda platsen för ett reservnamn om site-config.js inte kunde laddas
 // (t.ex. vid file:// eller om filen 404:ar). Den riktiga källan är SITE_CONFIG.SITE_NAME.
-const DEFAULT_SITE_NAME = "Skogsmulle";
+const DEFAULT_SITE_NAME = "Skogstrollet";
 
 // Initialisera sajtnamn från konfiguration (robust mot att SITE_CONFIG saknas)
 document.addEventListener("DOMContentLoaded", function () {

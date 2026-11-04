@@ -35,6 +35,6 @@ ok(/Sidan[^<]*finns inte|hittades inte/i.test(h), '404.html säger tydligt att s
 ok(/<a[^>]+href="\/"/.test(h), '404.html länkar hem (href="/")');
 ok(/name="robots" content="noindex/.test(h), '404.html är noindex');
 ok(!/(src|href)="(?!\/|#|mailto:|https?:)/.test(h), '404.html använder bara rotrelativa länkar (fungerar på alla djup)');
-ok(/SITE_CONFIG\.SITE_NAME/.test(h) && !/Skogsmulle/.test(h), '404.html hämtar namnet från SITE_NAME, ingen hårdkodad namnsträng');
+ok(/SITE_CONFIG\.SITE_NAME/.test(h) && !/Skogsmulle|Skogstrollet/.test(h), '404.html hämtar namnet från SITE_NAME, ingen hårdkodad namnsträng');
 ok(!/https?:\/\/(?!skogsmulle\.netlify\.app)/.test(h.replace(/<style[\s\S]*?<\/style>/, '')), '404.html laddar inga externa resurser');
 console.log(`\n${n} kontroller OK`);
