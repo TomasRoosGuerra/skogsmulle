@@ -20,6 +20,7 @@ const profiles = {
     p.on('pageerror', e => errs.push('PAGEERR ' + e.message.slice(0, 200)));
     p.on('dialog', d => { errs.push('NATIVE DIALOG ' + d.type()); d.dismiss(); });
     await p.goto(BASE); await p.waitForSelector('.story-card', { timeout: 15000 }).catch(() => {});
+    await p.evaluate(() => (typeof ensureAuth === 'function' ? ensureAuth().catch(() => {}) : null)); await p.waitForTimeout(500);
     await p.evaluate(() => { localStorage.removeItem('skogsmulle_draft'); window.isAdmin = true; try { isAdmin = true; currentUser = { uid: 't', email: 'test@example.com', name: 'test' }; } catch (e) {} showAuthorTools(); });
     await p.waitForSelector('#authorTitle', { state: 'visible' });
     await p.locator('#authorSection').scrollIntoViewIfNeeded();

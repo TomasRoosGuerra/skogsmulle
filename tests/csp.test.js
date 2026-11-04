@@ -26,6 +26,12 @@ for (const f of files) {
   for (const r of html.matchAll(/<script[^>]+src=["'](https?:\/\/[^"']+)["']/g)) origins.add(new URL(r[1]).origin);
   for (const r of html.matchAll(/from\s+["'](https?:\/\/[^"']+)["']/g)) origins.add(new URL(r[1]).origin);
 }
+// Firebase laddas nu dynamiskt från assets/js/firebase-loader.js
+const loader = fs.readFileSync(path.join(root, 'assets/js/firebase-loader.js'), 'utf8');
+for (const r of loader.matchAll(/["'](https?:\/\/[^"']+)["']/g)) origins.add(new URL(r[1]).origin);
+ok(/import\(/.test(loader) && !/<script type="module">/.test(fs.readFileSync(path.join(root, 'index.html'), 'utf8')), 'Firebase laddas via dynamisk import, ingen blockerande modul i index.html');
+ok(scriptSrc.includes('https://apis.google.com'), 'script-src tillåter https://apis.google.com (Firebase Auth-hjälpskript)');
+ok(/frame-src[^;]*https:\/\/\*\.firebaseapp\.com/.test(m[1]), 'frame-src tillåter Firebase Auth-iframe');
 ok(origins.size >= 2, 'hittade externa skriptkällor: ' + [...origins].join(', '));
 for (const o of origins) ok(scriptSrc.includes(o), 'script-src tillåter ' + o);
 console.log(`\n${n} kontroller OK`);

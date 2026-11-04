@@ -20,10 +20,11 @@ const strip = (s) => s
   .replace(/skogsmulle_[a-zA-Z]+/g, '')
   .replace(/skogsmulleStory/g, '')
   .replace(/Skogsmulle\.mp3/g, '');
-for (const f of ['index.html', 'integritet.html', '404.html']) {
+for (const f of ['index.html', 'integritet.html', '404.html', 'assets/js/app.js', 'assets/css/main.css', 'assets/js/firebase-loader.js', 'assets/js/author.js']) {
   const h = fs.readFileSync(path.join(root, f), 'utf8');
   ok(!/skogsmulle/i.test(strip(h)), `${f}: inget synligt gammalt namn`);
 }
+ok(/DEFAULT_SITE_NAME = "Skogstrollet"/.test(fs.readFileSync(path.join(root, 'assets/js/app.js'), 'utf8')), 'app.js DEFAULT_SITE_NAME = Skogstrollet');
 const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 for (const [re, m] of [
   [/<title id="pageTitle">Skogstrollet /, 'title'],

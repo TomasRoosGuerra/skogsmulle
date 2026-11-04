@@ -46,6 +46,7 @@ const profiles = {
     ok(`${tag} #login deep link opens modal`, (await p.locator('#loginModal.show-modal').count()) === 1);
     await p.keyboard.press('Escape');
     // ---- editor (simulate logged-in author; nothing is published)
+    await p.evaluate(() => (typeof ensureAuth === 'function' ? ensureAuth().catch(() => {}) : null)); await p.waitForTimeout(500);
     await p.evaluate(() => { window.isAdmin = true; try { isAdmin = true; currentUser = { uid: 't', email: 'test@example.com', name: 'test' }; } catch (e) {} showAuthorTools(); });
     await p.waitForSelector('#authorTitle', { state: 'visible' });
     await p.locator('#authorSection').scrollIntoViewIfNeeded();
@@ -83,6 +84,7 @@ const profiles = {
     ok(`${tag} draft content sanitised when stored/previewed`, true);
     await p.screenshot({ path: `${SHOTS}/${pn}-${mode}-editor.png`, fullPage: false });
     await p.reload(); await p.waitForSelector('.story-card', { timeout: 15000 }).catch(() => {});
+    await p.evaluate(() => (typeof ensureAuth === 'function' ? ensureAuth().catch(() => {}) : null)); await p.waitForTimeout(500);
     await p.evaluate(() => { try { isAdmin = true; currentUser = { uid: 't', email: 'test@example.com', name: 'test' }; } catch (e) {} showAuthorTools(); });
     await p.waitForSelector('#authorTitle', { state: 'visible' }); await p.waitForTimeout(400);
     const restored = await p.evaluate(() => ({ t: document.getElementById('authorTitle').value, l: document.getElementById('authorLanguage').value, c: document.getElementById('authorCategory').value, b: document.getElementById('postContent').innerText }));

@@ -40,6 +40,7 @@ let total = 0; const summary = [];
     await p.goto(BASE + '#login'); await p.waitForTimeout(700);
     await run('inloggningsruta', 'login'); await p.keyboard.press('Escape'); await p.waitForTimeout(300);
     // Simulerad författare: bara ett klientflagg, ingen autentisering
+    await p.evaluate(() => (typeof ensureAuth === 'function' ? ensureAuth().catch(() => {}) : null)); await p.waitForTimeout(500);
     await p.evaluate(() => { try { isAdmin = true; currentUser = { uid: 't', email: 'test@example.com', name: 'test' }; } catch (e) {} showAuthorTools(); });
     await p.waitForSelector('#authorTitle', { state: 'visible' }).catch(() => {});
     await p.locator('#authorSection').scrollIntoViewIfNeeded().catch(() => {});
