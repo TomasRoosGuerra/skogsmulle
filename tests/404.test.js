@@ -21,7 +21,7 @@ ok(!redirects.some(r => r.to === '/index.html' && r.status === 200), 'ingen "-> 
 ok(redirects.some(r => r.from === '/stories/*' && r.to === '/#stories' && !r.force), '/stories/* -> /#stories finns kvar och är inte force (riktiga /stories/<slug>.html vinner)');
 
 // Appen använder hash-routing, inga SPA-vägar
-const app = read('index.html');
+const app = read('index.html') + read('assets/js/app.js');
 const pushes = [...app.matchAll(/history\.(?:pushState|replaceState)\([^;]*;/g)].map(m => m[0]);
 ok(pushes.length > 0, 'hittade history-anrop i index.html');
 ok(/location\.hash/.test(app) && !/location\.pathname\.(?:split|match|startsWith)/.test(app), 'appen routar via hash, inte via path');
