@@ -28,7 +28,7 @@ function ratio(a, b) { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); re
     await p.goto(BASE); await p.waitForSelector('.story-card', { timeout: 15000 });
     // ---- images / hero
     const hero = await p.evaluate(() => { const i = document.querySelector('.hero-img'); return i && { w: i.naturalWidth, src: i.currentSrc, alt: i.alt, ok: i.complete && i.naturalWidth > 0 }; });
-    ok(`${tag} hero loads (webp, responsive)`, hero && hero.ok && /\.webp$/.test(hero.src), hero && hero.src.split('/').pop());
+    ok(`${tag} hero loads (avif/webp, responsive)`, hero && hero.ok && /\.(avif|webp)$/.test(hero.src), hero && hero.src.split('/').pop());
     ok(`${tag} hero has alt`, hero && hero.alt.length > 5);
     ok(`${tag} hero picks mobile crop on narrow`, pn === 'mobile' ? /mobil-crop/.test(hero.src) : !/mobil-crop/.test(hero.src));
     const bg = await p.evaluate(() => getComputedStyle(document.body).backgroundImage + '|' + getComputedStyle(document.body, '::before').backgroundImage);
