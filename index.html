@@ -71,8 +71,9 @@
     <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
     <link rel="dns-prefetch" href="https://identitytoolkit.googleapis.com" />
     <!-- LCP-bilden (hero) laddas tidigt -->
-    <link rel="preload" as="image" href="assets/images/hero/hero-kust-mobil-crop.webp" media="(max-width: 600px)" fetchpriority="high" />
-    <link rel="preload" as="image" imagesrcset="assets/images/hero/hero-kust-480.webp 480w, assets/images/hero/hero-kust-768.webp 768w, assets/images/hero/hero-kust-1280.webp 1280w" imagesizes="100vw" media="(min-width: 601px)" fetchpriority="high" />
+    <!-- Preload av exakt den AVIF-variant som <picture> väljer (alla moderna mobilwebbläsare stöder AVIF) -->
+    <link rel="preload" as="image" type="image/avif" imagesrcset="assets/images/hero/hero-kust-mobil-400.avif 400w, assets/images/hero/hero-kust-mobil-crop.avif 547w" imagesizes="100vw" media="(max-width: 600px)" fetchpriority="high" />
+    <link rel="preload" as="image" type="image/avif" imagesrcset="assets/images/hero/hero-kust-480.avif 480w, assets/images/hero/hero-kust-768.avif 768w, assets/images/hero/hero-kust-1280.avif 1280w" imagesizes="100vw" media="(min-width: 601px)" fetchpriority="high" />
 
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json" id="schemaWebSite">
@@ -97,8 +98,6 @@
       }
     </script>
 
-    <!-- Site configuration -->
-    <script src="site-config.js"></script>
     
     <!-- DOMPurify för säker innehållsrengöring -->
     <script defer src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js" integrity="sha384-cwS6YdhLI7XS60eoDiC+egV0qHp8zI+Cms46R0nbn8JrmoAzV9uFL60etMZhAnSu" crossorigin="anonymous"></script>
@@ -1050,9 +1049,6 @@
       }
     </style>
     <link rel="stylesheet" href="assets/css/theme.css" />
-    <link rel="stylesheet" href="assets/css/reader.css" />
-    <link rel="stylesheet" href="assets/css/author.css" />
-    <link rel="stylesheet" href="assets/css/newsletter.css" />
   </head>
 
   <body>
@@ -1144,11 +1140,31 @@
       <picture class="hero-picture">
         <source
           media="(max-width: 600px)"
-          srcset="assets/images/hero/hero-kust-mobil-crop.webp"
+          type="image/avif"
+          srcset="assets/images/hero/hero-kust-mobil-400.avif 400w, assets/images/hero/hero-kust-mobil-crop.avif 547w"
+          sizes="100vw"
           width="547"
           height="684"
         />
         <source
+          media="(max-width: 600px)"
+          type="image/webp"
+          srcset="assets/images/hero/hero-kust-mobil-400.webp 400w, assets/images/hero/hero-kust-mobil-crop.webp 547w"
+          sizes="100vw"
+          width="547"
+          height="684"
+        />
+        <source
+          type="image/avif"
+          srcset="
+            assets/images/hero/hero-kust-480.avif 480w,
+            assets/images/hero/hero-kust-768.avif 768w,
+            assets/images/hero/hero-kust-1280.avif 1280w
+          "
+          sizes="100vw"
+        />
+        <source
+          type="image/webp"
           srcset="
             assets/images/hero/hero-kust-480.webp 480w,
             assets/images/hero/hero-kust-768.webp 768w,
@@ -1162,7 +1178,7 @@
           width="1280"
           height="720"
           fetchpriority="high"
-          decoding="async"
+          decoding="sync"
           class="hero-img"
         />
       </picture>
@@ -1231,6 +1247,13 @@
       </p>
     </footer>
 
+    <!-- Icke-kritisk CSS (läsläge, författarvy, nyhetsbrev: allt under vecket eller dolt)
+         och konfigurationen laddas här i stället för i <head>, så att de inte blockerar
+         första renderingen av hero-bilden. Modulskriptet i <head> körs först efter parsningen. -->
+    <link rel="stylesheet" href="assets/css/reader.css" />
+    <link rel="stylesheet" href="assets/css/author.css" />
+    <link rel="stylesheet" href="assets/css/newsletter.css" />
+    <script src="site-config.js"></script>
     <script src="assets/js/reader.js"></script>
     <script src="assets/js/author.js"></script>
     <script src="assets/js/newsletter.js"></script>
