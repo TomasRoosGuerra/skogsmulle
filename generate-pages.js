@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Static Story Page & Sitemap Generator för Skogsmulle
+ * Static Story Page & Sitemap Generator för Skogstrollet
  * 
  * Detta script genererar statiska HTML-sidor för varje berättelse och en sitemap.
  * FAIL-SAFE: Om Firestore inte är nåbar bygger sajten ändå (utan berättelsesidor).

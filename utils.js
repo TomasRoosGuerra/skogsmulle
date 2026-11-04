@@ -1,5 +1,5 @@
 /**
- * Shared Utility Functions for Skogsmulle
+ * Shared Utility Functions for Skogstrollet
  * These functions are used across multiple files to maintain DRY principles
  */
 
@@ -17,7 +17,7 @@ export const FIREBASE_CONFIG = {
 // Site Configuration
 export const SITE_CONFIG = {
   baseUrl: "https://skogsmulle.netlify.app",
-  title: "Skogsmulle - Svenska Barnböcker",
+  title: "Skogstrollet - Svenska Barnböcker",
   description: "Svenska sagor och barnberättelser online för barn 3-12 år",
   author: "Tomas Roos Guerra",
   locale: "sv_SE",
@@ -78,14 +78,14 @@ export function generateStoryMetaTags(story) {
   const fullUrl = `${SITE_CONFIG.baseUrl}${storyUrl}`;
 
   return {
-    title: `${story.title} - Skogsmulle Barnberättelse`,
+    title: `${story.title} - Skogstrollet Barnberättelse`,
     description: `${story.title} - Läs denna magiska svenska barnberättelse. ${
       story.category ? "Kategori: " + story.category + "." : ""
     } ${story.age ? "Lämplig för barn " + story.age + "." : ""}`,
     keywords: `svenska sagor,barnberättelser,${story.title},${
       story.category || "berättelse"
-    },barn,läsa sagor,Skogsmulle`,
-    ogTitle: `${story.title} - Skogsmulle Barnberättelse`,
+    },barn,läsa sagor,Skogstrollet`,
+    ogTitle: `${story.title} - Skogstrollet Barnberättelse`,
     ogDescription: `Läs berättelsen ${story.title}. ${
       story.category
         ? "En " + story.category + "-berättelse"

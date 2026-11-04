@@ -174,7 +174,7 @@
           '<div id="authorPanelWrite" class="is-active" role="tabpanel" aria-labelledby="authorTabWrite">' +
             '<div class="form-group">' +
               '<label for="authorTitle">Titel</label>' +
-              '<input type="text" id="authorTitle" required autocomplete="off" placeholder="T.ex. Skogsmulles stora äventyr" />' +
+              '<input type="text" id="authorTitle" required autocomplete="off" placeholder="T.ex. ' + String((cfg.SITE_NAME || 'Sagans') + 's stora äventyr').replace(/[&"<>]/g, '') + '" />' +
             "</div>" +
             '<div class="form-group">' +
               '<label id="authorContentLabel" for="postContent">Berättelse</label>' +

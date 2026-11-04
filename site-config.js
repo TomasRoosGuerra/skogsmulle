@@ -1,5 +1,5 @@
 /**
- * Centraliserad webbplatskonfiguration för Skogsmulle
+ * Centraliserad webbplatskonfiguration för Skogstrollet
  * 
  * VIKTIGT: Webbplatsens namn är TILLFÄLLIGT och kommer att ändras.
  * När det slutliga namnet är bestämt, ändra bara SITE_NAME här,
@@ -8,7 +8,7 @@
 
 const SITE_CONFIG = {
   // Tillfälligt namn - ändra här när det slutliga namnet är bestämt
-  SITE_NAME: 'Skogsmulle',
+  SITE_NAME: 'Skogstrollet',
   
   // Övrig konfiguration
   BASE_URL: 'https://skogsmulle.netlify.app',
