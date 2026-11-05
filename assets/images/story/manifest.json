@@ -1,1 +1,30 @@
-{ "images": [] }
+{
+  "version": 1,
+  "defaultAlt": "Akvarellmålning av en igelkott i röd spetsmössa vid en kust med trähus i svensk natur",
+  "bySlug": {
+    "ett-brev": {
+      "file": "ett-brev.webp",
+      "alt": "Akvarell: öppet brev på mossa i morgonskog",
+      "width": 1200,
+      "height": 630
+    },
+    "skogsmulle-och-flygplatsaventyret": {
+      "file": "skogsmulle-och-flygplatsaventyret.webp",
+      "alt": "Akvarell: skogsbryn mot avlägsna ljus i skymning",
+      "width": 1200,
+      "height": 630
+    },
+    "skogsmulle-och-doris": {
+      "file": "skogsmulle-och-doris.webp",
+      "alt": "Akvarell: dimma över skogstjärn bland björkar",
+      "width": 1200,
+      "height": 630
+    },
+    "flytt-till-bjornen-och-saknad": {
+      "file": "flytt-till-bjornen-och-saknad.webp",
+      "alt": "Akvarell: skogsstig med packad väska i vårgrönska",
+      "width": 1200,
+      "height": 630
+    }
+  }
+}

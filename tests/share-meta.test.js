@@ -1,10 +1,11 @@
 // Delningsmetadata på genererade berättelsesidor: säker og:image, alt-texter, ikon, JSON-LD.
 // Kör: node tests/share-meta.test.js (ingen nätverksåtkomst, inga Firestore-anrop)
 const assert = require('assert');
+const fs = require('fs');
 const path = require('path');
 const root = path.join(__dirname, '..');
 const SITE_CONFIG = require(path.join(root, 'site-config.js'));
-const { generateStoryHTML, pickShareImage } = require(path.join(root, 'generate-pages.js'));
+const { generateStoryHTML, pickShareImage, localShareFor, loadStoryShareMap } = require(path.join(root, 'generate-pages.js'));
 const BASE = SITE_CONFIG.BASE_URL;
 let n = 0;
 const ok = (c, m) => { assert.ok(c, m); console.log('PASS', m); n++; };
@@ -43,4 +44,21 @@ ok(ld.url === `${BASE}/stories/test.html`, 'JSON-LD url = canonical på befintli
 // Egen bild (Firebase Storage) behåller sin bild, utan standardmått
 const h2 = generateStoryHTML({ title: 'B', slug: 'b', content: '<p>x</p>', image: 'https://firebasestorage.googleapis.com/v0/b/x/o/a.jpg?alt=media' });
 ok(/og:image" content="https:\/\/firebasestorage/.test(h2) && !/og:image:width/.test(h2), 'egen Storage-bild används, inga påhittade mått');
+
+// Lokala delningsbilder via assets/images/story/manifest.json
+const map = loadStoryShareMap();
+ok(Object.keys(map).length >= 4, 'manifest har minst 4 slug-mappningar');
+const metaProp = (html, prop) => { const m = html.match(new RegExp(`<meta (?:property|name)="${prop}" content="([^"]*)"`)); return m && m[1]; };
+for (const slug of ['ett-brev', 'skogsmulle-och-doris', 'skogsmulle-och-flygplatsaventyret', 'flytt-till-bjornen-och-saknad']) {
+  ok(!!map[slug], `manifest har ${slug}`);
+  const file = map[slug].url.split('/').pop();
+  ok(fs.existsSync(path.join(root, 'assets/images/story', file)), `fil finns för ${slug}: ${file}`);
+  const h = generateStoryHTML({ title: 'T', slug, content: '<p>x</p><img src="https://chatgpt.com/x">' });
+  ok(metaProp(h, 'og:image') === map[slug].url && metaProp(h, 'twitter:image') === map[slug].url, `${slug}: og/twitter:image = lokal fil`);
+  ok(!/chatgpt\.com/.test(h.split('<body')[0]), `${slug}: ingen extern bild i head`);
+  ok(metaProp(h, 'og:image:width') === '1200' && metaProp(h, 'og:image:height') === '630', `${slug}: OG-mått`);
+  ok(!!metaProp(h, 'og:image:alt') && metaProp(h, 'og:image:alt') === map[slug].alt, `${slug}: alt från manifest`);
+  ok(!!localShareFor({ slug }), `localShareFor(${slug})`);
+}
+
 console.log(`${n} kontroller OK`);
