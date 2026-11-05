@@ -1,8 +1,8 @@
-// E2E för inloggning med uppskjuten Firebase Auth.
-// Det finns inga testkonton/emulator i repot, så firebase-auth.js ersätts med en lokal stub via
-// Playwright-routing (samma API-yta: getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged).
+// E2E för inloggning med uppskjuten Firebase Auth (stub — CI-default).
+// firebase-auth.js ersätts med en lokal stub via Playwright-routing.
 // Inga riktiga konton eller nycklar används och inga skrivningar når Firestore.
 // Kör: BASE_URL=http://localhost:PORT/ node tests/e2e-auth.js
+// Riktig Auth (när Tomas skapat testkonto): se tests/e2e-auth-live.js och docs/AUTH-TESTKONTO.md
 const { chromium } = require('playwright');
 const BASE = process.env.BASE_URL || 'http://localhost:5077/';
 const CHROME = process.env.CHROME_PATH || '/usr/bin/google-chrome';
