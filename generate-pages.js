@@ -115,17 +115,36 @@ function findExternalImages(html) {
   return [...hosts];
 }
 
+const TRUSTED_IMAGE_HOSTS = ['firebasestorage.googleapis.com', 'storage.googleapis.com'];
+const DEFAULT_SHARE_ALT = 'Akvarellmålning av en igelkott i röd spetsmössa vid en kust med trähus i svensk natur';
+
+// JSON för <script type="application/ld+json">: hindra att innehåll avslutar skripttaggen.
+function jsonLd(obj) {
+  return JSON.stringify(obj, null, 2).replace(/</g, '\\u003c');
+}
+
 // Delningsbild: berättelsens egen bild (story.image eller första <img> i innehållet), annars standardbild.
 // Bara https-URL:er eller sajtrelativa sökvägar godtas; relativa görs absoluta mot BASE_URL.
 function pickShareImage(story) {
   const fallback = `${SITE_CONFIG.BASE_URL}/share-image.jpg`;
   const candidates = [];
-  if (story && typeof story.image === 'string') candidates.push(story.image.trim());
+  if (story && typeof story.image === 'string') candidates.push({ url: story.image.trim(), explicit: true });
   const m = String((story && story.content) || '').match(/<img\b[^>]*\bsrc\s*=\s*("|')([^"']+)\1/i);
-  if (m) candidates.push(m[2].trim());
-  for (const c of candidates) {
+  if (m) candidates.push({ url: m[2].trim(), explicit: false });
+  const own = (() => { try { return new URL(SITE_CONFIG.BASE_URL).host; } catch (e) { return ''; } })();
+  for (const cand of candidates) {
+    let c = cand.url;
     if (!c) continue;
-    if (/^https:\/\//i.test(c)) return c;
+    c = c.replace(/&amp;/g, '&'); // HTML-kodad URL ur innehållet; kodas om en gång vid utskrift
+    if (/^https:\/\//i.test(c)) {
+      // Ett uttryckligt story.image godtas. Bilder som plockas ur innehållet godtas bara från egen
+      // sajt eller Firebase/Google Storage: externa (ofta signerade, tidsbegränsade) URL:er går ut
+      // och ger trasig förhandsvisning vid delning.
+      let host = '';
+      try { host = new URL(c).host; } catch (e) { continue; }
+      if (cand.explicit || host === own || TRUSTED_IMAGE_HOSTS.includes(host)) return c;
+      continue;
+    }
     if (/^\/?[\w\-./]+\.(png|jpe?g|webp|avif|gif)$/i.test(c) && !c.startsWith('//')) {
       return `${SITE_CONFIG.BASE_URL}/${c.replace(/^\//, '')}`;
     }
@@ -143,7 +162,22 @@ function generateStoryHTML(story) {
   const ellipsis = plain.length > 150 ? '...' : '';
   const siteName = escapeHtml(SITE_CONFIG.SITE_NAME);
   const canonical = escapeHtml(`${SITE_CONFIG.BASE_URL}${storyUrl}`);
-  const image = escapeHtml(pickShareImage(story));
+  const imageUrl = pickShareImage(story);
+  const image = escapeHtml(imageUrl);
+  const isDefaultImage = imageUrl === `${SITE_CONFIG.BASE_URL}/share-image.jpg`;
+  const imageAlt = escapeHtml(isDefaultImage ? DEFAULT_SHARE_ALT : `Bild till berättelsen ${story.title || ''}`.trim());
+  const ld = jsonLd({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: String(story.title || 'Utan titel'),
+    description: plain.substring(0, 150).trim() + (plain.length > 150 ? '...' : ''),
+    url: `${SITE_CONFIG.BASE_URL}${storyUrl}`,
+    image: imageUrl,
+    inLanguage: 'sv',
+    isPartOf: { '@type': 'WebSite', name: String(SITE_CONFIG.SITE_NAME), url: SITE_CONFIG.BASE_URL },
+    publisher: { '@type': 'Organization', name: String(SITE_CONFIG.SITE_NAME) },
+    audience: { '@type': 'Audience', audienceType: `Barn ${SITE_CONFIG.TARGET_AGE}` }
+  });
   const description = `${excerpt}${ellipsis}`;
 
   return `<!DOCTYPE html>
@@ -159,14 +193,23 @@ ${GENERATED_MARKER}
   <meta property="og:description" content="${excerpt}${ellipsis}" />
   <meta property="og:url" content="${canonical}" />
   <meta property="og:image" content="${image}" />
+  <meta property="og:image:alt" content="${imageAlt}" />${isDefaultImage ? `
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />` : ''}
   <meta property="og:site_name" content="${siteName}" />
   <meta property="og:locale" content="sv_SE" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${title}" />
   <meta name="twitter:description" content="${description}" />
   <meta name="twitter:image" content="${image}" />
+  <meta name="twitter:image:alt" content="${imageAlt}" />
   <link rel="canonical" href="${canonical}" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#FBF5E2" />
+  <script type="application/ld+json">
+${ld}
+  </script>
   <script src="/site-config.js"></script>
   <style>
     :root {
