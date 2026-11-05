@@ -29,7 +29,8 @@ h = generateStoryHTML({ title: 'Utan bild', content: '<p>Kort.</p>' });
 ok(meta(h, 'property', 'og:image') === `${CFG.BASE_URL}/share-image.jpg`, 'standardbild när berättelsen saknar bild');
 ok(meta(h, 'property', 'og:description') === 'Kort.', 'kort text utan ellips');
 
-ok(pickShareImage({ content: '<img src="https://cdn.example.org/a.jpg" alt="">' }) === 'https://cdn.example.org/a.jpg', 'första <img> i innehållet används');
+ok(pickShareImage({ content: `<img src="${CFG.BASE_URL}/assets/a.jpg" alt="">` }) === `${CFG.BASE_URL}/assets/a.jpg`, 'första <img> i innehållet används (egen värd)');
+ok(pickShareImage({ content: '<img src="https://cdn.example.org/a.jpg" alt="">' }) === `${CFG.BASE_URL}/share-image.jpg`, 'extern <img> i innehållet ger standardbild');
 ok(pickShareImage({ image: 'assets/images/story/x.webp' }) === `${CFG.BASE_URL}/assets/images/story/x.webp`, 'relativ bild görs absolut');
 ok(pickShareImage({ image: 'javascript:alert(1)' }) === `${CFG.BASE_URL}/share-image.jpg`, 'ogiltig URL -> standardbild');
 ok(pickShareImage({ image: 'http://osaker.example/a.jpg' }) === `${CFG.BASE_URL}/share-image.jpg`, 'http (ej https) -> standardbild');
