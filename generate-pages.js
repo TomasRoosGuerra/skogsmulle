@@ -116,6 +116,35 @@ function findExternalImages(html) {
 }
 
 const TRUSTED_IMAGE_HOSTS = ['firebasestorage.googleapis.com', 'storage.googleapis.com'];
+const STORY_SHARE_MANIFEST = path.join(__dirname, 'assets', 'images', 'story', 'manifest.json');
+let _storyShareMap = null;
+function loadStoryShareMap() {
+  if (_storyShareMap) return _storyShareMap;
+  _storyShareMap = Object.create(null);
+  try {
+    const raw = JSON.parse(fs.readFileSync(STORY_SHARE_MANIFEST, 'utf8'));
+    const by = (raw && raw.bySlug) || {};
+    for (const [slug, info] of Object.entries(by)) {
+      if (!info || !info.file) continue;
+      const file = String(info.file).replace(/^\/+/, '');
+      if (!/^[\w.\-]+\.(webp|avif|jpe?g|png)$/i.test(file)) continue;
+      _storyShareMap[slug] = {
+        url: `${SITE_CONFIG.BASE_URL}/assets/images/story/${file}`,
+        alt: typeof info.alt === 'string' && info.alt.trim() ? info.alt.trim() : null,
+        width: Number(info.width) || 1200,
+        height: Number(info.height) || 630
+      };
+    }
+  } catch (e) {
+    console.warn('Kunde inte läsa story-share-manifest:', e.message);
+  }
+  return _storyShareMap;
+}
+function localShareFor(story) {
+  const slug = (story && (story.slug || generateSlug(story.title || ''))) || '';
+  return loadStoryShareMap()[slug] || null;
+}
+
 const DEFAULT_SHARE_ALT = 'Akvarellmålning av en igelkott i röd spetsmössa vid en kust med trähus i svensk natur';
 
 // JSON för <script type="application/ld+json">: hindra att innehåll avslutar skripttaggen.
@@ -127,6 +156,9 @@ function jsonLd(obj) {
 // Bara https-URL:er eller sajtrelativa sökvägar godtas; relativa görs absoluta mot BASE_URL.
 function pickShareImage(story) {
   const fallback = `${SITE_CONFIG.BASE_URL}/share-image.jpg`;
+  // Lokala delningsbilder per slug vinner över externa innehållsbilder (som ofta är signerade och går ut).
+  const local = localShareFor(story);
+  if (local) return local.url;
   const candidates = [];
   if (story && typeof story.image === 'string') candidates.push({ url: story.image.trim(), explicit: true });
   const m = String((story && story.content) || '').match(/<img\b[^>]*\bsrc\s*=\s*("|')([^"']+)\1/i);
@@ -162,10 +194,16 @@ function generateStoryHTML(story) {
   const ellipsis = plain.length > 150 ? '...' : '';
   const siteName = escapeHtml(SITE_CONFIG.SITE_NAME);
   const canonical = escapeHtml(`${SITE_CONFIG.BASE_URL}${storyUrl}`);
+  const local = localShareFor(story);
   const imageUrl = pickShareImage(story);
   const image = escapeHtml(imageUrl);
   const isDefaultImage = imageUrl === `${SITE_CONFIG.BASE_URL}/share-image.jpg`;
-  const imageAlt = escapeHtml(isDefaultImage ? DEFAULT_SHARE_ALT : `Bild till berättelsen ${story.title || ''}`.trim());
+  const imageAlt = escapeHtml(
+    (local && local.alt) ||
+    (isDefaultImage ? DEFAULT_SHARE_ALT : `Bild till berättelsen ${story.title || ''}`.trim())
+  );
+  const imageW = local ? local.width : (isDefaultImage ? 1200 : null);
+  const imageH = local ? local.height : (isDefaultImage ? 630 : null);
   const ld = jsonLd({
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -193,9 +231,9 @@ ${GENERATED_MARKER}
   <meta property="og:description" content="${excerpt}${ellipsis}" />
   <meta property="og:url" content="${canonical}" />
   <meta property="og:image" content="${image}" />
-  <meta property="og:image:alt" content="${imageAlt}" />${isDefaultImage ? `
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />` : ''}
+  <meta property="og:image:alt" content="${imageAlt}" />${imageW ? `
+  <meta property="og:image:width" content="${imageW}" />
+  <meta property="og:image:height" content="${imageH}" />` : ''}
   <meta property="og:site_name" content="${siteName}" />
   <meta property="og:locale" content="sv_SE" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -428,4 +466,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { generateStoryHTML, pickShareImage, generateSlug, generateSitemap, assignSlugs, sanitizeContent, escapeHtml, findExternalImages, loadStoriesFromFixture, main };
+module.exports = { generateStoryHTML, pickShareImage, localShareFor, loadStoryShareMap, generateSlug, generateSitemap, assignSlugs, sanitizeContent, escapeHtml, findExternalImages, loadStoriesFromFixture, main };
